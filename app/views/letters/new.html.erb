@@ -1,0 +1,112 @@
+<div class="max-w-3xl mx-auto py-6">
+  <div class="bg-white border border-warm-gray-200/60 rounded-2xl shadow-sm overflow-hidden">
+    <div class="p-8 border-b border-warm-gray-100 flex items-center justify-between">
+      <div class="space-y-1">
+        <h1 class="font-serif italic text-3xl text-warm-gray-900">Sealing a memory</h1>
+        <p class="text-xs text-warm-gray-500">Pour your mind onto the page, then seal it for the future.</p>
+      </div>
+      <div class="text-3xl text-warm-gray-400 select-none">✉️</div>
+    </div>
+
+    <%= form_with model: @letter_form, url: letters_path, local: true, class: "divide-y divide-warm-gray-100", multipart: true do |f| %>
+      <% if @letter_form.errors.any? %>
+        <div class="p-6 bg-rose-50 border-b border-rose-100 text-rose-800 text-xs space-y-1">
+          <p class="font-semibold">Please correct the following errors:</p>
+          <ul class="list-disc list-inside">
+            <% @letter_form.errors.full_messages.each do |message| %>
+              <li><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+
+      <!-- Email Field (Visible only if not logged in) -->
+      <% unless user_signed_in? %>
+        <div class="p-8 space-y-2">
+          <%= f.label :email, "Your Email Address", class: "block text-xs font-semibold text-warm-gray-800 uppercase tracking-wider" %>
+          <%= f.email_field :email, placeholder: "you@example.com", class: "w-full sm:w-1/2 p-3 bg-warm-gray-50 border border-warm-gray-200 rounded-xl text-sm focus:outline-none focus:border-warm-gray-800 focus:bg-white transition-all", required: true %>
+          <p class="text-xs text-warm-gray-500">We will send a verification link to confirm this letter before scheduling it.</p>
+        </div>
+      <% end %>
+
+      <!-- Letter Content -->
+      <div class="p-8 space-y-3">
+        <%= f.label :content, "Your Letter to the Future", class: "block text-xs font-semibold text-warm-gray-800 uppercase tracking-wider" %>
+        <%= f.text_area :content, placeholder: "Dear future self...\n\nWhat are you hoping for? What are your current struggles? What do you want to remember about today?", rows: 14, class: "w-full p-4 bg-warm-gray-50/50 border border-warm-gray-200 rounded-xl font-serif text-base leading-relaxed focus:outline-none focus:border-warm-gray-800 focus:bg-white transition-all resize-y placeholder:font-sans", required: true %>
+      </div>
+
+      <!-- Settings & Date Picker -->
+      <div class="p-8 grid md:grid-cols-2 gap-8 bg-warm-gray-50/30">
+        <!-- Delivery Date Configuration -->
+        <div class="space-y-4">
+          <label class="block text-xs font-semibold text-warm-gray-800 uppercase tracking-wider">
+            When should this capsule open?
+          </label>
+          
+          <div class="space-y-2">
+            <%= f.date_field :deliver_at, min: (Date.current + 1.day).to_s, class: "w-full p-3 bg-white border border-warm-gray-200 rounded-xl text-sm focus:outline-none focus:border-warm-gray-800 transition-all", required: true, data: { controller: "date-preset" } %>
+          </div>
+
+          <!-- Shortcuts presets -->
+          <div class="flex flex-wrap gap-2 pt-1">
+            <button type="button" onclick="setPresetDate(180)" class="px-3 py-1.5 bg-white border border-warm-gray-200 text-warm-gray-500 rounded-lg hover:border-warm-gray-800 hover:text-warm-gray-800 text-xs font-semibold shadow-xs transition-colors cursor-pointer">
+              6 Months
+            </button>
+            <button type="button" onclick="setPresetDate(365)" class="px-3 py-1.5 bg-white border border-warm-gray-200 text-warm-gray-500 rounded-lg hover:border-warm-gray-800 hover:text-warm-gray-800 text-xs font-semibold shadow-xs transition-colors cursor-pointer">
+              1 Year
+            </button>
+            <button type="button" onclick="setPresetDate(1095)" class="px-3 py-1.5 bg-white border border-warm-gray-200 text-warm-gray-500 rounded-lg hover:border-warm-gray-800 hover:text-warm-gray-800 text-xs font-semibold shadow-xs transition-colors cursor-pointer">
+              3 Years
+            </button>
+            <button type="button" onclick="setPresetDate(1825)" class="px-3 py-1.5 bg-white border border-warm-gray-200 text-warm-gray-500 rounded-lg hover:border-warm-gray-800 hover:text-warm-gray-800 text-xs font-semibold shadow-xs transition-colors cursor-pointer">
+              5 Years
+            </button>
+          </div>
+        </div>
+
+        <!-- Visibility & Multimedia Options -->
+        <div class="space-y-6">
+          <!-- Active Storage Multimedia Uploads -->
+          <div class="space-y-2">
+            <label class="block text-xs font-semibold text-warm-gray-800 uppercase tracking-wider">
+              Attach Memories (Photos, Audio, Files)
+            </label>
+            <%= f.file_field :attachments, multiple: true, class: "w-full p-2 bg-white border border-warm-gray-200 rounded-xl text-xs text-warm-gray-500 focus:outline-none file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-warm-gray-800 file:text-white hover:file:bg-warm-gray-900 file:cursor-pointer" %>
+            <p class="text-xs text-warm-gray-400">Add up to 5 items (max 10MB each) to seal inside your capsule.</p>
+          </div>
+
+          <!-- Public Story Option -->
+          <div class="relative flex items-start">
+            <div class="flex h-6 items-center">
+              <%= f.check_box :public, class: "h-4 w-4 rounded border-warm-gray-300 text-warm-gray-800 focus:ring-warm-gray-800" %>
+            </div>
+            <div class="ml-3 text-sm leading-6">
+              <label for="letter_form_public" class="font-semibold text-warm-gray-900">Share Publicly Once Opened</label>
+              <p class="text-xs text-warm-gray-500">Check this to share this letter anonymously with our public memories feed once it is delivered. Keep unchecked to keep it entirely private.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer / Submit -->
+      <div class="p-8 flex items-center justify-between bg-warm-gray-50/50">
+        <p class="text-xs text-warm-gray-500 italic">This action cannot be undone once sealed.</p>
+        <%= f.submit "Seal & Send to Future", class: "px-6 py-3 bg-warm-gray-800 hover:bg-warm-gray-900 text-white font-semibold rounded-xl text-sm shadow-md hover:shadow-lg transition-all duration-200 cursor-pointer" %>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<script>
+  function setPresetDate(days) {
+    const targetDateInput = document.querySelector('input[type="date"]');
+    if (targetDateInput) {
+      const today = new Date();
+      today.setDate(today.getDate() + days);
+      const year = today.getFullYear();
+      const month = String(today.getMonth() + 1).padStart(2, '0');
+      const day = String(today.getDate()).padStart(2, '0');
+      targetDateInput.value = `${year}-${month}-${day}`;
+    }
+  }
+</script>

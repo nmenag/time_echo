@@ -1,0 +1,65 @@
+<div class="space-y-12 animate-fade-in">
+  <!-- Feed Header -->
+  <div class="text-center max-w-2xl mx-auto space-y-4 py-6">
+    <div class="inline-flex items-center gap-2 px-3 py-1 bg-warm-gray-200/50 border border-warm-gray-200 text-warm-gray-800 text-xs font-semibold rounded-full tracking-wider uppercase">
+      🌍 Community Vault
+    </div>
+    <h1 class="font-serif italic text-4xl text-warm-gray-900 tracking-tight">Public stories from the past</h1>
+    <p class="text-sm text-warm-gray-500 leading-relaxed">
+      A collection of letters shared anonymously by users after their digital time capsules opened. Read the hopes, growth, and echoes of traveling minds.
+    </p>
+  </div>
+
+  <!-- Stories Grid -->
+  <% if @letters.any? %>
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <% @letters.each do |letter| %>
+        <div class="bg-white border border-warm-gray-200/60 p-6 rounded-2xl flex flex-col justify-between hover:shadow-md transition-shadow duration-200">
+          <div class="space-y-4">
+            <div class="flex items-center justify-between text-[11px] text-warm-gray-400 font-semibold uppercase tracking-wider">
+              <span>Written <%= letter.created_at.strftime('%m/%d/%Y') %></span>
+              <span>Opened <%= letter.delivered_at.strftime('%m/%d/%Y') %></span>
+            </div>
+            
+            <p class="text-sm font-serif italic text-warm-gray-700 leading-relaxed line-clamp-5">
+              "<%= letter.content %>"
+            </p>
+          </div>
+
+          <div class="pt-6 mt-6 border-t border-warm-gray-100 flex justify-between items-center text-xs text-warm-gray-500">
+            <span class="flex items-center gap-1">👤 Anonymous Traveler</span>
+            <a href="<%= letter_path(letter) %>" class="font-semibold text-warm-gray-800 hover:underline">
+              Read Story &rarr;
+            </a>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% else %>
+    <div class="bg-white border border-warm-gray-200/60 p-12 rounded-3xl text-center max-w-xl mx-auto space-y-6">
+      <div class="w-16 h-16 bg-warm-gray-100 text-warm-gray-400 rounded-full flex items-center justify-center text-2xl mx-auto select-none">
+        🌍
+      </div>
+      <div class="space-y-2">
+        <h3 class="font-serif italic text-2xl text-warm-gray-900">No public stories yet</h3>
+        <p class="text-sm text-warm-gray-500 leading-relaxed">
+          As capsules open in the coming months, public stories shared by our community will appear here.
+        </p>
+      </div>
+      <a href="<%= new_letter_path %>" class="inline-block px-6 py-3 bg-warm-gray-800 hover:bg-warm-gray-900 text-white font-semibold rounded-xl text-sm shadow-sm transition-all cursor-pointer">
+        Write Your Capsule Letter
+      </a>
+    </div>
+  <% end %>
+
+  <!-- Bottom CTA Banner -->
+  <div class="bg-warm-gray-200/40 border border-warm-gray-200/60 p-10 rounded-2xl text-center space-y-4 max-w-3xl mx-auto mt-12">
+    <h3 class="font-serif text-2xl text-warm-gray-900">Ready to speak to your future self?</h3>
+    <p class="text-sm text-warm-gray-500 max-w-md mx-auto">Seal a memory today and let it open in the future. You can choose to keep it completely private or share it here once opened.</p>
+    <div class="pt-2">
+      <a href="<%= new_letter_path %>" class="inline-block px-6 py-3 bg-warm-gray-800 hover:bg-warm-gray-900 text-white font-semibold rounded-xl text-sm shadow-sm transition-all cursor-pointer">
+        Write Your Capsule Letter
+      </a>
+    </div>
+  </div>
+</div>

@@ -1,29 +1,104 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><%= content_for(:title) || "Time Echo" %></title>
+    <title><%= content_for(:title) || "TimeEcho — Digital Time Capsule & Nostalgic Journaling" %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="application-name" content="Time Echo">
+    <meta name="application-name" content="TimeEcho">
     <meta name="mobile-web-app-capable" content="yes">
+    <meta name="description" content="TimeEcho is a secure digital time capsule for writing future letters. Send messages, photos, and voice notes to your future self.">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
     <%= yield :head %>
 
-    <%# Enable PWA manifest for installable apps (make sure to enable in config/routes.rb too!) %>
-    <%#= tag.link rel: "manifest", href: pwa_manifest_path(format: :json) %>
-
     <link rel="icon" href="/icon.png" type="image/png">
     <link rel="icon" href="/icon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="/icon.png">
 
-    <%# Includes all stylesheet files in app/assets/stylesheets %>
-    <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
+    <%= stylesheet_link_tag "tailwind", "data-turbo-track": "reload" %>
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
   </head>
 
-  <body>
-    <%= yield %>
+  <body class="bg-warm-gray-100 text-warm-gray-800 font-sans min-h-screen flex flex-col selection:bg-warm-gray-200">
+    <!-- Beautiful Calm Navigation Bar -->
+    <header class="border-b border-warm-gray-200/60 bg-white/70 backdrop-blur-md sticky top-0 z-50 transition-all duration-300">
+      <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+        <a href="<%= root_path %>" class="font-serif italic text-2xl text-warm-gray-900 tracking-tight hover:opacity-80 transition-opacity">
+          TimeEcho
+        </a>
+
+        <nav class="flex items-center gap-6 text-sm font-medium">
+          <a href="<%= new_letter_path %>" class="text-warm-gray-800 hover:text-warm-gray-900 transition-colors">
+            Write a Letter
+          </a>
+          <a href="<%= public_feed_letters_path %>" class="text-warm-gray-800 hover:text-warm-gray-900 transition-colors">
+            Public Stories
+          </a>
+
+          <% if user_signed_in? %>
+            <a href="<%= dashboard_path %>" class="text-warm-gray-800 hover:text-warm-gray-900 transition-colors">
+              Vault Timeline
+            </a>
+            <a href="<%= analytics_path %>" class="text-warm-gray-800 hover:text-warm-gray-900 transition-colors">
+              Analytics
+            </a>
+            <span class="text-xs text-warm-gray-200">|</span>
+            <span class="text-xs text-warm-gray-500 italic hidden sm:inline">
+              <%= current_user_email %>
+            </span>
+            <%= button_to logout_path, method: :delete, class: "text-xs font-semibold text-rose-600/80 hover:text-rose-700 transition-colors cursor-pointer", data: { turbo: "false" } do %>
+              Sign Out
+            <% end %>
+          <% else %>
+            <span class="text-xs text-warm-gray-200">|</span>
+            <a href="<%= login_path %>" class="px-4 py-2 bg-warm-gray-800 text-white rounded-lg hover:bg-warm-gray-900 transition-all shadow-sm font-semibold text-xs tracking-wider uppercase">
+              Sign In
+            </a>
+          <% end %>
+        </nav>
+      </div>
+    </header>
+
+    <!-- Success / Info / Alert Banners -->
+    <% if flash[:notice].present? %>
+      <div class="max-w-6xl mx-auto px-6 mt-4 w-full" data-controller="flash">
+        <div class="p-4 bg-emerald-50 border border-emerald-200/80 text-emerald-800 text-sm rounded-xl flex items-center justify-between shadow-sm animate-fade-in">
+          <div class="flex items-center gap-2">
+            <span>✨</span>
+            <span><%= flash[:notice] %></span>
+          </div>
+        </div>
+      </div>
+    <% end %>
+
+    <% if flash[:alert].present? %>
+      <div class="max-w-6xl mx-auto px-6 mt-4 w-full" data-controller="flash">
+        <div class="p-4 bg-rose-50 border border-rose-200/80 text-rose-800 text-sm rounded-xl flex items-center justify-between shadow-sm animate-fade-in">
+          <div class="flex items-center gap-2">
+            <span>⚠️</span>
+            <span><%= flash[:alert] %></span>
+          </div>
+        </div>
+      </div>
+    <% end %>
+
+    <!-- Main Container -->
+    <main class="flex-grow max-w-6xl mx-auto px-6 py-12 w-full">
+      <%= yield %>
+    </main>
+
+    <!-- Calm Minimalist Footer -->
+    <footer class="border-t border-warm-gray-200/60 bg-white/40 py-10 mt-auto">
+      <div class="max-w-6xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-warm-gray-500">
+        <div>
+          &copy; <%= Time.current.year %> TimeEcho. Sent with hope, received with nostalgia.
+        </div>
+        <div class="flex gap-6">
+          <span class="hover:text-warm-gray-800 transition-colors">A digital time capsule for the soul.</span>
+        </div>
+      </div>
+    </footer>
   </body>
 </html>

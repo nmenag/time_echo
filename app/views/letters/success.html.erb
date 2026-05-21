@@ -1,0 +1,43 @@
+<div class="max-w-md mx-auto py-12 text-center">
+  <div class="bg-white border border-warm-gray-200/60 p-12 rounded-2xl shadow-sm space-y-8">
+    <div class="w-20 h-20 bg-warm-gray-200/40 text-warm-gray-800 rounded-full flex items-center justify-center text-4xl mx-auto shadow-inner select-none">
+      🔒
+    </div>
+
+    <div class="space-y-3">
+      <h1 class="font-serif italic text-3xl text-warm-gray-900">Your memory is sealed</h1>
+      <p class="text-sm text-warm-gray-500 leading-relaxed">
+        We have safely stored your letter in the digital vault.<br>
+        It will remain locked until
+      </p>
+      <div class="inline-block px-4 py-2 bg-warm-gray-200/50 border border-warm-gray-200 text-warm-gray-900 rounded-xl font-serif text-lg italic tracking-wide">
+        <%= @deliver_at&.strftime('%B %d, %Y') || "its delivery date" %>
+      </div>
+    </div>
+
+    <div class="p-4 bg-warm-gray-50 rounded-xl space-y-2 border border-warm-gray-100 text-left">
+      <p class="text-xs font-semibold text-warm-gray-800 uppercase tracking-wider">What happens next?</p>
+      <p class="text-xs text-warm-gray-500 leading-relaxed">
+        We have sent a verification email to <strong class="text-warm-gray-800"><%= @email %></strong>.
+        Once verified, your capsule will be permanently scheduled. On that special day, it will arrive back in your inbox.
+      </p>
+    </div>
+
+    <div class="pt-6 border-t border-warm-gray-100 space-y-4">
+      <% if user_signed_in? %>
+        <a href="<%= dashboard_path %>" class="block w-full py-3 bg-warm-gray-800 hover:bg-warm-gray-900 text-white font-semibold rounded-xl text-sm shadow-sm transition-all">
+          Go to Your Vault Dashboard
+        </a>
+      <% else %>
+        <a href="<%= login_path %>" class="block w-full py-3 bg-warm-gray-800 hover:bg-warm-gray-900 text-white font-semibold rounded-xl text-sm shadow-sm transition-all">
+          Sign In to Track Your Vault
+        </a>
+        <p class="text-xs text-warm-gray-400">Sign in with magic link to view all your scheduled capsules.</p>
+      <% end %>
+      
+      <a href="<%= root_path %>" class="inline-block text-xs font-semibold text-warm-gray-500 hover:text-warm-gray-800 transition-colors">
+        &larr; Return to Home
+      </a>
+    </div>
+  </div>
+</div>

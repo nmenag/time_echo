@@ -1,0 +1,142 @@
+<div class="space-y-12 animate-fade-in">
+  <!-- Analytics Header -->
+  <div class="pb-6 border-b border-warm-gray-200/60">
+    <h1 class="font-serif italic text-4xl text-warm-gray-900">Vault Analytics</h1>
+    <p class="text-sm text-warm-gray-500">A calm reflection of your communication metrics and capsule events.</p>
+  </div>
+
+  <!-- Metric Gauges (Visual Summary) -->
+  <div class="grid md:grid-cols-3 gap-8">
+    <!-- Open Rate Gauge -->
+    <div class="bg-white border border-warm-gray-200/60 p-8 rounded-2xl space-y-4">
+      <div class="flex items-center justify-between">
+        <h3 class="text-xs font-semibold text-warm-gray-500 uppercase tracking-wider">Capsule Open Rate</h3>
+        <span class="text-xl">👁️</span>
+      </div>
+      <div class="flex items-baseline gap-2">
+        <span class="text-4xl font-semibold text-warm-gray-900"><%= @open_rate %>%</span>
+        <span class="text-xs text-warm-gray-400">opened</span>
+      </div>
+      <div class="w-full bg-warm-gray-100 rounded-full h-2">
+        <div class="bg-emerald-700 h-2 rounded-full transition-all duration-500" style="width: <%= @open_rate %>%"></div>
+      </div>
+      <p class="text-xs text-warm-gray-400 leading-relaxed">
+        The percentage of delivered letters that have been successfully opened and read in your vault.
+      </p>
+    </div>
+
+    <!-- Click Rate Gauge -->
+    <div class="bg-white border border-warm-gray-200/60 p-8 rounded-2xl space-y-4">
+      <div class="flex items-center justify-between">
+        <h3 class="text-xs font-semibold text-warm-gray-500 uppercase tracking-wider">Link Click Rate</h3>
+        <span class="text-xl">🔗</span>
+      </div>
+      <div class="flex items-baseline gap-2">
+        <span class="text-4xl font-semibold text-warm-gray-900"><%= @click_rate %>%</span>
+        <span class="text-xs text-warm-gray-400">clicked</span>
+      </div>
+      <div class="w-full bg-warm-gray-100 rounded-full h-2">
+        <div class="bg-amber-600 h-2 rounded-full transition-all duration-500" style="width: <%= @click_rate %>%"></div>
+      </div>
+      <p class="text-xs text-warm-gray-400 leading-relaxed">
+        The percentage of letter notifications where the secure time-capsule link was clicked.
+      </p>
+    </div>
+
+    <!-- Bounce Rate Gauge -->
+    <div class="bg-white border border-warm-gray-200/60 p-8 rounded-2xl space-y-4">
+      <div class="flex items-center justify-between">
+        <h3 class="text-xs font-semibold text-warm-gray-500 uppercase tracking-wider">Email Bounce Rate</h3>
+        <span class="text-xl">⚠️</span>
+      </div>
+      <div class="flex items-baseline gap-2">
+        <span class="text-4xl font-semibold text-warm-gray-900"><%= @bounce_rate %>%</span>
+        <span class="text-xs text-warm-gray-400">bounced</span>
+      </div>
+      <div class="w-full bg-warm-gray-100 rounded-full h-2">
+        <div class="bg-rose-600 h-2 rounded-full transition-all duration-500" style="width: <%= @bounce_rate %>%"></div>
+      </div>
+      <p class="text-xs text-warm-gray-400 leading-relaxed">
+        Delivery bounces reported by Resend. A lower percentage indicates highly reliable inbox deliverability.
+      </p>
+    </div>
+  </div>
+
+  <!-- Detailed Stats Row -->
+  <div class="grid sm:grid-cols-2 md:grid-cols-4 gap-6">
+    <div class="bg-white border border-warm-gray-200/60 p-6 rounded-2xl text-center space-y-1">
+      <p class="text-xs font-semibold text-warm-gray-500 uppercase tracking-wider">Total Written</p>
+      <p class="text-2xl font-serif font-semibold text-warm-gray-800"><%= @total_letters %></p>
+    </div>
+    <div class="bg-white border border-warm-gray-200/60 p-6 rounded-2xl text-center space-y-1">
+      <p class="text-xs font-semibold text-warm-gray-500 uppercase tracking-wider">Delivered Letters</p>
+      <p class="text-2xl font-serif font-semibold text-emerald-800"><%= @delivered_letters %></p>
+    </div>
+    <div class="bg-white border border-warm-gray-200/60 p-6 rounded-2xl text-center space-y-1">
+      <p class="text-xs font-semibold text-warm-gray-500 uppercase tracking-wider">Scheduled Sealed</p>
+      <p class="text-2xl font-serif font-semibold text-amber-700"><%= @scheduled_letters %></p>
+    </div>
+    <div class="bg-white border border-warm-gray-200/60 p-6 rounded-2xl text-center space-y-1">
+      <p class="text-xs font-semibold text-warm-gray-500 uppercase tracking-wider">Total Reads</p>
+      <p class="text-2xl font-serif font-semibold text-warm-gray-800"><%= @total_opens %></p>
+    </div>
+  </div>
+
+  <!-- Recent activity timeline -->
+  <div class="bg-white border border-warm-gray-200/60 p-8 rounded-2xl space-y-6">
+    <h3 class="font-serif italic text-2xl text-warm-gray-900 border-b border-warm-gray-100 pb-4">Recent Capsule Activity</h3>
+
+    <% if @recent_events.any? %>
+      <div class="space-y-6">
+        <% @recent_events.each do |event| %>
+          <div class="flex items-start gap-4 text-sm">
+            <div class="w-8 h-8 rounded-xl bg-warm-gray-100 flex items-center justify-center shrink-0">
+              <% case event.event_type %>
+              <% when "user_logged_in" %>
+                🔓
+              <% when "magic_link_requested" %>
+                ✉️
+              <% when "letter_sealed" %>
+                🔒
+              <% when "letter_opened" %>
+                👁️
+              <% when "email_delivered" %>
+                📬
+              <% when "link_clicked" %>
+                🔗
+              <% else %>
+                📊
+              <% end %>
+            </div>
+            
+            <div class="space-y-1 py-1">
+              <p class="text-warm-gray-800">
+                <% case event.event_type %>
+                <% when "user_logged_in" %>
+                  Signed in to digital vault session.
+                <% when "magic_link_requested" %>
+                  Requested magic sign-in link.
+                <% when "letter_sealed" %>
+                  Sealed new time capsule scheduled for delivery on <%= Time.parse(event.metadata["deliver_at"]).strftime('%B %d, %Y') rescue "its release date" %>.
+                <% when "letter_opened" %>
+                  Opened time capsule ID <strong class="font-mono text-xs"><%= event.metadata["letter_id"] %></strong>.
+                <% when "email_delivered" %>
+                  Resend successfully delivered letter notification.
+                <% when "link_clicked" %>
+                  Clicked vault verification or access link.
+                <% else %>
+                  Performed general vault operation: <%= event.event_type.humanize %>.
+                <% end %>
+              </p>
+              <p class="text-[10px] text-warm-gray-400">
+                <%= event.occurred_at.strftime('%B %d, %Y at %I:%M %p') %>
+              </p>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    <% else %>
+      <p class="text-xs text-warm-gray-400 italic">No activity has been logged inside your capsule history ledger yet.</p>
+    <% end %>
+  </div>
+</div>

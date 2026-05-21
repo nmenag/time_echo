@@ -1,0 +1,116 @@
+<div class="max-w-2xl mx-auto py-6">
+  <% if @countdown %>
+    <!-- Locked Capsule / Countdown View -->
+    <div class="bg-white border border-warm-gray-200/60 p-12 rounded-2xl shadow-sm text-center space-y-8 animate-fade-in">
+      <div class="relative w-24 h-24 mx-auto select-none">
+        <div class="absolute inset-0 bg-amber-50 rounded-full border border-amber-200/60 flex items-center justify-center text-4xl shadow-inner">
+          🔒
+        </div>
+        <div class="absolute -bottom-1 -right-1 bg-amber-600 text-white w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold border-2 border-white animate-bounce">
+          ⌛
+        </div>
+      </div>
+
+      <div class="space-y-3">
+        <h1 class="font-serif italic text-3xl text-warm-gray-900">This capsule is sealed</h1>
+        <p class="text-sm text-warm-gray-500 max-w-sm mx-auto leading-relaxed">
+          This message was sealed by <strong class="text-warm-gray-800"><%= @letter.email %></strong> and is currently traveling through time.
+        </p>
+      </div>
+
+      <% days_left = (@letter.deliver_at.to_date - Date.current).to_i %>
+      <div class="space-y-2">
+        <span class="text-xs font-semibold text-warm-gray-500 uppercase tracking-wider block">Opening in</span>
+        <div class="inline-block px-6 py-3 bg-amber-50/50 border border-amber-200/80 text-amber-800 rounded-2xl font-serif italic text-3xl font-semibold tracking-wide">
+          <%= pluralize(days_left, "day") %>
+        </div>
+        <p class="text-xs text-warm-gray-400 pt-1">Target delivery date: <%= @letter.deliver_at.strftime('%B %d, %Y') %></p>
+      </div>
+
+      <div class="pt-6 border-t border-warm-gray-100">
+        <a href="<%= root_path %>" class="px-5 py-2.5 bg-warm-gray-800 hover:bg-warm-gray-900 text-white rounded-xl text-sm font-semibold transition-all">
+          Return to Dashboard
+        </a>
+      </div>
+    </div>
+
+  <% else %>
+    <!-- Unlocked / Delivered Letter View -->
+    <div class="bg-white border border-warm-gray-200/60 rounded-2xl p-8 sm:p-12 shadow-sm space-y-8 animate-fade-in">
+      <!-- Letter Header -->
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-warm-gray-100 pb-6 text-xs text-warm-gray-500">
+        <div class="space-y-1">
+          <p class="uppercase tracking-wider font-semibold text-warm-gray-400">Written</p>
+          <p class="font-serif italic text-sm text-warm-gray-800"><%= @letter.created_at.strftime('%B %d, %Y') %></p>
+        </div>
+        <div class="space-y-1 sm:text-right">
+          <p class="uppercase tracking-wider font-semibold text-warm-gray-400">Delivered</p>
+          <p class="font-serif italic text-sm text-warm-gray-800"><%= @letter.delivered_at.strftime('%B %d, %Y') %></p>
+        </div>
+      </div>
+
+      <!-- Letter Body -->
+      <article class="font-serif text-lg text-warm-gray-800 leading-relaxed white-space-pre-wrap select-text">
+        <%= @letter.content %>
+      </article>
+
+      <!-- Attachments Section (Active Storage) -->
+      <% if @letter.attachments.attached? %>
+        <div class="pt-8 border-t border-warm-gray-100 space-y-4">
+          <h3 class="text-xs font-semibold text-warm-gray-800 uppercase tracking-wider">📎 Attached Memories</h3>
+          
+          <div class="grid sm:grid-cols-2 gap-4">
+            <% @letter.attachments.each do |attachment| %>
+              <div class="bg-warm-gray-50 border border-warm-gray-200/60 p-4 rounded-xl flex items-center justify-between gap-4">
+                <div class="flex items-center gap-3 overflow-hidden">
+                  <% if attachment.image? %>
+                    <div class="w-12 h-12 rounded-lg bg-cover bg-center border border-warm-gray-200/60 shrink-0" style="background-image: url('<%= rails_blob_path(attachment) %>')"></div>
+                  <% else %>
+                    <div class="w-12 h-12 rounded-lg bg-warm-gray-200/50 flex items-center justify-center text-xl shrink-0">📄</div>
+                  <% end %>
+                  <div class="overflow-hidden">
+                    <p class="text-xs font-semibold text-warm-gray-800 truncate"><%= attachment.filename %></p>
+                    <p class="text-[10px] text-warm-gray-500"><%= number_to_human_size(attachment.byte_size) %></p>
+                  </div>
+                </div>
+
+                <%= link_to rails_blob_path(attachment, disposition: "attachment"), class: "px-3 py-1.5 bg-white border border-warm-gray-200 hover:border-warm-gray-800 rounded-lg text-xs font-semibold text-warm-gray-800 shadow-xs transition-colors shrink-0", download: true do %>
+                  Download
+                <% end %>
+              </div>
+            <% end %>
+          </div>
+
+          <!-- Inline Image Previews -->
+          <div class="space-y-4 pt-4">
+            <% @letter.attachments.select(&:image?).each do |image_attachment| %>
+              <div class="space-y-1">
+                <%= image_tag image_attachment, class: "w-full max-h-[400px] object-cover rounded-xl border border-warm-gray-200/60 shadow-xs" %>
+                <span class="text-[10px] text-warm-gray-400 block text-center"><%= image_attachment.filename %></span>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+
+      <!-- Letter Actions / Footer -->
+      <div class="pt-8 border-t border-warm-gray-100 flex flex-col sm:flex-row sm:items-center justify-between gap-4 text-xs text-warm-gray-500">
+        <div>
+          <span>👁️ Read <%= pluralize(@letter.open_count, "time") %></span>
+        </div>
+        
+        <div class="flex gap-4">
+          <% if user_signed_in? && @letter.email == current_user_email %>
+            <a href="<%= dashboard_path %>" class="font-semibold text-warm-gray-800 hover:underline">
+              &larr; Back to Timeline
+            </a>
+          <% else %>
+            <a href="<%= public_feed_letters_path %>" class="font-semibold text-warm-gray-800 hover:underline">
+              &larr; View Public Stories
+            </a>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>

@@ -1,0 +1,137 @@
+<div class="space-y-12">
+  <!-- Header & Vault Stats -->
+  <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 pb-6 border-b border-warm-gray-200/60">
+    <div class="space-y-1">
+      <h1 class="font-serif italic text-4xl text-warm-gray-900">Your digital vault</h1>
+      <p class="text-sm text-warm-gray-500">Safekeeping your memories, dreams, and check-ins across time.</p>
+    </div>
+    <div>
+      <a href="<%= new_letter_path %>" class="inline-flex items-center gap-2 px-5 py-3 bg-warm-gray-800 hover:bg-warm-gray-900 text-white font-semibold rounded-xl text-sm shadow-sm transition-all duration-200 cursor-pointer">
+        ✏️ Write New Letter
+      </a>
+    </div>
+  </div>
+
+  <!-- Stats Grid -->
+  <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+    <div class="bg-white border border-warm-gray-200/60 p-6 rounded-2xl">
+      <p class="text-xs font-semibold text-warm-gray-500 uppercase tracking-wider">Total Capsules</p>
+      <h3 class="font-serif text-3xl font-semibold text-warm-gray-900 pt-2"><%= @letters.count %></h3>
+    </div>
+    <div class="bg-white border border-warm-gray-200/60 p-6 rounded-2xl">
+      <p class="text-xs font-semibold text-warm-gray-500 uppercase tracking-wider">Delivered</p>
+      <h3 class="font-serif text-3xl font-semibold text-emerald-800 pt-2"><%= @letters.delivered.count %></h3>
+    </div>
+    <div class="bg-white border border-warm-gray-200/60 p-6 rounded-2xl">
+      <p class="text-xs font-semibold text-warm-gray-500 uppercase tracking-wider">Sealed</p>
+      <h3 class="font-serif text-3xl font-semibold text-amber-700 pt-2"><%= @letters.pending.count %></h3>
+    </div>
+    <div class="bg-white border border-warm-gray-200/60 p-6 rounded-2xl">
+      <p class="text-xs font-semibold text-warm-gray-500 uppercase tracking-wider">Total Reads</p>
+      <h3 class="font-serif text-3xl font-semibold text-warm-gray-900 pt-2"><%= @letters.sum(:open_count) %></h3>
+    </div>
+  </div>
+
+  <!-- Vault Timeline -->
+  <% if @letters.any? %>
+    <div class="relative pl-6 border-l border-warm-gray-200/80 space-y-12">
+      <% @letters.each do |letter| %>
+        <div class="relative">
+          <!-- Dot node in timeline -->
+          <% if letter.delivered? %>
+            <div class="absolute -left-[31px] top-1.5 w-4 h-4 bg-emerald-700 border-4 border-warm-gray-100 rounded-full"></div>
+          <% else %>
+            <div class="absolute -left-[31px] top-1.5 w-4 h-4 bg-amber-600 border-4 border-warm-gray-100 rounded-full"></div>
+          <% end %>
+
+          <!-- Timeline Card -->
+          <div class="bg-white border border-warm-gray-200/60 rounded-2xl p-6 sm:p-8 hover:shadow-md transition-shadow space-y-4">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-warm-gray-100 pb-4">
+              <div class="space-y-1">
+                <span class="text-xs font-semibold text-warm-gray-500 uppercase tracking-wider">
+                  <%= letter.delivered? ? "Delivered" : "Sealed Capsule" %>
+                </span>
+                <h3 class="font-serif italic text-lg text-warm-gray-900">
+                  <% if letter.delivered? %>
+                    Opened on <%= letter.delivered_at.strftime('%B %d, %Y') %>
+                  <% else %>
+                    Opening on <%= letter.deliver_at.strftime('%B %d, %Y') %>
+                  <% end %>
+                </h3>
+              </div>
+
+              <!-- Badges -->
+              <div class="flex flex-wrap gap-2 items-center">
+                <% if letter.public? %>
+                  <span class="px-2.5 py-1 bg-warm-gray-100 text-warm-gray-600 border border-warm-gray-200 text-xs font-medium rounded-lg">
+                    🌍 Publicly Shared
+                  </span>
+                <% else %>
+                  <span class="px-2.5 py-1 bg-warm-gray-50 text-warm-gray-500 border border-warm-gray-100 text-xs font-medium rounded-lg">
+                    🔒 Private
+                  </span>
+                <% end %>
+
+                <% if letter.attachments.attached? %>
+                  <span class="px-2.5 py-1 bg-warm-gray-100 text-warm-gray-600 border border-warm-gray-200 text-xs font-medium rounded-lg flex items-center gap-1">
+                    📎 <%= letter.attachments.size %> attachment<%= 's' if letter.attachments.size > 1 %>
+                  </span>
+                <% end %>
+              </div>
+            </div>
+
+            <!-- Content preview -->
+            <% if letter.delivered? %>
+              <div class="space-y-4">
+                <p class="text-sm font-serif italic text-warm-gray-700 leading-relaxed line-clamp-3">
+                  "<%= letter.content %>"
+                </p>
+                <div class="flex items-center justify-between pt-2">
+                  <div class="text-xs text-warm-gray-500 flex items-center gap-3">
+                    <span>👁️ Read <%= pluralize(letter.open_count, "time") %></span>
+                    <% if letter.opened_at.present? %>
+                      <span>First opened: <%= letter.opened_at.strftime('%m/%d/%Y') %></span>
+                    <% end %>
+                  </div>
+                  <a href="<%= letter_path(letter) %>" class="px-4 py-2 bg-warm-gray-50 border border-warm-gray-200 text-warm-gray-800 hover:bg-warm-gray-800 hover:text-white rounded-xl text-xs font-semibold shadow-xs transition-all duration-200">
+                    Open Full Capsule &rarr;
+                  </a>
+                </div>
+              </div>
+            <% else %>
+              <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-warm-gray-50/50 p-4 rounded-xl border border-warm-gray-100">
+                <div class="flex items-center gap-3 text-sm text-warm-gray-800">
+                  <span class="text-xl">⏳</span>
+                  <div>
+                    <p class="font-semibold">Sealed away safely</p>
+                    <p class="text-xs text-warm-gray-500">The content is hidden until the delivery date is reached.</p>
+                  </div>
+                </div>
+                
+                <% days_left = (letter.deliver_at.to_date - Date.current).to_i %>
+                <div class="px-3.5 py-1.5 bg-amber-50 border border-amber-200/80 text-amber-800 rounded-lg text-xs font-semibold tracking-wide uppercase">
+                  Opening in <%= pluralize(days_left, "day") %>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% else %>
+    <div class="bg-white border border-warm-gray-200/60 p-12 rounded-3xl text-center max-w-xl mx-auto space-y-6">
+      <div class="w-16 h-16 bg-warm-gray-100 text-warm-gray-400 rounded-full flex items-center justify-center text-2xl mx-auto select-none">
+        📭
+      </div>
+      <div class="space-y-2">
+        <h3 class="font-serif italic text-2xl text-warm-gray-900">Your vault is empty</h3>
+        <p class="text-sm text-warm-gray-500 leading-relaxed">
+          You haven't written any letters yet! Start your journey by writing a message to your future self.
+        </p>
+      </div>
+      <a href="<%= new_letter_path %>" class="inline-block px-6 py-3 bg-warm-gray-800 hover:bg-warm-gray-900 text-white font-semibold rounded-xl text-sm shadow-sm transition-all cursor-pointer">
+        Write Your First Letter
+      </a>
+    </div>
+  <% end %>
+</div>
