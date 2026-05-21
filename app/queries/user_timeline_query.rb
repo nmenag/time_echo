@@ -9,6 +9,6 @@ class UserTimelineQuery
   end
 
   def call
-    @relation.for_email(@email).order(deliver_at: :asc)
+    @relation.for_email(@email).includes(:predictions, :emotional_snapshot).order(deliver_at: :asc)
   end
 end

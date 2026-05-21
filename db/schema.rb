@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_05_20_000005) do
+ActiveRecord::Schema[8.1].define(version: 2026_05_21_130000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -52,6 +52,72 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_20_000005) do
     t.index ["occurred_at"], name: "index_analytics_events_on_occurred_at"
   end
 
+  create_table "checkpoints", force: :cascade do |t|
+    t.datetime "completed_at"
+    t.datetime "created_at", null: false
+    t.string "email", null: false
+    t.text "goals_progress"
+    t.text "life_changes"
+    t.datetime "scheduled_for", null: false
+    t.string "status", default: "pending", null: false
+    t.datetime "updated_at", null: false
+    t.index ["email"], name: "index_checkpoints_on_email"
+  end
+
+  create_table "collective_capsules", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.text "description", null: false
+    t.string "slug", null: false
+    t.string "title", null: false
+    t.datetime "unlock_date", null: false
+    t.datetime "updated_at", null: false
+    t.index ["slug"], name: "index_collective_capsules_on_slug", unique: true
+  end
+
+  create_table "collective_contributions", force: :cascade do |t|
+    t.integer "anxiety", null: false
+    t.bigint "collective_capsule_id", null: false
+    t.text "content", null: false
+    t.datetime "created_at", null: false
+    t.string "email", null: false
+    t.integer "energy", null: false
+    t.integer "happiness", null: false
+    t.integer "motivation", null: false
+    t.text "prediction_text"
+    t.datetime "updated_at", null: false
+    t.index ["collective_capsule_id"], name: "index_collective_contributions_on_collective_capsule_id"
+  end
+
+  create_table "comments", force: :cascade do |t|
+    t.boolean "approved", default: true, null: false
+    t.string "author_name", null: false
+    t.text "content", null: false
+    t.datetime "created_at", null: false
+    t.bigint "letter_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["letter_id"], name: "index_comments_on_letter_id"
+  end
+
+  create_table "emotional_snapshots", force: :cascade do |t|
+    t.integer "anxiety_level", null: false
+    t.datetime "created_at", null: false
+    t.integer "happiness_level", null: false
+    t.bigint "letter_id", null: false
+    t.integer "motivation_level", null: false
+    t.datetime "updated_at", null: false
+    t.index ["letter_id"], name: "index_emotional_snapshots_on_letter_id"
+  end
+
+  create_table "goals", force: :cascade do |t|
+    t.boolean "achieved"
+    t.datetime "created_at", null: false
+    t.bigint "letter_id", null: false
+    t.text "reflection"
+    t.string "title", null: false
+    t.datetime "updated_at", null: false
+    t.index ["letter_id"], name: "index_goals_on_letter_id"
+  end
+
   create_table "letters", force: :cascade do |t|
     t.datetime "clicked_at"
     t.text "content", null: false
@@ -63,12 +129,40 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_20_000005) do
     t.integer "open_count", default: 0, null: false
     t.datetime "opened_at"
     t.boolean "public", default: false, null: false
+    t.boolean "recipient_delivery_permission", default: false, null: false
+    t.string "recipient_email"
+    t.string "recipient_name"
+    t.string "relationship"
+    t.integer "reveal_anxiety"
+    t.integer "reveal_happiness"
+    t.integer "reveal_motivation"
     t.string "status", default: "pending", null: false
+    t.string "title"
     t.datetime "updated_at", null: false
     t.index ["deliver_at"], name: "index_letters_on_deliver_at"
     t.index ["email"], name: "index_letters_on_email"
     t.index ["public"], name: "index_letters_on_public"
     t.index ["status"], name: "index_letters_on_status"
+  end
+
+  create_table "predictions", force: :cascade do |t|
+    t.string "category", null: false
+    t.datetime "created_at", null: false
+    t.bigint "letter_id", null: false
+    t.boolean "matched"
+    t.text "prediction", null: false
+    t.text "reality"
+    t.datetime "updated_at", null: false
+    t.index ["letter_id"], name: "index_predictions_on_letter_id"
+  end
+
+  create_table "reactions", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "ip_address"
+    t.bigint "letter_id", null: false
+    t.string "reaction_type", null: false
+    t.datetime "updated_at", null: false
+    t.index ["letter_id"], name: "index_reactions_on_letter_id"
   end
 
   create_table "session_tokens", force: :cascade do |t|
@@ -204,6 +298,12 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_20_000005) do
   end
 
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "collective_contributions", "collective_capsules"
+  add_foreign_key "comments", "letters"
+  add_foreign_key "emotional_snapshots", "letters"
+  add_foreign_key "goals", "letters"
+  add_foreign_key "predictions", "letters"
+  add_foreign_key "reactions", "letters"
   add_foreign_key "solid_queue_blocked_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
   add_foreign_key "solid_queue_claimed_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
   add_foreign_key "solid_queue_failed_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade

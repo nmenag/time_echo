@@ -20,9 +20,9 @@ en:
 
   landing:
     badge: "⏳ TimeEcho Digital Capsule"
-    title_html: "Write a letter to your<br><span class=\"underline decoration-accent decoration-wavy underline-offset-12\">future self</span>."
-    subtitle: "TimeEcho lets you capture your present thoughts, hopes, and memories, sealing them away in a secure digital vault until the perfect day in the future."
-    write_first: "Write Your First Letter"
+    title_html: "TimeEcho"
+    subtitle: "Compare the future you imagined with the life you actually lived."
+    write_first: "Write your first letter"
     how_it_works: "How It Works"
     
     steps_title: "Simple & Significant"

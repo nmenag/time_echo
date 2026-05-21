@@ -1,13 +1,16 @@
-<div class="space-y-12">
+<div class="space-y-12 max-w-5xl mx-auto py-6">
   <!-- Header & Vault Actions -->
   <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 pb-6 border-b border-base-200">
     <div class="space-y-1.5">
       <h1 class="font-serif italic text-4xl text-primary font-normal"><%= t('dashboard.title') %></h1>
       <p class="text-sm text-base-content/50"><%= t('dashboard.subtitle') %></p>
     </div>
-    <div>
+    <div class="flex gap-3">
+      <a href="<%= analytics_path %>" class="btn btn-outline btn-md border-base-300 hover:bg-base-200 hover:text-primary rounded-xl px-5 text-xs font-semibold uppercase tracking-wider">
+        📊 <%= t('navigation.analytics') %>
+      </a>
       <a href="<%= new_letter_path %>" class="btn btn-primary btn-md rounded-xl px-5 shadow-xs font-semibold text-xs tracking-wider uppercase">
-        <%= t('dashboard.btn_write') %>
+        ✏️ <%= t('dashboard.btn_write') %>
       </a>
     </div>
   </div>
@@ -20,21 +23,21 @@
       <div class="stat-value font-serif text-4xl text-primary font-normal mt-1"><%= @letters.count %></div>
       <div class="stat-desc text-[11px] text-base-content/40 mt-1"><%= t('dashboard.stat_total_sub') %></div>
     </div>
-    
+
     <!-- Stat 2 -->
     <div class="stat p-6">
       <div class="stat-title text-[10px] font-semibold text-base-content/40 uppercase tracking-wider"><%= t('dashboard.stat_delivered') %></div>
       <div class="stat-value font-serif text-4xl text-success font-normal mt-1"><%= @letters.delivered.count %></div>
       <div class="stat-desc text-[11px] text-base-content/40 mt-1"><%= t('dashboard.stat_delivered_sub') %></div>
     </div>
-    
+
     <!-- Stat 3 -->
     <div class="stat p-6">
       <div class="stat-title text-[10px] font-semibold text-base-content/40 uppercase tracking-wider"><%= t('dashboard.stat_sealed') %></div>
       <div class="stat-value font-serif text-4xl text-warning font-normal mt-1"><%= @letters.pending.count %></div>
       <div class="stat-desc text-[11px] text-base-content/40 mt-1"><%= t('dashboard.stat_sealed_sub') %></div>
     </div>
-    
+
     <!-- Stat 4 -->
     <div class="stat p-6">
       <div class="stat-title text-[10px] font-semibold text-base-content/40 uppercase tracking-wider"><%= t('dashboard.stat_reads') %></div>
@@ -45,63 +48,132 @@
 
   <!-- Vault Timeline -->
   <% if @letters.any? %>
-    <div class="relative pl-6 border-l border-base-200 space-y-12">
+    <div class="relative pl-8 border-l-2 border-base-200 space-y-12">
       <% @letters.each do |letter| %>
         <div class="relative">
           <!-- Dot node in timeline -->
           <% if letter.delivered? %>
-            <div class="absolute -left-[32px] top-2.5 w-4 h-4 bg-success border-4 border-base-100 rounded-full"></div>
+            <% if letter.reveal_happiness.nil? %>
+              <div class="absolute -left-[41px] top-3 w-5 h-5 bg-accent border-4 border-base-100 rounded-full shadow-xs animate-pulse"></div>
+            <% else %>
+              <div class="absolute -left-[41px] top-3 w-5 h-5 bg-success border-4 border-base-100 rounded-full shadow-xs"></div>
+            <% end %>
           <% else %>
-            <div class="absolute -left-[32px] top-2.5 w-4 h-4 bg-accent border-4 border-base-100 rounded-full"></div>
+            <div class="absolute -left-[41px] top-3 w-5 h-5 bg-warning border-4 border-base-100 rounded-full shadow-xs"></div>
           <% end %>
 
           <!-- Timeline Card using DaisyUI Card styling -->
-          <div class="card card-bordered border-base-200 bg-base-100 rounded-box card-hover-effect p-6 sm:p-8 space-y-5">
+          <div class="card card-bordered border-base-200 bg-base-100 rounded-box card-hover-effect p-6 sm:p-8 space-y-5 shadow-xs">
             <!-- Card Header -->
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-base-200 pb-4">
               <div class="space-y-1">
-                <span class="text-[10px] font-semibold text-base-content/40 uppercase tracking-wider block">
-                  <%= letter.delivered? ? t('dashboard.delivered_tag') : t('dashboard.sealed_tag') %>
-                </span>
-                <h3 class="font-serif italic text-lg sm:text-xl text-primary font-normal">
+                <span class="text-[10px] font-bold text-base-content/40 uppercase tracking-wider block">
                   <% if letter.delivered? %>
-                    <%= t('dashboard.opened_on', date: letter.delivered_at.strftime('%B %d, %Y')) %>
+                    <%= letter.reveal_happiness.nil? ? "Needs Reflection / Reality Update" : t('dashboard.delivered_tag') %>
                   <% else %>
-                    <%= t('dashboard.opening_on', date: letter.deliver_at.strftime('%B %d, %Y')) %>
+                    <%= t('dashboard.sealed_tag') %>
                   <% end %>
+                </span>
+                <h3 class="font-serif italic text-xl text-primary font-normal">
+                  <%= letter.title %>
+                  <span class="text-xs font-sans text-base-content/40 font-normal ml-1">
+                    <% if letter.delivered? %>
+                      (Opened <%= letter.delivered_at.strftime('%m/%d/%Y') %>)
+                    <% else %>
+                      (Opening <%= letter.deliver_at.strftime('%m/%d/%Y') %>)
+                    <% end %>
+                  </span>
                 </h3>
               </div>
 
               <!-- Pill Badges -->
               <div class="flex flex-wrap gap-2 items-center">
                 <% if letter.public? %>
-                  <span class="badge badge-secondary py-3 px-3 text-[10px] font-semibold uppercase tracking-wider border border-accent">
+                  <span class="badge badge-secondary py-2.5 px-3 text-[9px] font-bold uppercase tracking-wider border border-accent">
                     <%= t('dashboard.public_badge') %>
                   </span>
                 <% else %>
-                  <span class="badge badge-outline border-base-300 py-3 px-3 text-[10px] font-semibold uppercase tracking-wider text-base-content/50">
+                  <span class="badge badge-outline border-base-300 py-2.5 px-3 text-[9px] font-bold uppercase tracking-wider text-base-content/50">
                     <%= t('dashboard.private_badge') %>
                   </span>
                 <% end %>
 
                 <% if letter.attachments.attached? %>
-                  <span class="badge badge-secondary py-3 px-3 text-[10px] font-semibold uppercase tracking-wider border border-accent flex items-center gap-1">
-                    <% if letter.attachments.size == 1 %>
-                      <%= t('dashboard.attachments_badge', count: 1) %>
-                    <% else %>
-                      <%= t('dashboard.attachments_badge_plural', count: letter.attachments.size) %>
-                    <% end %>
+                  <span class="badge badge-outline border-base-300 py-2.5 px-3 text-[9px] font-bold uppercase tracking-wider text-base-content/50 flex items-center gap-1">
+                    📎 <%= letter.attachments.size %>
+                  </span>
+                <% end %>
+
+                <% if letter.predictions.any? %>
+                  <span class="badge badge-primary py-2.5 px-3 text-[9px] font-bold uppercase tracking-wider flex items-center gap-1">
+                    🔮 <%= letter.predictions.size %> predictions
+                  </span>
+                <% end %>
+
+                <% if letter.emotional_snapshot.present? %>
+                  <span class="badge badge-accent py-2.5 px-3 text-[9px] font-bold uppercase tracking-wider flex items-center gap-1">
+                    🧠 Snapshot
                   </span>
                 <% end %>
               </div>
             </div>
 
-            <!-- Content Preview -->
+            <!-- Content Preview & Differentiator Summaries -->
             <% if letter.delivered? %>
               <div class="space-y-4">
-                <p class="text-sm sm:text-base font-serif italic text-base-content/80 leading-relaxed line-clamp-3">
+                <p class="text-sm font-serif italic text-base-content/80 leading-relaxed line-clamp-3">
                   "<%= letter.content %>"
                 </p>
+
+                <!-- Differentiators summary inline -->
+                <div class="grid md:grid-cols-2 gap-4 bg-base-200/20 p-4 rounded-xl border border-base-200/50">
+                  <!-- Emotional Evolution Summary -->
+                  <% if letter.emotional_snapshot.present? %>
+                    <div class="space-y-2">
+                      <p class="text-[10px] font-bold text-primary uppercase tracking-wider">🧠 Emotional Baseline delta</p>
+                      <div class="flex flex-wrap gap-3 text-xs">
+                        <div>
+                          <span class="text-base-content/50">Happiness:</span> 
+                          <span class="font-semibold text-primary">
+                            <%= letter.emotional_snapshot.happiness_level %> 
+                            <% if letter.reveal_happiness.present? %>
+                              &rarr; <%= letter.reveal_happiness %>
+                            <% end %>
+                          </span>
+                        </div>
+                        <div>
+                          <span class="text-base-content/50">Anxiety:</span> 
+                          <span class="font-semibold text-secondary">
+                            <%= letter.emotional_snapshot.anxiety_level %> 
+                            <% if letter.reveal_anxiety.present? %>
+                              &rarr; <%= letter.reveal_anxiety %>
+                            <% end %>
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  <% end %>
+
+                  <!-- Predictions matched summary -->
+                  <% if letter.predictions.any? %>
+                    <div class="space-y-2">
+                      <p class="text-[10px] font-bold text-primary uppercase tracking-wider">🔮 Predictions vs Reality</p>
+                      <% if letter.reveal_happiness.nil? %>
+                        <p class="text-xs text-accent italic font-semibold">🔒 Unrevealed - Open to record your reality!</p>
+                      <% else %>
+                        <% matched_count = letter.predictions.matched.count %>
+                        <% total_count = letter.predictions.count %>
+                        <div class="flex items-center gap-2">
+                          <div class="radial-progress text-primary font-bold text-[10px]" style="--value:<%= (matched_count.to_f / total_count * 100).round %>; --size:2.2rem; --thickness: 4px;" role="progressbar">
+                            <%= matched_count %>/<%= total_count %>
+                          </div>
+                          <span class="text-xs text-base-content/60"><%= matched_count %> out of <%= total_count %> prediction categories matched!</span>
+                        </div>
+                      <% end %>
+                    </div>
+                  <% end %>
+                </div>
+
                 <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-2">
                   <div class="text-[11px] text-base-content/40 flex items-center gap-3 font-sans">
                     <span>👁️ <%= letter.open_count == 1 ? t('letters.show_read_count', count: 1) : t('letters.show_read_count_plural', count: letter.open_count) %></span>
@@ -109,9 +181,16 @@
                       <span><%= t('letters.show_delivered') %>: <%= letter.opened_at.strftime('%m/%d/%Y') %></span>
                     <% end %>
                   </div>
-                  <a href="<%= letter_path(letter) %>" class="btn btn-outline btn-sm border-base-300 hover:bg-base-200 hover:text-primary rounded-xl text-xs font-semibold uppercase tracking-wider w-full sm:w-auto shadow-xs">
-                    <%= t('dashboard.btn_open').html_safe %>
-                  </a>
+                  
+                  <% if letter.reveal_happiness.nil? %>
+                    <a href="<%= letter_path(letter) %>" class="btn btn-accent btn-sm rounded-xl text-xs font-semibold uppercase tracking-wider w-full sm:w-auto shadow-xs">
+                      ⚡ Complete & Reveal Reality
+                    </a>
+                  <% else %>
+                    <a href="<%= letter_path(letter) %>" class="btn btn-outline btn-sm border-base-300 hover:bg-base-200 hover:text-primary rounded-xl text-xs font-semibold uppercase tracking-wider w-full sm:w-auto shadow-xs">
+                      <%= t('dashboard.btn_open').html_safe %>
+                    </a>
+                  <% end %>
                 </div>
               </div>
             <% else %>
@@ -120,11 +199,16 @@
                 <div class="flex items-center gap-3 text-sm text-primary">
                   <span class="text-2xl select-none">⏳</span>
                   <div>
-                    <p class="font-semibold text-sm"><%= t('dashboard.sealed_info_title') %></p>
-                    <p class="text-xs text-base-content/50"><%= t('dashboard.sealed_info_desc') %></p>
+                    <p class="font-semibold text-sm">Sealed Capsule in Travel</p>
+                    <p class="text-xs text-base-content/50">
+                      <% details = [] %>
+                      <% details << "#{letter.predictions.count} Predictions" if letter.predictions.any? %>
+                      <% details << "Emotional snapshot" if letter.emotional_snapshot.present? %>
+                      This capsule contains: <%= details.join(' & ') %> (hidden until delivery date).
+                    </p>
                   </div>
                 </div>
-                
+
                 <% days_left = (letter.deliver_at.to_date - Date.current).to_i %>
                 <div class="badge badge-accent py-3.5 px-4 text-[10px] font-bold tracking-wider uppercase border-0 self-start sm:self-auto shadow-xs">
                   <% if days_left == 1 %>

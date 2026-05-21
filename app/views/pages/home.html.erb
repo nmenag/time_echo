@@ -101,63 +101,7 @@
     </section>
   <% end %>
 
-  <!-- Premium Muted Pricing Section -->
-  <section class="space-y-12 bg-base-200/40 p-8 sm:p-12 rounded-3xl border border-base-200/50">
-    <div class="text-center space-y-3">
-      <h2 class="font-serif text-3xl sm:text-4xl text-primary font-normal"><%= t('landing.pricing_title') %></h2>
-      <p class="text-sm text-base-content/50 max-w-md mx-auto"><%= t('landing.pricing_subtitle') %></p>
-    </div>
 
-    <div class="grid md:grid-cols-2 gap-8 max-w-3xl mx-auto">
-      <!-- Free Tier Card -->
-      <div class="card card-bordered border-base-200 bg-base-100 p-8 rounded-box flex flex-col justify-between gap-6 card-hover-effect">
-        <div class="space-y-4">
-          <span class="badge badge-outline border-base-300 text-xs font-semibold px-2.5 py-1.5 uppercase"><%= t('landing.pricing_free') %></span>
-          <h3 class="font-serif text-2xl text-primary font-medium"><%= t('landing.pricing_free_name') %></h3>
-          <p class="text-sm text-base-content/60 font-sans"><%= t('landing.pricing_free_desc') %></p>
-          <div class="pt-2">
-            <span class="text-4xl font-serif text-primary font-bold"><%= t('landing.pricing_free_price') %></span>
-            <span class="text-xs text-base-content/40"><%= t('landing.pricing_free_price_desc') %></span>
-          </div>
-          <ul class="space-y-2 pt-2 text-xs text-base-content/70">
-            <li class="flex items-center gap-2">✓ <%= t('landing.pricing_free_feature1') %></li>
-            <li class="flex items-center gap-2">✓ <%= t('landing.pricing_free_feature2') %></li>
-            <li class="flex items-center gap-2">✓ <%= t('landing.pricing_free_feature3') %></li>
-            <li class="flex items-center gap-2">✓ <%= t('landing.pricing_free_feature4') %></li>
-          </ul>
-        </div>
-        <a href="<%= new_letter_path %>" class="btn btn-outline border-base-300 hover:bg-base-200 hover:text-primary rounded-xl w-full text-xs font-semibold uppercase tracking-wider">
-          <%= t('landing.pricing_free_btn') %>
-        </a>
-      </div>
-
-      <!-- Paid Tier Card -->
-      <div class="card card-bordered border-accent bg-secondary/30 p-8 rounded-box flex flex-col justify-between gap-6 card-hover-effect relative overflow-hidden">
-        <div class="absolute top-0 right-0">
-          <div class="badge badge-accent rounded-bl-xl rounded-tr-none px-3 py-2 text-[10px] font-semibold uppercase tracking-wider border-0"><%= t('landing.pricing_paid_popular') %></div>
-        </div>
-        <div class="space-y-4">
-          <span class="badge badge-accent text-xs font-semibold px-2.5 py-1.5 uppercase border-0"><%= t('landing.pricing_paid') %></span>
-          <h3 class="font-serif text-2xl text-primary font-medium"><%= t('landing.pricing_paid_name') %></h3>
-          <p class="text-sm text-base-content/60 font-sans"><%= t('landing.pricing_paid_desc') %></p>
-          <div class="pt-2">
-            <span class="text-4xl font-serif text-primary font-bold"><%= t('landing.pricing_paid_price') %></span>
-            <span class="text-xs text-base-content/40"><%= t('landing.pricing_paid_price_desc') %></span>
-          </div>
-          <ul class="space-y-2 pt-2 text-xs text-base-content/70">
-            <li class="flex items-center gap-2">✓ <%= t('landing.pricing_paid_feature1') %></li>
-            <li class="flex items-center gap-2">✓ <%= t('landing.pricing_paid_feature2') %></li>
-            <li class="flex items-center gap-2">✓ <%= t('landing.pricing_paid_feature3') %></li>
-            <li class="flex items-center gap-2">✓ <%= t('landing.pricing_paid_feature4') %></li>
-            <li class="flex items-center gap-2">✓ <%= t('landing.pricing_paid_feature5') %></li>
-          </ul>
-        </div>
-        <a href="<%= new_letter_path %>" class="btn btn-primary rounded-xl w-full text-xs font-semibold uppercase tracking-wider shadow-xs">
-          <%= t('landing.pricing_paid_btn') %>
-        </a>
-      </div>
-    </div>
-  </section>
 
   <!-- Premium Emotional Quote / Testimonial -->
   <section class="card card-bordered border-base-200 bg-base-100 p-8 sm:p-12 rounded-3xl text-center max-w-4xl mx-auto space-y-6 shadow-xs">

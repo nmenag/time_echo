@@ -1,62 +1,69 @@
-<div class="space-y-12 animate-fade-in">
+<div class="space-y-12 max-w-5xl mx-auto py-6 animate-fade-in">
   <!-- Analytics Header -->
-  <div class="pb-6 border-b border-warm-gray-200/60">
-    <h1 class="font-serif italic text-4xl text-warm-gray-900">Vault Analytics</h1>
-    <p class="text-sm text-warm-gray-500">A calm reflection of your communication metrics and capsule events.</p>
+  <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 pb-6 border-b border-base-200">
+    <div class="space-y-1.5">
+      <h1 class="font-serif italic text-4xl text-primary font-normal">Vault Reflection & Analytics</h1>
+      <p class="text-sm text-base-content/50">A peaceful retrospective of your emotional evolution, predictions, and capsule delivery metrics.</p>
+    </div>
+    <div>
+      <a href="<%= dashboard_path %>" class="btn btn-outline btn-md border-base-300 hover:bg-base-200 hover:text-primary rounded-xl px-5 text-xs font-semibold uppercase tracking-wider">
+        &larr; Back to Timeline
+      </a>
+    </div>
   </div>
 
   <!-- Metric Gauges (Visual Summary) -->
   <div class="grid md:grid-cols-3 gap-8">
     <!-- Open Rate Gauge -->
-    <div class="bg-white border border-warm-gray-200/60 p-8 rounded-2xl space-y-4">
+    <div class="card card-bordered border-base-200 bg-base-100 p-6 rounded-2xl shadow-xs space-y-4">
       <div class="flex items-center justify-between">
-        <h3 class="text-xs font-semibold text-warm-gray-500 uppercase tracking-wider">Capsule Open Rate</h3>
-        <span class="text-xl">👁️</span>
+        <h3 class="text-[10px] font-bold text-base-content/40 uppercase tracking-wider">Capsule Open Rate</h3>
+        <span class="text-lg">👁️</span>
       </div>
       <div class="flex items-baseline gap-2">
-        <span class="text-4xl font-semibold text-warm-gray-900"><%= @open_rate %>%</span>
-        <span class="text-xs text-warm-gray-400">opened</span>
+        <span class="text-4xl font-serif text-primary font-normal"><%= @open_rate %>%</span>
+        <span class="text-xs text-base-content/40">opened</span>
       </div>
-      <div class="w-full bg-warm-gray-100 rounded-full h-2">
-        <div class="bg-emerald-700 h-2 rounded-full transition-all duration-500" style="width: <%= @open_rate %>%"></div>
+      <div class="w-full bg-base-200 rounded-full h-1.5 font-sans">
+        <div class="bg-success h-1.5 rounded-full transition-all duration-500" style="width: <%= @open_rate %>%"></div>
       </div>
-      <p class="text-xs text-warm-gray-400 leading-relaxed">
+      <p class="text-xs text-base-content/40 leading-relaxed font-sans">
         The percentage of delivered letters that have been successfully opened and read in your vault.
       </p>
     </div>
 
     <!-- Click Rate Gauge -->
-    <div class="bg-white border border-warm-gray-200/60 p-8 rounded-2xl space-y-4">
+    <div class="card card-bordered border-base-200 bg-base-100 p-6 rounded-2xl shadow-xs space-y-4">
       <div class="flex items-center justify-between">
-        <h3 class="text-xs font-semibold text-warm-gray-500 uppercase tracking-wider">Link Click Rate</h3>
-        <span class="text-xl">🔗</span>
+        <h3 class="text-[10px] font-bold text-base-content/40 uppercase tracking-wider">Link Click Rate</h3>
+        <span class="text-lg">🔗</span>
       </div>
       <div class="flex items-baseline gap-2">
-        <span class="text-4xl font-semibold text-warm-gray-900"><%= @click_rate %>%</span>
-        <span class="text-xs text-warm-gray-400">clicked</span>
+        <span class="text-4xl font-serif text-secondary font-normal"><%= @click_rate %>%</span>
+        <span class="text-xs text-base-content/40">clicked</span>
       </div>
-      <div class="w-full bg-warm-gray-100 rounded-full h-2">
-        <div class="bg-amber-600 h-2 rounded-full transition-all duration-500" style="width: <%= @click_rate %>%"></div>
+      <div class="w-full bg-base-200 rounded-full h-1.5 font-sans">
+        <div class="bg-primary h-1.5 rounded-full transition-all duration-500" style="width: <%= @click_rate %>%"></div>
       </div>
-      <p class="text-xs text-warm-gray-400 leading-relaxed">
+      <p class="text-xs text-base-content/40 leading-relaxed font-sans">
         The percentage of letter notifications where the secure time-capsule link was clicked.
       </p>
     </div>
 
     <!-- Bounce Rate Gauge -->
-    <div class="bg-white border border-warm-gray-200/60 p-8 rounded-2xl space-y-4">
+    <div class="card card-bordered border-base-200 bg-base-100 p-6 rounded-2xl shadow-xs space-y-4">
       <div class="flex items-center justify-between">
-        <h3 class="text-xs font-semibold text-warm-gray-500 uppercase tracking-wider">Email Bounce Rate</h3>
-        <span class="text-xl">⚠️</span>
+        <h3 class="text-[10px] font-bold text-base-content/40 uppercase tracking-wider">Email Bounce Rate</h3>
+        <span class="text-lg">⚠️</span>
       </div>
       <div class="flex items-baseline gap-2">
-        <span class="text-4xl font-semibold text-warm-gray-900"><%= @bounce_rate %>%</span>
-        <span class="text-xs text-warm-gray-400">bounced</span>
+        <span class="text-4xl font-serif text-error font-normal"><%= @bounce_rate %>%</span>
+        <span class="text-xs text-base-content/40">bounced</span>
       </div>
-      <div class="w-full bg-warm-gray-100 rounded-full h-2">
-        <div class="bg-rose-600 h-2 rounded-full transition-all duration-500" style="width: <%= @bounce_rate %>%"></div>
+      <div class="w-full bg-base-200 rounded-full h-1.5 font-sans">
+        <div class="bg-error h-1.5 rounded-full transition-all duration-500" style="width: <%= @bounce_rate %>%"></div>
       </div>
-      <p class="text-xs text-warm-gray-400 leading-relaxed">
+      <p class="text-xs text-base-content/40 leading-relaxed font-sans">
         Delivery bounces reported by Resend. A lower percentage indicates highly reliable inbox deliverability.
       </p>
     </div>
@@ -64,39 +71,135 @@
 
   <!-- Detailed Stats Row -->
   <div class="grid sm:grid-cols-2 md:grid-cols-4 gap-6">
-    <div class="bg-white border border-warm-gray-200/60 p-6 rounded-2xl text-center space-y-1">
-      <p class="text-xs font-semibold text-warm-gray-500 uppercase tracking-wider">Total Written</p>
-      <p class="text-2xl font-serif font-semibold text-warm-gray-800"><%= @total_letters %></p>
+    <div class="card card-bordered border-base-200 bg-base-100 p-5 rounded-2xl text-center shadow-xs">
+      <p class="text-[9px] font-bold text-base-content/40 uppercase tracking-wider font-sans">Total Capsules</p>
+      <p class="text-2xl font-serif text-primary font-normal mt-1"><%= @total_letters %></p>
     </div>
-    <div class="bg-white border border-warm-gray-200/60 p-6 rounded-2xl text-center space-y-1">
-      <p class="text-xs font-semibold text-warm-gray-500 uppercase tracking-wider">Delivered Letters</p>
-      <p class="text-2xl font-serif font-semibold text-emerald-800"><%= @delivered_letters %></p>
+    <div class="card card-bordered border-base-200 bg-base-100 p-5 rounded-2xl text-center shadow-xs">
+      <p class="text-[9px] font-bold text-base-content/40 uppercase tracking-wider font-sans">Delivered</p>
+      <p class="text-2xl font-serif text-success font-normal mt-1"><%= @delivered_letters %></p>
     </div>
-    <div class="bg-white border border-warm-gray-200/60 p-6 rounded-2xl text-center space-y-1">
-      <p class="text-xs font-semibold text-warm-gray-500 uppercase tracking-wider">Scheduled Sealed</p>
-      <p class="text-2xl font-serif font-semibold text-amber-700"><%= @scheduled_letters %></p>
+    <div class="card card-bordered border-base-200 bg-base-100 p-5 rounded-2xl text-center shadow-xs">
+      <p class="text-[9px] font-bold text-base-content/40 uppercase tracking-wider font-sans">Scheduled Sealed</p>
+      <p class="text-2xl font-serif text-warning font-normal mt-1"><%= @scheduled_letters %></p>
     </div>
-    <div class="bg-white border border-warm-gray-200/60 p-6 rounded-2xl text-center space-y-1">
-      <p class="text-xs font-semibold text-warm-gray-500 uppercase tracking-wider">Total Reads</p>
-      <p class="text-2xl font-serif font-semibold text-warm-gray-800"><%= @total_opens %></p>
+    <div class="card card-bordered border-base-200 bg-base-100 p-5 rounded-2xl text-center shadow-xs">
+      <p class="text-[9px] font-bold text-base-content/40 uppercase tracking-wider font-sans">Total Reads</p>
+      <p class="text-2xl font-serif text-primary font-normal mt-1"><%= @total_opens %></p>
+    </div>
+  </div>
+
+  <!-- MAIN DIFFERENTIATOR ANALYTICS VIEW -->
+  <div class="grid md:grid-cols-2 gap-8">
+    <!-- Emotional Snapshot Trends -->
+    <div class="card card-bordered border-base-200 bg-base-100 p-8 rounded-2xl shadow-xs space-y-6">
+      <div class="flex items-center gap-2 border-b border-base-200 pb-3">
+        <span class="text-xl">🧠</span>
+        <h3 class="font-serif italic text-xl text-primary font-normal">Emotional Evolution Averages</h3>
+      </div>
+      <p class="text-xs text-base-content/50 leading-relaxed font-sans">
+        Observe the average shifts in your baseline emotional metrics over time. Values represent a comparison of your initial states at writing vs your current state when capsules are unlocked.
+      </p>
+
+      <div class="space-y-5 font-sans">
+        <!-- Average Happiness Shift -->
+        <div class="space-y-2">
+          <div class="flex justify-between items-center text-xs">
+            <span class="font-semibold text-primary uppercase text-[10px] tracking-wider">Happiness Index</span>
+            <span class="text-base-content/50">
+              <%= @avg_initial_happiness %> &rarr; <%= @avg_reveal_happiness %>
+            </span>
+          </div>
+          <div class="relative bg-base-200 h-3 rounded-full overflow-hidden">
+            <div class="bg-primary/50 absolute top-0 left-0 h-full rounded-full transition-all duration-500" style="width: <%= @avg_initial_happiness * 10 %>%"></div>
+            <div class="bg-accent absolute top-0 left-0 h-full rounded-full transition-all duration-500 opacity-80" style="width: <%= @avg_reveal_happiness * 10 %>%"></div>
+          </div>
+          <div class="flex justify-between text-[8px] font-bold text-base-content/30 uppercase">
+            <span>Initial (Past Self)</span>
+            <span>Current (Present Self)</span>
+          </div>
+        </div>
+
+        <!-- Average Anxiety Shift -->
+        <div class="space-y-2">
+          <div class="flex justify-between items-center text-xs">
+            <span class="font-semibold text-secondary uppercase text-[10px] tracking-wider">Anxiety Index</span>
+            <span class="text-base-content/50">
+              <%= @avg_initial_anxiety %> &rarr; <%= @avg_reveal_anxiety %>
+            </span>
+          </div>
+          <div class="relative bg-base-200 h-3 rounded-full overflow-hidden">
+            <div class="bg-secondary/50 absolute top-0 left-0 h-full rounded-full transition-all duration-500" style="width: <%= @avg_initial_anxiety * 10 %>%"></div>
+            <div class="bg-accent absolute top-0 left-0 h-full rounded-full transition-all duration-500 opacity-80" style="width: <%= @avg_reveal_anxiety * 10 %>%"></div>
+          </div>
+          <div class="flex justify-between text-[8px] font-bold text-base-content/30 uppercase">
+            <span>Initial (Past Self)</span>
+            <span>Current (Present Self)</span>
+          </div>
+        </div>
+
+        <!-- Average Motivation Shift -->
+        <div class="space-y-2">
+          <div class="flex justify-between items-center text-xs">
+            <span class="font-semibold text-accent uppercase text-[10px] tracking-wider">Motivation Index</span>
+            <span class="text-base-content/50">
+              <%= @avg_initial_motivation %> &rarr; <%= @avg_reveal_motivation %>
+            </span>
+          </div>
+          <div class="relative bg-base-200 h-3 rounded-full overflow-hidden">
+            <div class="bg-accent/40 absolute top-0 left-0 h-full rounded-full transition-all duration-500" style="width: <%= @avg_initial_motivation * 10 %>%"></div>
+            <div class="bg-primary absolute top-0 left-0 h-full rounded-full transition-all duration-500 opacity-80" style="width: <%= @avg_reveal_motivation * 10 %>%"></div>
+          </div>
+          <div class="flex justify-between text-[8px] font-bold text-base-content/30 uppercase">
+            <span>Initial (Past Self)</span>
+            <span>Current (Present Self)</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Predictions performance overview -->
+    <div class="card card-bordered border-base-200 bg-base-100 p-8 rounded-2xl shadow-xs space-y-6">
+      <div class="flex items-center gap-2 border-b border-base-200 pb-3">
+        <span class="text-xl">🔮</span>
+        <h3 class="font-serif italic text-xl text-primary font-normal">Predictions vs Reality Index</h3>
+      </div>
+      <p class="text-xs text-base-content/50 leading-relaxed font-sans">
+        Observe how accurate your predictions about the future are! The rate represents the percentage of completed predictions where reality aligned with what you expected.
+      </p>
+
+      <div class="flex flex-col items-center justify-center py-4 space-y-4 font-sans">
+        <!-- Radial progress metric -->
+        <div class="radial-progress text-primary font-serif italic text-3xl font-semibold" style="--value:<%= @prediction_match_rate %>; --size:8rem; --thickness: 8px;" role="progressbar">
+          <%= @prediction_match_rate %>%
+        </div>
+
+        <div class="text-center space-y-1">
+          <p class="text-xs font-semibold text-primary uppercase tracking-wider">Match Accuracy Rate</p>
+          <p class="text-xs text-base-content/40 leading-relaxed">
+            <%= @matched_predictions %> of <%= @completed_predictions %> completed predictions matched successfully.<br>
+            (<%= @total_predictions - @completed_predictions %> predictions are currently in transit / unrevealed).
+          </p>
+        </div>
+      </div>
     </div>
   </div>
 
   <!-- Recent activity timeline -->
-  <div class="bg-white border border-warm-gray-200/60 p-8 rounded-2xl space-y-6">
-    <h3 class="font-serif italic text-2xl text-warm-gray-900 border-b border-warm-gray-100 pb-4">Recent Capsule Activity</h3>
+  <div class="card card-bordered border-base-200 bg-base-100 p-8 rounded-2xl shadow-xs space-y-6">
+    <h3 class="font-serif italic text-2xl text-primary border-b border-base-200 pb-4">Recent Capsule Activity Log</h3>
 
     <% if @recent_events.any? %>
-      <div class="space-y-6">
+      <div class="space-y-6 font-sans">
         <% @recent_events.each do |event| %>
           <div class="flex items-start gap-4 text-sm">
-            <div class="w-8 h-8 rounded-xl bg-warm-gray-100 flex items-center justify-center shrink-0">
+            <div class="w-8 h-8 rounded-xl bg-base-200/50 text-base-content/60 flex items-center justify-center shrink-0 border border-base-200">
               <% case event.event_type %>
               <% when "user_logged_in" %>
                 🔓
               <% when "magic_link_requested" %>
                 ✉️
-              <% when "letter_sealed" %>
+              <% when "letter_created" %>
                 🔒
               <% when "letter_opened" %>
                 👁️
@@ -104,19 +207,23 @@
                 📬
               <% when "link_clicked" %>
                 🔗
+              <% when "prediction_completion" %>
+                🔮
+              <% when "emotional_snapshot_completion" %>
+                🧠
               <% else %>
                 📊
               <% end %>
             </div>
             
             <div class="space-y-1 py-1">
-              <p class="text-warm-gray-800">
+              <p class="text-base-content/80 text-xs sm:text-sm">
                 <% case event.event_type %>
                 <% when "user_logged_in" %>
                   Signed in to digital vault session.
                 <% when "magic_link_requested" %>
                   Requested magic sign-in link.
-                <% when "letter_sealed" %>
+                <% when "letter_created" %>
                   Sealed new time capsule scheduled for delivery on <%= Time.parse(event.metadata["deliver_at"]).strftime('%B %d, %Y') rescue "its release date" %>.
                 <% when "letter_opened" %>
                   Opened time capsule ID <strong class="font-mono text-xs"><%= event.metadata["letter_id"] %></strong>.
@@ -124,11 +231,15 @@
                   Resend successfully delivered letter notification.
                 <% when "link_clicked" %>
                   Clicked vault verification or access link.
+                <% when "prediction_completion" %>
+                  Updated predictions vs reality comparisons.
+                <% when "emotional_snapshot_completion" %>
+                  Logged today's emotional state baseline evaluation.
                 <% else %>
                   Performed general vault operation: <%= event.event_type.humanize %>.
                 <% end %>
               </p>
-              <p class="text-[10px] text-warm-gray-400">
+              <p class="text-[10px] text-base-content/40 font-mono">
                 <%= event.occurred_at.strftime('%B %d, %Y at %I:%M %p') %>
               </p>
             </div>
@@ -136,7 +247,7 @@
         <% end %>
       </div>
     <% else %>
-      <p class="text-xs text-warm-gray-400 italic">No activity has been logged inside your capsule history ledger yet.</p>
+      <p class="text-xs text-base-content/40 italic">No activity has been logged inside your capsule history ledger yet.</p>
     <% end %>
   </div>
 </div>

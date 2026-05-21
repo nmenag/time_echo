@@ -1,15 +1,16 @@
-<div class="max-w-3xl mx-auto py-4">
+<div class="max-w-4xl mx-auto py-6">
   <div class="card card-bordered border-base-200 bg-base-100 rounded-box shadow-xs overflow-hidden">
     <!-- Header -->
     <div class="p-6 sm:p-8 bg-base-200/30 border-b border-base-200 flex items-center justify-between">
       <div class="space-y-1">
+        <span class="badge badge-accent py-2 px-3 text-[10px] font-bold tracking-wider uppercase"><%= t('landing.badge') %></span>
         <h1 class="font-serif italic text-3xl text-primary font-normal"><%= t('letters.new_header') %></h1>
         <p class="text-xs text-base-content/50"><%= t('letters.new_subheader') %></p>
       </div>
       <div class="text-4xl text-primary/30 select-none hidden sm:block">✉️</div>
     </div>
 
-    <%= form_with model: @letter_form, url: letters_path, local: true, class: "divide-y divide-base-200", multipart: true do |f| %>
+    <%= form_with model: @letter_form, url: letters_path, local: true, class: "divide-y divide-base-200" do |f| %>
       <% if @letter_form.errors.any? %>
         <!-- Alert error using DaisyUI style -->
         <div class="p-6 bg-error/10 border-b border-error/20 text-error text-xs space-y-1.5 animate-fade-in">
@@ -24,13 +25,22 @@
         </div>
       <% end %>
 
+      <!-- Capsule Title -->
+      <div class="p-6 sm:p-8 space-y-2.5 bg-base-50/30">
+        <label class="label p-0">
+          <span class="label-text text-xs font-semibold text-primary uppercase tracking-wider">Capsule Title</span>
+        </label>
+        <%= f.text_field :title, placeholder: "e.g., A promise to my future self, My 30th Birthday, Hopes for next year", class: "input input-bordered w-full focus:border-neutral/30 focus:outline-none transition-all duration-200 rounded-xl bg-white", required: true %>
+        <p class="text-xs text-base-content/40 leading-relaxed">Give your time capsule a meaningful name so you can identify it in your timeline dashboard.</p>
+      </div>
+
       <!-- Email Field (Visible only if not logged in) -->
       <% unless user_signed_in? %>
         <div class="p-6 sm:p-8 space-y-2.5">
           <label class="label p-0">
             <span class="label-text text-xs font-semibold text-primary uppercase tracking-wider"><%= t('letters.label_email') %></span>
           </label>
-          <%= f.email_field :email, placeholder: "you@example.com", class: "input input-bordered w-full sm:w-2/3 focus:border-neutral/30 focus:outline-none transition-all duration-200 rounded-xl", required: true %>
+          <%= f.email_field :email, placeholder: "you@example.com", class: "input input-bordered w-full sm:w-2/3 focus:border-neutral/30 focus:outline-none transition-all duration-200 rounded-xl bg-white", required: true %>
           <p class="text-xs text-base-content/40 leading-relaxed"><%= t('letters.label_email_help') %></p>
         </div>
       <% end %>
@@ -40,7 +50,109 @@
         <label class="label p-0">
           <span class="label-text text-xs font-semibold text-primary uppercase tracking-wider"><%= t('letters.label_content') %></span>
         </label>
-        <%= f.text_area :content, placeholder: t('letters.placeholder_content'), rows: 14, class: "textarea textarea-bordered w-full p-6 font-serif text-lg leading-relaxed focus:border-neutral/30 focus:outline-none transition-all duration-300 rounded-2xl bg-base-100/50 resize-y placeholder:font-sans placeholder:text-base-content/30 writing-canvas", required: true %>
+        <%= f.text_area :content, placeholder: t('letters.placeholder_content'), rows: 12, class: "textarea textarea-bordered w-full p-6 font-serif text-lg leading-relaxed focus:border-neutral/30 focus:outline-none transition-all duration-300 rounded-2xl bg-base-100/50 resize-y placeholder:font-sans placeholder:text-base-content/30 writing-canvas", required: true %>
+      </div>
+
+      <!-- Differentiators: Emotional Snapshot & Future Predictions -->
+      <div class="p-6 sm:p-8 bg-base-200/10 space-y-8">
+        <div class="border-l-4 border-accent pl-4">
+          <h2 class="font-serif italic text-2xl text-primary font-normal">Personal Evolution Tracker</h2>
+          <p class="text-xs text-base-content/50">Capture your present self and imagine the life you'll live. These will become interactive echos once opened.</p>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-8">
+          <!-- Emotional Snapshot -->
+          <div class="card card-bordered border-base-200 bg-base-100 p-6 rounded-2xl shadow-xs space-y-6">
+            <div class="flex items-center gap-2 border-b border-base-200 pb-3">
+              <span class="text-xl">🧠</span>
+              <h3 class="font-serif italic text-lg text-primary font-normal">Emotional Snapshot</h3>
+            </div>
+            <p class="text-xs text-base-content/50 leading-relaxed">Rate your current levels from 1 to 10. We'll show you how much your internal baseline has shifted when this letter is unlocked in the future.</p>
+            
+            <!-- Happiness Level -->
+            <div class="space-y-2">
+              <div class="flex justify-between items-center">
+                <span class="text-xs font-semibold text-primary uppercase tracking-wider">Happiness level</span>
+                <span id="happiness_val" class="badge badge-primary font-bold text-[10px] py-2 px-2.5">5/10</span>
+              </div>
+              <%= f.range_field :happiness_level, min: 1, max: 10, class: "range range-primary range-xs", oninput: "document.getElementById('happiness_val').innerText = this.value + '/10'" %>
+              <div class="flex justify-between text-[9px] text-base-content/30 px-1 font-mono uppercase">
+                <span>Struggling</span>
+                <span>Content</span>
+                <span>Joyful</span>
+              </div>
+            </div>
+
+            <!-- Anxiety Level -->
+            <div class="space-y-2">
+              <div class="flex justify-between items-center">
+                <span class="text-xs font-semibold text-primary uppercase tracking-wider">Anxiety level</span>
+                <span id="anxiety_val" class="badge badge-secondary font-bold text-[10px] py-2 px-2.5">5/10</span>
+              </div>
+              <%= f.range_field :anxiety_level, min: 1, max: 10, class: "range range-secondary range-xs", oninput: "document.getElementById('anxiety_val').innerText = this.value + '/10'" %>
+              <div class="flex justify-between text-[9px] text-base-content/30 px-1 font-mono uppercase">
+                <span>Calm</span>
+                <span>Moderate</span>
+                <span>Overwhelmed</span>
+              </div>
+            </div>
+
+            <!-- Motivation Level -->
+            <div class="space-y-2">
+              <div class="flex justify-between items-center">
+                <span class="text-xs font-semibold text-primary uppercase tracking-wider">Motivation level</span>
+                <span id="motivation_val" class="badge badge-accent font-bold text-[10px] py-2 px-2.5">5/10</span>
+              </div>
+              <%= f.range_field :motivation_level, min: 1, max: 10, class: "range range-accent range-xs", oninput: "document.getElementById('motivation_val').innerText = this.value + '/10'" %>
+              <div class="flex justify-between text-[9px] text-base-content/30 px-1 font-mono uppercase">
+                <span>Uninspired</span>
+                <span>Steady</span>
+                <span>Driven</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Future Predictions -->
+          <div class="card card-bordered border-base-200 bg-base-100 p-6 rounded-2xl shadow-xs space-y-5">
+            <div class="flex items-center gap-2 border-b border-base-200 pb-3">
+              <span class="text-xl">🔮</span>
+              <h3 class="font-serif italic text-lg text-primary font-normal">Predictions vs Reality</h3>
+            </div>
+            <p class="text-xs text-base-content/50 leading-relaxed">Where do you see yourself? When this letter is delivered, the app will ask you to compare these predictions with your actual reality.</p>
+            
+            <div class="space-y-4">
+              <!-- City -->
+              <div class="space-y-1">
+                <label class="text-[10px] font-semibold text-primary uppercase tracking-wider block">Where will you live?</label>
+                <%= f.text_field :prediction_city, placeholder: "e.g., Bogotá, Paris, Tokyo...", class: "input input-bordered input-sm w-full rounded-xl text-sm focus:border-neutral/30 focus:outline-none bg-base-100" %>
+              </div>
+
+              <!-- Salary -->
+              <div class="space-y-1">
+                <label class="text-[10px] font-semibold text-primary uppercase tracking-wider block">Future Salary/Income level?</label>
+                <%= f.text_field :prediction_salary, placeholder: "e.g., $75k/year, financially stable...", class: "input input-bordered input-sm w-full rounded-xl text-sm focus:border-neutral/30 focus:outline-none bg-base-100" %>
+              </div>
+
+              <!-- Relationship -->
+              <div class="space-y-1">
+                <label class="text-[10px] font-semibold text-primary uppercase tracking-wider block">Relationship status?</label>
+                <%= f.text_field :prediction_relationship, placeholder: "e.g., single & healing, married...", class: "input input-bordered input-sm w-full rounded-xl text-sm focus:border-neutral/30 focus:outline-none bg-base-100" %>
+              </div>
+
+              <!-- Career -->
+              <div class="space-y-1">
+                <label class="text-[10px] font-semibold text-primary uppercase tracking-wider block">Career/Job situation?</label>
+                <%= f.text_field :prediction_career, placeholder: "e.g., lead developer, running a startup...", class: "input input-bordered input-sm w-full rounded-xl text-sm focus:border-neutral/30 focus:outline-none bg-base-100" %>
+              </div>
+
+              <!-- Achievement -->
+              <div class="space-y-1">
+                <label class="text-[10px] font-semibold text-primary uppercase tracking-wider block">Biggest personal achievement?</label>
+                <%= f.text_field :prediction_achievement, placeholder: "e.g., run a marathon, write a novel...", class: "input input-bordered input-sm w-full rounded-xl text-sm focus:border-neutral/30 focus:outline-none bg-base-100" %>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
 
       <!-- Settings & Date Picker -->
@@ -57,16 +169,16 @@
 
           <!-- Shortcuts presets inside an elegant group -->
           <div class="flex flex-wrap gap-2 pt-1">
-            <button type="button" onclick="setPresetDate(180)" class="btn btn-outline btn-xs rounded-lg border-base-300 hover:bg-base-200 hover:text-primary text-xs font-medium px-3">
+            <button type="button" onclick="setPresetDate(180)" class="btn btn-outline btn-xs rounded-lg border-base-300 hover:bg-base-200 hover:text-primary text-[10px] font-medium px-3">
               <%= t('letters.preset_6m') %>
             </button>
-            <button type="button" onclick="setPresetDate(365)" class="btn btn-outline btn-xs rounded-lg border-base-300 hover:bg-base-200 hover:text-primary text-xs font-medium px-3">
+            <button type="button" onclick="setPresetDate(365)" class="btn btn-outline btn-xs rounded-lg border-base-300 hover:bg-base-200 hover:text-primary text-[10px] font-medium px-3">
               <%= t('letters.preset_1y') %>
             </button>
-            <button type="button" onclick="setPresetDate(1095)" class="btn btn-outline btn-xs rounded-lg border-base-300 hover:bg-base-200 hover:text-primary text-xs font-medium px-3">
+            <button type="button" onclick="setPresetDate(1095)" class="btn btn-outline btn-xs rounded-lg border-base-300 hover:bg-base-200 hover:text-primary text-[10px] font-medium px-3">
               <%= t('letters.preset_3y') %>
             </button>
-            <button type="button" onclick="setPresetDate(1825)" class="btn btn-outline btn-xs rounded-lg border-base-300 hover:bg-base-200 hover:text-primary text-xs font-medium px-3">
+            <button type="button" onclick="setPresetDate(1825)" class="btn btn-outline btn-xs rounded-lg border-base-300 hover:bg-base-200 hover:text-primary text-[10px] font-medium px-3">
               <%= t('letters.preset_5y') %>
             </button>
           </div>
@@ -74,15 +186,6 @@
 
         <!-- Visibility & Multimedia Options -->
         <div class="space-y-6">
-          <!-- Multimedia Uploads -->
-          <div class="space-y-2.5">
-            <label class="label p-0">
-              <span class="label-text text-xs font-semibold text-primary uppercase tracking-wider"><%= t('letters.label_attachments') %></span>
-            </label>
-            <%= f.file_field :attachments, multiple: true, class: "file-input file-input-bordered file-input-sm w-full rounded-xl bg-white focus:outline-none focus:border-neutral/30 file:bg-primary file:hover:bg-neutral file:text-white" %>
-            <p class="text-xs text-base-content/40 leading-relaxed"><%= t('letters.label_attachments_help') %></p>
-          </div>
-
           <!-- Public Story Option using form-control & checkbox -->
           <div class="form-control">
             <label class="label cursor-pointer items-start justify-start gap-3 p-0">

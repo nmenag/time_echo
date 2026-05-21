@@ -22,17 +22,18 @@
   </head>
 
   <body class="bg-base-100 text-base-content font-sans min-h-screen flex flex-col antialiased selection:bg-secondary">
-    <!-- Premium Minimalist Navigation Bar using DaisyUI Navbar -->
+    <!-- Premium Minimalist Navigation Bar using Flexbox -->
     <header class="sticky top-0 z-50 transition-all duration-300 bg-base-100/80 backdrop-blur-md border-b border-base-200">
-      <div class="navbar max-w-6xl mx-auto px-4 md:px-6 h-16 min-h-16">
-        <div class="navbar-start">
-          <!-- Logo -->
+      <div class="max-w-6xl mx-auto px-4 md:px-6 h-16 flex items-center justify-between">
+        <!-- Logo -->
+        <div class="flex items-center">
           <a href="<%= root_path %>" class="font-serif italic text-2xl text-primary tracking-tight hover:opacity-80 transition-opacity">
             <%= t('brand') %>
           </a>
         </div>
 
-        <div class="navbar-end flex gap-1 sm:gap-2">
+        <!-- Nav Links & Controls -->
+        <div class="flex items-center gap-1.5 sm:gap-2">
           <!-- Desktop Nav Links -->
           <div class="hidden md:flex items-center gap-1 mr-2">
             <a href="<%= new_letter_path %>" class="btn btn-ghost btn-sm text-sm font-medium hover:bg-base-200 rounded-lg">
@@ -51,20 +52,20 @@
             <% end %>
           </div>
 
-          <!-- Language Switcher Dropdown -->
-          <div class="dropdown dropdown-end mr-1">
-            <label tabindex="0" class="btn btn-ghost btn-sm gap-1 hover:bg-base-200 rounded-lg text-xs font-semibold uppercase">
+          <!-- Language Switcher Dropdown (Details/Summary) -->
+          <details class="dropdown dropdown-end mr-1">
+            <summary class="btn btn-ghost btn-sm gap-1 hover:bg-base-200 rounded-lg text-xs font-semibold uppercase list-none cursor-pointer [&::-webkit-details-marker]:hidden">
               🌐 <%= I18n.locale %>
-            </label>
-            <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[50] p-2 shadow bg-base-100 border border-base-200 rounded-box w-28 gap-0.5">
+            </summary>
+            <ul class="menu menu-sm dropdown-content mt-2 z-[50] p-2 shadow bg-base-100 border border-base-200 rounded-box w-28 gap-0.5">
               <li>
-                <%= link_to "English", url_for(locale: :en), class: "py-2 rounded-lg #{'active bg-secondary' if I18n.locale == :en}" %>
+                <%= link_to "English", url_for(locale: :en), class: "py-2 rounded-lg #{'menu-active bg-secondary' if I18n.locale == :en}" %>
               </li>
               <li>
-                <%= link_to "Español", url_for(locale: :es), class: "py-2 rounded-lg #{'active bg-secondary' if I18n.locale == :es}" %>
+                <%= link_to "Español", url_for(locale: :es), class: "py-2 rounded-lg #{'menu-active bg-secondary' if I18n.locale == :es}" %>
               </li>
             </ul>
-          </div>
+          </details>
 
           <!-- Auth Buttons -->
           <% if user_signed_in? %>
@@ -82,14 +83,14 @@
             </a>
           <% end %>
 
-          <!-- Mobile Dropdown Menu -->
-          <div class="dropdown dropdown-end md:hidden ml-1">
-            <label tabindex="0" class="btn btn-ghost btn-circle btn-sm">
+          <!-- Mobile Dropdown Menu (Details/Summary) -->
+          <details class="dropdown dropdown-end md:hidden ml-1">
+            <summary class="btn btn-ghost btn-circle btn-sm list-none cursor-pointer [&::-webkit-details-marker]:hidden">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7" />
               </svg>
-            </label>
-            <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-3 shadow bg-base-100 border border-base-200 rounded-box w-52 gap-1">
+            </summary>
+            <ul class="menu menu-sm dropdown-content mt-2 z-[50] p-3 shadow bg-base-100 border border-base-200 rounded-box w-52 gap-1">
               <li>
                 <a href="<%= new_letter_path %>" class="py-2.5 rounded-lg active:bg-secondary">
                   <%= t('navigation.write') %>
@@ -117,7 +118,7 @@
                 </li>
               <% end %>
             </ul>
-          </div>
+          </details>
         </div>
       </div>
     </header>

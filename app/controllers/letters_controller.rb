@@ -71,6 +71,50 @@ class LettersController < ApplicationController
     end
   end
 
+  # Post endpoint to update predictions reality
+  def update_predictions
+    @letter = find_letter
+    if @letter.nil? || @letter.pending?
+      redirect_to root_path, alert: "This letter is private or cannot be accessed."
+      return
+    end
+
+    policy = LetterPolicy.new(current_user_email, @letter)
+    unless policy.show?
+      redirect_to root_path, alert: "You are not authorized to modify this letter."
+      return
+    end
+
+    Letter.transaction do
+      # Update reveal emotions if provided
+      @letter.update!(
+        reveal_happiness: params[:reveal_happiness],
+        reveal_anxiety: params[:reveal_anxiety],
+        reveal_motivation: params[:reveal_motivation]
+      )
+
+      # Update predictions
+      if params[:predictions].present?
+        params[:predictions].each do |pred_id, pred_params|
+          prediction = @letter.predictions.find_by(id: pred_id)
+          if prediction
+            prediction.update!(
+              reality: pred_params[:reality],
+              matched: ActiveModel::Type::Boolean.new.cast(pred_params[:matched])
+            )
+          end
+        end
+      end
+
+      # Track events in analytics
+      Analytics::TrackEventService.call("prediction_completion", { letter_id: @letter.id, email: @letter.email })
+      Analytics::TrackEventService.call("emotional_snapshot_completion", { letter_id: @letter.id, email: @letter.email })
+    end
+
+    flash[:success] = "Reality updated! Reflect on how your life has evolved."
+    redirect_to letter_path(@letter)
+  end
+
   # Success page
   def success
     @email = flash[:success_email]
@@ -100,6 +144,10 @@ class LettersController < ApplicationController
   end
 
   def letter_params
-    params.require(:letter_form).permit(:email, :content, :deliver_at, :public, attachments: [])
+    params.require(:letter_form).permit(
+      :title, :email, :content, :deliver_at, :public,
+      :prediction_city, :prediction_salary, :prediction_relationship, :prediction_career, :prediction_achievement,
+      :happiness_level, :anxiety_level, :motivation_level
+    )
   end
 end

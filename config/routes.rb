@@ -15,6 +15,9 @@ Rails.application.routes.draw do
   # Letters & Digital Vault
   get "letters/success", to: "letters#success", as: :success_letters
   resources :letters, only: [:new, :create, :show] do
+    member do
+      post :update_predictions
+    end
     collection do
       get "public", to: "letters#public_feed", as: :public_feed
     end

@@ -1,12 +1,15 @@
 class Letter < ApplicationRecord
-  has_many_attached :attachments
+  has_many :predictions, dependent: :destroy
+  has_one :emotional_snapshot, dependent: :destroy
 
   STATUSES = %w[draft pending delivered].freeze
 
+  validates :title, presence: true
   validates :email, presence: true, format: { with: URI::MailTo::EMAIL_REGEXP }
   validates :content, presence: true
   validates :deliver_at, presence: true
   validates :status, inclusion: { in: STATUSES }
+  validates :reveal_happiness, :reveal_anxiety, :reveal_motivation, numericality: { only_integer: true, in: 1..10 }, allow_nil: true
 
   validate :deliver_at_must_be_in_future, on: :create
 
