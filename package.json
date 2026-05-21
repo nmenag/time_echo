@@ -1,0 +1,15 @@
+{
+  "name": "time_echo",
+  "private": true,
+  "dependencies": {
+    "daisyui": "^5.0.0-beta.0"
+  },
+  "devDependencies": {
+    "tailwindcss": "^4.0.0",
+    "@tailwindcss/cli": "^4.0.0"
+  },
+  "scripts": {
+    "build:css": "tailwindcss -i app/assets/stylesheets/application.tailwind.css -o app/assets/builds/tailwind.css --minify",
+    "watch:css": "tailwindcss -i app/assets/stylesheets/application.tailwind.css -o app/assets/builds/tailwind.css --watch"
+  }
+}

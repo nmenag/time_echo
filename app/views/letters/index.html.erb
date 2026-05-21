@@ -1,116 +1,137 @@
 <div class="space-y-12">
-  <!-- Header & Vault Stats -->
-  <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 pb-6 border-b border-warm-gray-200/60">
-    <div class="space-y-1">
-      <h1 class="font-serif italic text-4xl text-warm-gray-900">Your digital vault</h1>
-      <p class="text-sm text-warm-gray-500">Safekeeping your memories, dreams, and check-ins across time.</p>
+  <!-- Header & Vault Actions -->
+  <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 pb-6 border-b border-base-200">
+    <div class="space-y-1.5">
+      <h1 class="font-serif italic text-4xl text-primary font-normal"><%= t('dashboard.title') %></h1>
+      <p class="text-sm text-base-content/50"><%= t('dashboard.subtitle') %></p>
     </div>
     <div>
-      <a href="<%= new_letter_path %>" class="inline-flex items-center gap-2 px-5 py-3 bg-warm-gray-800 hover:bg-warm-gray-900 text-white font-semibold rounded-xl text-sm shadow-sm transition-all duration-200 cursor-pointer">
-        ✏️ Write New Letter
+      <a href="<%= new_letter_path %>" class="btn btn-primary btn-md rounded-xl px-5 shadow-xs font-semibold text-xs tracking-wider uppercase">
+        <%= t('dashboard.btn_write') %>
       </a>
     </div>
   </div>
 
-  <!-- Stats Grid -->
-  <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
-    <div class="bg-white border border-warm-gray-200/60 p-6 rounded-2xl">
-      <p class="text-xs font-semibold text-warm-gray-500 uppercase tracking-wider">Total Capsules</p>
-      <h3 class="font-serif text-3xl font-semibold text-warm-gray-900 pt-2"><%= @letters.count %></h3>
+  <!-- Premium DaisyUI Stats Grid -->
+  <div class="stats stats-vertical md:stats-horizontal border border-base-200 w-full rounded-box bg-base-100 shadow-xs divide-y md:divide-y-0 md:divide-x divide-base-200">
+    <!-- Stat 1 -->
+    <div class="stat p-6">
+      <div class="stat-title text-[10px] font-semibold text-base-content/40 uppercase tracking-wider"><%= t('dashboard.stat_total') %></div>
+      <div class="stat-value font-serif text-4xl text-primary font-normal mt-1"><%= @letters.count %></div>
+      <div class="stat-desc text-[11px] text-base-content/40 mt-1"><%= t('dashboard.stat_total_sub') %></div>
     </div>
-    <div class="bg-white border border-warm-gray-200/60 p-6 rounded-2xl">
-      <p class="text-xs font-semibold text-warm-gray-500 uppercase tracking-wider">Delivered</p>
-      <h3 class="font-serif text-3xl font-semibold text-emerald-800 pt-2"><%= @letters.delivered.count %></h3>
+    
+    <!-- Stat 2 -->
+    <div class="stat p-6">
+      <div class="stat-title text-[10px] font-semibold text-base-content/40 uppercase tracking-wider"><%= t('dashboard.stat_delivered') %></div>
+      <div class="stat-value font-serif text-4xl text-success font-normal mt-1"><%= @letters.delivered.count %></div>
+      <div class="stat-desc text-[11px] text-base-content/40 mt-1"><%= t('dashboard.stat_delivered_sub') %></div>
     </div>
-    <div class="bg-white border border-warm-gray-200/60 p-6 rounded-2xl">
-      <p class="text-xs font-semibold text-warm-gray-500 uppercase tracking-wider">Sealed</p>
-      <h3 class="font-serif text-3xl font-semibold text-amber-700 pt-2"><%= @letters.pending.count %></h3>
+    
+    <!-- Stat 3 -->
+    <div class="stat p-6">
+      <div class="stat-title text-[10px] font-semibold text-base-content/40 uppercase tracking-wider"><%= t('dashboard.stat_sealed') %></div>
+      <div class="stat-value font-serif text-4xl text-warning font-normal mt-1"><%= @letters.pending.count %></div>
+      <div class="stat-desc text-[11px] text-base-content/40 mt-1"><%= t('dashboard.stat_sealed_sub') %></div>
     </div>
-    <div class="bg-white border border-warm-gray-200/60 p-6 rounded-2xl">
-      <p class="text-xs font-semibold text-warm-gray-500 uppercase tracking-wider">Total Reads</p>
-      <h3 class="font-serif text-3xl font-semibold text-warm-gray-900 pt-2"><%= @letters.sum(:open_count) %></h3>
+    
+    <!-- Stat 4 -->
+    <div class="stat p-6">
+      <div class="stat-title text-[10px] font-semibold text-base-content/40 uppercase tracking-wider"><%= t('dashboard.stat_reads') %></div>
+      <div class="stat-value font-serif text-4xl text-primary font-normal mt-1"><%= @letters.sum(:open_count) %></div>
+      <div class="stat-desc text-[11px] text-base-content/40 mt-1"><%= t('dashboard.stat_reads_sub') %></div>
     </div>
   </div>
 
   <!-- Vault Timeline -->
   <% if @letters.any? %>
-    <div class="relative pl-6 border-l border-warm-gray-200/80 space-y-12">
+    <div class="relative pl-6 border-l border-base-200 space-y-12">
       <% @letters.each do |letter| %>
         <div class="relative">
           <!-- Dot node in timeline -->
           <% if letter.delivered? %>
-            <div class="absolute -left-[31px] top-1.5 w-4 h-4 bg-emerald-700 border-4 border-warm-gray-100 rounded-full"></div>
+            <div class="absolute -left-[32px] top-2.5 w-4 h-4 bg-success border-4 border-base-100 rounded-full"></div>
           <% else %>
-            <div class="absolute -left-[31px] top-1.5 w-4 h-4 bg-amber-600 border-4 border-warm-gray-100 rounded-full"></div>
+            <div class="absolute -left-[32px] top-2.5 w-4 h-4 bg-accent border-4 border-base-100 rounded-full"></div>
           <% end %>
 
-          <!-- Timeline Card -->
-          <div class="bg-white border border-warm-gray-200/60 rounded-2xl p-6 sm:p-8 hover:shadow-md transition-shadow space-y-4">
-            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-warm-gray-100 pb-4">
+          <!-- Timeline Card using DaisyUI Card styling -->
+          <div class="card card-bordered border-base-200 bg-base-100 rounded-box card-hover-effect p-6 sm:p-8 space-y-5">
+            <!-- Card Header -->
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-base-200 pb-4">
               <div class="space-y-1">
-                <span class="text-xs font-semibold text-warm-gray-500 uppercase tracking-wider">
-                  <%= letter.delivered? ? "Delivered" : "Sealed Capsule" %>
+                <span class="text-[10px] font-semibold text-base-content/40 uppercase tracking-wider block">
+                  <%= letter.delivered? ? t('dashboard.delivered_tag') : t('dashboard.sealed_tag') %>
                 </span>
-                <h3 class="font-serif italic text-lg text-warm-gray-900">
+                <h3 class="font-serif italic text-lg sm:text-xl text-primary font-normal">
                   <% if letter.delivered? %>
-                    Opened on <%= letter.delivered_at.strftime('%B %d, %Y') %>
+                    <%= t('dashboard.opened_on', date: letter.delivered_at.strftime('%B %d, %Y')) %>
                   <% else %>
-                    Opening on <%= letter.deliver_at.strftime('%B %d, %Y') %>
+                    <%= t('dashboard.opening_on', date: letter.deliver_at.strftime('%B %d, %Y')) %>
                   <% end %>
                 </h3>
               </div>
 
-              <!-- Badges -->
+              <!-- Pill Badges -->
               <div class="flex flex-wrap gap-2 items-center">
                 <% if letter.public? %>
-                  <span class="px-2.5 py-1 bg-warm-gray-100 text-warm-gray-600 border border-warm-gray-200 text-xs font-medium rounded-lg">
-                    🌍 Publicly Shared
+                  <span class="badge badge-secondary py-3 px-3 text-[10px] font-semibold uppercase tracking-wider border border-accent">
+                    <%= t('dashboard.public_badge') %>
                   </span>
                 <% else %>
-                  <span class="px-2.5 py-1 bg-warm-gray-50 text-warm-gray-500 border border-warm-gray-100 text-xs font-medium rounded-lg">
-                    🔒 Private
+                  <span class="badge badge-outline border-base-300 py-3 px-3 text-[10px] font-semibold uppercase tracking-wider text-base-content/50">
+                    <%= t('dashboard.private_badge') %>
                   </span>
                 <% end %>
 
                 <% if letter.attachments.attached? %>
-                  <span class="px-2.5 py-1 bg-warm-gray-100 text-warm-gray-600 border border-warm-gray-200 text-xs font-medium rounded-lg flex items-center gap-1">
-                    📎 <%= letter.attachments.size %> attachment<%= 's' if letter.attachments.size > 1 %>
+                  <span class="badge badge-secondary py-3 px-3 text-[10px] font-semibold uppercase tracking-wider border border-accent flex items-center gap-1">
+                    <% if letter.attachments.size == 1 %>
+                      <%= t('dashboard.attachments_badge', count: 1) %>
+                    <% else %>
+                      <%= t('dashboard.attachments_badge_plural', count: letter.attachments.size) %>
+                    <% end %>
                   </span>
                 <% end %>
               </div>
             </div>
 
-            <!-- Content preview -->
+            <!-- Content Preview -->
             <% if letter.delivered? %>
               <div class="space-y-4">
-                <p class="text-sm font-serif italic text-warm-gray-700 leading-relaxed line-clamp-3">
+                <p class="text-sm sm:text-base font-serif italic text-base-content/80 leading-relaxed line-clamp-3">
                   "<%= letter.content %>"
                 </p>
-                <div class="flex items-center justify-between pt-2">
-                  <div class="text-xs text-warm-gray-500 flex items-center gap-3">
-                    <span>👁️ Read <%= pluralize(letter.open_count, "time") %></span>
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-2">
+                  <div class="text-[11px] text-base-content/40 flex items-center gap-3 font-sans">
+                    <span>👁️ <%= letter.open_count == 1 ? t('letters.show_read_count', count: 1) : t('letters.show_read_count_plural', count: letter.open_count) %></span>
                     <% if letter.opened_at.present? %>
-                      <span>First opened: <%= letter.opened_at.strftime('%m/%d/%Y') %></span>
+                      <span><%= t('letters.show_delivered') %>: <%= letter.opened_at.strftime('%m/%d/%Y') %></span>
                     <% end %>
                   </div>
-                  <a href="<%= letter_path(letter) %>" class="px-4 py-2 bg-warm-gray-50 border border-warm-gray-200 text-warm-gray-800 hover:bg-warm-gray-800 hover:text-white rounded-xl text-xs font-semibold shadow-xs transition-all duration-200">
-                    Open Full Capsule &rarr;
+                  <a href="<%= letter_path(letter) %>" class="btn btn-outline btn-sm border-base-300 hover:bg-base-200 hover:text-primary rounded-xl text-xs font-semibold uppercase tracking-wider w-full sm:w-auto shadow-xs">
+                    <%= t('dashboard.btn_open').html_safe %>
                   </a>
                 </div>
               </div>
             <% else %>
-              <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-warm-gray-50/50 p-4 rounded-xl border border-warm-gray-100">
-                <div class="flex items-center gap-3 text-sm text-warm-gray-800">
-                  <span class="text-xl">⏳</span>
+              <!-- Countdown Badge / Sealed State -->
+              <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-base-200/40 p-4 rounded-xl border border-base-200/50">
+                <div class="flex items-center gap-3 text-sm text-primary">
+                  <span class="text-2xl select-none">⏳</span>
                   <div>
-                    <p class="font-semibold">Sealed away safely</p>
-                    <p class="text-xs text-warm-gray-500">The content is hidden until the delivery date is reached.</p>
+                    <p class="font-semibold text-sm"><%= t('dashboard.sealed_info_title') %></p>
+                    <p class="text-xs text-base-content/50"><%= t('dashboard.sealed_info_desc') %></p>
                   </div>
                 </div>
                 
                 <% days_left = (letter.deliver_at.to_date - Date.current).to_i %>
-                <div class="px-3.5 py-1.5 bg-amber-50 border border-amber-200/80 text-amber-800 rounded-lg text-xs font-semibold tracking-wide uppercase">
-                  Opening in <%= pluralize(days_left, "day") %>
+                <div class="badge badge-accent py-3.5 px-4 text-[10px] font-bold tracking-wider uppercase border-0 self-start sm:self-auto shadow-xs">
+                  <% if days_left == 1 %>
+                    <%= t('dashboard.opening_in', count: 1) %>
+                  <% else %>
+                    <%= t('dashboard.opening_in_plural', count: days_left) %>
+                  <% end %>
                 </div>
               </div>
             <% end %>
@@ -119,18 +140,19 @@
       <% end %>
     </div>
   <% else %>
-    <div class="bg-white border border-warm-gray-200/60 p-12 rounded-3xl text-center max-w-xl mx-auto space-y-6">
-      <div class="w-16 h-16 bg-warm-gray-100 text-warm-gray-400 rounded-full flex items-center justify-center text-2xl mx-auto select-none">
+    <!-- Empty Vault State -->
+    <div class="card card-bordered border-base-200 bg-base-100 p-8 sm:p-12 rounded-3xl text-center max-w-xl mx-auto space-y-6 shadow-xs">
+      <div class="w-16 h-16 bg-base-200/50 text-base-content/30 rounded-full flex items-center justify-center text-2xl mx-auto select-none border border-base-200">
         📭
       </div>
       <div class="space-y-2">
-        <h3 class="font-serif italic text-2xl text-warm-gray-900">Your vault is empty</h3>
-        <p class="text-sm text-warm-gray-500 leading-relaxed">
-          You haven't written any letters yet! Start your journey by writing a message to your future self.
+        <h3 class="font-serif italic text-2xl text-primary font-normal"><%= t('dashboard.empty_title') %></h3>
+        <p class="text-sm text-base-content/50 leading-relaxed max-w-sm mx-auto font-sans">
+          <%= t('dashboard.empty_desc') %>
         </p>
       </div>
-      <a href="<%= new_letter_path %>" class="inline-block px-6 py-3 bg-warm-gray-800 hover:bg-warm-gray-900 text-white font-semibold rounded-xl text-sm shadow-sm transition-all cursor-pointer">
-        Write Your First Letter
+      <a href="<%= new_letter_path %>" class="btn btn-primary rounded-xl px-6 font-semibold text-xs tracking-wider uppercase shadow-xs">
+        <%= t('dashboard.empty_btn') %>
       </a>
     </div>
   <% end %>

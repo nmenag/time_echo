@@ -2,6 +2,16 @@ class ApplicationController < ActionController::Base
   # Only allow modern browsers supporting webp images, web push, badges, import maps, CSS nesting, and CSS :has.
   allow_browser versions: :modern
 
+  before_action :set_locale
+
+  def set_locale
+    # Support locale from params or session, falling back to default
+    if params[:locale] && I18n.available_locales.include?(params[:locale].to_sym)
+      session[:locale] = params[:locale].to_sym
+    end
+    I18n.locale = session[:locale] || I18n.default_locale
+  end
+
   # Changes to the importmap will invalidate the etag for HTML responses
   stale_when_importmap_changes
 
@@ -19,7 +29,7 @@ class ApplicationController < ActionController::Base
 
   def authenticate_user!
     unless user_signed_in?
-      redirect_to login_path, alert: "Please sign in to access your digital capsule vault."
+      redirect_to login_path, alert: t('flash.login_required')
     end
   end
 end

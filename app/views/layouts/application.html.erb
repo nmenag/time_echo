@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html>
+<html data-theme="timeecho" class="scroll-smooth">
   <head>
-    <title><%= content_for(:title) || "TimeEcho — Digital Time Capsule & Nostalgic Journaling" %></title>
+    <title><%= content_for(:title) || "TimeEcho — #{t('slogan')}" %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="application-name" content="TimeEcho">
@@ -21,83 +21,144 @@
     <%= javascript_importmap_tags %>
   </head>
 
-  <body class="bg-warm-gray-100 text-warm-gray-800 font-sans min-h-screen flex flex-col selection:bg-warm-gray-200">
-    <!-- Beautiful Calm Navigation Bar -->
-    <header class="border-b border-warm-gray-200/60 bg-white/70 backdrop-blur-md sticky top-0 z-50 transition-all duration-300">
-      <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
-        <a href="<%= root_path %>" class="font-serif italic text-2xl text-warm-gray-900 tracking-tight hover:opacity-80 transition-opacity">
-          TimeEcho
-        </a>
-
-        <nav class="flex items-center gap-6 text-sm font-medium">
-          <a href="<%= new_letter_path %>" class="text-warm-gray-800 hover:text-warm-gray-900 transition-colors">
-            Write a Letter
+  <body class="bg-base-100 text-base-content font-sans min-h-screen flex flex-col antialiased selection:bg-secondary">
+    <!-- Premium Minimalist Navigation Bar using DaisyUI Navbar -->
+    <header class="sticky top-0 z-50 transition-all duration-300 bg-base-100/80 backdrop-blur-md border-b border-base-200">
+      <div class="navbar max-w-6xl mx-auto px-4 md:px-6 h-16 min-h-16">
+        <div class="navbar-start">
+          <!-- Logo -->
+          <a href="<%= root_path %>" class="font-serif italic text-2xl text-primary tracking-tight hover:opacity-80 transition-opacity">
+            <%= t('brand') %>
           </a>
-          <a href="<%= public_feed_letters_path %>" class="text-warm-gray-800 hover:text-warm-gray-900 transition-colors">
-            Public Stories
-          </a>
+        </div>
 
-          <% if user_signed_in? %>
-            <a href="<%= dashboard_path %>" class="text-warm-gray-800 hover:text-warm-gray-900 transition-colors">
-              Vault Timeline
+        <div class="navbar-end flex gap-1 sm:gap-2">
+          <!-- Desktop Nav Links -->
+          <div class="hidden md:flex items-center gap-1 mr-2">
+            <a href="<%= new_letter_path %>" class="btn btn-ghost btn-sm text-sm font-medium hover:bg-base-200 rounded-lg">
+              <%= t('navigation.write') %>
             </a>
-            <a href="<%= analytics_path %>" class="text-warm-gray-800 hover:text-warm-gray-900 transition-colors">
-              Analytics
+            <a href="<%= public_feed_letters_path %>" class="btn btn-ghost btn-sm text-sm font-medium hover:bg-base-200 rounded-lg">
+              <%= t('navigation.public_stories') %>
             </a>
-            <span class="text-xs text-warm-gray-200">|</span>
-            <span class="text-xs text-warm-gray-500 italic hidden sm:inline">
-              <%= current_user_email %>
-            </span>
-            <%= button_to logout_path, method: :delete, class: "text-xs font-semibold text-rose-600/80 hover:text-rose-700 transition-colors cursor-pointer", data: { turbo: "false" } do %>
-              Sign Out
+            <% if user_signed_in? %>
+              <a href="<%= dashboard_path %>" class="btn btn-ghost btn-sm text-sm font-medium hover:bg-base-200 rounded-lg">
+                <%= t('navigation.vault') %>
+              </a>
+              <a href="<%= analytics_path %>" class="btn btn-ghost btn-sm text-sm font-medium hover:bg-base-200 rounded-lg">
+                <%= t('navigation.analytics') %>
+              </a>
             <% end %>
+          </div>
+
+          <!-- Language Switcher Dropdown -->
+          <div class="dropdown dropdown-end mr-1">
+            <label tabindex="0" class="btn btn-ghost btn-sm gap-1 hover:bg-base-200 rounded-lg text-xs font-semibold uppercase">
+              🌐 <%= I18n.locale %>
+            </label>
+            <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[50] p-2 shadow bg-base-100 border border-base-200 rounded-box w-28 gap-0.5">
+              <li>
+                <%= link_to "English", url_for(locale: :en), class: "py-2 rounded-lg #{'active bg-secondary' if I18n.locale == :en}" %>
+              </li>
+              <li>
+                <%= link_to "Español", url_for(locale: :es), class: "py-2 rounded-lg #{'active bg-secondary' if I18n.locale == :es}" %>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Auth Buttons -->
+          <% if user_signed_in? %>
+            <div class="flex items-center gap-2">
+              <span class="text-xs text-base-content/40 italic hidden lg:inline mr-2">
+                <%= current_user_email %>
+              </span>
+              <%= button_to logout_path, method: :delete, class: "btn btn-outline btn-error btn-xs sm:btn-sm rounded-lg hover:text-white cursor-pointer", data: { turbo: "false" } do %>
+                <%= t('navigation.sign_out') %>
+              <% end %>
+            </div>
           <% else %>
-            <span class="text-xs text-warm-gray-200">|</span>
-            <a href="<%= login_path %>" class="px-4 py-2 bg-warm-gray-800 text-white rounded-lg hover:bg-warm-gray-900 transition-all shadow-sm font-semibold text-xs tracking-wider uppercase">
-              Sign In
+            <a href="<%= login_path %>" class="btn btn-primary btn-sm rounded-lg text-xs font-semibold tracking-wider uppercase shadow-sm">
+              <%= t('navigation.sign_in') %>
             </a>
           <% end %>
-        </nav>
+
+          <!-- Mobile Dropdown Menu -->
+          <div class="dropdown dropdown-end md:hidden ml-1">
+            <label tabindex="0" class="btn btn-ghost btn-circle btn-sm">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7" />
+              </svg>
+            </label>
+            <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-3 shadow bg-base-100 border border-base-200 rounded-box w-52 gap-1">
+              <li>
+                <a href="<%= new_letter_path %>" class="py-2.5 rounded-lg active:bg-secondary">
+                  <%= t('navigation.write') %>
+                </a>
+              </li>
+              <li>
+                <a href="<%= public_feed_letters_path %>" class="py-2.5 rounded-lg active:bg-secondary">
+                  <%= t('navigation.public_stories') %>
+                </a>
+              </li>
+              <% if user_signed_in? %>
+                <li>
+                  <a href="<%= dashboard_path %>" class="py-2.5 rounded-lg active:bg-secondary">
+                    <%= t('navigation.vault') %>
+                  </a>
+                </li>
+                <li>
+                  <a href="<%= analytics_path %>" class="py-2.5 rounded-lg active:bg-secondary">
+                    <%= t('navigation.analytics') %>
+                  </a>
+                </li>
+                <div class="divider my-1"></div>
+                <li class="px-3 py-1.5 text-xs text-base-content/40 italic">
+                  <%= current_user_email %>
+                </li>
+              <% end %>
+            </ul>
+          </div>
+        </div>
       </div>
     </header>
 
-    <!-- Success / Info / Alert Banners -->
+    <!-- Hotwire-compatible Flash Banners using DaisyUI Alert -->
     <% if flash[:notice].present? %>
-      <div class="max-w-6xl mx-auto px-6 mt-4 w-full" data-controller="flash">
-        <div class="p-4 bg-emerald-50 border border-emerald-200/80 text-emerald-800 text-sm rounded-xl flex items-center justify-between shadow-sm animate-fade-in">
-          <div class="flex items-center gap-2">
+      <div class="max-w-6xl mx-auto px-4 md:px-6 mt-6 w-full animate-fade-in" data-controller="flash">
+        <div class="alert alert-success shadow-xs border border-success/20 rounded-xl flex items-center justify-between py-3.5">
+          <div class="flex items-center gap-3">
             <span>✨</span>
-            <span><%= flash[:notice] %></span>
+            <span class="text-sm font-medium"><%= flash[:notice] %></span>
           </div>
         </div>
       </div>
     <% end %>
 
     <% if flash[:alert].present? %>
-      <div class="max-w-6xl mx-auto px-6 mt-4 w-full" data-controller="flash">
-        <div class="p-4 bg-rose-50 border border-rose-200/80 text-rose-800 text-sm rounded-xl flex items-center justify-between shadow-sm animate-fade-in">
-          <div class="flex items-center gap-2">
+      <div class="max-w-6xl mx-auto px-4 md:px-6 mt-6 w-full animate-fade-in" data-controller="flash">
+        <div class="alert alert-error shadow-xs border border-error/20 rounded-xl flex items-center justify-between py-3.5">
+          <div class="flex items-center gap-3">
             <span>⚠️</span>
-            <span><%= flash[:alert] %></span>
+            <span class="text-sm font-medium text-white"><%= flash[:alert] %></span>
           </div>
         </div>
       </div>
     <% end %>
 
-    <!-- Main Container -->
-    <main class="flex-grow max-w-6xl mx-auto px-6 py-12 w-full">
+    <!-- Main Content Container -->
+    <main class="flex-grow max-w-6xl mx-auto px-4 md:px-6 py-10 w-full">
       <%= yield %>
     </main>
 
-    <!-- Calm Minimalist Footer -->
-    <footer class="border-t border-warm-gray-200/60 bg-white/40 py-10 mt-auto">
-      <div class="max-w-6xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-warm-gray-500">
-        <div>
-          &copy; <%= Time.current.year %> TimeEcho. Sent with hope, received with nostalgia.
-        </div>
-        <div class="flex gap-6">
-          <span class="hover:text-warm-gray-800 transition-colors">A digital time capsule for the soul.</span>
-        </div>
+    <!-- Beautiful Minimalist Footer using DaisyUI Footer -->
+    <footer class="footer footer-center p-8 bg-base-200/50 border-t border-base-200 text-base-content/60">
+      <div class="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between w-full gap-4 text-xs">
+        <aside class="flex items-center gap-2">
+          <span>&copy; <%= Time.current.year %> TimeEcho. <%= t('footer_copy') %></span>
+        </aside>
+        <nav class="flex gap-4">
+          <span class="font-serif italic text-base-content/40"><%= t('slogan') %></span>
+        </nav>
       </div>
     </footer>
   </body>

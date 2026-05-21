@@ -1,94 +1,98 @@
-<div class="space-y-24">
-  <!-- Hero Section -->
-  <section class="text-center max-w-3xl mx-auto py-12 space-y-6">
-    <div class="inline-flex items-center gap-2 px-3 py-1 bg-warm-gray-200/50 border border-warm-gray-200 text-warm-gray-800 text-xs font-medium rounded-full tracking-wider uppercase">
-      ⏳ TimeEcho Digital Capsule
-    </div>
-    
-    <h1 class="font-serif italic text-5xl sm:text-6xl text-warm-gray-900 tracking-tight leading-tight">
-      Write a letter to your<br>
-      <span class="text-warm-gray-900 underline decoration-warm-gray-200 decoration-wavy underline-offset-8">future self</span>.
-    </h1>
-    
-    <p class="text-lg text-warm-gray-500 font-sans max-w-xl mx-auto leading-relaxed">
-      TimeEcho lets you capture your present thoughts, hopes, and memories, sealing them away in a secure digital vault until the perfect day in the future.
-    </p>
+<div class="space-y-24 max-w-5xl mx-auto">
+  <!-- Peaceful & Nostalgic Hero Section -->
+  <section class="hero min-h-[40vh] flex items-center justify-center text-center py-6">
+    <div class="hero-content max-w-3xl flex-col gap-8">
+      <!-- Muted Soft Pill Badge -->
+      <div class="badge badge-secondary py-3 px-4 border border-accent text-xs font-semibold tracking-wider uppercase flex gap-1.5 items-center">
+        <%= t('landing.badge') %>
+      </div>
+      
+      <div class="space-y-4">
+        <!-- Main title using elegant serif headings -->
+        <h1 class="font-serif italic text-5xl sm:text-7xl font-light text-primary leading-tight font-serif">
+          <%= t('landing.title_html') %>
+        </h1>
+        <p class="text-base sm:text-lg text-base-content/60 font-sans max-w-xl mx-auto leading-relaxed pt-2">
+          <%= t('landing.subtitle') %>
+        </p>
+      </div>
 
-    <div class="pt-6 flex flex-col sm:flex-row items-center justify-center gap-4">
-      <a href="<%= new_letter_path %>" class="px-8 py-4 bg-warm-gray-800 text-white rounded-xl hover:bg-warm-gray-900 transition-all font-semibold shadow-md hover:shadow-lg hover:-translate-y-0.5 text-base duration-200">
-        Write Your Capsule Letter
-      </a>
-      <a href="#how-it-works" class="px-6 py-4 bg-white border border-warm-gray-200 text-warm-gray-800 rounded-xl hover:bg-warm-gray-50 transition-all font-semibold text-base duration-200">
-        How It Works
-      </a>
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-4 w-full sm:w-auto">
+        <a href="<%= new_letter_path %>" class="btn btn-primary btn-lg rounded-xl px-8 shadow-sm hover:shadow-md transition-all duration-300 w-full sm:w-auto text-sm tracking-wide uppercase font-semibold">
+          <%= t('landing.write_first') %>
+        </a>
+        <a href="#how-it-works" class="btn btn-outline btn-lg border-base-300 hover:bg-base-200 hover:text-base-content rounded-xl px-8 transition-all duration-300 w-full sm:w-auto text-sm tracking-wide uppercase font-semibold">
+          <%= t('landing.how_it_works') %>
+        </a>
+      </div>
     </div>
   </section>
 
-  <!-- How It Works Section -->
+  <!-- How It Works Section using Muted Clean Cards -->
   <section id="how-it-works" class="space-y-12 scroll-mt-24">
     <div class="text-center space-y-3">
-      <h2 class="font-serif text-3xl text-warm-gray-900">Simple & Significant</h2>
-      <p class="text-sm text-warm-gray-500 max-w-md mx-auto">Three simple steps to connect your present mind with your future self.</p>
+      <h2 class="font-serif text-3xl sm:text-4xl text-primary font-normal"><%= t('landing.steps_title') %></h2>
+      <p class="text-sm text-base-content/50 max-w-md mx-auto"><%= t('landing.steps_subtitle') %></p>
     </div>
 
     <div class="grid md:grid-cols-3 gap-8">
-      <!-- Step 1 -->
-      <div class="bg-white border border-warm-gray-200/60 p-8 rounded-2xl space-y-4 hover:shadow-md transition-shadow">
-        <div class="w-10 h-10 bg-warm-gray-200/50 text-warm-gray-800 rounded-xl flex items-center justify-center font-bold text-lg">1</div>
-        <h3 class="font-semibold text-lg text-warm-gray-900">Pour Your Heart Out</h3>
-        <p class="text-sm text-warm-gray-500 leading-relaxed">
-          Write freely about your hopes, fears, current habits, or raw feelings. You can securely upload photos, audio logs, or documents.
+      <!-- Step 1 Card -->
+      <div class="card card-bordered border-base-200 bg-base-100 p-8 rounded-box card-hover-effect space-y-4">
+        <div class="w-10 h-10 bg-secondary border border-accent text-primary rounded-xl flex items-center justify-center font-bold text-lg">1</div>
+        <h3 class="font-semibold text-lg text-primary"><%= t('landing.step1_title') %></h3>
+        <p class="text-sm text-base-content/60 leading-relaxed font-sans">
+          <%= t('landing.step1_desc') %>
         </p>
       </div>
 
-      <!-- Step 2 -->
-      <div class="bg-white border border-warm-gray-200/60 p-8 rounded-2xl space-y-4 hover:shadow-md transition-shadow">
-        <div class="w-10 h-10 bg-warm-gray-200/50 text-warm-gray-800 rounded-xl flex items-center justify-center font-bold text-lg">2</div>
-        <h3 class="font-semibold text-lg text-warm-gray-900">Choose the Delivery</h3>
-        <p class="text-sm text-warm-gray-500 leading-relaxed">
-          Pick a target delivery date. It could be in 6 months, on your next birthday, 5 years from now, or a decade down the line.
+      <!-- Step 2 Card -->
+      <div class="card card-bordered border-base-200 bg-base-100 p-8 rounded-box card-hover-effect space-y-4">
+        <div class="w-10 h-10 bg-secondary border border-accent text-primary rounded-xl flex items-center justify-center font-bold text-lg">2</div>
+        <h3 class="font-semibold text-lg text-primary"><%= t('landing.step2_title') %></h3>
+        <p class="text-sm text-base-content/60 leading-relaxed font-sans">
+          <%= t('landing.step2_desc') %>
         </p>
       </div>
 
-      <!-- Step 3 -->
-      <div class="bg-white border border-warm-gray-200/60 p-8 rounded-2xl space-y-4 hover:shadow-md transition-shadow">
-        <div class="w-10 h-10 bg-warm-gray-200/50 text-warm-gray-800 rounded-xl flex items-center justify-center font-bold text-lg">3</div>
-        <h3 class="font-semibold text-lg text-warm-gray-900">Receive an Echo</h3>
-        <p class="text-sm text-warm-gray-500 leading-relaxed">
-          On the chosen morning, the capsule opens, sending your letter back to your inbox as a nostalgic, emotional echo from the past.
+      <!-- Step 3 Card -->
+      <div class="card card-bordered border-base-200 bg-base-100 p-8 rounded-box card-hover-effect space-y-4">
+        <div class="w-10 h-10 bg-secondary border border-accent text-primary rounded-xl flex items-center justify-center font-bold text-lg">3</div>
+        <h3 class="font-semibold text-lg text-primary"><%= t('landing.step3_title') %></h3>
+        <p class="text-sm text-base-content/60 leading-relaxed font-sans">
+          <%= t('landing.step3_desc') %>
         </p>
       </div>
     </div>
   </section>
 
   <!-- Community Public Stories Feed Preview -->
-  <% if @public_letters.any? %>
+  <% if @public_letters && @public_letters.any? %>
     <section class="space-y-12">
-      <div class="flex items-end justify-between border-b border-warm-gray-200/60 pb-4">
+      <div class="flex flex-col sm:flex-row sm:items-end justify-between border-b border-base-200 pb-4 gap-4">
         <div class="space-y-2">
-          <h2 class="font-serif text-3xl text-warm-gray-900">Shared Memories</h2>
-          <p class="text-sm text-warm-gray-500">Publicly shared letters from users whose capsules have opened.</p>
+          <h2 class="font-serif text-3xl sm:text-4xl text-primary font-normal"><%= t('landing.stories_title') %></h2>
+          <p class="text-sm text-base-content/50"><%= t('landing.stories_subtitle') %></p>
         </div>
-        <a href="<%= public_feed_letters_path %>" class="text-sm font-semibold text-warm-gray-800 hover:underline">
-          View all public stories &rarr;
+        <a href="<%= public_feed_letters_path %>" class="btn btn-link btn-sm text-primary hover:text-neutral p-0 font-semibold self-start sm:self-auto">
+          <%= t('landing.stories_all').html_safe %>
         </a>
       </div>
 
       <div class="grid md:grid-cols-3 gap-8">
         <% @public_letters.each do |letter| %>
-          <div class="bg-white border border-warm-gray-200/60 p-6 rounded-2xl flex flex-col justify-between hover:shadow-md transition-shadow">
+          <div class="card card-bordered border-base-200 bg-base-100 rounded-box card-hover-effect flex flex-col justify-between p-6">
             <div class="space-y-4">
-              <span class="text-xs text-warm-gray-500">
-                Opened <%= letter.delivered_at.strftime('%B %d, %Y') %>
+              <span class="badge badge-secondary badge-sm text-[10px] uppercase font-semibold px-2.5 py-1.5 border border-accent">
+                <%= t('landing.stories_opened', date: letter.delivered_at.strftime('%B %d, %Y')) %>
               </span>
-              <p class="text-sm text-warm-gray-800 font-serif italic line-clamp-4 leading-relaxed">
+              <p class="text-sm text-base-content/80 font-serif italic line-clamp-4 leading-relaxed">
                 "<%= letter.content %>"
               </p>
             </div>
-            <div class="pt-6 border-t border-warm-gray-100 flex justify-between items-center text-xs text-warm-gray-500">
-              <span>By Anonymous</span>
-              <a href="<%= letter_path(letter) %>" class="font-semibold text-warm-gray-800 hover:underline">
-                Read Letter &rarr;
+            <div class="pt-4 mt-4 border-t border-base-200 flex justify-between items-center text-xs text-base-content/50">
+              <span class="flex items-center gap-1">👤 <%= t('navigation.anonymous') %></span>
+              <a href="<%= letter_path(letter) %>" class="btn btn-link btn-xs text-primary p-0 min-h-0 h-auto hover:underline font-semibold">
+                <%= t('landing.stories_read_more').html_safe %>
               </a>
             </div>
           </div>
@@ -97,14 +101,72 @@
     </section>
   <% end %>
 
+  <!-- Premium Muted Pricing Section -->
+  <section class="space-y-12 bg-base-200/40 p-8 sm:p-12 rounded-3xl border border-base-200/50">
+    <div class="text-center space-y-3">
+      <h2 class="font-serif text-3xl sm:text-4xl text-primary font-normal"><%= t('landing.pricing_title') %></h2>
+      <p class="text-sm text-base-content/50 max-w-md mx-auto"><%= t('landing.pricing_subtitle') %></p>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-8 max-w-3xl mx-auto">
+      <!-- Free Tier Card -->
+      <div class="card card-bordered border-base-200 bg-base-100 p-8 rounded-box flex flex-col justify-between gap-6 card-hover-effect">
+        <div class="space-y-4">
+          <span class="badge badge-outline border-base-300 text-xs font-semibold px-2.5 py-1.5 uppercase"><%= t('landing.pricing_free') %></span>
+          <h3 class="font-serif text-2xl text-primary font-medium"><%= t('landing.pricing_free_name') %></h3>
+          <p class="text-sm text-base-content/60 font-sans"><%= t('landing.pricing_free_desc') %></p>
+          <div class="pt-2">
+            <span class="text-4xl font-serif text-primary font-bold"><%= t('landing.pricing_free_price') %></span>
+            <span class="text-xs text-base-content/40"><%= t('landing.pricing_free_price_desc') %></span>
+          </div>
+          <ul class="space-y-2 pt-2 text-xs text-base-content/70">
+            <li class="flex items-center gap-2">✓ <%= t('landing.pricing_free_feature1') %></li>
+            <li class="flex items-center gap-2">✓ <%= t('landing.pricing_free_feature2') %></li>
+            <li class="flex items-center gap-2">✓ <%= t('landing.pricing_free_feature3') %></li>
+            <li class="flex items-center gap-2">✓ <%= t('landing.pricing_free_feature4') %></li>
+          </ul>
+        </div>
+        <a href="<%= new_letter_path %>" class="btn btn-outline border-base-300 hover:bg-base-200 hover:text-primary rounded-xl w-full text-xs font-semibold uppercase tracking-wider">
+          <%= t('landing.pricing_free_btn') %>
+        </a>
+      </div>
+
+      <!-- Paid Tier Card -->
+      <div class="card card-bordered border-accent bg-secondary/30 p-8 rounded-box flex flex-col justify-between gap-6 card-hover-effect relative overflow-hidden">
+        <div class="absolute top-0 right-0">
+          <div class="badge badge-accent rounded-bl-xl rounded-tr-none px-3 py-2 text-[10px] font-semibold uppercase tracking-wider border-0"><%= t('landing.pricing_paid_popular') %></div>
+        </div>
+        <div class="space-y-4">
+          <span class="badge badge-accent text-xs font-semibold px-2.5 py-1.5 uppercase border-0"><%= t('landing.pricing_paid') %></span>
+          <h3 class="font-serif text-2xl text-primary font-medium"><%= t('landing.pricing_paid_name') %></h3>
+          <p class="text-sm text-base-content/60 font-sans"><%= t('landing.pricing_paid_desc') %></p>
+          <div class="pt-2">
+            <span class="text-4xl font-serif text-primary font-bold"><%= t('landing.pricing_paid_price') %></span>
+            <span class="text-xs text-base-content/40"><%= t('landing.pricing_paid_price_desc') %></span>
+          </div>
+          <ul class="space-y-2 pt-2 text-xs text-base-content/70">
+            <li class="flex items-center gap-2">✓ <%= t('landing.pricing_paid_feature1') %></li>
+            <li class="flex items-center gap-2">✓ <%= t('landing.pricing_paid_feature2') %></li>
+            <li class="flex items-center gap-2">✓ <%= t('landing.pricing_paid_feature3') %></li>
+            <li class="flex items-center gap-2">✓ <%= t('landing.pricing_paid_feature4') %></li>
+            <li class="flex items-center gap-2">✓ <%= t('landing.pricing_paid_feature5') %></li>
+          </ul>
+        </div>
+        <a href="<%= new_letter_path %>" class="btn btn-primary rounded-xl w-full text-xs font-semibold uppercase tracking-wider shadow-xs">
+          <%= t('landing.pricing_paid_btn') %>
+        </a>
+      </div>
+    </div>
+  </section>
+
   <!-- Premium Emotional Quote / Testimonial -->
-  <section class="bg-white border border-warm-gray-200/60 p-12 rounded-3xl text-center max-w-4xl mx-auto space-y-6 shadow-sm">
-    <p class="font-serif italic text-2xl text-warm-gray-800 leading-relaxed">
-      "Receiving a letter I wrote to myself five years ago was like meeting an old friend I didn't know I missed. It reminded me how much I've grown, and what truly matters."
+  <section class="card card-bordered border-base-200 bg-base-100 p-8 sm:p-12 rounded-3xl text-center max-w-4xl mx-auto space-y-6 shadow-xs">
+    <p class="font-serif italic text-xl sm:text-2xl text-primary leading-relaxed max-w-3xl mx-auto">
+      "<%= t('landing.quote') %>"
     </p>
     <div class="space-y-1">
-      <h4 class="font-semibold text-sm text-warm-gray-900">Sarah Jenkins</h4>
-      <p class="text-xs text-warm-gray-500">TimeEcho user since 2021</p>
+      <h4 class="font-semibold text-sm text-primary"><%= t('landing.quote_author') %></h4>
+      <p class="text-xs text-base-content/50"><%= t('landing.quote_author_sub') %></p>
     </div>
   </section>
 </div>
