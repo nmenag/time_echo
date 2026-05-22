@@ -85,11 +85,7 @@
       
       <div class="content"><%= @letter.content %></div>
 
-      <% if @letter.attachments.attached? %>
-        <div class="attachment-notice">
-          <strong>📎 Multimedia Attached:</strong> This letter includes <%= pluralize(@letter.attachments.size, "multimedia file") %>. We have attached them to this email. You can also view them in your secure digital vault.
-        </div>
-      <% end %>
+
 
       <div style="text-align: center; margin-top: 35px;">
         <a class="btn" href="<%= Rails.application.routes.url_helpers.letter_url(@letter.signed_id, host: ENV.fetch('APP_HOST') { 'localhost:3000' }) %>">

@@ -5,11 +5,7 @@ A Message from Your Past Self
 
 <%= @letter.content %>
 
-<% if @letter.attachments.attached? %>
-* Note: This letter includes multimedia attachments. They have been attached to this email and are available to view in your secure vault.
-<% end %>
-
-To view this letter and any media files in your secure vault, visit:
+To view this letter in your secure vault, visit:
 <%= Rails.application.routes.url_helpers.letter_url(@letter.signed_id, host: ENV.fetch('APP_HOST') { 'localhost:3000' }) %>
 
 --

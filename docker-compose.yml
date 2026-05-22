@@ -39,29 +39,29 @@ services:
   #     mailpit:
   #       condition: service_started
 
-  queue:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    command: bundle exec rails solid_queue:start
-    environment:
-      RAILS_ENV: development
-      DATABASE_HOST: db
-      DATABASE_USERNAME: postgres
-      DATABASE_PASSWORD: postgres
-    volumes:
-      - .:/rails
-      - bundle_cache:/usr/local/bundle
-    depends_on:
-      db:
-        condition: service_healthy
+  # queue:
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile
+  #   command: bundle exec rails solid_queue:start
+  #   environment:
+  #     RAILS_ENV: development
+  #     DATABASE_HOST: db
+  #     DATABASE_USERNAME: postgres
+  #     DATABASE_PASSWORD: postgres
+  #   volumes:
+  #     - .:/rails
+  #     - bundle_cache:/usr/local/bundle
+  #   depends_on:
+  #     db:
+  #       condition: service_healthy
 
   mailpit:
-    image: axllent/mailpit:v1.15
+    image: axllent/mailpit:edge
     ports:
       - "8025:8025"
       - "1025:1025"
 
 volumes:
-  postgres_data:
+  # postgres_data:
   bundle_cache:

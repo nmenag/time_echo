@@ -19,12 +19,7 @@ class TimeCapsuleMailer < ApplicationMailer
   def future_letter(letter)
     @letter = letter
 
-    # If there are attachments, attach them to the Action Mailer email
-    if @letter.attachments.attached?
-      @letter.attachments.each do |attachment|
-        attachments[attachment.filename.to_s] = attachment.download
-      end
-    end
+
 
     mail(
       to: @letter.email,

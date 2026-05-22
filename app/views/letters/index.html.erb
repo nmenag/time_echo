@@ -98,11 +98,7 @@
                   </span>
                 <% end %>
 
-                <% if letter.attachments.attached? %>
-                  <span class="badge badge-outline border-base-300 py-2.5 px-3 text-[9px] font-bold uppercase tracking-wider text-base-content/50 flex items-center gap-1">
-                    📎 <%= letter.attachments.size %>
-                  </span>
-                <% end %>
+
 
                 <% if letter.predictions.any? %>
                   <span class="badge badge-primary py-2.5 px-3 text-[9px] font-bold uppercase tracking-wider flex items-center gap-1">
