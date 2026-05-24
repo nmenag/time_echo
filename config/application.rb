@@ -12,8 +12,8 @@ module TimeEcho
     config.load_defaults 8.1
 
     # Configure available locales and default locale
-    config.i18n.available_locales = [:en, :es]
-    config.i18n.default_locale = :en
+    config.i18n.available_locales = [ :es ]
+    config.i18n.default_locale = :es
 
     # Please, add to the `ignore` list any other `lib` subdirectories that do
     # not contain `.rb` files, or that should not be reloaded or eager loaded.

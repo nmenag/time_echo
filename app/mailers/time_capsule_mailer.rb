@@ -7,7 +7,7 @@ class TimeCapsuleMailer < ApplicationMailer
 
     mail(
       to: @email,
-      subject: "Your Magic Sign-In Link for TimeEcho",
+      subject: t("mailers.magic_link.subject"),
       resend_data: {
         tags: [
           { name: "email_type", value: "magic_link" }
@@ -19,11 +19,9 @@ class TimeCapsuleMailer < ApplicationMailer
   def future_letter(letter)
     @letter = letter
 
-
-
     mail(
       to: @letter.email,
-      subject: "A Message from Your Past Self (Sent #{@letter.created_at.strftime('%B %d, %Y')})",
+      subject: t("mailers.future_letter.subject", date: I18n.l(@letter.created_at.to_date, format: :long)),
       headers: {
         "X-Letter-ID" => @letter.id.to_s
       },

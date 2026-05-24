@@ -61,7 +61,7 @@ class LetterForm
       build_prediction("achievement", prediction_achievement)
 
       @letter.save!
-      
+
       # Track event in analytics
       Analytics::TrackEventService.call("letter_created", { email: email, public: public })
       Analytics::TrackEventService.call("emotional_snapshot_completed", { email: email })
@@ -84,7 +84,7 @@ class LetterForm
   end
 
   def any_predictions?
-    [prediction_city, prediction_salary, prediction_relationship, prediction_career, prediction_achievement].any?(&:present?)
+    [ prediction_city, prediction_salary, prediction_relationship, prediction_career, prediction_achievement ].any?(&:present?)
   end
 
   def deliver_at_must_be_in_future

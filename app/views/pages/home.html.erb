@@ -83,7 +83,7 @@
           <div class="card card-bordered border-base-200 bg-base-100 rounded-box card-hover-effect flex flex-col justify-between p-6">
             <div class="space-y-4">
               <span class="badge badge-secondary badge-sm text-[10px] uppercase font-semibold px-2 py-1.5">
-                <%= t('landing.stories_opened', date: letter.delivered_at.strftime('%B %d, %Y')) %>
+                <%= t('landing.stories_opened', date: I18n.l(letter.delivered_at.to_date, format: :long)) %>
               </span>
               <p class="text-sm text-base-content/80 font-serif italic line-clamp-4 leading-relaxed">
                 "<%= letter.content %>"

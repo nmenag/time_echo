@@ -6,11 +6,11 @@ class AnalyticsController < ApplicationController
     @total_letters = @letters.count
     @delivered_letters = @letters.delivered.count
     @scheduled_letters = @letters.pending.count
-    
+
     # Open rate: percentage of delivered letters that have been opened
     delivered_and_opened = @letters.delivered.where.not(opened_at: nil).count
     @open_rate = @delivered_letters > 0 ? (delivered_and_opened.to_f / @delivered_letters * 100).round(1) : 0
-    
+
     # Click rate: percentage of delivered letters that have been clicked
     delivered_and_clicked = @letters.delivered.where.not(clicked_at: nil).count
     @click_rate = @delivered_letters > 0 ? (delivered_and_clicked.to_f / @delivered_letters * 100).round(1) : 0

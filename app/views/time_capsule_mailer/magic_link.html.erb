@@ -64,15 +64,15 @@
   <body>
     <div class="container">
       <div class="logo">TimeEcho</div>
-      <h1>Sign in to your digital time capsule</h1>
-      <p>Hello,</p>
-      <p>Click the button below to log in to your TimeEcho dashboard and view your letters or write to your future self.</p>
-      <a class="btn" href="<%= @magic_link_url %>">Sign in to TimeEcho</a>
-      <p style="margin-top: 30px; font-size: 13px;">This link will expire in 15 minutes. If you did not request this email, you can safely ignore it.</p>
+      <h1><%= t('mailers.magic_link.header') %></h1>
+      <p><%= t('mailers.magic_link.greeting') %></p>
+      <p><%= t('mailers.magic_link.body') %></p>
+      <a class="btn" href="<%= @magic_link_url %>"><%= t('mailers.magic_link.btn') %></a>
+      <p style="margin-top: 30px; font-size: 13px;"><%= t('mailers.magic_link.expiry_help') %></p>
       <div class="footer">
         &mdash;<br>
         <strong>TimeEcho</strong><br>
-        Nostalgic & hopeful journaling to your future self.
+        <%= t('mailers.magic_link.footer_subtitle') %>
       </div>
     </div>
   </body>

@@ -17,7 +17,7 @@ module Letters
           delivered_at: Time.current,
           delivery_status: "delivered"
         )
-        
+
         # Deliver via Action Mailer
         TimeCapsuleMailer.future_letter(@letter).deliver_now
 

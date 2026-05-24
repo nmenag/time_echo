@@ -22,7 +22,7 @@
       <div class="space-y-2">
         <span class="text-[10px] font-semibold text-base-content/40 uppercase tracking-wider block"><%= t('letters.show_opening_in') %></span>
         <div class="inline-block px-6 py-3 bg-secondary/50 border border-accent text-primary rounded-2xl font-serif italic text-3xl font-semibold tracking-wide">
-          <%= pluralize(days_left, "day") %>
+          <%= days_left == 1 ? "1 día" : "#{days_left} días" %>
         </div>
         <p class="text-xs text-base-content/40 pt-1"><%= t('letters.show_target_date', date: @letter.deliver_at.strftime('%B %d, %Y')) %></p>
       </div>
@@ -84,22 +84,22 @@
           <!-- Interactive Reveal Form if reality hasn't been completed yet -->
           <div class="card card-bordered border-base-200 bg-base-100 rounded-box p-8 sm:p-10 shadow-xs space-y-6 border-l-4 border-accent animate-fade-in">
             <div class="border-b border-base-200 pb-4 space-y-1">
-              <span class="badge badge-accent py-2 px-3 text-[10px] font-bold tracking-wider uppercase">Future Integration</span>
-              <h2 class="font-serif italic text-2xl text-primary font-normal">Bridge the Past and Present</h2>
-              <p class="text-xs text-base-content/50">Your time capsule has arrived. Before we open the full comparison dashboard, let's capture your life and state of mind today.</p>
+              <span class="badge badge-accent py-2 px-3 text-[10px] font-bold tracking-wider uppercase"><%= t('letters.future_integration') %></span>
+              <h2 class="font-serif italic text-2xl text-primary font-normal"><%= t('letters.bridge_past_present') %></h2>
+              <p class="text-xs text-base-content/50"><%= t('letters.future_integration_help') %></p>
             </div>
 
             <%= form_with url: update_predictions_letter_path(@letter), method: :post, local: true, class: "space-y-8" do |f| %>
               <!-- TODAY'S EMOTIONAL SNAPSHOT -->
               <div class="space-y-5">
-                <h3 class="font-serif italic text-lg text-primary flex items-center gap-2">🧠 How do you feel TODAY?</h3>
-                <p class="text-xs text-base-content/50">Rate your today's self to see how your baseline evolved since writing this letter.</p>
+                <h3 class="font-serif italic text-lg text-primary flex items-center gap-2"><%= t('letters.feel_today') %></h3>
+                <p class="text-xs text-base-content/50"><%= t('letters.feel_today_help') %></p>
                 
                 <div class="grid sm:grid-cols-3 gap-6">
                   <!-- Happiness Level -->
                   <div class="bg-base-200/30 p-4 rounded-xl border border-base-200/50 space-y-2">
                     <div class="flex justify-between items-center">
-                      <span class="text-[10px] font-bold text-primary uppercase tracking-wider">Happiness</span>
+                      <span class="text-[10px] font-bold text-primary uppercase tracking-wider"><%= t('letters.happiness') %></span>
                       <span id="reveal_happiness_val" class="badge badge-primary font-bold text-[10px] py-1.5 px-2">5/10</span>
                     </div>
                     <%= f.range_field :reveal_happiness, min: 1, max: 10, value: 5, class: "range range-primary range-xs", oninput: "document.getElementById('reveal_happiness_val').innerText = this.value + '/10'" %>
@@ -108,7 +108,7 @@
                   <!-- Anxiety Level -->
                   <div class="bg-base-200/30 p-4 rounded-xl border border-base-200/50 space-y-2">
                     <div class="flex justify-between items-center">
-                      <span class="text-[10px] font-bold text-primary uppercase tracking-wider">Anxiety</span>
+                      <span class="text-[10px] font-bold text-primary uppercase tracking-wider"><%= t('letters.anxiety') %></span>
                       <span id="reveal_anxiety_val" class="badge badge-secondary font-bold text-[10px] py-1.5 px-2">5/10</span>
                     </div>
                     <%= f.range_field :reveal_anxiety, min: 1, max: 10, value: 5, class: "range range-secondary range-xs", oninput: "document.getElementById('reveal_anxiety_val').innerText = this.value + '/10'" %>
@@ -117,7 +117,7 @@
                   <!-- Motivation Level -->
                   <div class="bg-base-200/30 p-4 rounded-xl border border-base-200/50 space-y-2">
                     <div class="flex justify-between items-center">
-                      <span class="text-[10px] font-bold text-primary uppercase tracking-wider">Motivation</span>
+                      <span class="text-[10px] font-bold text-primary uppercase tracking-wider"><%= t('letters.motivation') %></span>
                       <span id="reveal_motivation_val" class="badge badge-accent font-bold text-[10px] py-1.5 px-2">5/10</span>
                     </div>
                     <%= f.range_field :reveal_motivation, min: 1, max: 10, value: 5, class: "range range-accent range-xs", oninput: "document.getElementById('reveal_motivation_val').innerText = this.value + '/10'" %>
@@ -128,8 +128,8 @@
               <!-- PREDICTIONS VS REALITY UPDATE -->
               <% if @letter.predictions.any? %>
                 <div class="space-y-5 pt-6 border-t border-base-200">
-                  <h3 class="font-serif italic text-lg text-primary flex items-center gap-2">🔮 What happened to your Predictions?</h3>
-                  <p class="text-xs text-base-content/50">Read what you expected, then tell us what actually happened.</p>
+                  <h3 class="font-serif italic text-lg text-primary flex items-center gap-2"><%= t('letters.what_happened_predictions') %></h3>
+                  <p class="text-xs text-base-content/50"><%= t('letters.what_happened_predictions_help') %></p>
                   
                   <div class="space-y-4">
                     <% @letter.predictions.each do |pred| %>
@@ -141,12 +141,12 @@
                         
                         <div class="grid sm:grid-cols-3 gap-4 items-center">
                           <div class="sm:col-span-2">
-                            <%= text_field_tag "predictions[#{pred.id}][reality]", nil, placeholder: "Describe your reality now...", class: "input input-bordered input-sm w-full rounded-xl focus:border-neutral/30 focus:outline-none bg-white text-sm", required: true %>
+                            <%= text_field_tag "predictions[#{pred.id}][reality]", nil, placeholder: t('letters.placeholder_reality'), class: "input input-bordered input-sm w-full rounded-xl focus:border-neutral/30 focus:outline-none bg-white text-sm", required: true %>
                           </div>
                           <div class="form-control">
                             <label class="label cursor-pointer justify-start gap-2.5 p-0">
                               <%= checkbox_tag "predictions[#{pred.id}][matched]", "1", false, class: "checkbox checkbox-primary checkbox-xs rounded-md" %>
-                              <span class="label-text text-xs font-semibold text-primary">This prediction came true!</span>
+                              <span class="label-text text-xs font-semibold text-primary"><%= t('letters.prediction_came_true') %></span>
                             </label>
                           </div>
                         </div>
@@ -157,7 +157,7 @@
               <% end %>
 
               <div class="pt-6 border-t border-base-200 flex justify-end">
-                <%= f.submit "Save & Reveal Comparison Dashboard", class: "btn btn-primary btn-md rounded-xl text-xs font-semibold uppercase tracking-wider shadow-xs px-6" %>
+                <%= f.submit t('letters.btn_reveal_dashboard'), class: "btn btn-primary btn-md rounded-xl text-xs font-semibold uppercase tracking-wider shadow-xs px-6" %>
               </div>
             <% end %>
           </div>
@@ -166,34 +166,34 @@
           <!-- Comparison Dashboard once reality is updated -->
           <div class="card card-bordered border-base-200 bg-base-100 rounded-box p-8 sm:p-10 shadow-xs space-y-10 animate-fade-in">
             <div class="border-b border-base-200 pb-4 space-y-1">
-              <span class="badge badge-primary py-2 px-3 text-[10px] font-bold tracking-wider uppercase">Reflection Matrix</span>
-              <h2 class="font-serif italic text-2xl text-primary font-normal">Your Personal Evolution</h2>
-              <p class="text-xs text-base-content/50">Compare the life you imagined with the life you actually lived since <%= @letter.created_at.strftime('%B %d, %Y') %>.</p>
+              <span class="badge badge-primary py-2 px-3 text-[10px] font-bold tracking-wider uppercase"><%= t('letters.reflection_matrix') %></span>
+              <h2 class="font-serif italic text-2xl text-primary font-normal"><%= t('letters.personal_evolution') %></h2>
+              <p class="text-xs text-base-content/50"><%= t('letters.personal_evolution_help', date: I18n.l(@letter.created_at, format: :long)) %></p>
             </div>
 
             <!-- Emotional Evolution Widgets -->
             <div class="space-y-6">
-              <h3 class="font-serif italic text-lg text-primary flex items-center gap-2">🧠 Emotional Snapshot Shifts</h3>
+              <h3 class="font-serif italic text-lg text-primary flex items-center gap-2"><%= t('letters.emotional_snapshot_shifts') %></h3>
               
               <div class="grid md:grid-cols-3 gap-6">
                 <!-- Happiness Card -->
                 <div class="card card-bordered border-base-200 bg-base-50/50 p-5 rounded-2xl shadow-2xs space-y-4">
                   <div class="flex justify-between items-center">
-                    <span class="text-xs font-semibold text-primary uppercase tracking-wider">Happiness</span>
+                    <span class="text-xs font-semibold text-primary uppercase tracking-wider"><%= t('letters.happiness') %></span>
                     <% happiness_delta = @letter.reveal_happiness.to_i - @letter.emotional_snapshot.happiness_level.to_i %>
                     <% if happiness_delta > 0 %>
-                      <span class="badge badge-success font-bold text-[9px] py-1.5 px-2">+<%= happiness_delta %> Growth</span>
+                      <span class="badge badge-success font-bold text-[9px] py-1.5 px-2">+<%= happiness_delta %> <%= t('letters.growth') %></span>
                     <% elsif happiness_delta < 0 %>
-                      <span class="badge badge-error font-bold text-[9px] py-1.5 px-2"><%= happiness_delta %> Shift</span>
+                      <span class="badge badge-error font-bold text-[9px] py-1.5 px-2"><%= happiness_delta %> <%= t('letters.shift') %></span>
                     <% else %>
-                      <span class="badge badge-outline font-bold text-[9px] py-1.5 px-2 text-base-content/50 font-sans">Steady</span>
+                      <span class="badge badge-outline font-bold text-[9px] py-1.5 px-2 text-base-content/50 font-sans"><%= t('letters.steady_status') %></span>
                     <% end %>
                   </div>
 
                   <div class="space-y-3 font-sans">
                     <div>
                       <div class="flex justify-between text-[10px] text-base-content/40 mb-1">
-                        <span>Past Self</span>
+                        <span><%= t('letters.past_self') %></span>
                         <span class="font-bold"><%= @letter.emotional_snapshot.happiness_level %>/10</span>
                       </div>
                       <progress class="progress progress-primary w-full h-1.5" value="<%= @letter.emotional_snapshot.happiness_level %>" max="10"></progress>
@@ -201,7 +201,7 @@
                     
                     <div>
                       <div class="flex justify-between text-[10px] text-base-content/40 mb-1">
-                        <span>Present Self</span>
+                        <span><%= t('letters.present_self') %></span>
                         <span class="font-bold"><%= @letter.reveal_happiness %>/10</span>
                       </div>
                       <progress class="progress progress-accent w-full h-1.5" value="<%= @letter.reveal_happiness %>" max="10"></progress>
@@ -212,21 +212,21 @@
                 <!-- Anxiety Card -->
                 <div class="card card-bordered border-base-200 bg-base-50/50 p-5 rounded-2xl shadow-2xs space-y-4">
                   <div class="flex justify-between items-center">
-                    <span class="text-xs font-semibold text-primary uppercase tracking-wider">Anxiety</span>
+                    <span class="text-xs font-semibold text-primary uppercase tracking-wider"><%= t('letters.anxiety') %></span>
                     <% anxiety_delta = @letter.reveal_anxiety.to_i - @letter.emotional_snapshot.anxiety_level.to_i %>
                     <% if anxiety_delta < 0 %>
-                      <span class="badge badge-success font-bold text-[9px] py-1.5 px-2"><%= anxiety_delta %> Calmer</span>
+                      <span class="badge badge-success font-bold text-[9px] py-1.5 px-2"><%= anxiety_delta %> <%= t('letters.calmer') %></span>
                     <% elsif anxiety_delta > 0 %>
-                      <span class="badge badge-warning font-bold text-[9px] py-1.5 px-2">+<%= anxiety_delta %> Stress</span>
+                      <span class="badge badge-warning font-bold text-[9px] py-1.5 px-2">+<%= anxiety_delta %> <%= t('letters.stress') %></span>
                     <% else %>
-                      <span class="badge badge-outline font-bold text-[9px] py-1.5 px-2 text-base-content/50 font-sans">Steady</span>
+                      <span class="badge badge-outline font-bold text-[9px] py-1.5 px-2 text-base-content/50 font-sans"><%= t('letters.steady_status') %></span>
                     <% end %>
                   </div>
 
                   <div class="space-y-3 font-sans">
                     <div>
                       <div class="flex justify-between text-[10px] text-base-content/40 mb-1">
-                        <span>Past Self</span>
+                        <span><%= t('letters.past_self') %></span>
                         <span class="font-bold"><%= @letter.emotional_snapshot.anxiety_level %>/10</span>
                       </div>
                       <progress class="progress progress-secondary w-full h-1.5" value="<%= @letter.emotional_snapshot.anxiety_level %>" max="10"></progress>
@@ -234,7 +234,7 @@
                     
                     <div>
                       <div class="flex justify-between text-[10px] text-base-content/40 mb-1">
-                        <span>Present Self</span>
+                        <span><%= t('letters.present_self') %></span>
                         <span class="font-bold"><%= @letter.reveal_anxiety %>/10</span>
                       </div>
                       <progress class="progress progress-accent w-full h-1.5" value="<%= @letter.reveal_anxiety %>" max="10"></progress>
@@ -245,21 +245,21 @@
                 <!-- Motivation Card -->
                 <div class="card card-bordered border-base-200 bg-base-50/50 p-5 rounded-2xl shadow-2xs space-y-4">
                   <div class="flex justify-between items-center">
-                    <span class="text-xs font-semibold text-primary uppercase tracking-wider">Motivation</span>
+                    <span class="text-xs font-semibold text-primary uppercase tracking-wider"><%= t('letters.motivation') %></span>
                     <% motivation_delta = @letter.reveal_motivation.to_i - @letter.emotional_snapshot.motivation_level.to_i %>
                     <% if motivation_delta > 0 %>
-                      <span class="badge badge-success font-bold text-[9px] py-1.5 px-2">+<%= motivation_delta %> Inspired</span>
+                      <span class="badge badge-success font-bold text-[9px] py-1.5 px-2">+<%= motivation_delta %> <%= t('letters.inspired') %></span>
                     <% elsif motivation_delta < 0 %>
-                      <span class="badge badge-error font-bold text-[9px] py-1.5 px-2"><%= motivation_delta %> Shift</span>
+                      <span class="badge badge-error font-bold text-[9px] py-1.5 px-2"><%= motivation_delta %> <%= t('letters.shift') %></span>
                     <% else %>
-                      <span class="badge badge-outline font-bold text-[9px] py-1.5 px-2 text-base-content/50 font-sans">Steady</span>
+                      <span class="badge badge-outline font-bold text-[9px] py-1.5 px-2 text-base-content/50 font-sans"><%= t('letters.steady_status') %></span>
                     <% end %>
                   </div>
 
                   <div class="space-y-3 font-sans">
                     <div>
                       <div class="flex justify-between text-[10px] text-base-content/40 mb-1">
-                        <span>Past Self</span>
+                        <span><%= t('letters.past_self') %></span>
                         <span class="font-bold"><%= @letter.emotional_snapshot.motivation_level %>/10</span>
                       </div>
                       <progress class="progress progress-accent w-full h-1.5" value="<%= @letter.emotional_snapshot.motivation_level %>" max="10"></progress>
@@ -267,7 +267,7 @@
                     
                     <div>
                       <div class="flex justify-between text-[10px] text-base-content/40 mb-1">
-                        <span>Present Self</span>
+                        <span><%= t('letters.present_self') %></span>
                         <span class="font-bold"><%= @letter.reveal_motivation %>/10</span>
                       </div>
                       <progress class="progress progress-primary w-full h-1.5" value="<%= @letter.reveal_motivation %>" max="10"></progress>
@@ -280,7 +280,7 @@
             <!-- Predictions vs Reality Cards -->
             <% if @letter.predictions.any? %>
               <div class="space-y-6 pt-6 border-t border-base-200">
-                <h3 class="font-serif italic text-lg text-primary flex items-center gap-2">🔮 Predictions vs Reality Grid</h3>
+                <h3 class="font-serif italic text-lg text-primary flex items-center gap-2"><%= t('letters.predictions_vs_reality_grid') %></h3>
                 
                 <div class="grid gap-6">
                   <% @letter.predictions.each do |pred| %>
@@ -289,20 +289,20 @@
                       <div class="bg-base-200/50 px-5 py-3 flex justify-between items-center border-b border-base-200/50">
                         <span class="badge badge-outline py-2 px-3 text-[10px] font-bold font-mono uppercase tracking-wider text-base-content/50"><%= pred.category %></span>
                         <% if pred.matched? %>
-                          <span class="badge badge-success font-bold text-[9px] py-2 px-3 uppercase tracking-wider">🟢 Matched</span>
+                          <span class="badge badge-success font-bold text-[9px] py-2 px-3 uppercase tracking-wider">🟢 <%= t('letters.matched') %></span>
                         <% else %>
-                          <span class="badge badge-secondary font-bold text-[9px] py-2 px-3 uppercase tracking-wider">🦋 Evolved</span>
+                          <span class="badge badge-secondary font-bold text-[9px] py-2 px-3 uppercase tracking-wider">🦋 <%= t('letters.evolved') %></span>
                         <% end %>
                       </div>
                       
                       <!-- Comparison side-by-side -->
                       <div class="grid md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-base-200 bg-base-100">
                         <div class="p-6 space-y-1.5">
-                          <span class="text-[9px] font-bold text-base-content/40 uppercase tracking-wider font-sans">Then you imagined:</span>
+                          <span class="text-[9px] font-bold text-base-content/40 uppercase tracking-wider font-sans"><%= t('letters.then_you_imagined') %></span>
                           <p class="font-serif italic text-base text-primary leading-relaxed">"<%= pred.prediction %>"</p>
                         </div>
                         <div class="p-6 space-y-1.5 bg-neutral/[0.02]">
-                          <span class="text-[9px] font-bold text-base-content/40 uppercase tracking-wider font-sans">Now living in / Reality:</span>
+                          <span class="text-[9px] font-bold text-base-content/40 uppercase tracking-wider font-sans"><%= t('letters.now_living_reality') %></span>
                           <p class="font-serif italic text-base text-primary leading-relaxed">"<%= pred.reality %>"</p>
                         </div>
                       </div>

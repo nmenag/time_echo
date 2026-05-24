@@ -17,8 +17,8 @@
         <div class="card card-bordered border-base-200 bg-base-100 p-6 rounded-box card-hover-effect flex flex-col justify-between gap-5">
           <div class="space-y-4">
             <div class="flex items-center justify-between text-[10px] text-base-content/40 font-semibold uppercase tracking-wider">
-              <span><%= t('public_feed.written', date: letter.created_at.strftime('%m/%d/%Y')) %></span>
-              <span><%= t('public_feed.opened', date: letter.delivered_at.strftime('%m/%d/%Y')) %></span>
+              <span><%= t('public_feed.written', date: I18n.l(letter.created_at.to_date, format: :long)) %></span>
+              <span><%= t('public_feed.opened', date: I18n.l(letter.delivered_at.to_date, format: :long)) %></span>
             </div>
             
             <p class="text-sm sm:text-base font-serif italic text-base-content/80 leading-relaxed line-clamp-5">

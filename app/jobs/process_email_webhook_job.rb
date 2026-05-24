@@ -4,7 +4,7 @@ class ProcessEmailWebhookJob < ApplicationJob
   def perform(payload)
     event_type = payload["type"]
     data = payload["data"] || {}
-    
+
     # Extract letter ID from tags (if passed via Resend tags or headers)
     tags = data["tags"] || {}
     letter_id = tags["letter_id"] || data.dig("headers", "X-Letter-ID")

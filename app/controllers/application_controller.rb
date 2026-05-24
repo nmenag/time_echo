@@ -5,11 +5,7 @@ class ApplicationController < ActionController::Base
   before_action :set_locale
 
   def set_locale
-    # Support locale from params or session, falling back to default
-    if params[:locale] && I18n.available_locales.include?(params[:locale].to_sym)
-      session[:locale] = params[:locale].to_sym
-    end
-    I18n.locale = session[:locale] || I18n.default_locale
+    I18n.locale = :es
   end
 
   # Changes to the importmap will invalidate the etag for HTML responses
@@ -29,7 +25,7 @@ class ApplicationController < ActionController::Base
 
   def authenticate_user!
     unless user_signed_in?
-      redirect_to login_path, alert: t('flash.login_required')
+      redirect_to login_path, alert: t("flash.login_required")
     end
   end
 end

@@ -1,10 +1,10 @@
 class LettersController < ApplicationController
-  before_action :authenticate_user!, only: [:index]
+  before_action :authenticate_user!, only: [ :index ]
 
   # Dashboard: timeline/history of letters
   def index
     @letters = UserTimelineQuery.call(current_user_email)
-    
+
     # Track dashboard view
     Analytics::TrackEventService.call("dashboard_viewed", { email: current_user_email })
   end
@@ -31,7 +31,7 @@ class LettersController < ApplicationController
     if result.success?
       flash[:success_email] = result.letter.email
       flash[:success_deliver_at] = result.letter.deliver_at.to_s
-      
+
       redirect_to success_letters_path
     else
       @letter_form = LetterForm.new(modified_params)
@@ -46,15 +46,15 @@ class LettersController < ApplicationController
   # Open / show a letter (securely via signed_id or logged in session)
   def show
     @letter = find_letter
-    
+
     if @letter.nil?
-      redirect_to root_path, alert: "This letter is private or cannot be accessed."
+      redirect_to root_path, alert: t("flash.private_or_inaccessible")
       return
     end
 
     policy = LetterPolicy.new(current_user_email, @letter)
     unless policy.show?
-      redirect_to root_path, alert: "You are not authorized to view this letter."
+      redirect_to root_path, alert: t("flash.unauthorized_view")
       return
     end
 
@@ -75,13 +75,13 @@ class LettersController < ApplicationController
   def update_predictions
     @letter = find_letter
     if @letter.nil? || @letter.pending?
-      redirect_to root_path, alert: "This letter is private or cannot be accessed."
+      redirect_to root_path, alert: t("flash.private_or_inaccessible")
       return
     end
 
     policy = LetterPolicy.new(current_user_email, @letter)
     unless policy.show?
-      redirect_to root_path, alert: "You are not authorized to modify this letter."
+      redirect_to root_path, alert: t("flash.unauthorized_modify")
       return
     end
 
@@ -111,7 +111,7 @@ class LettersController < ApplicationController
       Analytics::TrackEventService.call("emotional_snapshot_completion", { letter_id: @letter.id, email: @letter.email })
     end
 
-    flash[:success] = "Reality updated! Reflect on how your life has evolved."
+    flash[:success] = t("flash.reality_updated")
     redirect_to letter_path(@letter)
   end
 
@@ -119,7 +119,7 @@ class LettersController < ApplicationController
   def success
     @email = flash[:success_email]
     @deliver_at = flash[:success_deliver_at] ? Time.parse(flash[:success_deliver_at]) : nil
-    
+
     if @email.nil?
       redirect_to root_path
     end

@@ -14,7 +14,7 @@ class SessionsController < ApplicationController
     if @magic_link_form.submit
       # Track event in Postgres
       Analytics::TrackEventService.call("magic_link_requested", { email: @magic_link_form.email })
-      
+
       redirect_to check_email_path(email: @magic_link_form.email)
     else
       render :new, status: :unprocessable_entity
@@ -26,13 +26,13 @@ class SessionsController < ApplicationController
     email = Auth::MagicLinkService.authenticate(params[:token])
     if email
       session[:current_user_email] = email
-      
+
       # Track event in Postgres
       Analytics::TrackEventService.call("user_logged_in", { email: email })
-      
-      redirect_to dashboard_path, notice: "Welcome back to your digital time capsule."
+
+      redirect_to dashboard_path, notice: t("flash.welcome_back")
     else
-      redirect_to login_path, alert: "This magic link is invalid or has expired."
+      redirect_to login_path, alert: t("flash.invalid_link")
     end
   end
 
@@ -40,11 +40,11 @@ class SessionsController < ApplicationController
   def destroy
     email = session[:current_user_email]
     session.delete(:current_user_email)
-    
+
     # Track event in Postgres
     Analytics::TrackEventService.call("user_logged_out", { email: email }) if email
-    
-    redirect_to root_path, notice: "You have successfully closed your capsule session."
+
+    redirect_to root_path, notice: t("flash.logged_out")
   end
 
   # Check email page (informative)

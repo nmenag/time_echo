@@ -1,13 +1,12 @@
-Written on <%= @letter.created_at.strftime('%B %d, %Y') %>
+<%= t('mailers.future_letter.written_on', date: I18n.l(@letter.created_at.to_date, format: :long)) %>
 
-A Message from Your Past Self
+<%= t('mailers.future_letter.header') %>
 =============================
 
 <%= @letter.content %>
 
-To view this letter in your secure vault, visit:
+<%= t('mailers.future_letter.text_body_help') %>
 <%= Rails.application.routes.url_helpers.letter_url(@letter.signed_id, host: ENV.fetch('APP_HOST') { 'localhost:3000' }) %>
 
 --
-You received this because you wrote a letter to your future self using TimeEcho.
-"Sent with hope, received with nostalgia."
+<%= t('mailers.future_letter.footer_text') %>

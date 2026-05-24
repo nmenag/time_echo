@@ -69,7 +69,7 @@
               <div class="space-y-1">
                 <span class="text-[10px] font-bold text-base-content/40 uppercase tracking-wider block">
                   <% if letter.delivered? %>
-                    <%= letter.reveal_happiness.nil? ? "Needs Reflection / Reality Update" : t('dashboard.delivered_tag') %>
+                    <%= letter.reveal_happiness.nil? ? t('dashboard.needs_reflection') : t('dashboard.delivered_tag') %>
                   <% else %>
                     <%= t('dashboard.sealed_tag') %>
                   <% end %>
@@ -78,9 +78,9 @@
                   <%= letter.title %>
                   <span class="text-xs font-sans text-base-content/40 font-normal ml-1">
                     <% if letter.delivered? %>
-                      (Opened <%= letter.delivered_at.strftime('%m/%d/%Y') %>)
+                      (<%= t('dashboard.opened_on', date: I18n.l(letter.delivered_at, format: :long)) %>)
                     <% else %>
-                      (Opening <%= letter.deliver_at.strftime('%m/%d/%Y') %>)
+                      (<%= t('dashboard.opening_on', date: I18n.l(letter.deliver_at, format: :long)) %>)
                     <% end %>
                   </span>
                 </h3>
@@ -102,13 +102,13 @@
 
                 <% if letter.predictions.any? %>
                   <span class="badge badge-primary py-2.5 px-3 text-[9px] font-bold uppercase tracking-wider flex items-center gap-1">
-                    🔮 <%= letter.predictions.size %> predictions
+                    🔮 <%= letter.predictions.size == 1 ? t('dashboard.predictions_badge', count: 1) : t('dashboard.predictions_badge_plural', count: letter.predictions.size) %>
                   </span>
                 <% end %>
 
                 <% if letter.emotional_snapshot.present? %>
                   <span class="badge badge-accent py-2.5 px-3 text-[9px] font-bold uppercase tracking-wider flex items-center gap-1">
-                    🧠 Snapshot
+                    🧠 <%= t('dashboard.snapshot_badge') %>
                   </span>
                 <% end %>
               </div>
@@ -126,10 +126,10 @@
                   <!-- Emotional Evolution Summary -->
                   <% if letter.emotional_snapshot.present? %>
                     <div class="space-y-2">
-                      <p class="text-[10px] font-bold text-primary uppercase tracking-wider">🧠 Emotional Baseline delta</p>
+                       <p class="text-[10px] font-bold text-primary uppercase tracking-wider">🧠 <%= t('letters.emotional_snapshot_shifts') %></p>
                       <div class="flex flex-wrap gap-3 text-xs">
                         <div>
-                          <span class="text-base-content/50">Happiness:</span> 
+                          <span class="text-base-content/50"><%= t('letters.happiness') %>:</span> 
                           <span class="font-semibold text-primary">
                             <%= letter.emotional_snapshot.happiness_level %> 
                             <% if letter.reveal_happiness.present? %>
@@ -138,7 +138,7 @@
                           </span>
                         </div>
                         <div>
-                          <span class="text-base-content/50">Anxiety:</span> 
+                          <span class="text-base-content/50"><%= t('letters.anxiety') %>:</span> 
                           <span class="font-semibold text-secondary">
                             <%= letter.emotional_snapshot.anxiety_level %> 
                             <% if letter.reveal_anxiety.present? %>
@@ -153,9 +153,9 @@
                   <!-- Predictions matched summary -->
                   <% if letter.predictions.any? %>
                     <div class="space-y-2">
-                      <p class="text-[10px] font-bold text-primary uppercase tracking-wider">🔮 Predictions vs Reality</p>
+                      <p class="text-[10px] font-bold text-primary uppercase tracking-wider">🔮 <%= t('letters.predictions_vs_reality') %></p>
                       <% if letter.reveal_happiness.nil? %>
-                        <p class="text-xs text-accent italic font-semibold">🔒 Unrevealed - Open to record your reality!</p>
+                        <p class="text-xs text-accent italic font-semibold"><%= t('dashboard.unrevealed_capsule_help') %></p>
                       <% else %>
                         <% matched_count = letter.predictions.matched.count %>
                         <% total_count = letter.predictions.count %>
@@ -163,7 +163,7 @@
                           <div class="radial-progress text-primary font-bold text-[10px]" style="--value:<%= (matched_count.to_f / total_count * 100).round %>; --size:2.2rem; --thickness: 4px;" role="progressbar">
                             <%= matched_count %>/<%= total_count %>
                           </div>
-                          <span class="text-xs text-base-content/60"><%= matched_count %> out of <%= total_count %> prediction categories matched!</span>
+                          <span class="text-xs text-base-content/60"><%= t('dashboard.predictions_matched_desc', matched: matched_count, total: total_count) %></span>
                         </div>
                       <% end %>
                     </div>
@@ -174,13 +174,13 @@
                   <div class="text-[11px] text-base-content/40 flex items-center gap-3 font-sans">
                     <span>👁️ <%= letter.open_count == 1 ? t('letters.show_read_count', count: 1) : t('letters.show_read_count_plural', count: letter.open_count) %></span>
                     <% if letter.opened_at.present? %>
-                      <span><%= t('letters.show_delivered') %>: <%= letter.opened_at.strftime('%m/%d/%Y') %></span>
+                      <span><%= t('letters.show_delivered') %>: <%= I18n.l(letter.opened_at.to_date, format: :long) %></span>
                     <% end %>
                   </div>
                   
                   <% if letter.reveal_happiness.nil? %>
                     <a href="<%= letter_path(letter) %>" class="btn btn-accent btn-sm rounded-xl text-xs font-semibold uppercase tracking-wider w-full sm:w-auto shadow-xs">
-                      ⚡ Complete & Reveal Reality
+                      <%= t('dashboard.complete_reveal_btn') %>
                     </a>
                   <% else %>
                     <a href="<%= letter_path(letter) %>" class="btn btn-outline btn-sm border-base-300 hover:bg-base-200 hover:text-primary rounded-xl text-xs font-semibold uppercase tracking-wider w-full sm:w-auto shadow-xs">
@@ -195,12 +195,12 @@
                 <div class="flex items-center gap-3 text-sm text-primary">
                   <span class="text-2xl select-none">⏳</span>
                   <div>
-                    <p class="font-semibold text-sm">Sealed Capsule in Travel</p>
+                    <p class="font-semibold text-sm"><%= t('dashboard.sealed_capsule_title') %></p>
                     <p class="text-xs text-base-content/50">
-                      <% details = [] %>
-                      <% details << "#{letter.predictions.count} Predictions" if letter.predictions.any? %>
-                      <% details << "Emotional snapshot" if letter.emotional_snapshot.present? %>
-                      This capsule contains: <%= details.join(' & ') %> (hidden until delivery date).
+                      <% details_list = [] %>
+                      <% details_list << (letter.predictions.count == 1 ? t('dashboard.predictions_badge', count: 1) : t('dashboard.predictions_badge_plural', count: letter.predictions.count)) if letter.predictions.any? %>
+                      <% details_list << t('dashboard.snapshot_badge').downcase if letter.emotional_snapshot.present? %>
+                      <%= t('dashboard.sealed_capsule_desc', details: details_list.join(' & ')) %>
                     </p>
                   </div>
                 </div>

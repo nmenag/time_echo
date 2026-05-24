@@ -6,7 +6,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="application-name" content="TimeEcho">
     <meta name="mobile-web-app-capable" content="yes">
-    <meta name="description" content="TimeEcho is a secure digital time capsule for writing future letters. Send messages, photos, and voice notes to your future self.">
+    <meta name="description" content="TimeEcho es una cápsula del tiempo digital segura para escribir cartas al futuro. Sella mensajes, fotos y notas de voz para tu yo del futuro.">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
@@ -52,20 +52,7 @@
             <% end %>
           </div>
 
-          <!-- Language Switcher Dropdown (Details/Summary) -->
-          <details class="dropdown dropdown-end mr-1">
-            <summary class="btn btn-ghost btn-sm gap-1 hover:bg-base-200 rounded-lg text-xs font-semibold uppercase list-none cursor-pointer [&::-webkit-details-marker]:hidden">
-              🌐 <%= I18n.locale %>
-            </summary>
-            <ul class="menu menu-sm dropdown-content mt-2 z-[50] p-2 shadow bg-base-100 border border-base-200 rounded-box w-28 gap-0.5">
-              <li>
-                <%= link_to "English", url_for(locale: :en), class: "py-2 rounded-lg #{'menu-active bg-secondary' if I18n.locale == :en}" %>
-              </li>
-              <li>
-                <%= link_to "Español", url_for(locale: :es), class: "py-2 rounded-lg #{'menu-active bg-secondary' if I18n.locale == :es}" %>
-              </li>
-            </ul>
-          </details>
+
 
           <!-- Auth Buttons -->
           <% if user_signed_in? %>

@@ -80,8 +80,8 @@
   </head>
   <body>
     <div class="letter-container">
-      <div class="date">Written on <%= @letter.created_at.strftime('%B %d, %Y') %></div>
-      <h1>A Message from Your Past Self</h1>
+      <div class="date"><%= t('mailers.future_letter.written_on', date: I18n.l(@letter.created_at.to_date, format: :long)) %></div>
+      <h1><%= t('mailers.future_letter.header') %></h1>
       
       <div class="content"><%= @letter.content %></div>
 
@@ -89,13 +89,12 @@
 
       <div style="text-align: center; margin-top: 35px;">
         <a class="btn" href="<%= Rails.application.routes.url_helpers.letter_url(@letter.signed_id, host: ENV.fetch('APP_HOST') { 'localhost:3000' }) %>">
-          Open in Digital Time Capsule
+          <%= t('mailers.future_letter.open_btn') %>
         </a>
       </div>
 
       <div class="footer">
-        You wrote this letter to yourself via TimeEcho.<br>
-        <em>"Sent with hope, received with nostalgia."</em>
+        <%= t('mailers.future_letter.footer_html').html_safe %>
       </div>
     </div>
   </body>
