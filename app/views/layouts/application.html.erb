@@ -22,132 +22,238 @@
   </head>
 
   <body class="bg-base-100 text-base-content font-sans min-h-screen flex flex-col antialiased selection:bg-secondary">
-    <!-- Premium Minimalist Navigation Bar using Flexbox -->
-    <header class="sticky top-0 z-50 transition-all duration-300 bg-base-100/80 backdrop-blur-md border-b border-base-200">
-      <div class="max-w-6xl mx-auto px-4 md:px-6 h-16 flex items-center justify-between">
-        <!-- Logo -->
-        <div class="flex items-center">
-          <a href="<%= root_path %>" class="font-serif italic text-2xl text-primary tracking-tight hover:opacity-80 transition-opacity">
-            <%= t('brand') %>
-          </a>
-        </div>
+    <!-- Active Layout Switcher -->
+    <% 
+      current_route = "#{controller_path}/#{action_name}"
+      no_sidebar_pages = %w[pages/landing sessions/new sessions/check_email letters/success]
+      show_sidebar = !no_sidebar_pages.include?(current_route)
+    %>
 
-        <!-- Nav Links & Controls -->
-        <div class="flex items-center gap-1.5 sm:gap-2">
-          <!-- Desktop Nav Links -->
-          <div class="hidden md:flex items-center gap-1 mr-2">
-            <a href="<%= new_letter_path %>" class="btn btn-ghost btn-sm text-sm font-medium hover:bg-base-200 rounded-lg">
-              <%= t('navigation.write') %>
-            </a>
-            <a href="<%= public_feed_letters_path %>" class="btn btn-ghost btn-sm text-sm font-medium hover:bg-base-200 rounded-lg">
-              <%= t('navigation.public_stories') %>
-            </a>
-            <% if user_signed_in? %>
-              <a href="<%= dashboard_path %>" class="btn btn-ghost btn-sm text-sm font-medium hover:bg-base-200 rounded-lg">
-                <%= t('navigation.vault') %>
+    <% if show_sidebar %>
+      <!-- Desktop & Mobile Responsive Sidebar Layout -->
+      <div class="flex flex-col md:flex-row min-h-screen w-full">
+        <!-- Sidebar Navigation (Desktop only, sticky) -->
+        <aside class="hidden md:flex w-72 h-screen sticky top-0 bg-base-200/50 border-r border-base-200 p-8 flex-col justify-between shrink-0 font-sans">
+          <div class="space-y-10">
+            <!-- Brand Logo / Sparkle -->
+            <div class="space-y-1.5">
+              <a href="<%= root_path %>" class="flex items-center gap-2 text-2xl font-serif italic text-primary tracking-tight font-normal group">
+                <span class="text-[#3b2e7a] transition-transform group-hover:rotate-12 duration-300">✨</span>
+                <%= t('brand') %>
               </a>
-              <a href="<%= analytics_path %>" class="btn btn-ghost btn-sm text-sm font-medium hover:bg-base-200 rounded-lg">
-                <%= t('navigation.analytics') %>
+              <p class="text-[10px] text-base-content/40 uppercase tracking-widest font-semibold leading-relaxed">
+                <%= t('landing.badge') %>
+              </p>
+            </div>
+
+            <!-- Navigation Links -->
+            <nav class="space-y-2">
+              <!-- Escribir Carta -->
+              <% write_active = current_page?(new_letter_path) %>
+              <a href="<%= new_letter_path %>" class="flex items-center gap-3.5 px-4 py-3 rounded-2xl text-sm font-medium transition-all duration-200 <%= write_active ? 'bg-[#3b2e7a] text-white shadow-md' : 'text-base-content/70 hover:bg-base-200 hover:text-primary' %>">
+                <span class="text-base">✏️</span>
+                <span><%= t('navigation.write') %></span>
+              </a>
+
+              <!-- Mis Cartas -->
+              <% vault_active = current_page?(dashboard_path) && !params[:timeline] %>
+              <a href="<%= dashboard_path %>" class="flex items-center gap-3.5 px-4 py-3 rounded-2xl text-sm font-medium transition-all duration-200 <%= vault_active ? 'bg-[#3b2e7a] text-white shadow-md' : 'text-base-content/70 hover:bg-base-200 hover:text-primary' %>">
+                <span class="text-base">✉️</span>
+                <span><%= t('navigation.vault') %></span>
+              </a>
+
+              <!-- Línea de tiempo -->
+              <% timeline_active = current_page?(dashboard_path) && params[:timeline] %>
+              <a href="<%= dashboard_path(timeline: true) %>" class="flex items-center gap-3.5 px-4 py-3 rounded-2xl text-sm font-medium transition-all duration-200 <%= timeline_active ? 'bg-[#3b2e7a] text-white shadow-md' : 'text-base-content/70 hover:bg-base-200 hover:text-primary' %>">
+                <span class="text-base">🕒</span>
+                <span><%= t('navigation.timeline') || "Línea de tiempo" %></span>
+              </a>
+
+              <!-- Estadísticas -->
+              <% analytics_active = current_page?(analytics_path) %>
+              <a href="<%= analytics_path %>" class="flex items-center gap-3.5 px-4 py-3 rounded-2xl text-sm font-medium transition-all duration-200 <%= analytics_active ? 'bg-[#3b2e7a] text-white shadow-md' : 'text-base-content/70 hover:bg-base-200 hover:text-primary' %>">
+                <span class="text-base">📊</span>
+                <span><%= t('navigation.analytics') %></span>
+              </a>
+
+              <!-- Ajustes (Mock modal trigger) -->
+              <button onclick="settings_modal.showModal()" class="w-full flex items-center gap-3.5 px-4 py-3 rounded-2xl text-sm font-medium text-base-content/70 hover:bg-base-200 hover:text-primary transition-all duration-200 text-left cursor-pointer">
+                <span class="text-base">⚙️</span>
+                <span><%= t('navigation.settings') || "Ajustes" %></span>
+              </button>
+            </nav>
+          </div>
+
+          <!-- Bottom Quote & User Card -->
+          <div class="space-y-6">
+            <!-- Inspirational Quote -->
+            <div class="card card-bordered border-accent/20 bg-secondary/30 p-5 rounded-2xl space-y-2 select-none relative overflow-hidden">
+              <p class="text-[11px] font-serif italic text-primary/80 leading-relaxed font-normal">
+                "El futuro no es algo que llega, es algo que creas."
+              </p>
+              <div class="flex justify-end text-[9px] text-[#3b2e7a]">✨</div>
+            </div>
+
+            <!-- Active User -->
+            <% if user_signed_in? %>
+              <div class="flex items-center justify-between border-t border-base-200 pt-4">
+                <div class="min-w-0 flex-1">
+                  <p class="text-[10px] text-base-content/40 font-semibold uppercase tracking-wider"><%= t('navigation.authenticated_as') || "Cuenta" %></p>
+                  <p class="text-xs font-semibold text-primary truncate"><%= current_user_email %></p>
+                </div>
+                <%= button_to logout_path, method: :delete, class: "btn btn-ghost btn-circle btn-xs text-error hover:bg-rose-50 cursor-pointer", data: { turbo: "false" } do %>
+                  🔒
+                <% end %>
+              </div>
+            <% else %>
+              <a href="<%= login_path %>" class="btn btn-primary btn-sm rounded-xl w-full text-[10px] font-bold tracking-wider uppercase">
+                <%= t('navigation.sign_in') %>
               </a>
             <% end %>
           </div>
+        </aside>
 
+        <!-- Mobile Top Navbar -->
+        <header class="md:hidden sticky top-0 z-50 bg-base-100/90 backdrop-blur-md border-b border-base-200 px-4 py-3 flex items-center justify-between">
+          <a href="<%= root_path %>" class="flex items-center gap-1.5 text-xl font-serif italic text-primary tracking-tight font-normal">
+            <span class="text-[#3b2e7a]">✨</span>
+            <%= t('brand') %>
+          </a>
 
+          <div class="flex items-center gap-2">
+            <!-- Mobile Menu Dropdown -->
+            <details class="dropdown dropdown-end dropdown-bottom">
+              <summary class="btn btn-ghost btn-circle btn-sm list-none cursor-pointer">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7" /></svg>
+              </summary>
+              <ul class="menu dropdown-content bg-base-100 border border-base-200 rounded-box w-52 p-2 shadow-md gap-1 z-50">
+                <li><a href="<%= new_letter_path %>" class="py-2">✏️ <%= t('navigation.write') %></a></li>
+                <li><a href="<%= dashboard_path %>" class="py-2">✉️ <%= t('navigation.vault') %></a></li>
+                <li><a href="<%= dashboard_path(timeline: true) %>" class="py-2">🕒 <%= t('navigation.timeline') || "Línea de tiempo" %></a></li>
+                <li><a href="<%= analytics_path %>" class="py-2">📊 <%= t('navigation.analytics') %></a></li>
+                <li><button onclick="settings_modal.showModal()" class="py-2 text-left w-full cursor-pointer">⚙️ <%= t('navigation.settings') || "Ajustes" %></button></li>
+                <% if user_signed_in? %>
+                  <div class="divider my-1"></div>
+                  <li class="px-3 py-1.5 text-[10px] text-base-content/40 truncate"><%= current_user_email %></li>
+                  <li><%= button_to t('navigation.sign_out'), logout_path, method: :delete, class: "text-error py-2 text-left w-full cursor-pointer", data: { turbo: "false" } %></li>
+                <% else %>
+                  <li><a href="<%= login_path %>" class="py-2 font-semibold text-primary"><%= t('navigation.sign_in') %></a></li>
+                <% end %>
+              </ul>
+            </details>
+          </div>
+        </header>
 
-          <!-- Auth Buttons -->
-          <% if user_signed_in? %>
-            <div class="flex items-center gap-2">
-              <span class="text-xs text-base-content/40 italic hidden lg:inline mr-2">
-                <%= current_user_email %>
-              </span>
-              <%= button_to logout_path, method: :delete, class: "btn btn-outline btn-error btn-xs sm:btn-sm rounded-lg hover:text-white cursor-pointer", data: { turbo: "false" } do %>
-                <%= t('navigation.sign_out') %>
-              <% end %>
+        <!-- Right Content Area -->
+        <main class="flex-grow min-h-screen bg-base-100 p-4 sm:p-8 md:p-12 overflow-x-hidden font-sans">
+          <!-- Banners inside layout -->
+          <% if flash[:notice].present? %>
+            <div class="alert alert-success shadow-xs border border-success/20 rounded-2xl flex items-center justify-between py-3 mb-6 animate-fade-in max-w-5xl mx-auto">
+              <span class="text-sm font-medium">✨ <%= flash[:notice] %></span>
             </div>
-          <% else %>
-            <a href="<%= login_path %>" class="btn btn-primary btn-sm rounded-lg text-xs font-semibold tracking-wider uppercase shadow-sm">
-              <%= t('navigation.sign_in') %>
-            </a>
+          <% end %>
+          <% if flash[:alert].present? %>
+            <div class="alert alert-error shadow-xs border border-error/20 rounded-2xl flex items-center justify-between py-3 mb-6 animate-fade-in max-w-5xl mx-auto">
+              <span class="text-sm font-medium text-white">⚠️ <%= flash[:alert] %></span>
+            </div>
           <% end %>
 
-          <!-- Mobile Dropdown Menu (Details/Summary) -->
-          <details class="dropdown dropdown-end md:hidden ml-1">
-            <summary class="btn btn-ghost btn-circle btn-sm list-none cursor-pointer [&::-webkit-details-marker]:hidden">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7" />
-              </svg>
-            </summary>
-            <ul class="menu menu-sm dropdown-content mt-2 z-[50] p-3 shadow bg-base-100 border border-base-200 rounded-box w-52 gap-1">
-              <li>
-                <a href="<%= new_letter_path %>" class="py-2.5 rounded-lg active:bg-secondary">
-                  <%= t('navigation.write') %>
-                </a>
-              </li>
-              <li>
-                <a href="<%= public_feed_letters_path %>" class="py-2.5 rounded-lg active:bg-secondary">
-                  <%= t('navigation.public_stories') %>
-                </a>
-              </li>
-              <% if user_signed_in? %>
-                <li>
-                  <a href="<%= dashboard_path %>" class="py-2.5 rounded-lg active:bg-secondary">
-                    <%= t('navigation.vault') %>
-                  </a>
-                </li>
-                <li>
-                  <a href="<%= analytics_path %>" class="py-2.5 rounded-lg active:bg-secondary">
-                    <%= t('navigation.analytics') %>
-                  </a>
-                </li>
-                <div class="divider my-1"></div>
-                <li class="px-3 py-1.5 text-xs text-base-content/40 italic">
-                  <%= current_user_email %>
-                </li>
-              <% end %>
-            </ul>
-          </details>
-        </div>
+          <%= yield %>
+        </main>
       </div>
-    </header>
-
-    <!-- Hotwire-compatible Flash Banners using DaisyUI Alert -->
-    <% if flash[:notice].present? %>
-      <div class="max-w-6xl mx-auto px-4 md:px-6 mt-6 w-full animate-fade-in" data-controller="flash">
-        <div class="alert alert-success shadow-xs border border-success/20 rounded-xl flex items-center justify-between py-3.5">
-          <div class="flex items-center gap-3">
-            <span>✨</span>
-            <span class="text-sm font-medium"><%= flash[:notice] %></span>
+    <% else %>
+      <!-- Clean Full-Width Layout (for Landing, Login, Success pages) -->
+      <header class="sticky top-0 z-50 bg-base-100/80 backdrop-blur-md border-b border-base-200">
+        <div class="max-w-6xl mx-auto px-4 md:px-6 h-16 flex items-center justify-between">
+          <a href="<%= root_path %>" class="flex items-center gap-1.5 text-2xl font-serif italic text-primary tracking-tight font-normal">
+            <span class="text-[#3b2e7a]">✨</span>
+            <%= t('brand') %>
+          </a>
+          <div class="flex items-center gap-4">
+            <a href="<%= public_feed_letters_path %>" class="btn btn-ghost btn-sm text-xs font-semibold tracking-wider uppercase rounded-xl">
+              <%= t('navigation.public_stories') %>
+            </a>
+            <% if user_signed_in? %>
+              <a href="<%= dashboard_path %>" class="btn btn-primary btn-sm rounded-xl px-5 text-xs font-semibold tracking-wider uppercase shadow-xs">
+                <%= t('navigation.vault') %>
+              </a>
+            <% else %>
+              <a href="<%= login_path %>" class="btn btn-primary btn-sm rounded-xl px-5 text-xs font-semibold tracking-wider uppercase shadow-xs">
+                <%= t('navigation.sign_in') %>
+              </a>
+            <% end %>
           </div>
         </div>
-      </div>
+      </header>
+
+      <main class="flex-grow max-w-6xl mx-auto px-4 md:px-6 py-10 w-full font-sans">
+        <!-- Flash Banners -->
+        <% if flash[:notice].present? %>
+          <div class="alert alert-success shadow-xs border border-success/20 rounded-2xl flex items-center justify-between py-3 mb-6 animate-fade-in w-full">
+            <span class="text-sm font-medium">✨ <%= flash[:notice] %></span>
+          </div>
+        <% end %>
+        <% if flash[:alert].present? %>
+          <div class="alert alert-error shadow-xs border border-error/20 rounded-2xl flex items-center justify-between py-3 mb-6 animate-fade-in w-full">
+            <span class="text-sm font-medium text-white">⚠️ <%= flash[:alert] %></span>
+          </div>
+        <% end %>
+
+        <%= yield %>
+      </main>
+
+      <!-- Beautiful Minimalist Footer -->
+      <footer class="footer footer-center p-8 bg-base-200/50 border-t border-base-200 text-base-content/60 font-sans">
+        <div class="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between w-full gap-4 text-xs">
+          <aside class="flex items-center gap-2">
+            <span>&copy; <%= Time.current.year %> TimeEcho. <%= t('footer_copy') %></span>
+          </aside>
+          <nav class="flex gap-4">
+            <span class="font-serif italic text-base-content/40"><%= t('slogan') %></span>
+          </nav>
+        </div>
+      </footer>
     <% end %>
 
-    <% if flash[:alert].present? %>
-      <div class="max-w-6xl mx-auto px-4 md:px-6 mt-6 w-full animate-fade-in" data-controller="flash">
-        <div class="alert alert-error shadow-xs border border-error/20 rounded-xl flex items-center justify-between py-3.5">
-          <div class="flex items-center gap-3">
-            <span>⚠️</span>
-            <span class="text-sm font-medium text-white"><%= flash[:alert] %></span>
+    <!-- Reusable Premium Settings Modal -->
+    <dialog id="settings_modal" class="modal modal-bottom sm:modal-middle font-sans">
+      <div class="modal-box bg-base-100 border border-base-200 rounded-box p-8 space-y-6">
+        <h3 class="font-serif italic text-2xl text-primary font-normal flex items-center gap-2">
+          <span>⚙️</span> <%= t('navigation.settings') || "Ajustes de la cápsula" %>
+        </h3>
+        <p class="text-xs text-base-content/50 leading-relaxed">
+          Configura las preferencias de privacidad, notificaciones y tema de tus cartas del tiempo digital.
+        </p>
+
+        <div class="divider my-1"></div>
+
+        <div class="space-y-4">
+          <div class="flex items-center justify-between bg-base-200/30 p-3 rounded-xl border border-base-200/50">
+            <div>
+              <p class="text-xs font-semibold text-primary">Notificaciones por Correo</p>
+              <p class="text-[10px] text-base-content/40">Recibe recordatorios cuando tu carta esté lista para abrirse.</p>
+            </div>
+            <input type="checkbox" class="toggle toggle-primary toggle-sm" checked />
+          </div>
+
+          <div class="flex items-center justify-between bg-base-200/30 p-3 rounded-xl border border-base-200/50">
+            <div>
+              <p class="text-xs font-semibold text-primary">Modo Privado Global</p>
+              <p class="text-[10px] text-base-content/40">Todas tus cartas serán 100% privadas de forma predeterminada.</p>
+            </div>
+            <input type="checkbox" class="toggle toggle-primary toggle-sm" checked />
           </div>
         </div>
-      </div>
-    <% end %>
 
-    <!-- Main Content Container -->
-    <main class="flex-grow max-w-6xl mx-auto px-4 md:px-6 py-10 w-full">
-      <%= yield %>
-    </main>
-
-    <!-- Beautiful Minimalist Footer using DaisyUI Footer -->
-    <footer class="footer footer-center p-8 bg-base-200/50 border-t border-base-200 text-base-content/60">
-      <div class="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between w-full gap-4 text-xs">
-        <aside class="flex items-center gap-2">
-          <span>&copy; <%= Time.current.year %> TimeEcho. <%= t('footer_copy') %></span>
-        </aside>
-        <nav class="flex gap-4">
-          <span class="font-serif italic text-base-content/40"><%= t('slogan') %></span>
-        </nav>
+        <div class="modal-action">
+          <form method="dialog" class="w-full flex gap-3">
+            <button class="btn btn-outline border-base-300 hover:bg-base-200 rounded-xl text-xs font-semibold uppercase tracking-wider flex-1 cursor-pointer">Cancelar</button>
+            <button class="btn btn-primary rounded-xl text-xs font-semibold uppercase tracking-wider flex-1 cursor-pointer">Guardar</button>
+          </form>
+        </div>
       </div>
-    </footer>
+    </dialog>
+  </body>
+</html>
   </body>
 </html>

@@ -53,7 +53,7 @@ class LettersController < ApplicationController
     end
 
     policy = LetterPolicy.new(current_user_email, @letter)
-    unless policy.show?
+    unless @accessed_via_signed_id || policy.show?
       redirect_to root_path, alert: t("flash.unauthorized_view")
       return
     end
@@ -80,7 +80,7 @@ class LettersController < ApplicationController
     end
 
     policy = LetterPolicy.new(current_user_email, @letter)
-    unless policy.show?
+    unless @accessed_via_signed_id || policy.show?
       redirect_to root_path, alert: t("flash.unauthorized_modify")
       return
     end
@@ -130,7 +130,10 @@ class LettersController < ApplicationController
   def find_letter
     # 1. Try finding by signed ID (from email)
     letter = Letter.find_signed(params[:id])
-    return letter if letter
+    if letter
+      @accessed_via_signed_id = true
+      return letter
+    end
 
     # 2. If logged in, find by standard ID matching user email
     if user_signed_in?
@@ -146,7 +149,7 @@ class LettersController < ApplicationController
   def letter_params
     params.require(:letter_form).permit(
       :title, :email, :content, :deliver_at, :public,
-      :prediction_city, :prediction_salary, :prediction_relationship, :prediction_career, :prediction_achievement,
+      :prediction_city, :prediction_salary, :prediction_relationship, :prediction_career, :prediction_achievement, :prediction_happiness,
       :happiness_level, :anxiety_level, :motivation_level
     )
   end

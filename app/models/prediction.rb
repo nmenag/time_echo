@@ -1,7 +1,7 @@
 class Prediction < ApplicationRecord
   belongs_to :letter
 
-  CATEGORIES = %w[city salary relationship career achievement].freeze
+  CATEGORIES = %w[city salary relationship career achievement happiness].freeze
 
   validates :category, presence: true, inclusion: { in: CATEGORIES }
   validates :prediction, presence: true

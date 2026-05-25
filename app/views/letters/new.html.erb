@@ -1,355 +1,297 @@
 <style>
-  /* Premium Focus Mode styles */
-  .focus-mode-active-state {
-    position: fixed !important;
-    inset: 0 !important;
-    z-index: 1000 !important;
-    background-color: rgba(250, 249, 246, 0.98) !important;
-    padding: 2rem !important;
-    display: flex !important;
-    flex-direction: column !important;
-    justify-content: center !important;
-    align-items: center !important;
-    animation: fadeInFocus 0.4s ease-out;
-  }
-  @keyframes fadeInFocus {
-    from { opacity: 0; transform: scale(0.98); }
-    to { opacity: 1; transform: scale(1); }
-  }
-  .focus-mode-active-state textarea {
-    max-width: 850px !important;
-    width: 100% !important;
-    height: 65vh !important;
-    background-color: #ffffff !important;
-    border-color: #e8e2d5 !important;
-    box-shadow: 0 25px 60px rgba(124, 114, 103, 0.08) !important;
-    font-size: 1.25rem !important;
-    line-height: 1.85 !important;
-    transition: all 0.3s ease !important;
-  }
-  /* Slide range styling improvements */
+  /* Premium focus effects & custom slider styling */
   .range::-webkit-slider-thumb {
     transition: transform 0.1s ease-out;
   }
   .range:active::-webkit-slider-thumb {
-    transform: scale(1.3);
+    transform: scale(1.35);
   }
 </style>
 
-<div class="relative max-w-4xl mx-auto py-6 group">
-  <!-- Interactive Mood Glow Backing -->
+<div class="relative max-w-7xl mx-auto py-4 group">
+  <!-- Meditative Glow Backing -->
   <div id="mood_glow" class="absolute inset-0 bg-gradient-to-tr from-primary/10 via-accent/5 to-secondary/10 rounded-3xl blur-3xl opacity-60 transition-all duration-1000 -z-10"></div>
   
-  <div class="card card-bordered border-base-200 bg-base-100 rounded-box shadow-xs overflow-hidden transition-all duration-300">
-    <!-- Header -->
-    <div class="p-6 sm:p-8 bg-base-200/30 border-b border-base-200 flex items-center justify-between">
-      <div class="space-y-1">
-        <span class="badge badge-accent py-2 px-3 text-[10px] font-bold tracking-wider uppercase"><%= t('landing.badge') %></span>
-        <h1 class="font-serif italic text-3xl text-primary font-normal"><%= t('letters.new_header') %></h1>
-        <p class="text-xs text-base-content/50"><%= t('letters.new_subheader') %></p>
-      </div>
-      <div class="text-4xl text-primary/30 select-none hidden sm:block">✉️</div>
-    </div>
-
-    <%= form_with model: @letter_form, url: letters_path, local: true, class: "divide-y divide-base-200" do |f| %>
-      <% if @letter_form.errors.any? %>
-        <!-- Alert error using DaisyUI style -->
-        <div class="p-6 bg-error/10 border-b border-error/20 text-error text-xs space-y-1.5 animate-fade-in">
-          <p class="font-semibold flex items-center gap-1.5">
-            <span>⚠️</span> <%= t('flash.errors_title') %>
-          </p>
-          <ul class="list-disc list-inside pl-1 space-y-0.5">
+  <%= form_with model: @letter_form, url: letters_path, local: true, class: "space-y-8" do |f| %>
+    <% if @letter_form.errors.any? %>
+      <div class="alert alert-error shadow-xs border border-error/20 rounded-2xl p-4 text-xs animate-fade-in text-white max-w-7xl mx-auto">
+        <div class="flex flex-col gap-1">
+          <span class="font-semibold flex items-center gap-1.5">⚠️ <%= t('flash.errors_title') %></span>
+          <ul class="list-disc list-inside pl-1 space-y-0.5 opacity-90">
             <% @letter_form.errors.full_messages.each do |message| %>
               <li><%= message %></li>
             <% end %>
           </ul>
         </div>
-      <% end %>
+      </div>
+    <% end %>
 
-      <!-- Capsule Information Card (Title & Email) -->
-      <div class="p-6 sm:p-8 space-y-6 bg-base-100/40 border-b border-base-200">
-        <div class="grid md:grid-cols-2 gap-6">
-          <!-- Capsule Title -->
-          <div class="space-y-2">
-            <label class="label p-0">
-              <span class="label-text text-xs font-semibold text-primary uppercase tracking-wider"><%= t('letters.label_title') %></span>
-            </label>
-            <%= f.text_field :title, placeholder: "Ej: Una promesa a mi yo del futuro, Mi cumpleaños número 30, Esperanzas para el próximo año", class: "input input-bordered w-full focus:border-primary/50 focus:ring-2 focus:ring-primary/10 hover:border-base-400 focus:outline-none transition-all duration-200 rounded-xl bg-white border-base-300 shadow-2xs", required: true %>
-            <p class="text-[10px] text-base-content/40 leading-relaxed"><%= t('letters.label_title_help') %></p>
+    <!-- Header Section -->
+    <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-base-200 pb-6">
+      <div class="space-y-1">
+        <h1 class="font-serif italic text-4xl sm:text-5xl text-primary font-normal leading-tight">1. Cuando escribes tu carta</h1>
+        <p class="text-sm text-base-content/50">Estás creando una carta para tu yo del futuro.</p>
+      </div>
+
+      <!-- Date Selection widget at Top Right -->
+      <div class="flex flex-col sm:flex-row items-start sm:items-center gap-3 bg-base-200/50 p-4 rounded-2xl border border-base-200 shadow-2xs">
+        <label class="text-xs font-semibold text-primary uppercase tracking-wider">Se abrirá el</label>
+        <div class="relative">
+          <%= f.date_field :deliver_at, min: (Date.current + 1.day).to_s, class: "input input-bordered input-sm rounded-xl focus:border-primary/50 focus:outline-none bg-white border-base-300 font-sans cursor-pointer text-xs", required: true, onchange: "updateSummaryInfo()" %>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main 3-Column Layout -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+      
+      <!-- Column 1: Tu carta (span 5) -->
+      <div class="lg:col-span-5 space-y-6">
+        <div class="card card-bordered border-base-200 bg-base-100 p-6 rounded-2xl shadow-xs space-y-6">
+          <div class="border-b border-base-200 pb-3">
+            <h2 class="font-serif italic text-2xl text-primary font-normal">Tu carta</h2>
           </div>
 
-          <!-- Email Address / Account Info -->
+          <!-- Title -->
+          <div class="space-y-2">
+            <label class="text-xs font-semibold text-primary uppercase tracking-wider block">Título</label>
+            <%= f.text_field :title, placeholder: "Ej: Para mi yo del futuro...", class: "input input-bordered w-full rounded-xl bg-white border-base-300 text-sm focus:border-primary/50 focus:outline-none shadow-2xs transition-all", required: true %>
+          </div>
+
+          <!-- Content Canvas -->
+          <div class="space-y-2 relative">
+            <label class="text-xs font-semibold text-primary uppercase tracking-wider block">Contenido</label>
+            <%= f.text_area :content, id: "letter_content_area", placeholder: "Escribe aquí todo lo que quieras contarle a tu yo del futuro...", rows: 15, class: "textarea textarea-bordered w-full p-4 font-serif text-base leading-relaxed focus:border-primary/50 focus:outline-none rounded-2xl bg-white border-base-300 shadow-2xs writing-canvas placeholder:font-sans placeholder:text-xs placeholder:text-base-content/40", required: true %>
+            
+            <!-- Character Counter -->
+            <div class="flex justify-end text-[10px] text-base-content/40 font-mono">
+              <span id="char_counter">0/2000</span>
+            </div>
+          </div>
+
+          <!-- Hidden email input for unauthenticated visitors -->
           <% unless user_signed_in? %>
-            <div class="space-y-2">
-              <label class="label p-0">
-                <span class="label-text text-xs font-semibold text-primary uppercase tracking-wider"><%= t('letters.label_email') %></span>
-              </label>
-              <%= f.email_field :email, placeholder: "you@example.com", class: "input input-bordered w-full focus:border-primary/50 focus:ring-2 focus:ring-primary/10 hover:border-base-400 focus:outline-none transition-all duration-200 rounded-xl bg-white border-base-300 shadow-2xs", required: true %>
-              <p class="text-[10px] text-base-content/40 leading-relaxed"><%= t('letters.label_email_help') %></p>
+            <div class="space-y-2 border-t border-base-200 pt-4">
+              <label class="text-xs font-semibold text-primary uppercase tracking-wider block">Tu Correo Electrónico</label>
+              <%= f.email_field :email, placeholder: "you@example.com", class: "input input-bordered w-full rounded-xl bg-white border-base-300 text-sm focus:border-primary/50 focus:outline-none shadow-2xs", required: true %>
+              <p class="text-[10px] text-base-content/40">Te enviaremos el enlace mágico para abrir esta carta en el futuro.</p>
             </div>
           <% else %>
-            <div class="space-y-2">
-              <label class="label p-0">
-                <span class="label-text text-xs font-semibold text-primary uppercase tracking-wider"><%= t('letters.label_email') %></span>
-              </label>
-              <div class="input input-bordered w-full flex items-center bg-base-200/50 border-base-300 text-base-content/50 rounded-xl text-sm font-sans gap-2 select-none">
-                <span>🔒</span> <%= current_user.email %>
-              </div>
-              <p class="text-[10px] text-base-content/40 leading-relaxed">Sesión iniciada con éxito. Tu carta se guardará en tu baúl personal.</p>
-            </div>
+            <%= f.hidden_field :email, value: current_user_email %>
           <% end %>
         </div>
       </div>
 
-      <!-- Letter Content (Large Emotional Writing Textarea) -->
-      <div id="writing_canvas_container" class="p-6 sm:p-8 space-y-3 transition-all duration-500 rounded-2xl relative">
-        <div class="flex justify-between items-center">
-          <label class="label p-0">
-            <span class="label-text text-xs font-semibold text-primary uppercase tracking-wider"><%= t('letters.label_content') %></span>
-          </label>
-          <button type="button" id="focus_mode_btn" onclick="toggleFocusMode()" class="btn btn-ghost btn-xs text-primary gap-1 px-2.5 rounded-lg hover:bg-base-200/60 font-semibold tracking-wide uppercase text-[10px]">
-            ✨ <%= t('letters.focus_mode_enter') %>
-          </button>
-        </div>
-        <%= f.text_area :content, id: "letter_content_area", placeholder: t('letters.placeholder_content'), rows: 12, class: "textarea textarea-bordered w-full p-6 font-serif text-lg leading-relaxed focus:border-primary/50 focus:ring-2 focus:ring-primary/10 hover:border-base-400 focus:outline-none transition-all duration-300 rounded-2xl bg-white border-base-300 shadow-2xs placeholder:font-sans placeholder:text-base-content/35 writing-canvas", required: true %>
-        
-        <!-- Live character and word counters -->
-        <div class="flex justify-between items-center text-[10px] text-base-content/40 px-1 font-mono uppercase">
-          <span id="word_count_indicator">0 palabras</span>
-          <span id="char_count_indicator">0 caracteres</span>
+      <!-- Column 2: Tus predicciones (span 4) -->
+      <div class="lg:col-span-4 space-y-6">
+        <div class="card card-bordered border-base-200 bg-base-100 p-6 rounded-2xl shadow-xs space-y-6">
+          <div class="border-b border-base-200 pb-3">
+            <h2 class="font-serif italic text-2xl text-primary font-normal">Tus predicciones</h2>
+            <p class="text-xs text-base-content/40 mt-1">¿Cómo crees que será tu vida cuando abras esta carta?</p>
+          </div>
+
+          <div class="space-y-4">
+            <!-- Where will you live -->
+            <div class="space-y-1.5">
+              <label class="text-xs font-medium text-primary flex items-center gap-2">
+                <span class="text-base text-purple-600">🏠</span>
+                <span>¿Dónde vivirás?</span>
+              </label>
+              <%= f.text_field :prediction_city, placeholder: "Escribe tu predicción...", class: "input input-bordered input-sm w-full rounded-xl bg-base-200/30 border-base-300 text-xs focus:bg-white focus:outline-none transition-all" %>
+            </div>
+
+            <!-- What will your career be -->
+            <div class="space-y-1.5">
+              <label class="text-xs font-medium text-primary flex items-center gap-2">
+                <span class="text-base text-purple-600">💼</span>
+                <span>¿En qué trabajarás?</span>
+              </label>
+              <%= f.text_field :prediction_career, placeholder: "Escribe tu predicción...", class: "input input-bordered input-sm w-full rounded-xl bg-base-200/30 border-base-300 text-xs focus:bg-white focus:outline-none transition-all" %>
+            </div>
+
+            <!-- How much will you earn -->
+            <div class="space-y-1.5">
+              <label class="text-xs font-medium text-primary flex items-center gap-2">
+                <span class="text-base text-purple-600">💵</span>
+                <span>¿Cuánto ganarás al mes?</span>
+              </label>
+              <%= f.text_field :prediction_salary, placeholder: "Escribe tu predicción...", class: "input input-bordered input-sm w-full rounded-xl bg-base-200/30 border-base-300 text-xs focus:bg-white focus:outline-none transition-all" %>
+            </div>
+
+            <!-- Relationship status -->
+            <div class="space-y-1.5">
+              <label class="text-xs font-medium text-primary flex items-center gap-2">
+                <span class="text-base text-purple-600">❤️</span>
+                <span>¿Cómo estará tu relación sentimental?</span>
+              </label>
+              <%= f.text_field :prediction_relationship, placeholder: "Escribe tu predicción...", class: "input input-bordered input-sm w-full rounded-xl bg-base-200/30 border-base-300 text-xs focus:bg-white focus:outline-none transition-all" %>
+            </div>
+
+            <!-- Biggest achievement -->
+            <div class="space-y-1.5">
+              <label class="text-xs font-medium text-primary flex items-center gap-2">
+                <span class="text-base text-purple-600">🏆</span>
+                <span>¿Cuál será tu mayor logro?</span>
+              </label>
+              <%= f.text_field :prediction_achievement, placeholder: "Escribe tu predicción...", class: "input input-bordered input-sm w-full rounded-xl bg-base-200/30 border-base-300 text-xs focus:bg-white focus:outline-none transition-all" %>
+            </div>
+
+            <!-- Happiness prediction slider -->
+            <div class="space-y-2 pt-2">
+              <div class="flex justify-between items-center text-xs text-primary font-medium">
+                <span class="flex items-center gap-2">
+                  <span class="text-base text-purple-600">😊</span>
+                  <span>¿Qué tan feliz crees que serás?</span>
+                </span>
+                <span id="pred_happiness_val" class="font-semibold text-purple-700">7 / 10</span>
+              </div>
+              <%= f.range_field :prediction_happiness, min: 1, max: 10, class: "range range-primary range-xs", oninput: "document.getElementById('pred_happiness_val').innerText = this.value + ' / 10'" %>
+            </div>
+          </div>
         </div>
       </div>
 
-      <!-- Differentiators: Emotional Snapshot & Future Predictions -->
-      <div class="p-6 sm:p-8 bg-base-200/10 space-y-8">
-        <div class="border-l-4 border-accent pl-4">
-          <h2 class="font-serif italic text-2xl text-primary font-normal"><%= t('letters.evolution_tracker') %></h2>
-          <p class="text-xs text-base-content/50"><%= t('letters.evolution_tracker_help') %></p>
-        </div>
+      <!-- Column 3: Snapshot & Resumen (span 3) -->
+      <div class="lg:col-span-3 space-y-6">
+        <!-- Card 3: Estado emocional hoy -->
+        <div class="card card-bordered border-base-200 bg-base-100 p-6 rounded-2xl shadow-xs space-y-6">
+          <div class="border-b border-base-200 pb-3">
+            <h2 class="font-serif italic text-2xl text-primary font-normal">Estado emocional hoy</h2>
+            <p class="text-xs text-base-content/40 mt-1">¿Cómo te sientes en este momento?</p>
+          </div>
 
-        <div class="grid md:grid-cols-2 gap-8">
-          <!-- Emotional Snapshot -->
-          <div class="card card-bordered border-base-200 bg-base-100 p-6 rounded-2xl shadow-xs space-y-6">
-            <div class="flex items-center gap-2 border-b border-base-200 pb-3">
-              <span class="text-xl">🧠</span>
-              <h3 class="font-serif italic text-lg text-primary font-normal"><%= t('letters.emotional_snapshot') %></h3>
-            </div>
-            <p class="text-xs text-base-content/50 leading-relaxed"><%= t('letters.emotional_snapshot_help') %></p>
-            
-            <!-- Happiness Level -->
+          <div class="space-y-5">
+            <!-- Happiness -->
             <div class="space-y-2">
-              <div class="flex justify-between items-center">
-                <span class="text-xs font-semibold text-primary uppercase tracking-wider"><%= t('letters.happiness_level') %></span>
-                <span id="happiness_val" class="badge badge-primary font-bold text-[10px] py-2 px-2.5">5/10</span>
+              <div class="flex justify-between items-center text-xs font-medium text-primary">
+                <span class="flex items-center gap-1.5">😊 Felicidad</span>
+                <span id="happiness_val" class="text-xs font-semibold text-base-content/60">6 / 10</span>
               </div>
-              <%= f.range_field :happiness_level, min: 1, max: 10, class: "range range-primary range-xs", oninput: "document.getElementById('happiness_val').innerText = this.value + '/10'" %>
-              <div class="flex justify-between text-[9px] text-base-content/30 px-1 font-mono uppercase">
-                <span><%= t('letters.struggling') %></span>
-                <span><%= t('letters.content_state') %></span>
-                <span><%= t('letters.joyful') %></span>
-              </div>
+              <%= f.range_field :happiness_level, min: 1, max: 10, class: "range range-primary range-xs", oninput: "document.getElementById('happiness_val').innerText = this.value + ' / 10'; updateMoodGlow()" %>
             </div>
 
-            <!-- Anxiety Level -->
+            <!-- Anxiety -->
             <div class="space-y-2">
-              <div class="flex justify-between items-center">
-                <span class="text-xs font-semibold text-primary uppercase tracking-wider"><%= t('letters.anxiety_level') %></span>
-                <span id="anxiety_val" class="badge badge-secondary font-bold text-[10px] py-2 px-2.5">5/10</span>
+              <div class="flex justify-between items-center text-xs font-medium text-primary">
+                <span class="flex items-center gap-1.5">😔 Ansiedad</span>
+                <span id="anxiety_val" class="text-xs font-semibold text-base-content/60">4 / 10</span>
               </div>
-              <%= f.range_field :anxiety_level, min: 1, max: 10, class: "range range-secondary range-xs", oninput: "document.getElementById('anxiety_val').innerText = this.value + '/10'" %>
-              <div class="flex justify-between text-[9px] text-base-content/30 px-1 font-mono uppercase">
-                <span><%= t('letters.calm') %></span>
-                <span><%= t('letters.moderate') %></span>
-                <span><%= t('letters.overwhelmed') %></span>
-              </div>
+              <%= f.range_field :anxiety_level, min: 1, max: 10, class: "range range-secondary range-xs", oninput: "document.getElementById('anxiety_val').innerText = this.value + ' / 10'; updateMoodGlow()" %>
             </div>
 
-            <!-- Motivation Level -->
+            <!-- Motivation -->
             <div class="space-y-2">
-              <div class="flex justify-between items-center">
-                <span class="text-xs font-semibold text-primary uppercase tracking-wider"><%= t('letters.motivation_level') %></span>
-                <span id="motivation_val" class="badge badge-accent font-bold text-[10px] py-2 px-2.5">5/10</span>
+              <div class="flex justify-between items-center text-xs font-medium text-primary">
+                <span class="flex items-center gap-1.5">⭐ Motivación</span>
+                <span id="motivation_val" class="text-xs font-semibold text-base-content/60">7 / 10</span>
               </div>
-              <%= f.range_field :motivation_level, min: 1, max: 10, class: "range range-accent range-xs", oninput: "document.getElementById('motivation_val').innerText = this.value + '/10'" %>
-              <div class="flex justify-between text-[9px] text-base-content/30 px-1 font-mono uppercase">
-                <span><%= t('letters.uninspired') %></span>
-                <span><%= t('letters.steady') %></span>
-                <span><%= t('letters.driven') %></span>
-              </div>
+              <%= f.range_field :motivation_level, min: 1, max: 10, class: "range range-accent range-xs", oninput: "document.getElementById('motivation_val').innerText = this.value + ' / 10'; updateMoodGlow()" %>
             </div>
           </div>
+        </div>
 
-          <!-- Future Predictions -->
-          <div class="card card-bordered border-base-200 bg-base-100 p-6 rounded-2xl shadow-xs space-y-5">
-            <div class="flex items-center gap-2 border-b border-base-200 pb-3">
-              <span class="text-xl">🔮</span>
-              <h3 class="font-serif italic text-lg text-primary font-normal"><%= t('letters.predictions_vs_reality') %></h3>
+        <!-- Card 4: Resumen -->
+        <div class="card card-bordered border-base-200 bg-base-100 p-6 rounded-2xl shadow-xs space-y-4 font-sans text-xs">
+          <div class="border-b border-base-200 pb-2">
+            <h3 class="font-semibold text-primary uppercase tracking-wider">Resumen</h3>
+          </div>
+
+          <div class="space-y-3">
+            <div class="flex items-center gap-2 text-base-content/70">
+              <span class="text-base text-base-content/40">📅</span>
+              <div>
+                <p class="text-[10px] text-base-content/40 uppercase">Se abrirá el</p>
+                <p id="summary_delivery_date" class="font-semibold text-primary">Cargando...</p>
+              </div>
             </div>
-            <p class="text-xs text-base-content/50 leading-relaxed"><%= t('letters.predictions_vs_reality_help') %></p>
-            
-            <div class="space-y-4">
-              <!-- City -->
-              <div class="space-y-1">
-                <label class="text-[10px] font-semibold text-primary uppercase tracking-wider block"><%= t('letters.prediction_city_label') %></label>
-                <%= f.text_field :prediction_city, placeholder: "ej: Bogotá, Madrid, Tokio...", class: "input input-bordered input-sm w-full rounded-xl text-sm focus:border-primary/50 focus:ring-2 focus:ring-primary/10 hover:border-base-400 focus:outline-none bg-white border-base-300 shadow-2xs transition-all duration-200" %>
-              </div>
 
-              <!-- Salary -->
-              <div class="space-y-1">
-                <label class="text-[10px] font-semibold text-primary uppercase tracking-wider block"><%= t('letters.prediction_salary_label') %></label>
-                <%= f.text_field :prediction_salary, placeholder: "ej: $75k/año, estabilidad financiera...", class: "input input-bordered input-sm w-full rounded-xl text-sm focus:border-primary/50 focus:ring-2 focus:ring-primary/10 hover:border-base-400 focus:outline-none bg-white border-base-300 shadow-2xs transition-all duration-200" %>
+            <div class="flex items-center gap-2 text-base-content/70">
+              <span class="text-base text-base-content/40">⏱️</span>
+              <div>
+                <p class="text-[10px] text-base-content/40 uppercase">Dentro de</p>
+                <p id="summary_countdown" class="font-semibold text-primary">Cargando...</p>
               </div>
+            </div>
 
-              <!-- Relationship -->
-              <div class="space-y-1">
-                <label class="text-[10px] font-semibold text-primary uppercase tracking-wider block"><%= t('letters.prediction_relationship_label') %></label>
-                <%= f.text_field :prediction_relationship, placeholder: "ej: soltero y sanando, casado...", class: "input input-bordered input-sm w-full rounded-xl text-sm focus:border-primary/50 focus:ring-2 focus:ring-primary/10 hover:border-base-400 focus:outline-none bg-white border-base-300 shadow-2xs transition-all duration-200" %>
-              </div>
-
-              <!-- Career -->
-              <div class="space-y-1">
-                <label class="text-[10px] font-semibold text-primary uppercase tracking-wider block"><%= t('letters.prediction_career_label') %></label>
-                <%= f.text_field :prediction_career, placeholder: "ej: desarrollador principal, fundando una startup...", class: "input input-bordered input-sm w-full rounded-xl text-sm focus:border-primary/50 focus:ring-2 focus:ring-primary/10 hover:border-base-400 focus:outline-none bg-white border-base-300 shadow-2xs transition-all duration-200" %>
-              </div>
-
-              <!-- Achievement -->
-              <div class="space-y-1">
-                <label class="text-[10px] font-semibold text-primary uppercase tracking-wider block"><%= t('letters.prediction_achievement_label') %></label>
-                <%= f.text_field :prediction_achievement, placeholder: "ej: correr un maratón, escribir una novela...", class: "input input-bordered input-sm w-full rounded-xl text-sm focus:border-primary/50 focus:ring-2 focus:ring-primary/10 hover:border-base-400 focus:outline-none bg-white border-base-300 shadow-2xs transition-all duration-200" %>
+            <div class="flex items-center gap-2 text-base-content/70">
+              <span class="text-base text-base-content/40">🔒</span>
+              <div>
+                <p class="text-[10px] text-base-content/40 uppercase">Privacidad</p>
+                <p class="font-semibold text-primary">Solo tú podrás verlo</p>
               </div>
             </div>
           </div>
         </div>
+
+        <!-- Submit Button stacked under Column 3 -->
+        <%= f.submit "Guardar carta", class: "btn w-full bg-[#3b2e7a] hover:bg-[#2c2061] text-white rounded-xl py-3 px-6 text-sm font-semibold tracking-wide shadow-md transition-all duration-300 cursor-pointer" %>
       </div>
 
-      <!-- Settings & Date Picker -->
-      <div class="p-6 sm:p-8 grid md:grid-cols-2 gap-8 bg-base-200/20">
-        <!-- Delivery Date Configuration -->
-        <div class="space-y-4">
-          <label class="label p-0">
-            <span class="label-text text-xs font-semibold text-primary uppercase tracking-wider"><%= t('letters.label_deliver_at') %></span>
-          </label>
-          
-          <div class="space-y-2">
-            <%= f.date_field :deliver_at, min: (Date.current + 1.day).to_s, class: "input input-bordered w-full focus:border-primary/50 focus:ring-2 focus:ring-primary/10 hover:border-base-400 focus:outline-none transition-all duration-200 rounded-xl bg-white border-base-300 shadow-2xs", required: true, data: { controller: "date-preset" } %>
-          </div>
-
-          <!-- Shortcuts presets inside an elegant group -->
-          <div class="flex flex-wrap gap-2 pt-1">
-            <button type="button" onclick="setPresetDate(180)" class="btn btn-outline btn-xs rounded-lg border-base-300 hover:bg-base-200 hover:text-primary text-[10px] font-medium px-3">
-              <%= t('letters.preset_6m') %>
-            </button>
-            <button type="button" onclick="setPresetDate(365)" class="btn btn-outline btn-xs rounded-lg border-base-300 hover:bg-base-200 hover:text-primary text-[10px] font-medium px-3">
-              <%= t('letters.preset_1y') %>
-            </button>
-            <button type="button" onclick="setPresetDate(1095)" class="btn btn-outline btn-xs rounded-lg border-base-300 hover:bg-base-200 hover:text-primary text-[10px] font-medium px-3">
-              <%= t('letters.preset_3y') %>
-            </button>
-            <button type="button" onclick="setPresetDate(1825)" class="btn btn-outline btn-xs rounded-lg border-base-300 hover:bg-base-200 hover:text-primary text-[10px] font-medium px-3">
-              <%= t('letters.preset_5y') %>
-            </button>
-          </div>
-
-          <!-- Dynamic Time Journey feedback -->
-          <p id="time_travel_duration_text" class="text-xs text-primary font-semibold italic mt-3.5 flex items-center gap-1 opacity-0 transition-all duration-300 transform translate-y-1">
-          </p>
-        </div>
-
-        <!-- Visibility & Multimedia Options -->
-        <div class="space-y-4">
-          <label class="label p-0">
-            <span class="label-text text-xs font-semibold text-primary uppercase tracking-wider"><%= t('letters.label_visibility') %></span>
-          </label>
-          
-          <div class="form-control bg-base-100 p-4 rounded-xl border border-base-200 shadow-2xs">
-            <label class="label flex flex-row cursor-pointer items-start justify-start gap-3 p-0">
-              <%= f.check_box :public, class: "checkbox checkbox-primary checkbox-sm rounded-md mt-1 shrink-0" %>
-              <div class="space-y-0.5">
-                <span class="label-text font-semibold text-primary"><%= t('letters.label_public') %></span>
-                <p class="text-xs text-base-content/50 leading-relaxed"><%= t('letters.label_public_help') %></p>
-              </div>
-            </label>
-          </div>
-        </div>
-      </div>
-
-      <!-- Footer / Submit -->
-      <div class="p-6 sm:p-8 flex flex-col sm:flex-row gap-4 items-center justify-between bg-base-200/30">
-        <p class="text-xs text-base-content/50 italic font-sans flex items-center gap-1.5">
-          <%= t('flash.locked') %>
-        </p>
-        <%= f.submit t('letters.btn_submit'), class: "btn btn-primary px-8 rounded-xl w-full sm:w-auto text-xs tracking-wider uppercase font-semibold shadow-xs" %>
-      </div>
-    <% end %>
-  </div>
-</div>
+    </div>
+  <% end %>
 </div>
 
 <script>
-  // Dynamic Presets and Time Travel Journeys
-  function setPresetDate(days) {
-    const targetDateInput = document.querySelector('input[type="date"]');
-    if (targetDateInput) {
-      const today = new Date();
-      today.setDate(today.getDate() + days);
-      const year = today.getFullYear();
-      const month = String(today.getMonth() + 1).padStart(2, '0');
-      const day = String(today.getDate()).padStart(2, '0');
-      targetDateInput.value = `${year}-${month}-${day}`;
-      updateTimeTravelDuration();
+  // Character counter for content
+  document.addEventListener("DOMContentLoaded", () => {
+    const textarea = document.getElementById("letter_content_area");
+    const counter = document.getElementById("char_counter");
+    if (textarea && counter) {
+      const updateCounter = () => {
+        const length = textarea.value.length;
+        counter.innerText = `${length}/2000`;
+      };
+      textarea.addEventListener("input", updateCounter);
+      updateCounter();
     }
-  }
 
-  function updateTimeTravelDuration() {
+    // Set a default delivery date (1 year from now) if not set
     const dateInput = document.querySelector('input[type="date"]');
-    const indicator = document.getElementById('time_travel_duration_text');
-    if (dateInput && indicator) {
-      const selected = new Date(dateInput.value);
+    if (dateInput && !dateInput.value) {
       const today = new Date();
-      // Reset hours to compare dates only
-      today.setHours(0,0,0,0);
-      selected.setHours(0,0,0,0);
-      
-      const diffTime = selected - today;
+      today.setFullYear(today.getFullYear() + 1);
+      const y = today.getFullYear();
+      const m = String(today.getMonth() + 1).padStart(2, '0');
+      const d = String(today.getDate()).padStart(2, '0');
+      dateInput.value = `${y}-${m}-${d}`;
+    }
+
+    updateSummaryInfo();
+    updateMoodGlow();
+  });
+
+  // Dynamic countdown values inside the Resumen card
+  function updateSummaryInfo() {
+    const dateInput = document.querySelector('input[type="date"]');
+    const summaryDate = document.getElementById("summary_delivery_date");
+    const summaryCountdown = document.getElementById("summary_countdown");
+
+    if (dateInput && summaryDate && summaryCountdown) {
+      if (!dateInput.value) {
+        summaryDate.innerText = "No configurada";
+        summaryCountdown.innerText = "N/A";
+        return;
+      }
+
+      const selectedDate = new Date(dateInput.value);
+      selectedDate.setHours(0, 0, 0, 0);
+
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+
+      // Format Date
+      const options = { year: 'numeric', month: 'long', day: 'numeric' };
+      summaryDate.innerText = selectedDate.toLocaleDateString('es-ES', options);
+
+      // Countdown
+      const diffTime = selectedDate - today;
       const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-      
-      if (diffDays > 0) {
-        indicator.innerHTML = `🚀 Esta carta viajará en el tiempo durante <strong>${diffDays} días</strong>`;
-        indicator.classList.remove('opacity-0', 'translate-y-1');
-        indicator.classList.add('opacity-100', 'translate-y-0');
-      } else {
-        indicator.classList.add('opacity-0', 'translate-y-1');
-        indicator.classList.remove('opacity-100', 'translate-y-0');
-      }
-    }
-  }
 
-  // Meditative Focus Mode Toggle
-  function toggleFocusMode() {
-    const container = document.getElementById('writing_canvas_container');
-    const btn = document.getElementById('focus_mode_btn');
-    if (container && btn) {
-      const isEntering = !container.classList.contains('focus-mode-active-state');
-      if (isEntering) {
-        container.classList.add('focus-mode-active-state');
-        btn.innerHTML = `🔍 Salir de Enfoque`;
-        btn.classList.add('text-secondary');
-        btn.classList.remove('text-primary');
-        // Add escape key listener to exit focus mode
-        window.addEventListener('keydown', handleFocusEscape);
+      if (diffDays <= 0) {
+        summaryCountdown.innerText = "Mañana";
       } else {
-        container.classList.remove('focus-mode-active-state');
-        btn.innerHTML = `✨ Modo Enfoque`;
-        btn.classList.add('text-primary');
-        btn.classList.remove('text-secondary');
-        window.removeEventListener('keydown', handleFocusEscape);
+        summaryCountdown.innerText = `${diffDays} días`;
       }
-    }
-  }
-
-  function handleFocusEscape(e) {
-    if (e.key === 'Escape') {
-      toggleFocusMode();
     }
   }
 
@@ -361,54 +303,15 @@
     const glow = document.getElementById('mood_glow');
     
     if (glow && happinessEl && anxietyEl && motivationEl) {
-      const happiness = parseInt(happinessEl.value || 5);
-      const anxiety = parseInt(anxietyEl.value || 5);
-      const motivation = parseInt(motivationEl.value || 5);
+      const happiness = parseInt(happinessEl.value || 6);
+      const anxiety = parseInt(anxietyEl.value || 4);
+      const motivation = parseInt(motivationEl.value || 7);
       
-      // Generate highly harmonious curated HSL colors for each mood dimension
-      const color1 = `hsla(${20 + happiness * 16}, 75%, 68%, 0.16)`; // Warm Amber to Golden-joy
-      const color2 = `hsla(${230 + anxiety * 10}, 65%, 72%, 0.16)`; // Soft Lavender to Purple-anxiety
-      const color3 = `hsla(${145 + motivation * 14}, 70%, 64%, 0.16)`; // Fresh Teal to Active Emerald
+      const color1 = `hsla(${20 + happiness * 16}, 75%, 68%, 0.16)`; // Curated HSL Gold-joy
+      const color2 = `hsla(${230 + anxiety * 10}, 65%, 72%, 0.16)`; // Soft Lavender
+      const color3 = `hsla(${145 + motivation * 14}, 70%, 64%, 0.16)`; // Fresh Teal
       
       glow.style.background = `linear-gradient(135deg, ${color1}, ${color2}, ${color3})`;
-      glow.style.filter = `blur(${35 + (happiness + motivation) * 1.5}px)`;
     }
   }
-
-  // Event Listeners initialization
-  document.addEventListener('DOMContentLoaded', () => {
-    // 1. Textarea word and character counter
-    const textInput = document.getElementById('letter_content_area');
-    if (textInput) {
-      const updateCounters = () => {
-        const text = textInput.value.trim();
-        const words = text ? text.split(/\s+/).length : 0;
-        const chars = text.length;
-        document.getElementById('word_count_indicator').innerText = `${words} palabras`;
-        document.getElementById('char_count_indicator').innerText = `${chars} caracteres`;
-      };
-      textInput.addEventListener('input', updateCounters);
-      updateCounters(); // Initial trigger
-    }
-
-    // 2. Sliders listeners for Mood Glow
-    const sliderNames = ['happiness_level', 'anxiety_level', 'motivation_level'];
-    sliderNames.forEach(name => {
-      const slider = document.querySelector(`input[name*="${name}"]`);
-      if (slider) {
-        slider.addEventListener('input', updateMoodGlow);
-      }
-    });
-    updateMoodGlow(); // Initial trigger
-
-    // 3. Date input listener for dynamic descriptors
-    const dateInput = document.querySelector('input[type="date"]');
-    if (dateInput) {
-      dateInput.addEventListener('change', updateTimeTravelDuration);
-      // Run once on load if there's a pre-set date
-      if (dateInput.value) {
-        updateTimeTravelDuration();
-      }
-    }
-  });
 </script>

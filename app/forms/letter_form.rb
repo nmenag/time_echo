@@ -14,6 +14,7 @@ class LetterForm
   attribute :prediction_relationship, :string
   attribute :prediction_career, :string
   attribute :prediction_achievement, :string
+  attribute :prediction_happiness, :string, default: "7"
 
   # Emotional Snapshot
   attribute :happiness_level, :integer, default: 5
@@ -59,6 +60,7 @@ class LetterForm
       build_prediction("relationship", prediction_relationship)
       build_prediction("career", prediction_career)
       build_prediction("achievement", prediction_achievement)
+      build_prediction("happiness", prediction_happiness)
 
       @letter.save!
 
