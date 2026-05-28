@@ -163,28 +163,24 @@
       </div>
     <% else %>
       <!-- Clean Full-Width Layout (for Landing, Login, Success pages) -->
-      <header class="sticky top-0 z-50 bg-base-100/80 backdrop-blur-md border-b border-base-200">
+      <header class="sticky top-0 z-50 bg-[#fafaf9]/85 backdrop-blur-md border-b border-base-200/50">
         <div class="max-w-6xl mx-auto px-4 md:px-6 h-16 flex items-center justify-between">
-          <a href="<%= root_path %>" class="flex items-center gap-1.5 text-2xl font-serif italic text-primary tracking-tight font-normal">
-            <span class="text-[#3b2e7a]">✨</span>
-            <%= t('brand') %>
+          <a href="<%= root_path %>" class="flex items-center gap-0.5 text-2xl font-serif italic text-[#111827] tracking-tight font-normal">
+            <span>TimeEcho</span>
+            <span class="text-[#5b21b6] text-xl font-sans relative -top-2.5 font-bold">+</span>
           </a>
-          <div class="flex items-center gap-4">
-            <a href="<%= public_feed_letters_path %>" class="btn btn-ghost btn-sm text-xs font-semibold tracking-wider uppercase rounded-xl">
-              <%= t('navigation.public_stories') %>
-            </a>
+          
+          <div class="flex items-center gap-8 text-sm font-sans font-medium">
+            <a href="<%= root_path %>#how-it-works" class="text-base-content/70 hover:text-[#5b21b6] transition-colors">¿Cómo funciona?</a>
             <% if user_signed_in? %>
-              <a href="<%= dashboard_path %>" class="btn btn-primary btn-sm rounded-xl px-5 text-xs font-semibold tracking-wider uppercase shadow-xs">
-                <%= t('navigation.vault') %>
-              </a>
+              <a href="<%= dashboard_path %>" class="btn bg-[#5b21b6] hover:bg-[#4c1d95] text-white rounded-xl px-5 text-xs font-semibold border-none uppercase tracking-wider shadow-sm"><%= t('navigation.vault') %></a>
             <% else %>
-              <a href="<%= login_path %>" class="btn btn-primary btn-sm rounded-xl px-5 text-xs font-semibold tracking-wider uppercase shadow-xs">
-                <%= t('navigation.sign_in') %>
-              </a>
+              <a href="<%= login_path %>" class="btn bg-[#5b21b6] hover:bg-[#4c1d95] text-white rounded-xl px-5 text-sm font-semibold border-none font-sans shadow-sm">Iniciar sesión</a>
             <% end %>
           </div>
         </div>
       </header>
+
 
       <main class="flex-grow max-w-6xl mx-auto px-4 md:px-6 py-10 w-full font-sans">
         <!-- Flash Banners -->
