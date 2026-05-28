@@ -11,7 +11,7 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
       post login_path, params: { magic_link_form: { email: "user@example.com" } }
     end
     assert_redirected_to check_email_path(email: "user@example.com")
-    
+
     # Verify SessionToken was created
     token_record = SessionToken.last
     assert_equal "user@example.com", token_record.email
@@ -25,7 +25,7 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
     get magic_login_path(token_record.token)
     assert_redirected_to dashboard_path
     assert_equal "user@example.com", session[:current_user_email]
-    
+
     token_record.reload
     assert token_record.used?
     assert_not_nil token_record.used_at
