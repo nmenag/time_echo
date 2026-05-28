@@ -11,9 +11,17 @@ class ApplicationController < ActionController::Base
   # Changes to the importmap will invalidate the etag for HTML responses
   stale_when_importmap_changes
 
-  helper_method :current_user_email, :user_signed_in?
+  helper_method :current_user_email, :user_signed_in?, :current_user_theme
 
   private
+
+  def current_user_theme
+    if user_signed_in?
+      UserPreference.find_by(email: current_user_email)&.theme || "timeecho"
+    else
+      "timeecho"
+    end
+  end
 
   def current_user_email
     session[:current_user_email]

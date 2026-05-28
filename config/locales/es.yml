@@ -24,7 +24,8 @@ es:
   navigation:
     write: "Escribir una Carta"
     public_stories: "Historias Públicas"
-    vault: "Línea de Tiempo"
+    vault: "Mis Cartas"
+    timeline: "Línea de Tiempo"
     analytics: "Estadísticas"
     sign_in: "Iniciar Sesión"
     sign_out: "Cerrar Sesión"

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-theme="timeecho" class="scroll-smooth">
+<html data-theme="<%= current_user_theme %>" class="scroll-smooth">
   <head>
     <title><%= content_for(:title) || "TimeEcho — #{t('slogan')}" %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -76,11 +76,12 @@
                 <span><%= t('navigation.analytics') %></span>
               </a>
 
-              <!-- Ajustes (Mock modal trigger) -->
-              <button onclick="settings_modal.showModal()" class="w-full flex items-center gap-3.5 px-4 py-3 rounded-2xl text-sm font-medium text-base-content/70 hover:bg-base-200 hover:text-primary transition-all duration-200 text-left cursor-pointer">
+              <!-- Ajustes -->
+              <% settings_active = current_page?(settings_path) %>
+              <a href="<%= settings_path %>" class="flex items-center gap-3.5 px-4 py-3 rounded-2xl text-sm font-medium transition-all duration-200 <%= settings_active ? 'bg-[#3b2e7a] text-white shadow-md' : 'text-base-content/70 hover:bg-base-200 hover:text-primary' %>">
                 <span class="text-base">⚙️</span>
                 <span><%= t('navigation.settings') || "Ajustes" %></span>
-              </button>
+              </a>
             </nav>
           </div>
 
@@ -131,7 +132,7 @@
                 <li><a href="<%= dashboard_path %>" class="py-2">✉️ <%= t('navigation.vault') %></a></li>
                 <li><a href="<%= dashboard_path(timeline: true) %>" class="py-2">🕒 <%= t('navigation.timeline') || "Línea de tiempo" %></a></li>
                 <li><a href="<%= analytics_path %>" class="py-2">📊 <%= t('navigation.analytics') %></a></li>
-                <li><button onclick="settings_modal.showModal()" class="py-2 text-left w-full cursor-pointer">⚙️ <%= t('navigation.settings') || "Ajustes" %></button></li>
+                <li><a href="<%= settings_path %>" class="py-2">⚙️ <%= t('navigation.settings') || "Ajustes" %></a></li>
                 <% if user_signed_in? %>
                   <div class="divider my-1"></div>
                   <li class="px-3 py-1.5 text-[10px] text-base-content/40 truncate"><%= current_user_email %></li>
@@ -146,17 +147,18 @@
 
         <!-- Right Content Area -->
         <main class="flex-grow min-h-screen bg-base-100 p-4 sm:p-8 md:p-12 overflow-x-hidden font-sans">
-          <!-- Banners inside layout -->
-          <% if flash[:notice].present? %>
-            <div class="alert alert-success shadow-xs border border-success/20 rounded-2xl flex items-center justify-between py-3 mb-6 animate-fade-in max-w-5xl mx-auto">
-              <span class="text-sm font-medium">✨ <%= flash[:notice] %></span>
-            </div>
-          <% end %>
-          <% if flash[:alert].present? %>
-            <div class="alert alert-error shadow-xs border border-error/20 rounded-2xl flex items-center justify-between py-3 mb-6 animate-fade-in max-w-5xl mx-auto">
-              <span class="text-sm font-medium text-white">⚠️ <%= flash[:alert] %></span>
-            </div>
-          <% end %>
+          <div id="flash-container">
+            <% if flash[:notice].present? %>
+              <div class="alert alert-success shadow-xs border border-success/20 rounded-2xl flex items-center justify-between py-3 mb-6 animate-fade-in max-w-5xl mx-auto">
+                <span class="text-sm font-medium">✨ <%= flash[:notice] %></span>
+              </div>
+            <% end %>
+            <% if flash[:alert].present? %>
+              <div class="alert alert-error shadow-xs border border-error/20 rounded-2xl flex items-center justify-between py-3 mb-6 animate-fade-in max-w-5xl mx-auto">
+                <span class="text-sm font-medium text-white">⚠️ <%= flash[:alert] %></span>
+              </div>
+            <% end %>
+          </div>
 
           <%= yield %>
         </main>

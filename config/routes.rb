@@ -29,6 +29,11 @@ Rails.application.routes.draw do
   # Emotional Analytics
   get "analytics", to: "analytics#index", as: :analytics
 
+  # Settings
+  get "settings", to: "settings#show", as: :settings
+  patch "settings", to: "settings#update"
+  delete "settings", to: "settings#destroy"
+
   # Webhook Delivery Endpoint
   post "webhooks/resend", to: "webhooks#resend"
 end

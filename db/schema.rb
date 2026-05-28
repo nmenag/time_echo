@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_05_21_130000) do
+ActiveRecord::Schema[8.1].define(version: 2026_05_28_020000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -295,6 +295,24 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_21_130000) do
     t.index ["expires_at"], name: "index_solid_queue_semaphores_on_expires_at"
     t.index ["key", "value"], name: "index_solid_queue_semaphores_on_key_and_value"
     t.index ["key"], name: "index_solid_queue_semaphores_on_key", unique: true
+  end
+
+  create_table "user_preferences", force: :cascade do |t|
+    t.boolean "all_letters_private", default: true, null: false
+    t.boolean "anonymous_analytics", default: true, null: false
+    t.string "appearance_mode", default: "system", null: false
+    t.boolean "automatic_memories", default: true, null: false
+    t.datetime "created_at", null: false
+    t.string "email", null: false
+    t.boolean "emotional_summary_emails", default: true, null: false
+    t.boolean "future_letter_reminders", default: true, null: false
+    t.string "memory_frequency", default: "normal", null: false
+    t.boolean "monthly_checkpoints", default: true, null: false
+    t.string "reflection_style", default: "reflective", null: false
+    t.boolean "surprise_memories", default: true, null: false
+    t.string "theme", default: "timeecho", null: false
+    t.datetime "updated_at", null: false
+    t.index ["email"], name: "index_user_preferences_on_email", unique: true
   end
 
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"

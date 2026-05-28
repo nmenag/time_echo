@@ -1,0 +1,12 @@
+<div id="flash-container">
+  <% if flash[:notice].present? %>
+    <div class="alert alert-success shadow-xs border border-success/20 rounded-2xl flex items-center justify-between py-3 mb-6 animate-fade-in max-w-5xl mx-auto">
+      <span class="text-sm font-medium">✨ <%= flash[:notice] %></span>
+    </div>
+  <% end %>
+  <% if flash[:alert].present? %>
+    <div class="alert alert-error shadow-xs border border-error/20 rounded-2xl flex items-center justify-between py-3 mb-6 animate-fade-in max-w-5xl mx-auto">
+      <span class="text-sm font-medium text-white">⚠️ <%= flash[:alert] %></span>
+    </div>
+  <% end %>
+</div>

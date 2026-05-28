@@ -7,7 +7,8 @@ en:
   navigation:
     write: "Write a Letter"
     public_stories: "Public Stories"
-    vault: "Vault Timeline"
+    vault: "My Letters"
+    timeline: "Timeline"
     analytics: "Analytics"
     sign_in: "Sign In"
     sign_out: "Sign Out"
