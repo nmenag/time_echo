@@ -1,0 +1,475 @@
+<div class="max-w-7xl mx-auto py-4 font-sans animate-fade-in">
+  <% if @countdown %>
+    <!-- ==========================================
+         VIEW 1: LOCKED TIMELOCKED COUNTDOWN CAPSULE
+         ========================================== -->
+    <div class="max-w-xl mx-auto py-12">
+      <div class="card card-bordered border-base-200 bg-base-100 p-8 sm:p-12 rounded-3xl text-center space-y-8 shadow-md relative overflow-hidden">
+        <!-- Ambient decorative lock glow -->
+        <div class="absolute -top-24 -left-24 w-48 h-48 bg-warning/10 rounded-full blur-3xl"></div>
+        <div class="absolute -bottom-24 -right-24 w-48 h-48 bg-primary/10 rounded-full blur-3xl"></div>
+
+        <div class="relative w-28 h-28 mx-auto select-none">
+          <div class="w-full h-full bg-[#f5f3eb] rounded-full border border-base-300 flex items-center justify-center text-5xl shadow-inner">
+            ✉️
+          </div>
+          <div class="absolute -bottom-1 -right-1 bg-[#3b2e7a] text-white w-9 h-9 rounded-full flex items-center justify-center text-sm font-bold border-2 border-white animate-bounce shadow-md">
+            🔒
+          </div>
+        </div>
+
+        <div class="space-y-3">
+          <h1 class="font-serif italic text-3xl sm:text-4xl text-primary font-normal"><%= t('letters.show_locked_title') %></h1>
+          <p class="text-xs text-base-content/60 max-w-sm mx-auto leading-relaxed">
+            <%= t('letters.show_locked_desc', email: @letter.email) %>
+          </p>
+        </div>
+
+        <% days_left = (@letter.deliver_at.to_date - Date.current).to_i %>
+        <div class="space-y-2">
+          <span class="text-[10px] font-semibold text-base-content/40 uppercase tracking-wider block">Tiempo restante</span>
+          <div class="inline-block px-8 py-3.5 bg-yellow-50 border border-yellow-200 text-yellow-800 rounded-2xl font-serif italic text-3xl font-semibold tracking-wide shadow-2xs">
+            <%= days_left == 1 ? "1 día" : "#{days_left} días" %>
+          </div>
+          <p class="text-[11px] text-base-content/40 pt-1">
+            Se entregará el <%= I18n.l(@letter.deliver_at.to_date, format: :long) %>
+          </p>
+        </div>
+
+        <div class="pt-6 border-t border-base-200">
+          <a href="<%= dashboard_path %>" class="btn btn-outline border-base-300 hover:bg-base-200 hover:text-primary rounded-xl px-6 text-xs font-semibold uppercase tracking-wider shadow-2xs cursor-pointer">
+            Volver a mis cartas
+          </a>
+        </div>
+      </div>
+    </div>
+
+  <% else %>
+    <!-- ==========================================
+         UNLOCKED LIFE LIFECYCLE VIEWS
+         ========================================== -->
+    <% if @letter.reveal_happiness.nil? && (@accessed_via_signed_id || (user_signed_in? && @letter.email == current_user_email)) %>
+      <!-- ==========================================
+           VIEW 2: REFLECTIVE REALITY INPUT ONBOARDING (Mockup Page 2)
+           ========================================== -->
+      <%= form_with url: update_predictions_letter_path(@letter), method: :post, local: true, class: "space-y-8" do |f| %>
+        <div style="display: none;"><%= @letter.content %></div>
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+          
+          <!-- Left Column: Envelope Onboarding Card (span 4) -->
+          <div class="lg:col-span-4 flex">
+            <div class="card card-bordered border-base-200 bg-base-100 p-8 rounded-2xl shadow-xs text-center flex flex-col justify-between items-center w-full relative overflow-hidden">
+              <div class="space-y-4">
+                <span class="badge badge-accent py-2 px-3 text-[10px] font-bold tracking-wider uppercase">Cápsula Desbloqueada</span>
+                <h2 class="font-serif italic text-3xl text-primary font-normal leading-snug">
+                  Tu carta del pasado te está esperando.
+                </h2>
+                <p class="text-xs text-base-content/50 max-w-xs mx-auto leading-relaxed">
+                  Antes de leerla, cuéntanos qué pasó realmente. Esto nos permitirá calcular el score de predicciones y shifts emocionales.
+                </p>
+              </div>
+
+              <!-- Premium Envelope Graphic -->
+              <div class="my-8 relative select-none group">
+                <div class="absolute inset-0 bg-[#3b2e7a]/5 rounded-full blur-2xl group-hover:bg-[#3b2e7a]/10 transition-all duration-500"></div>
+                <div class="w-32 h-32 bg-[#faf9f6] border border-base-300 rounded-full flex items-center justify-center text-6xl shadow-md transform group-hover:scale-105 transition-transform duration-300">
+                  ✉️
+                </div>
+                <div class="absolute bottom-1 right-1 bg-success text-white w-9 h-9 rounded-full flex items-center justify-center text-base border-2 border-white shadow-md animate-bounce">
+                  ✨
+                </div>
+              </div>
+
+              <div class="w-full space-y-2">
+                <button type="button" onclick="scrollToQuestions()" class="btn w-full bg-[#3b2e7a] hover:bg-[#2c2061] text-white rounded-xl py-3 text-sm font-semibold tracking-wide shadow-md transition-all cursor-pointer">
+                  Comenzar
+                </button>
+                <p class="text-[10px] text-base-content/40">Tomará solo 2 minutos</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Center Column: Cuéntanos tu realidad (span 5) -->
+          <div id="questions_section" class="lg:col-span-5 flex">
+            <div class="card card-bordered border-base-200 bg-base-100 p-6 sm:p-8 rounded-2xl shadow-xs w-full space-y-6">
+              <div class="border-b border-base-200 pb-3">
+                <h3 class="font-serif italic text-2xl text-primary font-normal">Cuéntanos tu realidad actual</h3>
+                <p class="text-xs text-base-content/40 mt-1">Responde estas preguntas para comparar tu pasado con tu yo actual.</p>
+              </div>
+
+              <div class="space-y-5">
+                <% @letter.predictions.each do |pred| %>
+                  <div class="space-y-2 p-4 bg-base-200/25 border border-base-200 rounded-xl">
+                    <label class="text-xs font-semibold text-primary flex items-center gap-2">
+                      <% case pred.category %>
+                      <% when 'city' %>
+                        <span class="text-base">🏠</span> <span>¿Dónde vives hoy en día?</span>
+                      <% when 'career' %>
+                        <span class="text-base">💼</span> <span>¿En qué trabajas hoy en día?</span>
+                      <% when 'salary' %>
+                        <span class="text-base">💵</span> <span>¿Cuánto ganas hoy al mes?</span>
+                      <% when 'relationship' %>
+                        <span class="text-base">❤️</span> <span>¿Cómo está tu relación sentimental hoy?</span>
+                      <% when 'achievement' %>
+                        <span class="text-base">🏆</span> <span>¿Cuál terminó siendo tu mayor logro?</span>
+                      <% when 'happiness' %>
+                        <span class="text-base">😊</span> <span>¿Qué tan feliz te sientes en general hoy?</span>
+                      <% else %>
+                        <span class="text-base">🔮</span> <span>¿Qué ocurrió con: <%= pred.category.titleize %>?</span>
+                      <% end %>
+                    </label>
+
+                    <div class="text-[10px] text-base-content/40 italic font-mono bg-white px-2.5 py-1.5 rounded-lg border border-base-200/80 mb-2">
+                      Tu predicción del pasado: "<%= pred.prediction %>"
+                    </div>
+
+                    <% if pred.category == 'happiness' %>
+                      <!-- Happiness level slider prediction match -->
+                      <div class="space-y-2 pt-1">
+                        <div class="flex justify-between text-[11px] font-medium text-purple-700">
+                          <span>Tu nivel actual:</span>
+                          <span id="reality_happiness_pred_lbl">7 / 10</span>
+                        </div>
+                        <%= range_field_tag "predictions[#{pred.id}][reality]", 7, min: 1, max: 10, class: "range range-primary range-xs", oninput: "document.getElementById('reality_happiness_pred_lbl').innerText = this.value + ' / 10'" %>
+                        <%= hidden_field_tag "predictions[#{pred.id}][matched]", "1" %>
+                      </div>
+                    <% else %>
+                      <!-- Text inputs for normal categories with selection matrix -->
+                      <div class="space-y-3">
+                        <%= text_field_tag "predictions[#{pred.id}][reality]", nil, placeholder: "Describe qué pasó en la realidad...", class: "input input-bordered input-sm w-full rounded-xl bg-white text-xs focus:outline-none transition-all", required: true %>
+                        
+                        <div class="space-y-1">
+                          <label class="text-[10px] text-base-content/40 uppercase tracking-wider font-semibold">¿Se cumplió tu predicción?</label>
+                          <div class="grid grid-cols-2 gap-2">
+                            <label class="btn btn-outline btn-xs rounded-lg flex items-center justify-center gap-1 cursor-pointer hover:bg-success hover:text-white transition-colors py-1.5">
+                              <%= radio_button_tag "predictions[#{pred.id}][matched]", "1", true, class: "radio radio-primary radio-xs hidden" %>
+                              <span>🎉 Sí, lo logré</span>
+                            </label>
+                            <label class="btn btn-outline btn-xs rounded-lg flex items-center justify-center gap-1 cursor-pointer hover:bg-error hover:text-white transition-colors py-1.5">
+                              <%= radio_button_tag "predictions[#{pred.id}][matched]", "0", false, class: "radio radio-secondary radio-xs hidden" %>
+                              <span>❌ No exactamente</span>
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+                    <% end %>
+                  </div>
+                <% end %>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Column: Emotional Snapshot Today & Instructions (span 3) -->
+          <div class="lg:col-span-3 flex flex-col gap-6">
+            <!-- Emotional Snapshot Card -->
+            <div class="card card-bordered border-base-200 bg-base-100 p-6 rounded-2xl shadow-xs w-full space-y-6">
+              <div class="border-b border-base-200 pb-3">
+                <h3 class="font-serif italic text-2xl text-primary font-normal">Estado emocional hoy</h3>
+                <p class="text-xs text-base-content/40 mt-1">¿Cómo te sientes en este preciso instante?</p>
+              </div>
+
+              <div class="space-y-5">
+                <!-- Felicidad -->
+                <div class="space-y-2">
+                  <div class="flex justify-between items-center text-xs font-semibold text-primary">
+                    <span>😊 Felicidad</span>
+                    <span id="reveal_happiness_lbl" class="text-base-content/50">5 / 10</span>
+                  </div>
+                  <%= f.range_field :reveal_happiness, min: 1, max: 10, value: 5, class: "range range-primary range-xs", oninput: "document.getElementById('reveal_happiness_lbl').innerText = this.value + ' / 10'" %>
+                </div>
+
+                <!-- Ansiedad -->
+                <div class="space-y-2">
+                  <div class="flex justify-between items-center text-xs font-semibold text-primary">
+                    <span>😔 Ansiedad</span>
+                    <span id="reveal_anxiety_lbl" class="text-base-content/50">5 / 10</span>
+                  </div>
+                  <%= f.range_field :reveal_anxiety, min: 1, max: 10, value: 5, class: "range range-secondary range-xs", oninput: "document.getElementById('reveal_anxiety_lbl').innerText = this.value + ' / 10'" %>
+                </div>
+
+                <!-- Motivación -->
+                <div class="space-y-2">
+                  <div class="flex justify-between items-center text-xs font-semibold text-primary">
+                    <span>⭐ Motivación</span>
+                    <span id="reveal_motivation_lbl" class="text-base-content/50">5 / 10</span>
+                  </div>
+                  <%= f.range_field :reveal_motivation, min: 1, max: 10, value: 5, class: "range range-accent range-xs", oninput: "document.getElementById('reveal_motivation_lbl').innerText = this.value + ' / 10'" %>
+                </div>
+              </div>
+            </div>
+
+            <!-- Helpful Tip Card -->
+            <div class="card card-bordered border-purple-200 bg-purple-50/30 p-5 rounded-2xl space-y-2.5 text-xs text-purple-950">
+              <p class="font-semibold flex items-center gap-1.5">💡 Consejo de reflexión:</p>
+              <p class="leading-relaxed opacity-85">Sé honesto contigo mismo. No hay respuestas correctas o incorrectas. Esta experiencia es 100% tuya y te ayuda a ver lo mucho que has crecido en este tiempo. 🌱</p>
+            </div>
+
+            <!-- Submit Button -->
+            <%= f.submit "Guardar y ver mi carta", class: "btn w-full bg-[#3b2e7a] hover:bg-[#2c2061] text-white rounded-xl py-3.5 text-sm font-semibold tracking-wide shadow-md transition-all cursor-pointer mt-auto" %>
+          </div>
+
+        </div>
+      <% end %>
+
+      <script>
+        function scrollToQuestions() {
+          const target = document.getElementById('questions_section');
+          if (target) {
+            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        }
+      </script>
+
+    <% else %>
+      <!-- ==========================================
+           VIEW 3: THE COMPLETED REFLECTION COMPARISON VAULT (Mockup Page 3)
+           ========================================== -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+        
+        <!-- Left Column: The Letter text and side-by-side matrices (span 8) -->
+        <div class="lg:col-span-8 space-y-8">
+          <!-- The Letter Card -->
+          <div class="card card-bordered border-base-200 bg-[#faf9f6] p-8 sm:p-10 rounded-2xl shadow-xs space-y-6 relative overflow-hidden">
+            <!-- Header layout -->
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-base-200 pb-5 text-xs text-base-content/40">
+              <div>
+                <p class="uppercase tracking-wider font-semibold text-[9px]">Escrita el</p>
+                <p class="font-serif italic text-sm text-primary"><%= I18n.l(@letter.created_at.to_date, format: :long) %></p>
+              </div>
+              <div class="text-center">
+                <h1 class="font-serif text-3xl text-primary italic font-normal"><%= @letter.title %></h1>
+              </div>
+              <div class="sm:text-right">
+                <p class="uppercase tracking-wider font-semibold text-[9px]">Entregada el</p>
+                <p class="font-serif italic text-sm text-primary"><%= I18n.l(@letter.delivered_at.to_date, format: :long) %></p>
+              </div>
+            </div>
+
+            <!-- Authentic paper journaling styled content -->
+            <article class="font-serif text-lg text-primary leading-relaxed whitespace-pre-wrap select-text px-1">
+              <%= @letter.content %>
+            </article>
+
+            <!-- Actions footer -->
+            <div class="pt-6 border-t border-base-200 flex justify-between items-center text-[10px] text-base-content/40 font-sans">
+              <span>👁️ Consultada <%= @letter.open_count %> veces</span>
+              <a href="<%= dashboard_path %>" class="hover:text-primary transition-colors flex items-center gap-1 font-semibold uppercase tracking-wider">
+                &larr; Volver a mis cartas
+              </a>
+            </div>
+          </div>
+
+          <!-- Predictions vs Reality side-by-side matrices -->
+          <% if @letter.predictions.any? %>
+            <div class="card card-bordered border-base-200 bg-base-100 p-6 sm:p-8 rounded-2xl shadow-xs space-y-6">
+              <div class="border-b border-base-200 pb-3">
+                <h2 class="font-serif italic text-2xl text-primary font-normal">Predicciones vs Realidad</h2>
+                <p class="text-xs text-base-content/40 mt-1">Compara lo que imaginabas hace un tiempo con la vida que estás viviendo hoy.</p>
+              </div>
+
+              <div class="space-y-4">
+                <% @letter.predictions.each do |pred| %>
+                  <div class="card card-bordered border-base-200 bg-base-50/50 rounded-2xl overflow-hidden shadow-2xs hover:shadow-xs transition-shadow">
+                    
+                    <!-- Header -->
+                    <div class="bg-base-200/50 px-5 py-3.5 flex justify-between items-center border-b border-base-200/40">
+                      <span class="badge badge-outline py-2 px-3 text-[10px] font-bold font-mono uppercase tracking-wider text-base-content/50">
+                        <% case pred.category %>
+                        <% when 'city' %>
+                          🏠 Ubicación
+                        <% when 'career' %>
+                          💼 Trabajo / Carrera
+                        <% when 'salary' %>
+                          💵 Ingresos
+                        <% when 'relationship' %>
+                          ❤️ Relación sentimental
+                        <% when 'achievement' %>
+                          🏆 Mayor logro
+                        <% when 'happiness' %>
+                          😊 Felicidad
+                        <% else %>
+                          🔮 <%= pred.category.titleize %>
+                        <% end %>
+                      </span>
+
+                      <!-- Status Badge -->
+                      <% if pred.matched? %>
+                        <% if pred.category == 'salary' || pred.category == 'achievement' %>
+                          <span class="badge badge-success border-0 py-2.5 px-3 text-[10px] font-bold text-white uppercase tracking-wider rounded-lg shadow-2xs bg-[#2e7d32]">
+                            Superaste 🚀
+                          </span>
+                        <% else %>
+                          <span class="badge badge-success border-0 py-2.5 px-3 text-[10px] font-bold text-white uppercase tracking-wider rounded-lg shadow-2xs bg-green-600">
+                            Lo lograste! 🎉
+                          </span>
+                        <% end %>
+                      <% else %>
+                        <% if pred.category == 'city' || pred.category == 'relationship' %>
+                          <span class="badge badge-warning border-0 py-2.5 px-3 text-[10px] font-bold text-white uppercase tracking-wider rounded-lg shadow-2xs bg-amber-600">
+                            Parcialmente ➖
+                          </span>
+                        <% else %>
+                          <span class="badge badge-secondary border-0 py-2.5 px-3 text-[10px] font-bold text-white uppercase tracking-wider rounded-lg shadow-2xs bg-purple-700">
+                            No acertaste ❌
+                          </span>
+                        <% end %>
+                      <% end %>
+                    </div>
+
+                    <!-- Comparison Side by Side -->
+                    <div class="grid md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-base-200 bg-white">
+                      <!-- Prediction column -->
+                      <div class="p-5 space-y-1.5">
+                        <span class="text-[9px] font-bold text-base-content/40 uppercase tracking-wider block">Predicción del pasado:</span>
+                        <p class="font-serif italic text-base text-primary leading-relaxed">
+                          "<%= pred.prediction %>"
+                        </p>
+                      </div>
+                      
+                      <!-- Reality column -->
+                      <div class="p-5 space-y-1.5 bg-[#faf9f6]">
+                        <span class="text-[9px] font-bold text-base-content/40 uppercase tracking-wider block">Realidad hoy en día:</span>
+                        <p class="font-serif italic text-base text-primary leading-relaxed">
+                          "<%= pred.reality %>"
+                        </p>
+                      </div>
+                    </div>
+
+                  </div>
+                <% end %>
+              </div>
+            </div>
+          <% end %>
+        </div>
+
+        <!-- Right Column: Emotional charts & Score widgets (span 4) -->
+        <div class="lg:col-span-4 space-y-6 flex flex-col">
+          
+          <!-- Widget 1: Tu Score de Predicciones (Mockup Page 3 Donut) -->
+          <div class="card card-bordered border-base-200 bg-base-100 p-6 rounded-2xl shadow-xs space-y-5 text-center">
+            <div class="border-b border-base-200 pb-3">
+              <h3 class="font-serif italic text-xl text-primary font-normal">Tu Score de Predicciones</h3>
+            </div>
+
+            <% if @letter.predictions.any? %>
+              <% matched = @letter.predictions.matched.count %>
+              <% total = @letter.predictions.count %>
+              <% pct = ((matched.to_f / total) * 100).round %>
+              
+              <!-- Donut chart -->
+              <div class="relative w-36 h-36 mx-auto flex items-center justify-center">
+                <!-- Circular progress via DaisyUI -->
+                <div class="radial-progress text-[#3b2e7a] font-serif text-3xl font-bold" style="--value:<%= pct %>; --size:9rem; --thickness: 10px;" role="progressbar">
+                  <%= pct %>%
+                </div>
+              </div>
+
+              <div class="space-y-1 text-xs">
+                <p class="font-semibold text-primary">Acertaste <%= matched %> de <%= total %> predicciones</p>
+                <p class="text-base-content/50 leading-relaxed max-w-xs mx-auto">
+                  <% if pct >= 70 %>
+                    ¡Tu brújula del futuro está sumamente afilada! Excelente intuición. 🌟
+                  <% elsif pct >= 40 %>
+                    Vas por un gran camino. Muchas cosas cambiaron, pero tu rumbo sigue claro. 🌱
+                  <% else %>
+                    ¡La vida te sorprendió con giros inesperados! Y eso hace el camino más interesante. 🚀
+                  <% end %>
+                </p>
+              </div>
+            <% else %>
+              <p class="text-xs text-base-content/40 py-4">No registraste predicciones para esta carta.</p>
+            <% end %>
+          </div>
+
+          <!-- Widget 2: Evolución emocional (Mockup Page 3 line comparison) -->
+          <div class="card card-bordered border-base-200 bg-base-100 p-6 rounded-2xl shadow-xs space-y-6">
+            <div class="border-b border-base-200 pb-3">
+              <h3 class="font-serif italic text-xl text-primary font-normal">Evolución emocional</h3>
+              <p class="text-[10px] text-base-content/40 mt-0.5 uppercase tracking-wider">Cambio en tu bienestar interno</p>
+            </div>
+
+            <% if @letter.emotional_snapshot.present? %>
+              <div class="space-y-5">
+                <!-- Felicidad shifts -->
+                <div class="space-y-2 bg-[#f5f3eb]/30 p-3.5 rounded-xl border border-base-200/50">
+                  <div class="flex justify-between items-center text-xs">
+                    <span class="font-semibold text-primary flex items-center gap-1">😊 Felicidad</span>
+                    <% hap_shift = @letter.reveal_happiness.to_i - @letter.emotional_snapshot.happiness_level.to_i %>
+                    <% if hap_shift > 0 %>
+                      <span class="badge badge-success text-[9px] font-bold py-1 px-2 border-0 bg-green-600 text-white">+<%= hap_shift %> Crecimiento</span>
+                    <% elsif hap_shift < 0 %>
+                      <span class="badge badge-secondary text-[9px] font-bold py-1 px-2 border-0 bg-purple-700 text-white"><%= hap_shift %> Descenso</span>
+                    <% else %>
+                      <span class="badge badge-outline text-[9px] font-bold py-1 px-2 text-base-content/40 font-sans">Estable</span>
+                    <% end %>
+                  </div>
+                  
+                  <div class="flex justify-between items-center text-[11px] text-base-content/50 font-mono">
+                    <span>Pasado: <strong><%= @letter.emotional_snapshot.happiness_level %></strong></span>
+                    <span class="text-xs">&rarr;</span>
+                    <span>Hoy: <strong><%= @letter.reveal_happiness %></strong></span>
+                  </div>
+                </div>
+
+                <!-- Ansiedad shifts -->
+                <div class="space-y-2 bg-[#f5f3eb]/30 p-3.5 rounded-xl border border-base-200/50">
+                  <div class="flex justify-between items-center text-xs">
+                    <span class="font-semibold text-primary flex items-center gap-1">😔 Ansiedad</span>
+                    <% anx_shift = @letter.reveal_anxiety.to_i - @letter.emotional_snapshot.anxiety_level.to_i %>
+                    <% if anx_shift < 0 %>
+                      <span class="badge badge-success text-[9px] font-bold py-1 px-2 border-0 bg-green-600 text-white"><%= anx_shift %> Más calma</span>
+                    <% elsif anx_shift > 0 %>
+                      <span class="badge badge-warning text-[9px] font-bold py-1 px-2 border-0 bg-amber-600 text-white">+<%= anx_shift %> Estrés</span>
+                    <% else %>
+                      <span class="badge badge-outline text-[9px] font-bold py-1 px-2 text-base-content/40 font-sans">Estable</span>
+                    <% end %>
+                  </div>
+                  
+                  <div class="flex justify-between items-center text-[11px] text-base-content/50 font-mono">
+                    <span>Pasado: <strong><%= @letter.emotional_snapshot.anxiety_level %></strong></span>
+                    <span class="text-xs">&rarr;</span>
+                    <span>Hoy: <strong><%= @letter.reveal_anxiety %></strong></span>
+                  </div>
+                </div>
+
+                <!-- Motivación shifts -->
+                <div class="space-y-2 bg-[#f5f3eb]/30 p-3.5 rounded-xl border border-base-200/50">
+                  <div class="flex justify-between items-center text-xs">
+                    <span class="font-semibold text-primary flex items-center gap-1">⭐ Motivación</span>
+                    <% mot_shift = @letter.reveal_motivation.to_i - @letter.emotional_snapshot.motivation_level.to_i %>
+                    <% if mot_shift > 0 %>
+                      <span class="badge badge-success text-[9px] font-bold py-1 px-2 border-0 bg-green-600 text-white">+<%= mot_shift %> Inspirado</span>
+                    <% elsif mot_shift < 0 %>
+                      <span class="badge badge-secondary text-[9px] font-bold py-1 px-2 border-0 bg-purple-700 text-white"><%= mot_shift %> Descenso</span>
+                    <% else %>
+                      <span class="badge badge-outline text-[9px] font-bold py-1 px-2 text-base-content/40 font-sans">Estable</span>
+                    <% end %>
+                  </div>
+                  
+                  <div class="flex justify-between items-center text-[11px] text-base-content/50 font-mono">
+                    <span>Pasado: <strong><%= @letter.emotional_snapshot.motivation_level %></strong></span>
+                    <span class="text-xs">&rarr;</span>
+                    <span>Hoy: <strong><%= @letter.reveal_motivation %></strong></span>
+                  </div>
+                </div>
+              </div>
+            <% else %>
+              <p class="text-xs text-base-content/40">No hay datos emocionales disponibles.</p>
+            <% end %>
+          </div>
+
+          <!-- Widget 3: ¿Qué sigue? -->
+          <div class="card card-bordered border-base-200 bg-base-100 p-6 rounded-2xl shadow-xs space-y-4 mt-auto">
+            <h4 class="font-serif italic text-lg text-primary font-normal">¿Qué sigue?</h4>
+            <p class="text-xs text-base-content/50 leading-relaxed">Descubre cómo evoluciona tu historia a través de los años. Sigue escribiendo cartas y guarda tus memorias en el baúl del tiempo.</p>
+            <a href="<%= new_letter_path %>" class="btn w-full bg-[#3b2e7a] hover:bg-[#2c2061] text-white rounded-xl py-2.5 text-xs font-semibold uppercase tracking-wider shadow-2xs cursor-pointer">
+              Escribir nueva carta
+            </a>
+          </div>
+
+        </div>
+
+      </div>
+    <% end %>
+  <% end %>
+</div>

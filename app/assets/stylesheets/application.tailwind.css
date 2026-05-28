@@ -1,0 +1,78 @@
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&display=swap');
+@import "tailwindcss";
+
+@source "../../views/**/*.html.erb";
+@source "../../helpers/**/*.rb";
+@source "../../javascript/**/*.js";
+
+@theme {
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-serif: 'Instrument Serif', Georgia, Cambria, "Times New Roman", Times, serif;
+}
+
+/* Install DaisyUI 5 Plugin */
+@plugin "daisyui";
+
+/* Create Custom DaisyUI Theme: timeecho */
+@plugin "daisyui/theme" {
+  name: "timeecho";
+  default: true;
+
+  /* Color Definitions */
+  --color-primary: #2c2a29;            /* Deep charcoal warm gray */
+  --color-primary-content: #faf9f6;    /* Warm white for text on primary */
+  --color-secondary: #f2ece0;          /* Soft elegant beige */
+  --color-secondary-content: #2c2a29;  /* Charcoal text on beige */
+  --color-accent: #ebdcb9;             /* Warm calm gold/sand accent */
+  --color-accent-content: #2c2a29;
+  --color-neutral: #1a1918;            /* Deep dark neutral */
+  --color-neutral-content: #faf9f6;
+  --color-base-100: #faf9f6;           /* Warm white canvas/background */
+  --color-base-200: #f5f3eb;           /* Slightly deeper warm white/beige for depth */
+  --color-base-300: #ebdcb9;           /* Darker beige for borders or subtle details */
+  --color-base-content: #2c2a29;       /* Main text color */
+  --color-success: #a3b899;            /* Calm muted sage green */
+  --color-error: #cf8a8a;              /* Soft muted rose/coral red */
+
+  /* UI Sizing & Aesthetics */
+  --rounded-box: 1.5rem;               /* Elegantly rounded cards */
+  --rounded-btn: 0.75rem;              /* Soft, slightly rounded buttons */
+  --rounded-badge: 1.9rem;             /* Fully rounded pill badges */
+  --animation-btn: 0.15s;              /* Muted subtle button scale animation */
+  --animation-input: 0.2s;
+}
+
+/* Additional Custom Utilities for Calm, Nostalgic Aesthetics */
+@layer base {
+  body {
+    @apply bg-base-100 text-base-content antialiased selection:bg-secondary;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  }
+
+  /* Custom subtle scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    @apply bg-transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply bg-base-300 rounded-full hover:bg-neutral/20 transition-colors;
+  }
+}
+
+@layer utilities {
+  .writing-canvas {
+    font-family: 'Inter', sans-serif;
+    line-height: 1.8;
+  }
+
+  .text-glow {
+    text-shadow: 0 0 12px rgba(235, 220, 185, 0.4);
+  }
+  
+  .card-hover-effect {
+    @apply transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md hover:border-base-300;
+  }
+}

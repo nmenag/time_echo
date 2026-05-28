@@ -1,0 +1,41 @@
+<div class="max-w-md mx-auto py-6 text-center">
+  <div class="card card-bordered border-base-200 bg-base-100 p-8 sm:p-12 rounded-box shadow-xs space-y-8">
+    <div class="w-20 h-20 bg-secondary/50 text-primary rounded-full flex items-center justify-center text-4xl mx-auto border border-accent select-none">
+      🔒
+    </div>
+
+    <div class="space-y-3">
+      <h1 class="font-serif italic text-3xl text-primary font-normal"><%= t('letters.success_header') %></h1>
+      <p class="text-sm text-base-content/60 leading-relaxed font-sans">
+        <%= t('letters.success_sub').html_safe %>
+      </p>
+      <div class="inline-block px-4 py-2 bg-secondary border border-accent text-primary rounded-xl font-serif text-lg italic tracking-wide">
+        <%= @deliver_at&.strftime('%B %d, %Y') || t('letters.success_date_fallback') %>
+      </div>
+    </div>
+
+    <div class="p-4 bg-base-200/50 rounded-xl space-y-2 border border-base-200 text-left font-sans">
+      <p class="text-[10px] font-semibold text-primary uppercase tracking-wider"><%= t('letters.success_next_title') %></p>
+      <p class="text-xs text-base-content/60 leading-relaxed">
+        <%= t('letters.success_next_desc', email: @email) %>
+      </p>
+    </div>
+
+    <div class="pt-6 border-t border-base-200 space-y-4 font-sans">
+      <% if user_signed_in? %>
+        <a href="<%= dashboard_path %>" class="btn btn-primary rounded-xl w-full text-xs font-semibold uppercase tracking-wider shadow-xs">
+          <%= t('letters.success_btn_dashboard') %>
+        </a>
+      <% else %>
+        <a href="<%= login_path %>" class="btn btn-primary rounded-xl w-full text-xs font-semibold uppercase tracking-wider shadow-xs">
+          <%= t('letters.success_btn_signin') %>
+        </a>
+        <p class="text-[10px] text-base-content/40"><%= t('letters.success_signin_help') %></p>
+      <% end %>
+      
+      <a href="<%= root_path %>" class="btn btn-link btn-xs text-base-content/50 hover:text-primary font-semibold mx-auto block w-fit">
+        <%= t('letters.success_btn_home').html_safe %>
+      </a>
+    </div>
+  </div>
+</div>

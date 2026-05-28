@@ -1,31 +1,315 @@
-# Files in the config/locales directory are used for internationalization and
-# are automatically loaded by Rails. If you want to use locales other than
-# English, add the necessary files in this directory.
-#
-# To use the locales, use `I18n.t`:
-#
-#     I18n.t "hello"
-#
-# In views, this is aliased to just `t`:
-#
-#     <%= t("hello") %>
-#
-# To use a different locale, set it with `I18n.locale`:
-#
-#     I18n.locale = :es
-#
-# This would use the information in config/locales/es.yml.
-#
-# To learn more about the API, please read the Rails Internationalization guide
-# at https://guides.rubyonrails.org/i18n.html.
-#
-# Be aware that YAML interprets the following case-insensitive strings as
-# booleans: `true`, `false`, `on`, `off`, `yes`, `no`. Therefore, these strings
-# must be quoted to be interpreted as strings. For example:
-#
-#     en:
-#       "yes": yup
-#       enabled: "ON"
-
 en:
   hello: "Hello world"
+  brand: "TimeEcho"
+  slogan: "A digital time capsule for the soul."
+  footer_copy: "Sent with hope, received with nostalgia."
+  
+  navigation:
+    write: "Write a Letter"
+    public_stories: "Public Stories"
+    vault: "My Letters"
+    timeline: "Timeline"
+    analytics: "Analytics"
+    sign_in: "Sign In"
+    sign_out: "Sign Out"
+    anonymous: "Anonymous"
+
+  flash:
+    errors_title: "Please correct the following errors:"
+    locked: "🔒 This action cannot be undone once sealed."
+    login_required: "Please sign in to access your digital capsule vault."
+    welcome_back: "Welcome back to your digital time capsule."
+    invalid_link: "This magic link is invalid or has expired."
+    logged_out: "You have successfully closed your capsule session."
+    private_or_inaccessible: "This letter is private or cannot be accessed."
+    unauthorized_view: "You are not authorized to view this letter."
+    unauthorized_modify: "You are not authorized to modify this letter."
+    reality_updated: "Reality updated! Reflect on how your life has evolved."
+
+  landing:
+    badge: "⏳ TimeEcho Digital Capsule"
+    title_html: "TimeEcho"
+    subtitle: "Compare the future you imagined with the life you actually lived."
+    write_first: "Write your first letter"
+    how_it_works: "How It Works"
+    
+    steps_title: "Simple & Significant"
+    steps_subtitle: "Three simple steps to connect your present mind with your future self."
+    
+    step1_title: "Pour Your Heart Out"
+    step1_desc: "Write freely about your hopes, fears, current habits, or raw feelings. You can securely upload photos, audio logs, or documents."
+    
+    step2_title: "Choose the Delivery"
+    step2_desc: "Pick a target delivery date. It could be in 6 months, on your next birthday, 5 years from now, or a decade down the line."
+    
+    step3_title: "Receive an Echo"
+    step3_desc: "On the chosen morning, the capsule opens, sending your letter back to your inbox as a nostalgic, emotional echo from the past."
+    
+    stories_title: "Shared Memories"
+    stories_subtitle: "Publicly shared letters from users whose capsules have opened."
+    stories_all: "View all public stories &rarr;"
+    stories_opened: "Opened %{date}"
+    stories_read_more: "Read Letter &rarr;"
+    
+    pricing_title: "Honest Pricing"
+    pricing_subtitle: "No recurring subscriptions. Keep your memories safe for as long as you need."
+    
+    pricing_free: "Free Capsule"
+    pricing_free_name: "Present Moment"
+    pricing_free_desc: "Perfect for capturing single memories to be opened within the next year."
+    pricing_free_price: "$0"
+    pricing_free_price_desc: "/ forever"
+    pricing_free_feature1: "Up to 1 year delivery"
+    pricing_free_feature2: "Muted rich-text letter"
+    pricing_free_feature3: "1 attachment allowed"
+    pricing_free_feature4: "Secure email delivery"
+    pricing_free_btn: "Get Started"
+    
+    pricing_paid: "Lifetime Capsule"
+    pricing_paid_popular: "Popular"
+    pricing_paid_name: "Time Traveler"
+    pricing_paid_desc: "For long-term promises, lifetime capsules, and deep multi-media diaries."
+    pricing_paid_price: "$19"
+    pricing_paid_price_desc: "/ one-time payment"
+    pricing_paid_feature1: "Up to 50 years delivery"
+    pricing_paid_feature2: "Muted rich-text letter"
+    pricing_paid_feature3: "Up to 5 media attachments"
+    pricing_paid_feature4: "High fidelity secure vault storage"
+    pricing_paid_feature5: "Free delivery guarantee updates"
+    pricing_paid_btn: "Seal Your Legacy"
+    
+    quote: "Receiving a letter I wrote to myself five years ago was like meeting an old friend I didn't know I missed. It reminded me how much I've grown, and what truly matters in this rushing world."
+    quote_author: "Sarah Jenkins"
+    quote_author_sub: "TimeEcho traveler since 2021"
+
+  letters:
+    new_header: "Sealing a memory"
+    new_subheader: "Pour your thoughts onto the page, then seal it for the future."
+    label_email: "Your Email Address"
+    label_email_help: "We will send a verification link to confirm this letter before scheduling it."
+    label_content: "Your Letter to the Future"
+    placeholder_content: "Dear future self...\n\nWhat are you hoping for? What are your current struggles? What do you want to remember about today?"
+    label_deliver_at: "When should this capsule open?"
+    preset_6m: "6 Months"
+    preset_1y: "1 Year"
+    preset_3y: "3 Years"
+    preset_5y: "5 Years"
+    label_attachments: "Attach Memories (Photos, Audio, Files)"
+    label_attachments_help: "Add up to 5 items (max 10MB each) to seal inside your capsule."
+    label_public: "Share Publicly Once Opened"
+    label_public_help: "Check this to share this letter anonymously with our public memories feed once it is delivered. Keep unchecked to keep it entirely private."
+    btn_submit: "Seal & Send to Future"
+    
+    label_title: "Capsule Title"
+    label_title_help: "Give your time capsule a meaningful name so you can identify it in your timeline dashboard."
+    evolution_tracker: "Personal Evolution Tracker"
+    evolution_tracker_help: "Capture your present self and imagine the life you'll live. These will become interactive echos once opened."
+    emotional_snapshot: "Emotional Snapshot"
+    emotional_snapshot_help: "Rate your current levels from 1 to 10. We'll show you how much your internal baseline has shifted when this letter is unlocked in the future."
+    happiness_level: "Happiness level"
+    struggling: "Struggling"
+    content_state: "Content"
+    joyful: "Joyful"
+    anxiety_level: "Anxiety level"
+    calm: "Calm"
+    moderate: "Moderate"
+    overwhelmed: "Overwhelmed"
+    motivation_level: "Motivation level"
+    uninspired: "Uninspired"
+    steady: "Steady"
+    driven: "Driven"
+    predictions_vs_reality: "Predictions vs Reality"
+    predictions_vs_reality_help: "Where do you see yourself? When this letter is delivered, the app will ask you to compare these predictions with your actual reality."
+    prediction_city_label: "Where will you live?"
+    prediction_salary_label: "Future Salary/Income level?"
+    prediction_relationship_label: "Relationship status?"
+    prediction_career_label: "Career/Job situation?"
+    prediction_achievement_label: "Biggest personal achievement?"
+    future_integration: "Future Integration"
+    bridge_past_present: "Bridge the Past and Present"
+    future_integration_help: "Your time capsule has arrived. Before we open the full comparison dashboard, let's capture your life and state of mind today."
+    feel_today: "🧠 How do you feel TODAY?"
+    feel_today_help: "Rate your today's self to see how your baseline evolved since writing this letter."
+    happiness: "Happiness"
+    anxiety: "Anxiety"
+    motivation: "Motivation"
+    what_happened_predictions: "🔮 What happened to your Predictions?"
+    what_happened_predictions_help: "Read what you expected, then tell us what actually happened."
+    placeholder_reality: "Describe your reality now..."
+    prediction_came_true: "This prediction came true!"
+    btn_reveal_dashboard: "Save & Reveal Comparison Dashboard"
+    reflection_matrix: "Reflection Matrix"
+    personal_evolution: "Your Personal Evolution"
+    personal_evolution_help: "Compare the life you imagined with the life you actually lived since %{date}."
+    emotional_snapshot_shifts: "🧠 Emotional Snapshot Shifts"
+    growth: "Growth"
+    shift: "Shift"
+    steady_status: "Steady"
+    past_self: "Past Self"
+    present_self: "Present Self"
+    calmer: "Calmer"
+    stress: "Stress"
+    inspired: "Inspired"
+    predictions_vs_reality_grid: "🔮 Predictions vs Reality Grid"
+    matched: "Matched"
+    evolved: "Evolved"
+    then_you_imagined: "Then you imagined:"
+    now_living_reality: "Now living in / Reality:"
+    
+    success_header: "Your memory is sealed"
+    success_sub: "We have safely stored your letter in the digital vault.<br>It will remain locked until"
+    success_date_fallback: "its delivery date"
+    success_next_title: "What happens next?"
+    success_next_desc: "We have sent a verification email to %{email}. Once verified, your capsule will be permanently scheduled. On that special day, it will arrive back in your inbox."
+    success_btn_dashboard: "Go to Your Vault Dashboard"
+    success_btn_signin: "Sign In to Track Your Vault"
+    success_signin_help: "Sign in with magic link to view all your scheduled capsules."
+    success_btn_home: "&larr; Return to Home"
+    
+    show_locked_title: "This capsule is sealed"
+    show_locked_desc: "This message was sealed by %{email} and is currently traveling through time."
+    show_opening_in: "Opening in"
+    show_target_date: "Target delivery date: %{date}"
+    show_btn_dashboard: "Return to Dashboard"
+    
+    show_written: "Written"
+    show_delivered: "Delivered"
+    show_attachments_title: "📎 Attached Memories"
+    show_download: "Download"
+    show_read_count: "Read %{count} time"
+    show_read_count_plural: "Read %{count} times"
+    show_back_timeline: "&larr; Back to Timeline"
+    show_back_public: "&larr; View Public Stories"
+
+  dashboard:
+    title: "Your digital vault"
+    subtitle: "Safekeeping your memories, dreams, and check-ins across time."
+    btn_write: "✏️ Write New Letter"
+    
+    stat_total: "Total Capsules"
+    stat_total_sub: "Written letters sealed"
+    stat_delivered: "Delivered"
+    stat_delivered_sub: "Successfully opened"
+    stat_sealed: "Sealed"
+    stat_sealed_sub: "Awaiting delivery date"
+    stat_reads: "Total Reads"
+    stat_reads_sub: "Capsule openings tracked"
+    
+    delivered_tag: "Delivered Capsule"
+    sealed_tag: "Sealed Vault Item"
+    opened_on: "Opened on %{date}"
+    opening_on: "Opening on %{date}"
+    
+    public_badge: "🌍 Publicly Shared"
+    private_badge: "🔒 Private"
+    attachments_badge: "📎 %{count} attachment"
+    attachments_badge_plural: "📎 %{count} attachments"
+    
+    opening_in: "Opening in %{count} day"
+    opening_in_plural: "Opening in %{count} days"
+    sealed_info_title: "Sealed away safely"
+    sealed_info_desc: "The content is hidden until the delivery date is reached."
+    btn_open: "Open Full Capsule &rarr;"
+    
+    empty_title: "Your vault is empty"
+    empty_desc: "You haven't written any letters yet! Start your journey by writing a message to your future self."
+    empty_btn: "Write Your First Letter"
+
+    needs_reflection: "Needs Reflection / Reality Update"
+    predictions_badge: "🔮 %{count} prediction"
+    predictions_badge_plural: "🔮 %{count} predictions"
+    snapshot_badge: "🧠 Snapshot"
+    unrevealed_capsule_help: "🔒 Unrevealed - Open to record your reality!"
+    predictions_matched_desc: "%{matched} out of %{total} prediction categories matched!"
+    complete_reveal_btn: "⚡ Complete & Reveal Reality"
+    sealed_capsule_title: "Sealed Capsule in Travel"
+    sealed_capsule_desc: "This capsule contains: %{details} (hidden until delivery date)."
+    predictions_word: "Predictions"
+    emotional_snapshot_word: "Emotional snapshot"
+
+  public_feed:
+    badge: "🌍 Community Vault"
+    title: "Public stories from the past"
+    subtitle: "A collection of letters shared anonymously by users after their digital time capsules opened. Read the hopes, growth, and echoes of traveling minds."
+    written: "Written %{date}"
+    opened: "Opened %{date}"
+    anonymous_traveler: "Anonymous Traveler"
+    btn_read: "Read Story &rarr;"
+    empty_title: "No public stories yet"
+    empty_desc: "As capsules open in the coming months, public stories shared by our community will appear here."
+    empty_btn: "Write Your Capsule Letter"
+    cta_title: "Ready to speak to your future self?"
+    cta_desc: "Seal a memory today and let it open in the future. You can choose to keep it completely private or share it here once opened."
+
+  sessions:
+    title: "Enter your vault"
+    subtitle: "We'll send a secure magic login link directly to your email. No passwords needed."
+    error_header: "Could not send link:"
+    label_email: "Your Email Address"
+    btn_submit: "Send Magic Link"
+    back_to_landing: "&larr; Back to Landing Page"
+    check_email_title: "Check your inbox"
+    check_email_subtitle: "We have dispatched a magic login link to"
+    check_email_spam_notice: "Please check your spam or promotions folder if the email does not arrive in a couple of minutes."
+    try_another_email: "Try another email address &rarr;"
+
+  analytics:
+    title: "Vault Reflection & Analytics"
+    subtitle: "A peaceful retrospective of your emotional evolution, predictions, and capsule delivery metrics."
+    btn_back: "&larr; Back to Timeline"
+    open_rate_title: "Capsule Open Rate"
+    open_rate_desc: "The percentage of delivered letters that have been successfully opened and read in your vault."
+    opened_word: "opened"
+    click_rate_title: "Link Click Rate"
+    click_rate_desc: "The percentage of letter notifications where the secure time-capsule link was clicked."
+    clicked_word: "clicked"
+    bounce_rate_title: "Email Bounce Rate"
+    bounce_rate_desc: "Delivery bounces reported by Resend. A lower percentage indicates highly reliable inbox deliverability."
+    bounced_word: "bounced"
+    stat_total: "Total Capsules"
+    stat_delivered: "Delivered"
+    stat_sealed: "Scheduled Sealed"
+    stat_reads: "Total Reads"
+    emotional_evolution_title: "Emotional Evolution Averages"
+    emotional_evolution_desc: "Observe the average shifts in your baseline emotional metrics over time. Values represent a comparison of your initial states at writing vs your current state when capsules are unlocked."
+    happiness_index: "Happiness Index"
+    anxiety_index: "Anxiety Index"
+    motivation_index: "Motivation Index"
+    past_self_label: "Initial (Past Self)"
+    present_self_label: "Current (Present Self)"
+    predictions_reality_title: "Predictions vs Reality Index"
+    predictions_reality_desc: "Observe how accurate your predictions about the future are! The rate represents the percentage of completed predictions where reality aligned with what you expected."
+    match_accuracy_rate: "Match Accuracy Rate"
+    match_accuracy_desc_html: "%{matched} of %{completed} completed predictions matched successfully.<br>(%{transit} predictions are currently in transit / unrevealed)."
+    activity_log_title: "Recent Capsule Activity Log"
+    no_activity: "No activity has been logged inside your capsule history ledger yet."
+    at_word: "at"
+    events:
+      user_logged_in: "Signed in to digital vault session."
+      magic_link_requested: "Requested magic sign-in link."
+      letter_created: "Sealed new time capsule scheduled for delivery on %{date}."
+      letter_opened: "Opened time capsule ID %{id}."
+      email_delivered: "Resend successfully delivered letter notification."
+      link_clicked: "Clicked vault verification or access link."
+      prediction_completion: "Updated predictions vs reality comparisons."
+      emotional_snapshot_completion: "Logged today's emotional state baseline evaluation."
+      general: "Performed general vault operation: %{operation}."
+
+  mailers:
+    magic_link:
+      subject: "Your Magic Sign-In Link for TimeEcho"
+      header: "Sign in to your digital time capsule"
+      greeting: "Hello,"
+      body: "Click the button below to log in to your TimeEcho dashboard and view your letters or write to your future self."
+      btn: "Sign in to TimeEcho"
+      body_text: "Click the link below or copy and paste it into your browser to log in to your TimeEcho dashboard:"
+      expiry_help: "This link will expire in 15 minutes. If you did not request this email, you can safely ignore it."
+      footer_subtitle: "Nostalgic & hopeful journaling to your future self."
+    future_letter:
+      subject: "A Message from Your Past Self (Sent %{date})"
+      header: "A Message from Your Past Self"
+      written_on: "Written on %{date}"
+      open_btn: "Open in Digital Time Capsule"
+      footer_html: "You wrote this letter to yourself via TimeEcho.<br><em>\"Sent with hope, received with nostalgia.\"</em>"
+      footer_text: "You received this because you wrote a letter to your future self using TimeEcho.\n\"Sent with hope, received with nostalgia.\""
+      text_body_help: "To view this letter in your secure vault, visit:"

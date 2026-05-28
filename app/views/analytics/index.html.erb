@@ -1,0 +1,243 @@
+<div class="space-y-12 max-w-6xl mx-auto py-4 font-sans animate-fade-in">
+  <!-- Analytics Header -->
+  <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-6 pb-6 border-b border-base-200">
+    <div class="space-y-1">
+      <h1 class="font-serif italic text-4xl sm:text-5xl text-primary font-normal leading-tight">Estadísticas</h1>
+      <p class="text-sm text-base-content/50">Monitorea tus tasas de apertura, precisión de predicciones y shifts emocionales en el tiempo.</p>
+    </div>
+    <div>
+      <a href="<%= dashboard_path %>" class="btn btn-outline border-base-300 hover:bg-base-200 hover:text-primary rounded-xl px-5 text-xs font-semibold uppercase tracking-wider cursor-pointer">
+        &larr; Volver a mis cartas
+      </a>
+    </div>
+  </div>
+
+  <!-- Metric Gauges (Visual Summary) -->
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <!-- Open Rate Gauge -->
+    <div class="card card-bordered border-base-200 bg-base-100 p-6 rounded-2xl shadow-xs space-y-4">
+      <div class="flex items-center justify-between border-b border-base-200/50 pb-2">
+        <h3 class="text-[10px] font-bold text-base-content/40 uppercase tracking-wider">Tasa de apertura</h3>
+        <span class="text-base text-purple-700">👁️</span>
+      </div>
+      <div class="flex items-baseline gap-1.5">
+        <span class="text-4xl font-serif text-primary font-normal"><%= @open_rate %>%</span>
+        <span class="text-xs text-base-content/40">abiertas</span>
+      </div>
+      <div class="w-full bg-base-200 rounded-full h-1.5 overflow-hidden">
+        <div class="bg-green-600 h-1.5 rounded-full transition-all duration-500" style="width: <%= @open_rate %>%"></div>
+      </div>
+      <p class="text-xs text-base-content/50 leading-relaxed">
+        El porcentaje de cartas entregadas que has abierto y leído hasta hoy.
+      </p>
+    </div>
+
+    <!-- Click Rate Gauge -->
+    <div class="card card-bordered border-base-200 bg-base-100 p-6 rounded-2xl shadow-xs space-y-4">
+      <div class="flex items-center justify-between border-b border-base-200/50 pb-2">
+        <h3 class="text-[10px] font-bold text-base-content/40 uppercase tracking-wider">Tasa de click</h3>
+        <span class="text-base text-purple-700">🔗</span>
+      </div>
+      <div class="flex items-baseline gap-1.5">
+        <span class="text-4xl font-serif text-secondary font-normal"><%= @click_rate %>%</span>
+        <span class="text-xs text-base-content/40">accedidas</span>
+      </div>
+      <div class="w-full bg-base-200 rounded-full h-1.5 overflow-hidden">
+        <div class="bg-[#3b2e7a] h-1.5 rounded-full transition-all duration-500" style="width: <%= @click_rate %>%"></div>
+      </div>
+      <p class="text-xs text-base-content/50 leading-relaxed">
+        Proporción de enlaces de acceso único que han sido activados desde tus notificaciones.
+      </p>
+    </div>
+
+    <!-- Bounce Rate Gauge -->
+    <div class="card card-bordered border-base-200 bg-base-100 p-6 rounded-2xl shadow-xs space-y-4">
+      <div class="flex items-center justify-between border-b border-base-200/50 pb-2">
+        <h3 class="text-[10px] font-bold text-base-content/40 uppercase tracking-wider">Tasa de rebote</h3>
+        <span class="text-base text-purple-700">⚠️</span>
+      </div>
+      <div class="flex items-baseline gap-1.5">
+        <span class="text-4xl font-serif text-error font-normal"><%= @bounce_rate %>%</span>
+        <span class="text-xs text-base-content/40">rebotadas</span>
+      </div>
+      <div class="w-full bg-base-200 rounded-full h-1.5 overflow-hidden">
+        <div class="bg-red-600 h-1.5 rounded-full transition-all duration-500" style="width: <%= @bounce_rate %>%"></div>
+      </div>
+      <p class="text-xs text-base-content/50 leading-relaxed">
+        El porcentaje de correos que no pudieron entregarse correctamente a tu buzón.
+      </p>
+    </div>
+  </div>
+
+  <!-- Detailed Stats Row -->
+  <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+    <div class="card card-bordered border-base-200 bg-base-100 p-5 rounded-2xl text-center shadow-2xs">
+      <p class="text-[9px] font-bold text-base-content/40 uppercase tracking-wider">Cápsulas creadas</p>
+      <p class="text-2xl font-serif text-primary font-normal mt-1"><%= @total_letters %></p>
+    </div>
+    <div class="card card-bordered border-base-200 bg-base-100 p-5 rounded-2xl text-center shadow-2xs">
+      <p class="text-[9px] font-bold text-base-content/40 uppercase tracking-wider">Entregadas</p>
+      <p class="text-2xl font-serif text-success font-normal mt-1"><%= @delivered_letters %></p>
+    </div>
+    <div class="card card-bordered border-base-200 bg-base-100 p-5 rounded-2xl text-center shadow-2xs">
+      <p class="text-[9px] font-bold text-base-content/40 uppercase tracking-wider">En tránsito</p>
+      <p class="text-2xl font-serif text-warning font-normal mt-1"><%= @scheduled_letters %></p>
+    </div>
+    <div class="card card-bordered border-base-200 bg-base-100 p-5 rounded-2xl text-center shadow-2xs">
+      <p class="text-[9px] font-bold text-base-content/40 uppercase tracking-wider">Lecturas totales</p>
+      <p class="text-2xl font-serif text-primary font-normal mt-1"><%= @total_opens %></p>
+    </div>
+  </div>
+
+  <!-- MAIN MVP DIFFERENTIATOR ANALYTICS VIEW -->
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+    <!-- Emotional Snapshot Trends -->
+    <div class="card card-bordered border-base-200 bg-base-100 p-6 sm:p-8 rounded-2xl shadow-xs space-y-6">
+      <div class="flex items-center gap-2 border-b border-base-200 pb-3">
+        <span class="text-xl">🧠</span>
+        <h3 class="font-serif italic text-2xl text-primary font-normal">Tu evolución emocional</h3>
+      </div>
+      <p class="text-xs text-base-content/50 leading-relaxed">
+        El promedio de cambio en tus estados internos comparando el día que sellaste tus cartas con el día que las abriste.
+      </p>
+
+      <div class="space-y-6 pt-2">
+        <!-- Average Happiness Shift -->
+        <div class="space-y-2">
+          <div class="flex justify-between items-center text-xs">
+            <span class="font-semibold text-primary uppercase text-[10px] tracking-wider">Índice de Felicidad</span>
+            <span class="text-base-content/50 font-mono">
+              <%= @avg_initial_happiness %> &rarr; <%= @avg_reveal_happiness %>
+            </span>
+          </div>
+          <div class="relative bg-base-200 h-3 rounded-full overflow-hidden">
+            <div class="bg-primary/45 absolute top-0 left-0 h-full rounded-full transition-all duration-500" style="width: <%= @avg_initial_happiness * 10 %>%"></div>
+            <div class="bg-[#3b2e7a] absolute top-0 left-0 h-full rounded-full transition-all duration-500 opacity-80" style="width: <%= @avg_reveal_happiness * 10 %>%"></div>
+          </div>
+          <div class="flex justify-between text-[8px] font-bold text-base-content/30 uppercase">
+            <span>Tu pasado</span>
+            <span>Tu presente</span>
+          </div>
+        </div>
+
+        <!-- Average Anxiety Shift -->
+        <div class="space-y-2">
+          <div class="flex justify-between items-center text-xs">
+            <span class="font-semibold text-secondary uppercase text-[10px] tracking-wider">Índice de Ansiedad</span>
+            <span class="text-base-content/50 font-mono">
+              <%= @avg_initial_anxiety %> &rarr; <%= @avg_reveal_anxiety %>
+            </span>
+          </div>
+          <div class="relative bg-base-200 h-3 rounded-full overflow-hidden">
+            <div class="bg-secondary/45 absolute top-0 left-0 h-full rounded-full transition-all duration-500" style="width: <%= @avg_initial_anxiety * 10 %>%"></div>
+            <div class="bg-purple-700 absolute top-0 left-0 h-full rounded-full transition-all duration-500 opacity-80" style="width: <%= @avg_reveal_anxiety * 10 %>%"></div>
+          </div>
+          <div class="flex justify-between text-[8px] font-bold text-base-content/30 uppercase">
+            <span>Tu pasado</span>
+            <span>Tu presente</span>
+          </div>
+        </div>
+
+        <!-- Average Motivation Shift -->
+        <div class="space-y-2">
+          <div class="flex justify-between items-center text-xs">
+            <span class="font-semibold text-accent uppercase text-[10px] tracking-wider">Índice de Motivación</span>
+            <span class="text-base-content/50 font-mono">
+              <%= @avg_initial_motivation %> &rarr; <%= @avg_reveal_motivation %>
+            </span>
+          </div>
+          <div class="relative bg-base-200 h-3 rounded-full overflow-hidden">
+            <div class="bg-accent/40 absolute top-0 left-0 h-full rounded-full transition-all duration-500" style="width: <%= @avg_initial_motivation * 10 %>%"></div>
+            <div class="bg-green-600 absolute top-0 left-0 h-full rounded-full transition-all duration-500 opacity-80" style="width: <%= @avg_reveal_motivation * 10 %>%"></div>
+          </div>
+          <div class="flex justify-between text-[8px] font-bold text-base-content/30 uppercase">
+            <span>Tu pasado</span>
+            <span>Tu presente</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Predictions performance overview -->
+    <div class="card card-bordered border-base-200 bg-base-100 p-6 sm:p-8 rounded-2xl shadow-xs space-y-6">
+      <div class="flex items-center gap-2 border-b border-base-200 pb-3">
+        <span class="text-xl">🔮</span>
+        <h3 class="font-serif italic text-2xl text-primary font-normal">Precisión de predicciones</h3>
+      </div>
+      <p class="text-xs text-base-content/50 leading-relaxed">
+        El porcentaje de aciertos en tus predicciones del futuro (sobre las cartas que ya han sido abiertas y reveladas).
+      </p>
+
+      <div class="flex flex-col items-center justify-center py-4 space-y-5">
+        <!-- Radial progress metric -->
+        <div class="radial-progress text-[#3b2e7a] font-serif italic text-3xl font-semibold shadow-2xs" style="--value:<%= @prediction_match_rate %>; --size:8.5rem; --thickness: 10px;" role="progressbar">
+          <%= @prediction_match_rate %>%
+        </div>
+
+        <div class="text-center space-y-1">
+          <p class="text-[10px] font-bold text-primary uppercase tracking-wider">Porcentaje de aciertos</p>
+          <p class="text-xs text-base-content/50 leading-relaxed max-w-xs">
+            Has acertado en <strong><%= @matched_predictions %></strong> de tus <strong><%= @completed_predictions %></strong> predicciones completadas. Actualmente posees <strong><%= @total_predictions - @completed_predictions %></strong> predicciones adicionales selladas en tránsito hacia el futuro.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Recent activity timeline -->
+  <div class="card card-bordered border-base-200 bg-base-100 p-6 sm:p-8 rounded-2xl shadow-xs space-y-6">
+    <h3 class="font-serif italic text-2xl text-primary border-b border-base-200 pb-4">Bitácora de actividad reciente</h3>
+
+    <% if @recent_events.any? %>
+      <div class="space-y-5 font-sans">
+        <% @recent_events.each do |event| %>
+          <div class="flex items-start gap-4 text-sm">
+            <div class="w-8 h-8 rounded-xl bg-base-200/50 text-base-content/60 flex items-center justify-center shrink-0 border border-base-200">
+              <% case event.event_type %>
+              <% when "user_logged_in" %>
+                🔓
+              <% when "magic_link_requested" %>
+                ✉️
+              <% when "letter_created" %>
+                🔒
+              <% when "letter_opened" %>
+                👁️
+              <% when "email_delivered" %>
+                📬
+              <% when "link_clicked" %>
+                🔗
+              <% when "prediction_completion" %>
+                🔮
+              <% when "emotional_snapshot_completion" %>
+                🧠
+              <% else %>
+                📊
+              <% end %>
+            </div>
+            
+            <div class="space-y-0.5 py-0.5">
+              <p class="text-base-content/80 text-xs sm:text-sm">
+                <% case event.event_type %>
+                <% when "user_logged_in", "magic_link_requested", "email_delivered", "link_clicked", "prediction_completion", "emotional_snapshot_completion" %>
+                  <%= t("analytics.events.#{event.event_type}") %>
+                <% when "letter_created" %>
+                  <% delivery_date = Time.parse(event.metadata["deliver_at"]).strftime('%B %d, %Y') rescue t('analytics.events.letter_created_fallback') %>
+                  <%= t("analytics.events.letter_created", date: delivery_date) %>
+                <% when "letter_opened" %>
+                  <%= t("analytics.events.letter_opened", id: event.metadata["letter_id"]) %>
+                <% else %>
+                  <%= t("analytics.events.general", operation: event.event_type.humanize) %>
+                <% end %>
+              </p>
+              <p class="text-[9px] text-base-content/40 font-mono">
+                <%= I18n.l(event.occurred_at.to_date, format: :long) %> a las <%= event.occurred_at.strftime('%I:%M %p') %>
+              </p>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    <% else %>
+      <p class="text-xs text-base-content/40 italic">No se han registrado eventos en tu bitácora de actividad todavía.</p>
+    <% end %>
+  </div>
+</div>
