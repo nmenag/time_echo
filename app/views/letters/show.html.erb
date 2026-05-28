@@ -13,7 +13,7 @@
           <div class="w-full h-full bg-[#f5f3eb] rounded-full border border-base-300 flex items-center justify-center text-5xl shadow-inner">
             ✉️
           </div>
-          <div class="absolute -bottom-1 -right-1 bg-[#3b2e7a] text-white w-9 h-9 rounded-full flex items-center justify-center text-sm font-bold border-2 border-white animate-bounce shadow-md">
+          <div class="absolute -bottom-1 -right-1 bg-[#5b21b6] text-white w-9 h-9 rounded-full flex items-center justify-center text-sm font-bold border-2 border-white animate-bounce shadow-md">
             🔒
           </div>
         </div>
@@ -71,24 +71,22 @@
 
               <!-- Premium Envelope Graphic -->
               <div class="my-8 relative select-none group">
-                <div class="absolute inset-0 bg-[#3b2e7a]/5 rounded-full blur-2xl group-hover:bg-[#3b2e7a]/10 transition-all duration-500"></div>
+                <div class="absolute inset-0 bg-[#5b21b6]/5 rounded-full blur-2xl group-hover:bg-[#5b21b6]/10 transition-all duration-500"></div>
                 <div class="w-32 h-32 bg-[#faf9f6] border border-base-300 rounded-full flex items-center justify-center text-6xl shadow-md transform group-hover:scale-105 transition-transform duration-300">
                   ✉️
                 </div>
                 <div class="absolute bottom-1 right-1 bg-success text-white w-9 h-9 rounded-full flex items-center justify-center text-base border-2 border-white shadow-md animate-bounce">
                   ✨
                 </div>
-              </div>
-
               <div class="w-full space-y-2">
-                <button type="button" onclick="scrollToQuestions()" class="btn w-full bg-[#3b2e7a] hover:bg-[#2c2061] text-white rounded-xl py-3 text-sm font-semibold tracking-wide shadow-md transition-all cursor-pointer">
+                <button type="button" onclick="scrollToQuestions()" class="btn w-full bg-[#5b21b6] hover:bg-[#4c1d95] text-white rounded-2xl py-3.5 text-xs font-bold tracking-wider uppercase shadow-md transition-all border-none cursor-pointer">
                   Comenzar
                 </button>
-                <p class="text-[10px] text-base-content/40">Tomará solo 2 minutos</p>
+                <p class="text-[10px] text-base-content/40 font-semibold">Tomará solo 2 minutos</p>
               </div>
             </div>
           </div>
-
+ 
           <!-- Center Column: Cuéntanos tu realidad (span 5) -->
           <div id="questions_section" class="lg:col-span-5 flex">
             <div class="card card-bordered border-base-200 bg-base-100 p-6 sm:p-8 rounded-2xl shadow-xs w-full space-y-6">
@@ -96,7 +94,7 @@
                 <h3 class="font-serif italic text-2xl text-primary font-normal">Cuéntanos tu realidad actual</h3>
                 <p class="text-xs text-base-content/40 mt-1">Responde estas preguntas para comparar tu pasado con tu yo actual.</p>
               </div>
-
+ 
               <div class="space-y-5">
                 <% @letter.predictions.each do |pred| %>
                   <div class="space-y-2 p-4 bg-base-200/25 border border-base-200 rounded-xl">
@@ -118,11 +116,11 @@
                         <span class="text-base">🔮</span> <span>¿Qué ocurrió con: <%= pred.category.titleize %>?</span>
                       <% end %>
                     </label>
-
+ 
                     <div class="text-[10px] text-base-content/40 italic font-mono bg-white px-2.5 py-1.5 rounded-lg border border-base-200/80 mb-2">
                       Tu predicción del pasado: "<%= pred.prediction %>"
                     </div>
-
+ 
                     <% if pred.category == 'happiness' %>
                       <!-- Happiness level slider prediction match -->
                       <div class="space-y-2 pt-1">
@@ -136,7 +134,7 @@
                     <% else %>
                       <!-- Text inputs for normal categories with selection matrix -->
                       <div class="space-y-3">
-                        <%= text_field_tag "predictions[#{pred.id}][reality]", nil, placeholder: "Describe qué pasó en la realidad...", class: "input input-bordered input-sm w-full rounded-xl bg-white text-xs focus:outline-none transition-all", required: true %>
+                        <%= text_field_tag "predictions[#{pred.id}][reality]", nil, placeholder: "Describe qué pasó en la realidad...", class: "input input-bordered input-sm w-full rounded-xl bg-slate-50 text-slate-900 border-slate-200/80 placeholder:text-slate-400 text-xs hover:bg-slate-100/30 hover:border-slate-300 focus:bg-white focus:border-[#5b21b6] focus:ring-2 focus:ring-[#5b21b6]/10 focus:outline-none transition-all shadow-sm", required: true %>
                         
                         <div class="space-y-1">
                           <label class="text-[10px] text-base-content/40 uppercase tracking-wider font-semibold">¿Se cumplió tu predicción?</label>
@@ -158,7 +156,7 @@
               </div>
             </div>
           </div>
-
+ 
           <!-- Right Column: Emotional Snapshot Today & Instructions (span 3) -->
           <div class="lg:col-span-3 flex flex-col gap-6">
             <!-- Emotional Snapshot Card -->
@@ -167,7 +165,7 @@
                 <h3 class="font-serif italic text-2xl text-primary font-normal">Estado emocional hoy</h3>
                 <p class="text-xs text-base-content/40 mt-1">¿Cómo te sientes en este preciso instante?</p>
               </div>
-
+ 
               <div class="space-y-5">
                 <!-- Felicidad -->
                 <div class="space-y-2">
@@ -177,7 +175,7 @@
                   </div>
                   <%= f.range_field :reveal_happiness, min: 1, max: 10, value: 5, class: "range range-primary range-xs", oninput: "document.getElementById('reveal_happiness_lbl').innerText = this.value + ' / 10'" %>
                 </div>
-
+ 
                 <!-- Ansiedad -->
                 <div class="space-y-2">
                   <div class="flex justify-between items-center text-xs font-semibold text-primary">
@@ -186,7 +184,7 @@
                   </div>
                   <%= f.range_field :reveal_anxiety, min: 1, max: 10, value: 5, class: "range range-secondary range-xs", oninput: "document.getElementById('reveal_anxiety_lbl').innerText = this.value + ' / 10'" %>
                 </div>
-
+ 
                 <!-- Motivación -->
                 <div class="space-y-2">
                   <div class="flex justify-between items-center text-xs font-semibold text-primary">
@@ -197,15 +195,15 @@
                 </div>
               </div>
             </div>
-
+ 
             <!-- Helpful Tip Card -->
             <div class="card card-bordered border-purple-200 bg-purple-50/30 p-5 rounded-2xl space-y-2.5 text-xs text-purple-950">
               <p class="font-semibold flex items-center gap-1.5">💡 Consejo de reflexión:</p>
               <p class="leading-relaxed opacity-85">Sé honesto contigo mismo. No hay respuestas correctas o incorrectas. Esta experiencia es 100% tuya y te ayuda a ver lo mucho que has crecido en este tiempo. 🌱</p>
             </div>
-
+ 
             <!-- Submit Button -->
-            <%= f.submit "Guardar y ver mi carta", class: "btn w-full bg-[#3b2e7a] hover:bg-[#2c2061] text-white rounded-xl py-3.5 text-sm font-semibold tracking-wide shadow-md transition-all cursor-pointer mt-auto" %>
+            <%= f.submit "Guardar y ver mi carta", class: "btn w-full bg-[#5b21b6] hover:bg-[#4c1d95] text-white rounded-2xl py-3.5 px-6 text-xs font-bold tracking-wider uppercase shadow-md transition-all border-none cursor-pointer mt-auto" %>
           </div>
 
         </div>
@@ -359,7 +357,7 @@
               <!-- Donut chart -->
               <div class="relative w-36 h-36 mx-auto flex items-center justify-center">
                 <!-- Circular progress via DaisyUI -->
-                <div class="radial-progress text-[#3b2e7a] font-serif text-3xl font-bold" style="--value:<%= pct %>; --size:9rem; --thickness: 10px;" role="progressbar">
+                <div class="radial-progress text-[#5b21b6] font-serif text-3xl font-bold" style="--value:<%= pct %>; --size:9rem; --thickness: 10px;" role="progressbar">
                   <%= pct %>%
                 </div>
               </div>
@@ -462,7 +460,7 @@
           <div class="card card-bordered border-base-200 bg-base-100 p-6 rounded-2xl shadow-xs space-y-4 mt-auto">
             <h4 class="font-serif italic text-lg text-primary font-normal">¿Qué sigue?</h4>
             <p class="text-xs text-base-content/50 leading-relaxed">Descubre cómo evoluciona tu historia a través de los años. Sigue escribiendo cartas y guarda tus memorias en el baúl del tiempo.</p>
-            <a href="<%= new_letter_path %>" class="btn w-full bg-[#3b2e7a] hover:bg-[#2c2061] text-white rounded-xl py-2.5 text-xs font-semibold uppercase tracking-wider shadow-2xs cursor-pointer">
+            <a href="<%= new_letter_path %>" class="btn w-full bg-[#5b21b6] hover:bg-[#4c1d95] text-white rounded-2xl py-3 text-xs font-bold tracking-wider uppercase shadow-md border-none cursor-pointer">
               Escribir nueva carta
             </a>
           </div>

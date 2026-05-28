@@ -161,7 +161,7 @@
           <div id="custom-date-container" class="hidden animate-fade-in">
             <div class="bg-base-200/30 border border-base-200 p-3 rounded-2xl">
               <label class="text-[10px] text-base-content/40 font-bold uppercase tracking-wider block mb-1">Elige una fecha específica</label>
-              <input type="date" id="custom-date-input" min="<%= (Date.current + 1.day).to_s %>" onchange="setCustomDate(this.value)" class="input input-bordered input-sm w-full rounded-xl bg-white border-base-300 text-xs focus:outline-none focus:border-[#5b21b6]/50">
+              <input type="date" id="custom-date-input" min="<%= (Date.current + 1.day).to_s %>" onchange="setCustomDate(this.value)" class="input input-bordered w-full rounded-xl bg-white text-slate-900 border-slate-200/80 text-xs hover:border-slate-300 focus:border-[#5b21b6] focus:ring-2 focus:ring-[#5b21b6]/10 focus:outline-none transition-all shadow-2xs h-12 px-4">
             </div>
           </div>
         </div>
@@ -176,40 +176,41 @@
             <!-- Where will you live -->
             <div class="relative flex items-center">
               <span class="absolute left-3.5 text-sm text-[#5b21b6]">📍</span>
-              <%= f.text_field :prediction_city, placeholder: "¿Dónde crees que vivirás?", class: "input input-bordered input-sm w-full pl-9 rounded-xl bg-base-200/30 border-base-200 text-xs focus:bg-white focus:outline-none transition-all shadow-3xs" %>
+              <%= f.text_field :prediction_city, placeholder: "¿Dónde crees que vivirás?", class: "input input-bordered w-full pl-9 rounded-xl bg-white text-slate-900 border-slate-200/80 placeholder:text-slate-400 text-xs hover:border-slate-300 focus:border-[#5b21b6] focus:ring-2 focus:ring-[#5b21b6]/10 focus:outline-none transition-all shadow-2xs h-12" %>
             </div>
 
             <!-- What will you do -->
             <div class="relative flex items-center">
               <span class="absolute left-3.5 text-sm text-[#5b21b6]">💼</span>
-              <%= f.text_field :prediction_career, placeholder: "¿A qué te dedicarás?", class: "input input-bordered input-sm w-full pl-9 rounded-xl bg-base-200/30 border-base-200 text-xs focus:bg-white focus:outline-none transition-all shadow-3xs" %>
+              <%= f.text_field :prediction_career, placeholder: "¿A qué te dedicarás?", class: "input input-bordered w-full pl-9 rounded-xl bg-white text-slate-900 border-slate-200/80 placeholder:text-slate-400 text-xs hover:border-slate-300 focus:border-[#5b21b6] focus:ring-2 focus:ring-[#5b21b6]/10 focus:outline-none transition-all shadow-2xs h-12" %>
             </div>
 
             <!-- How much will you earn -->
             <div class="relative flex items-center">
               <span class="absolute left-3.5 text-sm text-[#5b21b6]">💵</span>
-              <%= f.text_field :prediction_salary, placeholder: "¿Cuánto dinero crees que ganarás?", class: "input input-bordered input-sm w-full pl-9 rounded-xl bg-base-200/30 border-base-200 text-xs focus:bg-white focus:outline-none transition-all shadow-3xs" %>
+              <%= f.text_field :prediction_salary, placeholder: "¿Cuánto dinero crees que ganarás?", class: "input input-bordered w-full pl-9 rounded-xl bg-white text-slate-900 border-slate-200/80 placeholder:text-slate-400 text-xs hover:border-slate-300 focus:border-[#5b21b6] focus:ring-2 focus:ring-[#5b21b6]/10 focus:outline-none transition-all shadow-2xs h-12" %>
             </div>
 
             <!-- Relationship status -->
             <div class="relative flex items-center">
               <span class="absolute left-3.5 text-sm text-[#5b21b6]">💜</span>
-              <%= f.text_field :prediction_relationship, placeholder: "¿Cómo será tu relación sentimental?", class: "input input-bordered input-sm w-full pl-9 rounded-xl bg-base-200/30 border-base-200 text-xs focus:bg-white focus:outline-none transition-all shadow-3xs" %>
+              <%= f.text_field :prediction_relationship, placeholder: "¿Cómo será tu relación sentimental?", class: "input input-bordered w-full pl-9 rounded-xl bg-white text-slate-900 border-slate-200/80 placeholder:text-slate-400 text-xs hover:border-slate-300 focus:border-[#5b21b6] focus:ring-2 focus:ring-[#5b21b6]/10 focus:outline-none transition-all shadow-2xs h-12" %>
             </div>
 
             <!-- Biggest achievement -->
-            <div class="relative flex items-center md:col-span-2">
+            <div class="relative flex items-center">
               <span class="absolute left-3.5 text-sm text-[#5b21b6]">⭐️</span>
-              <%= f.text_field :prediction_achievement, placeholder: "¿Cuál será tu mayor logro?", class: "input input-bordered input-sm w-full pl-9 rounded-xl bg-base-200/30 border-base-200 text-xs focus:bg-white focus:outline-none transition-all shadow-3xs" %>
+              <%= f.text_field :prediction_achievement, placeholder: "¿Cuál será tu mayor logro?", class: "input input-bordered w-full pl-9 rounded-xl bg-white text-slate-900 border-slate-200/80 placeholder:text-slate-400 text-xs hover:border-slate-300 focus:border-[#5b21b6] focus:ring-2 focus:ring-[#5b21b6]/10 focus:outline-none transition-all shadow-2xs h-12" %>
             </div>
 
-            <!-- Happiness prediction slider -->
-            <div class="bg-base-200/30 border border-base-200/50 p-4 rounded-2xl md:col-span-2 space-y-2">
-              <div class="flex justify-between items-center text-xs font-semibold text-primary">
-                <span class="flex items-center gap-1.5">🤖 ¿Qué tan feliz crees que serás?</span>
-                <span id="landing_pred_happiness_val" class="font-bold text-[#5b21b6] bg-white px-2 py-0.5 rounded-lg border border-base-200 shadow-3xs font-mono">5 / 10</span>
+            <!-- Happiness prediction slider card (h-12 offset matching mockup) -->
+            <div class="bg-white border border-slate-200/80 p-2.5 px-3 rounded-xl shadow-2xs space-y-1 relative pl-10 flex flex-col justify-center h-12">
+              <span class="absolute left-3.5 top-1/2 -translate-y-1/2 text-sm text-[#5b21b6]">🤖</span>
+              <div class="flex justify-between items-center text-[10px] font-bold text-slate-700 uppercase tracking-wide leading-none">
+                <span>¿Qué tan feliz serás?</span>
+                <span id="landing_pred_happiness_val" class="font-extrabold text-[#5b21b6] font-mono">5 / 10</span>
               </div>
-              <input type="range" name="letter_form[prediction_happiness]" value="5" min="1" max="10" class="w-full accent-[#5b21b6] cursor-pointer" oninput="document.getElementById('landing_pred_happiness_val').innerText = this.value + ' / 10'">
+              <input type="range" name="letter_form[prediction_happiness]" value="5" min="1" max="10" class="w-full accent-[#5b21b6] cursor-pointer h-3" oninput="document.getElementById('landing_pred_happiness_val').innerText = this.value + ' / 10'">
             </div>
           </div>
         </div>
@@ -252,8 +253,8 @@
         <div class="space-y-3 pt-2">
           <label class="text-xs font-bold text-[#111827] uppercase tracking-wider block">¿A dónde te enviamos tu carta?</label>
           <div class="flex flex-col sm:flex-row gap-2.5">
-            <%= f.email_field :email, placeholder: "tu@email.com", class: "input input-bordered w-full rounded-xl bg-white border-base-200 text-sm focus:border-[#5b21b6]/50 focus:outline-none shadow-3xs py-3.5 font-sans", required: true %>
-            <button type="submit" class="btn bg-[#5b21b6] hover:bg-[#4c1d95] text-white rounded-xl px-7 text-sm font-semibold tracking-wide shadow-md transition-all duration-300 cursor-pointer flex items-center justify-center gap-1.5 shrink-0 py-3.5 border-none font-sans">
+            <%= f.email_field :email, placeholder: "tu@email.com", class: "input input-bordered w-full rounded-xl bg-white text-slate-900 border-slate-200/80 placeholder:text-slate-400 text-sm hover:border-slate-300 focus:border-[#5b21b6] focus:ring-2 focus:ring-[#5b21b6]/10 focus:outline-none transition-all shadow-2xs h-12 px-4 font-sans", required: true %>
+            <button type="submit" class="btn bg-[#5b21b6] hover:bg-[#4c1d95] text-white rounded-2xl px-7 text-xs font-bold tracking-wider uppercase shadow-md transition-all duration-300 cursor-pointer flex items-center justify-center gap-1.5 shrink-0 py-3.5 border-none font-sans">
               <span>Enviar a mi yo futuro</span>
               <span>🚀</span>
             </button>

@@ -81,10 +81,10 @@
       </div>
 
       <!-- Elegantly Redesigned Date Picker Widget with Presets -->
-      <div class="flex flex-col gap-3 bg-white border border-base-200/80 p-5 rounded-3xl shadow-3xs w-full md:w-auto md:max-w-xl">
+      <div class="flex flex-col gap-3 bg-white text-slate-900 border border-slate-200 p-5 rounded-3xl shadow-3xs w-full md:w-auto md:max-w-xl">
         <div class="space-y-0.5">
           <label class="text-[9px] font-extrabold text-[#5b21b6] uppercase tracking-wider block">Fecha de Apertura</label>
-          <span class="text-[10px] text-base-content/40 block font-semibold">Elige un atajo o fecha personalizada:</span>
+          <span class="text-[10px] text-slate-500 block font-semibold">Elige un atajo o fecha personalizada:</span>
         </div>
         <div class="grid grid-cols-2 sm:grid-cols-5 gap-1.5 text-[10px] font-bold">
           <button type="button" onclick="setPresetDateNewForm(this, 180)" class="border border-base-200 py-2 rounded-xl hover:bg-base-200/40 transition-all cursor-pointer font-bold text-center">6 meses</button>
@@ -98,7 +98,7 @@
         </div>
         <!-- Custom Date Input container (collapsible) -->
         <div id="custom-date-container-new" class="hidden animate-fade-in pt-1">
-          <%= f.date_field :deliver_at, id: "deliver_at_new_form", min: (Date.current + 1.day).to_s, class: "input input-bordered input-sm w-full rounded-xl bg-white border-base-300 text-xs font-bold focus:outline-none focus:border-[#5b21b6] px-3 py-1 cursor-pointer", required: true, onchange: "updateSummaryInfo()" %>
+          <%= f.date_field :deliver_at, id: "deliver_at_new_form", min: (Date.current + 1.day).to_s, class: "input input-bordered input-sm w-full rounded-xl bg-slate-50 text-slate-900 border-slate-200/80 text-xs font-bold hover:bg-slate-100/30 hover:border-slate-300 focus:bg-white focus:border-[#5b21b6] focus:ring-2 focus:ring-[#5b21b6]/10 focus:outline-none px-3 py-1 cursor-pointer transition-all shadow-sm", required: true, onchange: "updateSummaryInfo()" %>
         </div>
       </div>
     </div>
@@ -108,35 +108,35 @@
       
       <!-- Column 1: Tu carta (span 5) -->
       <div class="lg:col-span-5 space-y-6">
-        <div class="bg-white border border-base-200/80 rounded-3xl p-6 shadow-3xs space-y-5">
-          <div class="flex items-center justify-between border-b border-base-100 pb-3">
-            <h2 class="font-letter-serif text-xl text-primary font-normal">Tu carta personal</h2>
+        <div class="bg-white text-slate-900 border border-slate-200 rounded-3xl p-6 shadow-3xs space-y-5">
+          <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+            <h2 class="font-letter-serif text-xl text-slate-900 font-normal">Tu carta personal</h2>
             <span class="font-letter-hand text-xl text-[#5b21b6] font-semibold">✍️ Para ti, desde hoy</span>
           </div>
-
+ 
           <!-- Title -->
           <div class="space-y-1.5">
-            <label class="text-[10px] font-bold text-primary uppercase tracking-wider block">Título de la carta</label>
-            <%= f.text_field :title, placeholder: "Ej: Mensaje para mi yo de 30 años...", class: "input input-bordered w-full rounded-xl bg-white border-base-300 text-sm focus:border-[#5b21b6] focus:outline-none shadow-3xs transition-all", required: true %>
+            <label class="text-[10px] font-bold text-slate-700 uppercase tracking-wider block">Título de la carta</label>
+            <%= f.text_field :title, placeholder: "Ej: Mensaje para mi yo de 30 años...", class: "input input-bordered w-full rounded-xl bg-slate-50 text-slate-900 border-slate-200/80 placeholder:text-slate-400 text-sm hover:bg-slate-100/30 hover:border-slate-300 focus:bg-white focus:border-[#5b21b6] focus:ring-2 focus:ring-[#5b21b6]/10 focus:outline-none transition-all shadow-sm", required: true %>
           </div>
 
           <!-- Content Canvas with Lined Paper Effect -->
           <div class="space-y-1.5 relative">
-            <label class="text-[10px] font-bold text-primary uppercase tracking-wider block">Mensaje íntimo</label>
-            <%= f.text_area :content, id: "letter_content_area", placeholder: "Querido yo del futuro, hoy te escribo para recordar quiénes somos en este instante...", rows: 14, class: "textarea textarea-bordered w-full p-6 focus:border-[#5b21b6] focus:outline-none rounded-2xl bg-white shadow-3xs writing-canvas placeholder:font-sans placeholder:text-xs placeholder:text-base-content/40 lined-paper-canvas font-medium", required: true %>
+            <label class="text-[10px] font-bold text-slate-700 uppercase tracking-wider block">Mensaje íntimo</label>
+            <%= f.text_area :content, id: "letter_content_area", placeholder: "Querido yo del futuro, hoy te escribo para recordar quiénes somos en este instante...", rows: 14, class: "textarea textarea-bordered w-full p-6 focus:border-[#5b21b6] focus:ring-2 focus:ring-[#5b21b6]/10 focus:outline-none rounded-2xl bg-white text-slate-900 border-slate-200 shadow-3xs writing-canvas placeholder:font-sans placeholder:text-xs placeholder:text-slate-400 lined-paper-canvas font-medium hover:border-slate-300 transition-all", required: true %>
             
             <!-- Character Counter -->
-            <div class="flex justify-end text-[10px] text-base-content/40 font-mono mt-1">
+            <div class="flex justify-end text-[10px] text-slate-400 font-mono mt-1">
               <span id="char_counter">0/2000</span>
             </div>
           </div>
-
+ 
           <!-- Hidden email input for visitors -->
           <% unless user_signed_in? %>
-            <div class="space-y-2 border-t border-base-100 pt-4">
-              <label class="text-[10px] font-bold text-primary uppercase tracking-wider block">Tu Correo Electrónico</label>
-              <%= f.email_field :email, placeholder: "you@example.com", class: "input input-bordered w-full rounded-xl bg-white border-base-300 text-sm focus:border-[#5b21b6] focus:outline-none shadow-3xs", required: true %>
-              <p class="text-[9px] text-base-content/40 leading-relaxed">Te enviaremos el enlace mágico para resurgir esta carta de forma segura cuando llegue la fecha.</p>
+            <div class="space-y-2 border-t border-slate-100 pt-4">
+              <label class="text-[10px] font-bold text-slate-700 uppercase tracking-wider block">Tu Correo Electrónico</label>
+              <%= f.email_field :email, placeholder: "you@example.com", class: "input input-bordered w-full rounded-xl bg-slate-50 text-slate-900 border-slate-200/80 placeholder:text-slate-400 text-sm hover:bg-slate-100/30 hover:border-slate-300 focus:bg-white focus:border-[#5b21b6] focus:ring-2 focus:ring-[#5b21b6]/10 focus:outline-none transition-all shadow-sm", required: true %>
+              <p class="text-[9px] text-slate-500 leading-relaxed">Te enviaremos el enlace mágico para resurgir esta carta de forma segura cuando llegue la fecha.</p>
             </div>
           <% else %>
             <%= f.hidden_field :email, value: current_user_email %>
@@ -155,52 +155,52 @@
           <div class="space-y-4">
             <!-- Where will you live -->
             <div class="space-y-1">
-              <label class="text-[10px] font-bold text-primary flex items-center gap-2 uppercase tracking-wide">
+              <label class="text-[10px] font-bold text-slate-700 flex items-center gap-2 uppercase tracking-wide">
                 <span>🏠</span>
                 <span>¿Dónde vivirás?</span>
               </label>
-              <%= f.text_field :prediction_city, placeholder: "Ciudad, país, hogar...", class: "input input-bordered input-sm w-full rounded-xl bg-base-200/20 border-base-300 text-xs focus:bg-white focus:border-[#5b21b6] focus:outline-none transition-all py-3.5" %>
+              <%= f.text_field :prediction_city, placeholder: "Ciudad, país, hogar...", class: "input input-bordered input-sm w-full rounded-xl bg-slate-50 text-slate-900 border-slate-200 placeholder:text-slate-400 text-xs focus:bg-white focus:border-[#5b21b6] focus:outline-none transition-all shadow-3xs py-3.5" %>
             </div>
 
             <!-- What will your career be -->
             <div class="space-y-1">
-              <label class="text-[10px] font-bold text-primary flex items-center gap-2 uppercase tracking-wide">
+              <label class="text-[10px] font-bold text-slate-700 flex items-center gap-2 uppercase tracking-wide">
                 <span>💼</span>
                 <span>¿En qué trabajarás?</span>
               </label>
-              <%= f.text_field :prediction_career, placeholder: "Rol, profesión, proyecto...", class: "input input-bordered input-sm w-full rounded-xl bg-base-200/20 border-base-300 text-xs focus:bg-white focus:border-[#5b21b6] focus:outline-none transition-all py-3.5" %>
+              <%= f.text_field :prediction_career, placeholder: "Rol, profesión, proyecto...", class: "input input-bordered input-sm w-full rounded-xl bg-slate-50 text-slate-900 border-slate-200 placeholder:text-slate-400 text-xs focus:bg-white focus:border-[#5b21b6] focus:outline-none transition-all shadow-3xs py-3.5" %>
             </div>
-
+ 
             <!-- How much will you earn -->
             <div class="space-y-1">
-              <label class="text-[10px] font-bold text-primary flex items-center gap-2 uppercase tracking-wide">
+              <label class="text-[10px] font-bold text-slate-700 flex items-center gap-2 uppercase tracking-wide">
                 <span>💵</span>
                 <span>¿Cuánto ganarás al mes?</span>
               </label>
-              <%= f.text_field :prediction_salary, placeholder: "Tu ingreso mensual estimado...", class: "input input-bordered input-sm w-full rounded-xl bg-base-200/20 border-base-300 text-xs focus:bg-white focus:border-[#5b21b6] focus:outline-none transition-all py-3.5" %>
+              <%= f.text_field :prediction_salary, placeholder: "Tu ingreso mensual estimado...", class: "input input-bordered input-sm w-full rounded-xl bg-slate-50 text-slate-900 border-slate-200 placeholder:text-slate-400 text-xs focus:bg-white focus:border-[#5b21b6] focus:outline-none transition-all shadow-3xs py-3.5" %>
             </div>
-
+ 
             <!-- Relationship status -->
             <div class="space-y-1">
-              <label class="text-[10px] font-bold text-primary flex items-center gap-2 uppercase tracking-wide">
+              <label class="text-[10px] font-bold text-slate-700 flex items-center gap-2 uppercase tracking-wide">
                 <span>❤️</span>
                 <span>¿Cómo estará tu corazón?</span>
               </label>
-              <%= f.text_field :prediction_relationship, placeholder: "Estado sentimental, amor propio...", class: "input input-bordered input-sm w-full rounded-xl bg-base-200/20 border-base-300 text-xs focus:bg-white focus:border-[#5b21b6] focus:outline-none transition-all py-3.5" %>
+              <%= f.text_field :prediction_relationship, placeholder: "Estado sentimental, amor propio...", class: "input input-bordered input-sm w-full rounded-xl bg-slate-50 text-slate-900 border-slate-200 placeholder:text-slate-400 text-xs focus:bg-white focus:border-[#5b21b6] focus:outline-none transition-all shadow-3xs py-3.5" %>
             </div>
-
+ 
             <!-- Biggest achievement -->
             <div class="space-y-1">
-              <label class="text-[10px] font-bold text-primary flex items-center gap-2 uppercase tracking-wide">
+              <label class="text-[10px] font-bold text-slate-700 flex items-center gap-2 uppercase tracking-wide">
                 <span>🏆</span>
                 <span>¿Cuál será tu gran logro?</span>
               </label>
-              <%= f.text_field :prediction_achievement, placeholder: "Un sueño cumplido o meta lograda...", class: "input input-bordered input-sm w-full rounded-xl bg-base-200/20 border-base-300 text-xs focus:bg-white focus:border-[#5b21b6] focus:outline-none transition-all py-3.5" %>
+              <%= f.text_field :prediction_achievement, placeholder: "Un sueño cumplido o meta lograda...", class: "input input-bordered input-sm w-full rounded-xl bg-slate-50 text-slate-900 border-slate-200 placeholder:text-slate-400 text-xs focus:bg-white focus:border-[#5b21b6] focus:outline-none transition-all shadow-3xs py-3.5" %>
             </div>
 
             <!-- Happiness prediction slider -->
             <div class="space-y-1.5 pt-2">
-              <div class="flex justify-between items-center text-[10px] text-primary font-bold uppercase tracking-wide">
+              <div class="flex justify-between items-center text-[10px] text-slate-700 font-bold uppercase tracking-wide">
                 <span class="flex items-center gap-2">
                   <span>😊</span>
                   <span>¿Qué tan feliz serás?</span>
@@ -216,34 +216,34 @@
       <!-- Column 3: Snapshot & Resumen (span 3) -->
       <div class="lg:col-span-3 space-y-6">
         <!-- Card 3: Estado emocional hoy -->
-        <div class="bg-white border border-base-200/80 rounded-3xl p-6 shadow-3xs space-y-5">
-          <div class="border-b border-base-100 pb-3">
-            <h2 class="font-letter-serif text-xl text-primary font-normal">Estado de hoy</h2>
-            <p class="text-[10px] text-base-content/40 leading-relaxed">¿Cómo resuena tu alma en este momento?</p>
+        <div class="bg-white text-slate-900 border border-slate-200 rounded-3xl p-6 shadow-3xs space-y-5">
+          <div class="border-b border-slate-100 pb-3">
+            <h2 class="font-letter-serif text-xl text-slate-900 font-normal">Estado de hoy</h2>
+            <p class="text-[10px] text-slate-500 leading-relaxed">¿Cómo resuena tu alma en este momento?</p>
           </div>
-
+ 
           <div class="space-y-4">
             <!-- Happiness -->
             <div class="space-y-1">
-              <div class="flex justify-between items-center text-[10px] font-bold text-primary uppercase tracking-wide">
+              <div class="flex justify-between items-center text-[10px] font-bold text-slate-700 uppercase tracking-wide">
                 <span class="flex items-center gap-1.5">😊 Felicidad</span>
                 <span id="happiness_val" class="font-extrabold text-[#5b21b6]">6 / 10</span>
               </div>
               <%= f.range_field :happiness_level, min: 1, max: 10, class: "range range-primary range-xs custom-range-slider cursor-pointer", oninput: "document.getElementById('happiness_val').innerText = this.value + ' / 10'; updateMoodGlow()" %>
             </div>
-
+ 
             <!-- Anxiety -->
             <div class="space-y-1">
-              <div class="flex justify-between items-center text-[10px] font-bold text-primary uppercase tracking-wide">
+              <div class="flex justify-between items-center text-[10px] font-bold text-slate-700 uppercase tracking-wide">
                 <span class="flex items-center gap-1.5">😔 Ansiedad</span>
                 <span id="anxiety_val" class="font-extrabold text-[#c084fc]">4 / 10</span>
               </div>
               <%= f.range_field :anxiety_level, min: 1, max: 10, class: "range range-secondary range-xs custom-range-slider cursor-pointer", oninput: "document.getElementById('anxiety_val').innerText = this.value + ' / 10'; updateMoodGlow()" %>
             </div>
-
+ 
             <!-- Motivation -->
             <div class="space-y-1">
-              <div class="flex justify-between items-center text-[10px] font-bold text-primary uppercase tracking-wide">
+              <div class="flex justify-between items-center text-[10px] font-bold text-slate-700 uppercase tracking-wide">
                 <span class="flex items-center gap-1.5">⭐ Motivación</span>
                 <span id="motivation_val" class="font-extrabold text-[#2dd4bf]">7 / 10</span>
               </div>
@@ -253,33 +253,33 @@
         </div>
 
         <!-- Card 4: Resumen -->
-        <div class="bg-white border border-base-200/80 rounded-3xl p-6 shadow-3xs space-y-4 text-[10px]">
-          <div class="border-b border-base-100 pb-2">
-            <h3 class="font-bold text-primary uppercase tracking-wider">Resumen de Viaje</h3>
+        <div class="bg-white text-slate-900 border border-slate-200 rounded-3xl p-6 shadow-3xs space-y-4 text-[10px]">
+          <div class="border-b border-slate-100 pb-2">
+            <h3 class="font-bold text-slate-900 uppercase tracking-wider">Resumen de Viaje</h3>
           </div>
-
+ 
           <div class="space-y-3">
-            <div class="flex items-center gap-2 text-base-content/75">
-              <span class="text-base text-base-content/40">📅</span>
+            <div class="flex items-center gap-2 text-slate-600">
+              <span class="text-base text-slate-400">📅</span>
               <div class="min-w-0">
-                <p class="text-[8px] text-base-content/40 uppercase font-bold tracking-wide">Se abrirá el</p>
-                <p id="summary_delivery_date" class="font-bold text-primary truncate">Cargando...</p>
+                <p class="text-[8px] text-slate-400 uppercase font-bold tracking-wide">Se abrirá el</p>
+                <p id="summary_delivery_date" class="font-bold text-slate-900 truncate">Cargando...</p>
               </div>
             </div>
-
-            <div class="flex items-center gap-2 text-base-content/75">
-              <span class="text-base text-base-content/40">🕒</span>
+ 
+            <div class="flex items-center gap-2 text-slate-600">
+              <span class="text-base text-slate-400">🕒</span>
               <div class="min-w-0">
-                <p class="text-[8px] text-base-content/40 uppercase font-bold tracking-wide">Dentro de</p>
+                <p class="text-[8px] text-slate-400 uppercase font-bold tracking-wide">Dentro de</p>
                 <p id="summary_countdown" class="font-bold text-[#5b21b6] truncate">Cargando...</p>
               </div>
             </div>
-
-            <div class="flex items-center gap-2 text-base-content/75">
-              <span class="text-base text-base-content/40">🔒</span>
+ 
+            <div class="flex items-center gap-2 text-slate-600">
+              <span class="text-base text-slate-400">🔒</span>
               <div class="min-w-0">
-                <p class="text-[8px] text-base-content/40 uppercase font-bold tracking-wide">Privacidad hermética</p>
-                <p class="font-semibold text-primary truncate">Solo para tus ojos</p>
+                <p class="text-[8px] text-slate-400 uppercase font-bold tracking-wide">Privacidad hermética</p>
+                <p class="font-semibold text-slate-700 truncate">Solo para tus ojos</p>
               </div>
             </div>
           </div>
