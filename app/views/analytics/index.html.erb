@@ -72,19 +72,19 @@
   <!-- Detailed Stats Row -->
   <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
     <div class="card card-bordered border-base-200 bg-base-100 p-5 rounded-2xl text-center shadow-2xs">
-      <p class="text-[9px] font-bold text-base-content/40 uppercase tracking-wider">Cápsulas creadas</p>
+      <p class="text-xs font-bold text-base-content/40 uppercase tracking-wider">Cápsulas creadas</p>
       <p class="text-2xl font-serif text-primary font-normal mt-1"><%= @total_letters %></p>
     </div>
     <div class="card card-bordered border-base-200 bg-base-100 p-5 rounded-2xl text-center shadow-2xs">
-      <p class="text-[9px] font-bold text-base-content/40 uppercase tracking-wider">Entregadas</p>
+      <p class="text-xs font-bold text-base-content/40 uppercase tracking-wider">Entregadas</p>
       <p class="text-2xl font-serif text-success font-normal mt-1"><%= @delivered_letters %></p>
     </div>
     <div class="card card-bordered border-base-200 bg-base-100 p-5 rounded-2xl text-center shadow-2xs">
-      <p class="text-[9px] font-bold text-base-content/40 uppercase tracking-wider">En tránsito</p>
+      <p class="text-xs font-bold text-base-content/40 uppercase tracking-wider">En tránsito</p>
       <p class="text-2xl font-serif text-warning font-normal mt-1"><%= @scheduled_letters %></p>
     </div>
     <div class="card card-bordered border-base-200 bg-base-100 p-5 rounded-2xl text-center shadow-2xs">
-      <p class="text-[9px] font-bold text-base-content/40 uppercase tracking-wider">Lecturas totales</p>
+      <p class="text-xs font-bold text-base-content/40 uppercase tracking-wider">Lecturas totales</p>
       <p class="text-2xl font-serif text-primary font-normal mt-1"><%= @total_opens %></p>
     </div>
   </div>
@@ -114,7 +114,7 @@
             <div class="bg-primary/45 absolute top-0 left-0 h-full rounded-full transition-all duration-500" style="width: <%= @avg_initial_happiness * 10 %>%"></div>
             <div class="bg-[#3b2e7a] absolute top-0 left-0 h-full rounded-full transition-all duration-500 opacity-80" style="width: <%= @avg_reveal_happiness * 10 %>%"></div>
           </div>
-          <div class="flex justify-between text-[8px] font-bold text-base-content/30 uppercase">
+          <div class="flex justify-between text-[10px] font-bold text-base-content/30 uppercase">
             <span>Tu pasado</span>
             <span>Tu presente</span>
           </div>
@@ -132,7 +132,7 @@
             <div class="bg-secondary/45 absolute top-0 left-0 h-full rounded-full transition-all duration-500" style="width: <%= @avg_initial_anxiety * 10 %>%"></div>
             <div class="bg-purple-700 absolute top-0 left-0 h-full rounded-full transition-all duration-500 opacity-80" style="width: <%= @avg_reveal_anxiety * 10 %>%"></div>
           </div>
-          <div class="flex justify-between text-[8px] font-bold text-base-content/30 uppercase">
+          <div class="flex justify-between text-[10px] font-bold text-base-content/30 uppercase">
             <span>Tu pasado</span>
             <span>Tu presente</span>
           </div>
@@ -150,7 +150,7 @@
             <div class="bg-accent/40 absolute top-0 left-0 h-full rounded-full transition-all duration-500" style="width: <%= @avg_initial_motivation * 10 %>%"></div>
             <div class="bg-green-600 absolute top-0 left-0 h-full rounded-full transition-all duration-500 opacity-80" style="width: <%= @avg_reveal_motivation * 10 %>%"></div>
           </div>
-          <div class="flex justify-between text-[8px] font-bold text-base-content/30 uppercase">
+          <div class="flex justify-between text-[10px] font-bold text-base-content/30 uppercase">
             <span>Tu pasado</span>
             <span>Tu presente</span>
           </div>
@@ -170,7 +170,13 @@
 
       <div class="flex flex-col items-center justify-center py-4 space-y-5">
         <!-- Radial progress metric -->
-        <div class="radial-progress text-[#3b2e7a] font-serif italic text-3xl font-semibold shadow-2xs" style="--value:<%= @prediction_match_rate %>; --size:8.5rem; --thickness: 10px;" role="progressbar">
+        <div class="radial-progress text-brand font-serif italic text-3xl font-semibold shadow-2xs"
+             style="--value:<%= @prediction_match_rate %>; --size:8.5rem; --thickness: 10px;"
+             role="progressbar"
+             aria-valuenow="<%= @prediction_match_rate %>"
+             aria-valuemin="0"
+             aria-valuemax="100"
+             aria-label="Tasa de acierto en predicciones: <%= @prediction_match_rate %>%">
           <%= @prediction_match_rate %>%
         </div>
 
@@ -229,7 +235,7 @@
                   <%= t("analytics.events.general", operation: event.event_type.humanize) %>
                 <% end %>
               </p>
-              <p class="text-[9px] text-base-content/40 font-mono">
+              <p class="text-xs text-base-content/40 font-mono">
                 <%= I18n.l(event.occurred_at.to_date, format: :long) %> a las <%= event.occurred_at.strftime('%I:%M %p') %>
               </p>
             </div>

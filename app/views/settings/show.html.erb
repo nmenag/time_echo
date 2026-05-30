@@ -1,68 +1,36 @@
-<!-- Premium fonts & local style overlay for the Settings dashboard -->
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
-
-<style>
-  .font-settings-sans {
-    font-family: 'Outfit', sans-serif;
-  }
-  .font-settings-serif {
-    font-family: 'Playfair Display', serif;
-  }
-
-  /* Custom subtle theme option selectors */
-  .theme-radio-card {
-    cursor: pointer;
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-  .theme-radio-card:hover {
-    transform: translateY(-2px);
-  }
-  .theme-radio-input:checked + .theme-radio-card {
-    border-color: #5b21b6;
-    background-color: var(--fallback-b2, rgba(91, 33, 182, 0.05));
-    box-shadow: 0 4px 12px rgba(91, 33, 182, 0.08);
-  }
-</style>
-
-<div class="max-w-2xl mx-auto space-y-8 font-settings-sans pb-16">
+<div class="max-w-2xl mx-auto space-y-8 font-sans pb-16">
   
   <!-- Calming Header Section -->
   <div class="space-y-2 border-b border-base-200/60 pb-6">
-    <div class="flex items-center gap-2 text-[#5b21b6] text-xs font-bold uppercase tracking-widest">
-      <span>⚙️</span>
-      <span>Ajustes del Baúl</span>
-    </div>
-    <h1 class="font-settings-serif text-3xl sm:text-4xl font-normal text-[#111827]">
+    <h1 class="font-serif text-3xl sm:text-4xl font-normal text-base-content">
       Tu Espacio de Reflexión
     </h1>
-    <p class="text-xs text-base-content/50 leading-relaxed max-w-lg">
-      Configura cómo deseas que TimeEcho guarde tus recuerdos, te envíe recordatorios nostálgicos y personalice tu experiencia de evolución personal.
+    <p class="text-sm text-base-content/50 leading-relaxed">
+      Configura cómo deseas que TimeEcho guarde tus recuerdos, te envíe recordatorios y personalice tu experiencia.
     </p>
   </div>
 
   <!-- 1. Account Section Card -->
-  <div class="bg-white border border-base-200/80 rounded-3xl p-6 sm:p-8 shadow-3xs space-y-6">
-    <div class="flex items-center justify-between border-b border-base-100 pb-4">
-      <h3 class="text-sm font-bold text-[#111827] uppercase tracking-wider flex items-center gap-2">
-        <span>👤</span> Cuenta y Seguridad
+  <div class="bg-base-100 border border-base-200 rounded-xl p-6 sm:p-8 space-y-6">
+    <div class="flex items-center justify-between border-b border-base-200 pb-4">
+      <h3 class="text-sm font-semibold text-base-content flex items-center gap-2">
+        <span aria-hidden="true">👤</span> Cuenta y Seguridad
       </h3>
-      <span class="px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-600 border border-emerald-200/40 text-[9px] font-extrabold uppercase tracking-wider">Verificado</span>
+      <span class="px-2.5 py-0.5 rounded-full bg-success/15 text-success border border-success/20 text-xs font-semibold">Verificado</span>
     </div>
 
     <!-- Clean Profile Card Details -->
-    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-6 bg-base-200/20 p-5 rounded-2xl border border-base-200/40">
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-6 bg-base-200/30 p-5 rounded-lg border border-base-200/60">
       <div class="space-y-1.5 min-w-0">
-        <p class="text-[9px] text-base-content/40 font-bold uppercase tracking-wider">Dirección de correo</p>
-        <p class="text-sm font-semibold text-primary truncate"><%= current_user_email %></p>
-        <p class="text-[10px] text-base-content/50">
-          Miembro activo desde: <span class="font-semibold text-primary"><%= @account_created_at.strftime("%d de %B de %Y") %></span>
+        <p class="text-xs text-base-content/50 font-medium">Dirección de correo</p>
+        <p class="text-sm font-semibold text-base-content truncate"><%= current_user_email %></p>
+        <p class="text-xs text-base-content/50">
+          Miembro activo desde: <span class="font-semibold text-base-content"><%= @account_created_at.strftime("%d de %B de %Y") %></span>
         </p>
       </div>
 
       <!-- Logout action -->
-      <%= button_to logout_path, method: :delete, class: "btn btn-outline border-base-300 btn-xs sm:btn-sm rounded-xl cursor-pointer hover:bg-rose-50 hover:text-rose-600 hover:border-rose-200 shrink-0 font-semibold font-sans", data: { turbo: "false" } do %>
+      <%= button_to logout_path, method: :delete, class: "btn btn-outline border-base-300 btn-xs sm:btn-sm rounded-lg cursor-pointer hover:bg-error/10 hover:text-error hover:border-error/30 shrink-0 font-semibold font-sans", data: { turbo: "false" } do %>
         Cerrar sesión 🔒
       <% end %>
     </div>
@@ -70,13 +38,13 @@
     <!-- Subtle Danger State Account Deletion -->
     <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pt-2">
       <div class="space-y-0.5">
-        <h4 class="text-xs font-bold text-error/80 uppercase tracking-wide">Borrar cuenta de forma permanente</h4>
-        <p class="text-[10px] text-base-content/40 leading-relaxed">
-          Esto eliminará inmediatamente todas tus cartas selladas, predicciones guardadas y estado emocional. Esta acción es irreversible.
+        <h4 class="text-sm font-semibold text-error/80">Borrar cuenta de forma permanente</h4>
+        <p class="text-xs text-base-content/40 leading-relaxed">
+          Esto eliminará inmediatamente todas tus cartas selladas, predicciones y estado emocional. Esta acción es irreversible.
         </p>
       </div>
 
-      <%= button_to settings_path, method: :delete, class: "btn btn-ghost text-xs text-error/60 hover:text-error hover:bg-rose-50/50 btn-xs rounded-xl cursor-pointer font-semibold shrink-0 transition-colors", data: { turbo_confirm: "¿Estás completamente seguro de que deseas borrar permanentemente tu baúl y todas tus cartas? Todos tus recuerdos y predicciones guardados se perderán para siempre." } do %>
+      <%= button_to settings_path, method: :delete, class: "btn btn-ghost text-sm text-error/60 hover:text-error hover:bg-error/10 btn-xs rounded-lg cursor-pointer font-semibold shrink-0 transition-colors", data: { turbo_confirm: "¿Estás completamente seguro de que deseas borrar permanentemente tu baúl y todas tus cartas? Todos tus recuerdos y predicciones guardados se perderán para siempre." } do %>
         Eliminar mi baúl
       <% end %>
     </div>
@@ -86,10 +54,10 @@
   <%= form_with model: @user_preference, url: settings_path, method: :patch, class: "space-y-8", data: { turbo_frame: "_self" } do |f| %>
 
     <!-- 2. Notifications Section Card -->
-    <div class="bg-white border border-base-200/80 rounded-3xl p-6 sm:p-8 shadow-3xs space-y-6">
-      <div class="border-b border-base-100 pb-4">
-        <h3 class="text-sm font-bold text-[#111827] uppercase tracking-wider flex items-center gap-2">
-          <span>🔔</span> Recordatorios y Notificaciones
+    <div class="bg-base-100 border border-base-200 rounded-xl p-6 sm:p-8 space-y-6">
+      <div class="border-b border-base-200 pb-4">
+        <h3 class="text-sm font-semibold text-base-content flex items-center gap-2">
+          <span aria-hidden="true">🔔</span> Recordatorios y Notificaciones
         </h3>
       </div>
 
@@ -139,10 +107,10 @@
     </div>
 
     <!-- 3. Appearance Section Card -->
-    <div class="bg-white border border-base-200/80 rounded-3xl p-6 sm:p-8 shadow-3xs space-y-6">
-      <div class="border-b border-base-100 pb-4">
-        <h3 class="text-sm font-bold text-[#111827] uppercase tracking-wider flex items-center gap-2">
-          <span>🎨</span> Personalización Visual
+    <div class="bg-base-100 border border-base-200 rounded-xl p-6 sm:p-8 space-y-6">
+      <div class="border-b border-base-200 pb-4">
+        <h3 class="text-sm font-semibold text-base-content flex items-center gap-2">
+          <span aria-hidden="true">🎨</span> Personalización Visual
         </h3>
       </div>
 
@@ -233,10 +201,10 @@
     </div>
 
     <!-- 4. Privacidad básica Section Card -->
-    <div class="bg-white border border-base-200/80 rounded-3xl p-6 sm:p-8 shadow-3xs space-y-6">
-      <div class="border-b border-base-100 pb-4">
-        <h3 class="text-sm font-bold text-[#111827] uppercase tracking-wider flex items-center gap-2">
-          <span>🔒</span> Privacidad básica
+    <div class="bg-base-100 border border-base-200 rounded-xl p-6 sm:p-8 space-y-6">
+      <div class="border-b border-base-200 pb-4">
+        <h3 class="text-sm font-semibold text-base-content flex items-center gap-2">
+          <span aria-hidden="true">🔒</span> Privacidad básica
         </h3>
       </div>
 

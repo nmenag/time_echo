@@ -19,7 +19,7 @@
     </div>
 
     <div class="p-4 bg-base-200/30 rounded-2xl space-y-2 border border-base-200/50 text-left font-sans shadow-3xs">
-      <p class="text-[9px] font-bold text-[#5b21b6] uppercase tracking-wider"><%= t('letters.success_next_title') %></p>
+      <p class="text-xs font-bold text-[#5b21b6] uppercase tracking-wider"><%= t('letters.success_next_title') %></p>
       <p class="text-xs text-base-content/60 leading-relaxed font-semibold">
         <%= t('letters.success_next_desc', email: @email) %>
       </p>
@@ -34,7 +34,7 @@
         <a href="<%= login_path %>" class="btn w-full bg-[#5b21b6] hover:bg-[#4c1d95] text-white rounded-2xl py-3.5 px-6 text-xs font-bold tracking-wider uppercase shadow-md transition-all duration-300 cursor-pointer border-none flex items-center justify-center">
           <%= t('letters.success_btn_signin') %>
         </a>
-        <p class="text-[9px] text-base-content/40 font-semibold"><%= t('letters.success_signin_help') %></p>
+        <p class="text-xs text-base-content/40 font-semibold"><%= t('letters.success_signin_help') %></p>
       <% end %>
       
       <a href="<%= root_path %>" class="text-[10px] font-bold text-base-content/40 hover:text-[#5b21b6] transition-colors duration-200 uppercase tracking-widest flex items-center justify-center gap-1 pt-2">

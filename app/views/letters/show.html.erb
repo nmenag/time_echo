@@ -10,10 +10,10 @@
         <div class="absolute -bottom-24 -right-24 w-48 h-48 bg-primary/10 rounded-full blur-3xl"></div>
 
         <div class="relative w-28 h-28 mx-auto select-none">
-          <div class="w-full h-full bg-[#f5f3eb] rounded-full border border-base-300 flex items-center justify-center text-5xl shadow-inner">
+          <div class="w-full h-full bg-base-200 rounded-full border border-base-300 flex items-center justify-center text-5xl shadow-inner">
             ✉️
           </div>
-          <div class="absolute -bottom-1 -right-1 bg-[#5b21b6] text-white w-9 h-9 rounded-full flex items-center justify-center text-sm font-bold border-2 border-white animate-bounce shadow-md">
+          <div class="absolute -bottom-1 -right-1 bg-brand text-white w-9 h-9 rounded-full flex items-center justify-center text-sm font-bold border-2 border-white animate-pulse-glow shadow-md" aria-hidden="true">
             🔒
           </div>
         </div>
@@ -27,7 +27,7 @@
 
         <% days_left = (@letter.deliver_at.to_date - Date.current).to_i %>
         <div class="space-y-2">
-          <span class="text-[10px] font-semibold text-base-content/40 uppercase tracking-wider block">Tiempo restante</span>
+          <span class="text-xs font-medium text-base-content/50 uppercase tracking-wider block">Tiempo restante</span>
           <div class="inline-block px-8 py-3.5 bg-yellow-50 border border-yellow-200 text-yellow-800 rounded-2xl font-serif italic text-3xl font-semibold tracking-wide shadow-2xs">
             <%= days_left == 1 ? "1 día" : "#{days_left} días" %>
           </div>
@@ -71,15 +71,15 @@
 
               <!-- Premium Envelope Graphic -->
               <div class="my-8 relative select-none group">
-                <div class="absolute inset-0 bg-[#5b21b6]/5 rounded-full blur-2xl group-hover:bg-[#5b21b6]/10 transition-all duration-500"></div>
-                <div class="w-32 h-32 bg-[#faf9f6] border border-base-300 rounded-full flex items-center justify-center text-6xl shadow-md transform group-hover:scale-105 transition-transform duration-300">
+                <div class="absolute inset-0 bg-brand/5 rounded-full blur-2xl group-hover:bg-brand/10 transition-colors duration-500"></div>
+                <div class="w-32 h-32 bg-base-100 border border-base-300 rounded-full flex items-center justify-center text-6xl shadow-md transform group-hover:scale-105 transition-transform duration-300">
                   ✉️
                 </div>
-                <div class="absolute bottom-1 right-1 bg-success text-white w-9 h-9 rounded-full flex items-center justify-center text-base border-2 border-white shadow-md animate-bounce">
+                <div class="absolute bottom-1 right-1 bg-success text-white w-9 h-9 rounded-full flex items-center justify-center text-base border-2 border-white shadow-md animate-pulse-glow" aria-hidden="true">
                   ✨
                 </div>
               <div class="w-full space-y-2">
-                <button type="button" onclick="scrollToQuestions()" class="btn w-full bg-[#5b21b6] hover:bg-[#4c1d95] text-white rounded-2xl py-3.5 text-xs font-bold tracking-wider uppercase shadow-md transition-all border-none cursor-pointer">
+                <button type="button" onclick="scrollToQuestions()" class="btn w-full text-white rounded-xl py-3.5 text-sm font-semibold shadow-sm border-none cursor-pointer" style="background-color: oklch(40% 0.22 290); --btn-color: oklch(40% 0.22 290);">
                   Comenzar
                 </button>
                 <p class="text-[10px] text-base-content/40 font-semibold">Tomará solo 2 minutos</p>
@@ -231,14 +231,14 @@
             <!-- Header layout -->
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-base-200 pb-5 text-xs text-base-content/40">
               <div>
-                <p class="uppercase tracking-wider font-semibold text-[9px]">Escrita el</p>
+                <p class="uppercase tracking-wider font-semibold text-xs">Escrita el</p>
                 <p class="font-serif italic text-sm text-primary"><%= I18n.l(@letter.created_at.to_date, format: :long) %></p>
               </div>
               <div class="text-center">
                 <h1 class="font-serif text-3xl text-primary italic font-normal"><%= @letter.title %></h1>
               </div>
               <div class="sm:text-right">
-                <p class="uppercase tracking-wider font-semibold text-[9px]">Entregada el</p>
+                <p class="uppercase tracking-wider font-semibold text-xs">Entregada el</p>
                 <p class="font-serif italic text-sm text-primary"><%= I18n.l(@letter.delivered_at.to_date, format: :long) %></p>
               </div>
             </div>
@@ -318,7 +318,7 @@
                     <div class="grid md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-base-200 bg-white">
                       <!-- Prediction column -->
                       <div class="p-5 space-y-1.5">
-                        <span class="text-[9px] font-bold text-base-content/40 uppercase tracking-wider block">Predicción del pasado:</span>
+                        <span class="text-xs font-bold text-base-content/40 uppercase tracking-wider block">Predicción del pasado:</span>
                         <p class="font-serif italic text-base text-primary leading-relaxed">
                           "<%= pred.prediction %>"
                         </p>
@@ -326,7 +326,7 @@
                       
                       <!-- Reality column -->
                       <div class="p-5 space-y-1.5 bg-[#faf9f6]">
-                        <span class="text-[9px] font-bold text-base-content/40 uppercase tracking-wider block">Realidad hoy en día:</span>
+                        <span class="text-xs font-bold text-base-content/40 uppercase tracking-wider block">Realidad hoy en día:</span>
                         <p class="font-serif italic text-base text-primary leading-relaxed">
                           "<%= pred.reality %>"
                         </p>
@@ -357,9 +357,15 @@
               <!-- Donut chart -->
               <div class="relative w-36 h-36 mx-auto flex items-center justify-center">
                 <!-- Circular progress via DaisyUI -->
-                <div class="radial-progress text-[#5b21b6] font-serif text-3xl font-bold" style="--value:<%= pct %>; --size:9rem; --thickness: 10px;" role="progressbar">
-                  <%= pct %>%
-                </div>
+              <div class="radial-progress text-brand font-serif text-3xl font-bold"
+                   style="--value:<%= pct %>; --size:9rem; --thickness: 10px;"
+                   role="progressbar"
+                   aria-valuenow="<%= pct %>"
+                   aria-valuemin="0"
+                   aria-valuemax="100"
+                   aria-label="Score de predicciones: <%= pct %>%">
+                <%= pct %>%
+              </div>
               </div>
 
               <div class="space-y-1 text-xs">
@@ -394,11 +400,11 @@
                     <span class="font-semibold text-primary flex items-center gap-1">😊 Felicidad</span>
                     <% hap_shift = @letter.reveal_happiness.to_i - @letter.emotional_snapshot.happiness_level.to_i %>
                     <% if hap_shift > 0 %>
-                      <span class="badge badge-success text-[9px] font-bold py-1 px-2 border-0 bg-green-600 text-white">+<%= hap_shift %> Crecimiento</span>
+                      <span class="badge badge-success text-xs font-bold py-1 px-2 border-0 bg-green-600 text-white">+<%= hap_shift %> Crecimiento</span>
                     <% elsif hap_shift < 0 %>
-                      <span class="badge badge-secondary text-[9px] font-bold py-1 px-2 border-0 bg-purple-700 text-white"><%= hap_shift %> Descenso</span>
+                      <span class="badge badge-secondary text-xs font-bold py-1 px-2 border-0 bg-purple-700 text-white"><%= hap_shift %> Descenso</span>
                     <% else %>
-                      <span class="badge badge-outline text-[9px] font-bold py-1 px-2 text-base-content/40 font-sans">Estable</span>
+                      <span class="badge badge-outline text-xs font-bold py-1 px-2 text-base-content/40 font-sans">Estable</span>
                     <% end %>
                   </div>
                   
@@ -415,11 +421,11 @@
                     <span class="font-semibold text-primary flex items-center gap-1">😔 Ansiedad</span>
                     <% anx_shift = @letter.reveal_anxiety.to_i - @letter.emotional_snapshot.anxiety_level.to_i %>
                     <% if anx_shift < 0 %>
-                      <span class="badge badge-success text-[9px] font-bold py-1 px-2 border-0 bg-green-600 text-white"><%= anx_shift %> Más calma</span>
+                      <span class="badge badge-success text-xs font-bold py-1 px-2 border-0 bg-green-600 text-white"><%= anx_shift %> Más calma</span>
                     <% elsif anx_shift > 0 %>
-                      <span class="badge badge-warning text-[9px] font-bold py-1 px-2 border-0 bg-amber-600 text-white">+<%= anx_shift %> Estrés</span>
+                      <span class="badge badge-warning text-xs font-bold py-1 px-2 border-0 bg-amber-600 text-white">+<%= anx_shift %> Estrés</span>
                     <% else %>
-                      <span class="badge badge-outline text-[9px] font-bold py-1 px-2 text-base-content/40 font-sans">Estable</span>
+                      <span class="badge badge-outline text-xs font-bold py-1 px-2 text-base-content/40 font-sans">Estable</span>
                     <% end %>
                   </div>
                   
@@ -436,11 +442,11 @@
                     <span class="font-semibold text-primary flex items-center gap-1">⭐ Motivación</span>
                     <% mot_shift = @letter.reveal_motivation.to_i - @letter.emotional_snapshot.motivation_level.to_i %>
                     <% if mot_shift > 0 %>
-                      <span class="badge badge-success text-[9px] font-bold py-1 px-2 border-0 bg-green-600 text-white">+<%= mot_shift %> Inspirado</span>
+                      <span class="badge badge-success text-xs font-bold py-1 px-2 border-0 bg-green-600 text-white">+<%= mot_shift %> Inspirado</span>
                     <% elsif mot_shift < 0 %>
-                      <span class="badge badge-secondary text-[9px] font-bold py-1 px-2 border-0 bg-purple-700 text-white"><%= mot_shift %> Descenso</span>
+                      <span class="badge badge-secondary text-xs font-bold py-1 px-2 border-0 bg-purple-700 text-white"><%= mot_shift %> Descenso</span>
                     <% else %>
-                      <span class="badge badge-outline text-[9px] font-bold py-1 px-2 text-base-content/40 font-sans">Estable</span>
+                      <span class="badge badge-outline text-xs font-bold py-1 px-2 text-base-content/40 font-sans">Estable</span>
                     <% end %>
                   </div>
                   

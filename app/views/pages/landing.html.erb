@@ -1,42 +1,4 @@
-<!-- Premium fonts & styles overlay to precisely match the uploaded design -->
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600&family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
-
-<style>
-  .font-brand-sans {
-    font-family: 'Outfit', sans-serif;
-  }
-  .font-brand-serif {
-    font-family: 'Playfair Display', serif;
-  }
-  .font-handwritten {
-    font-family: 'Caveat', cursive;
-  }
-
-  /* Premium Custom Range Sliders */
-  .range-purple::-webkit-slider-runnable-track {
-    background: #e2d9f3;
-    height: 6px;
-    border-radius: 9999px;
-  }
-  .range-purple::-webkit-slider-thumb {
-    background: #5b21b6;
-    border: 2px solid white;
-    height: 18px;
-    width: 18px;
-    border-radius: 9999px;
-    cursor: pointer;
-    margin-top: -6px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.15);
-    transition: transform 0.1s ease-out;
-  }
-  .range-purple:active::-webkit-slider-thumb {
-    transform: scale(1.25);
-  }
-</style>
-
-<div class="space-y-28 max-w-6xl mx-auto -mt-6 font-brand-sans">
+<div class="space-y-28 max-w-6xl mx-auto -mt-6 font-sans">
   
   <!-- Hero Section -->
   <section class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start pt-4">
@@ -45,7 +7,7 @@
     <div class="lg:col-span-5 space-y-8 lg:sticky lg:top-24">
       <div class="space-y-6">
         <!-- Elegant Serif Headline -->
-        <h1 class="font-brand-serif text-5xl sm:text-6xl font-normal text-[#111827] leading-tight">
+        <h1 class="font-serif text-5xl sm:text-6xl font-normal text-base-content leading-tight">
           Escribe hoy.<br>Descubre mañana.
         </h1>
 
@@ -112,7 +74,7 @@
       <!-- Card Title & Progress segment bar matching the image -->
       <div class="border-b border-base-100 pb-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div class="space-y-1">
-          <h2 class="font-brand-serif text-2xl text-[#111827] font-semibold flex items-center gap-2">
+          <h2 class="font-serif text-2xl text-base-content font-semibold flex items-center gap-2">
             <span>✍️</span> Escribe tu carta a tu futuro <span class="text-[#5b21b6]">✨</span>
           </h2>
         </div>
@@ -273,7 +235,7 @@
   <!-- Así se verá cuando abras tu carta section -->
   <section class="space-y-12">
     <div class="text-center space-y-3">
-      <h2 class="font-brand-serif text-4xl text-[#111827] font-semibold">Así se verá cuando abras tu carta</h2>
+      <h2 class="font-serif text-4xl text-base-content font-semibold">Así se verá cuando abras tu carta</h2>
       <p class="text-xs text-base-content/40 max-w-md mx-auto leading-relaxed">
         Compara tus predicciones con tu realidad y reflexiona sobre tu evolución.
       </p>
@@ -542,7 +504,7 @@
   <section id="how-it-works" class="space-y-12 scroll-mt-24">
     <div class="text-center space-y-3">
       <div class="text-[#5b21b6] text-xl font-bold select-none">✦</div>
-      <h2 class="font-brand-serif text-4xl text-[#111827] font-semibold">Cómo funciona</h2>
+      <h2 class="font-serif text-4xl text-base-content font-semibold">Cómo funciona</h2>
       <p class="text-xs text-base-content/40 max-w-xs mx-auto font-semibold leading-relaxed">Un viaje simple hacia tu mejor yo.</p>
     </div>
 
@@ -610,11 +572,11 @@
 
   <!-- Footer block centering the brand and copy -->
   <section class="max-w-5xl mx-auto px-4 border-t border-base-200/80 pt-10 text-center space-y-4">
-    <div class="flex items-center justify-center gap-0.5 text-2xl font-brand-serif italic text-[#111827] select-none font-semibold">
+    <div class="flex items-center justify-center gap-0.5 text-2xl font-serif italic text-base-content select-none font-semibold">
       <span>TimeEcho</span>
       <span class="text-[#5b21b6] text-lg font-sans relative -top-2.5 font-bold">+</span>
     </div>
-    <p class="text-xs text-base-content/40 font-semibold leading-relaxed font-brand-serif italic">
+    <p class="text-xs text-base-content/40 font-semibold leading-relaxed font-serif italic">
       Una carta a tu futuro. Un regalo para tu presente.
     </p>
   </section>

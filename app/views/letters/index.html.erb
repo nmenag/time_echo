@@ -190,9 +190,9 @@
               <!-- Badges -->
               <div class="flex flex-wrap gap-2">
                 <% if letter.public? %>
-                  <span class="badge badge-secondary py-2 px-3 text-[9px] font-bold uppercase tracking-wider border border-accent">Pública</span>
+                  <span class="badge badge-secondary py-2 px-3 text-xs font-bold uppercase tracking-wider border border-accent">Pública</span>
                 <% else %>
-                  <span class="badge badge-outline border-base-300 py-2 px-3 text-[9px] font-bold uppercase tracking-wider text-base-content/50">Privada</span>
+                  <span class="badge badge-outline border-base-300 py-2 px-3 text-xs font-bold uppercase tracking-wider text-base-content/50">Privada</span>
                 <% end %>
               </div>
             </div>
@@ -208,14 +208,14 @@
                 <div class="grid md:grid-cols-2 gap-4 bg-base-200/30 p-4 rounded-xl border border-base-200/50 text-xs">
                   <% if letter.emotional_snapshot.present? %>
                     <div class="space-y-1">
-                      <p class="font-semibold text-primary uppercase tracking-wider text-[9px]">🧠 snapshot emocional:</p>
+                      <p class="font-semibold text-primary uppercase tracking-wider text-xs">🧠 snapshot emocional:</p>
                       <p class="text-base-content/60">Felicidad: <span class="font-bold"><%= letter.emotional_snapshot.happiness_level %></span> | Ansiedad: <span class="font-bold"><%= letter.emotional_snapshot.anxiety_level %></span> | Motivación: <span class="font-bold"><%= letter.emotional_snapshot.motivation_level %></span></p>
                     </div>
                   <% end %>
 
                   <% if letter.predictions.any? %>
                     <div class="space-y-1">
-                      <p class="font-semibold text-primary uppercase tracking-wider text-[9px]">🔮 predicciones hechas:</p>
+                      <p class="font-semibold text-primary uppercase tracking-wider text-xs">🔮 predicciones hechas:</p>
                       <p class="text-base-content/60"><%= letter.predictions.size %> predicciones selladas. <%= letter.reveal_happiness.nil? ? 'Pendiente por comparar' : 'Comparación completada' %>.</p>
                     </div>
                   <% end %>
