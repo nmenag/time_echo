@@ -1,0 +1,11 @@
+<%= t('mailers.confirm_email_update.header') %>
+=======================================
+
+<%= t('mailers.confirm_email_update.greeting') %>
+
+<%= t('mailers.confirm_email_update.body', old_email: @old_email, new_email: @new_email) %>
+
+<%= t('mailers.confirm_email_update.btn') %>:
+<%= @confirm_url %>
+
+<%= t('mailers.confirm_email_update.expiry_help') %>

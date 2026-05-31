@@ -27,6 +27,7 @@ es:
     vault: "Mis Cartas"
     timeline: "Línea de Tiempo"
     analytics: "Estadísticas"
+    settings: "Ajustes"
     sign_in: "Iniciar Sesión"
     sign_out: "Cerrar Sesión"
     anonymous: "Anónimo"
@@ -336,3 +337,11 @@ es:
       footer_html: "Te escribiste esta carta a ti mismo a través de TimeEcho.<br><em>\"Enviado con esperanza, recibido con nostalgia.\"</em>"
       footer_text: "Recibiste esto porque te escribiste una carta a tu yo del futuro usando TimeEcho.\n\"Enviado con esperanza, recibido con nostalgia.\""
       text_body_help: "Para ver esta carta en tu baúl seguro, visita:"
+    confirm_email_update:
+      subject: "Confirma tu cambio de correo electrónico en TimeEcho"
+      header: "Confirma tu nueva dirección de correo"
+      greeting: "Hola,"
+      body: "Has solicitado cambiar tu dirección de correo electrónico en TimeEcho de %{old_email} a %{new_email}. Por favor, haz clic en el botón de abajo para confirmar este cambio y activar tu cuenta con tu nueva dirección."
+      btn: "Confirmar Cambio de Correo"
+      expiry_help: "Este enlace caducará en 15 minutos. Si no solicitaste este cambio, puedes ignorar este correo de forma segura."
+

@@ -10,6 +10,7 @@ en:
     vault: "My Letters"
     timeline: "Timeline"
     analytics: "Analytics"
+    settings: "Settings"
     sign_in: "Sign In"
     sign_out: "Sign Out"
     anonymous: "Anonymous"
@@ -313,3 +314,11 @@ en:
       footer_html: "You wrote this letter to yourself via TimeEcho.<br><em>\"Sent with hope, received with nostalgia.\"</em>"
       footer_text: "You received this because you wrote a letter to your future self using TimeEcho.\n\"Sent with hope, received with nostalgia.\""
       text_body_help: "To view this letter in your secure vault, visit:"
+    confirm_email_update:
+      subject: "Confirm your email address change in TimeEcho"
+      header: "Confirm your new email address"
+      greeting: "Hello,"
+      body: "You have requested to change your email address on TimeEcho from %{old_email} to %{new_email}. Please click the button below to confirm this change and activate your account under your new address."
+      btn: "Confirm Email Change"
+      expiry_help: "This link will expire in 15 minutes. If you did not request this change, you can safely ignore this email."
+

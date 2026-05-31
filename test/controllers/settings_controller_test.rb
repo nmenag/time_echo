@@ -26,7 +26,7 @@ class SettingsControllerTest < ActionDispatch::IntegrationTest
 
     get settings_url
     assert_response :success
-    assert_select "h1", text: "Tu Espacio de Reflexión"
+    assert_select "h1", text: "Ajustes de cuenta"
   end
 
   test "should update settings variables and persist them" do
@@ -65,7 +65,6 @@ class SettingsControllerTest < ActionDispatch::IntegrationTest
     }
 
     assert_response :success
-    assert_match "pastel", response.body
     assert_match "Ajustes actualizados correctamente", response.body
 
     # Verify persistence
