@@ -42,18 +42,20 @@ class LettersController < ApplicationController
   end
 
   def show
-    @letter = find_letter
+    letter = find_letter
 
-    if @letter.nil?
+    if letter.nil?
       redirect_to root_path, alert: t("flash.private_or_inaccessible")
       return
     end
 
-    policy = LetterPolicy.new(current_user_email, @letter)
+    policy = LetterPolicy.new(current_user_email, letter)
     unless @accessed_via_signed_id || policy.show?
       redirect_to root_path, alert: t("flash.unauthorized_view")
       return
     end
+
+    @letter = LetterDecorator.new(letter)
 
     if @letter.pending?
       @countdown = true

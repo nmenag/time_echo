@@ -1,7 +1,5 @@
 <% if params[:timeline] %>
-  <%# ── LINEA DE TIEMPO VIEW ── %>
   <div class="space-y-8 max-w-4xl mx-auto py-4 font-sans animate-fade-in">
-    <%# Header %>
     <div class="border-b border-slate-100 pb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-6">
       <div class="space-y-1">
         <h1 class="text-3xl font-extrabold text-slate-900 tracking-tight">Línea de tiempo</h1>
@@ -17,7 +15,6 @@
       <div class="relative border-l-2 border-[#2e1065]/10 pl-8 ml-4 sm:ml-6 space-y-10 select-none">
         <% @letters.order(deliver_at: :desc).each do |letter| %>
           <div class="relative group">
-            <%# Decorative timeline node %>
             <% if letter.delivered? %>
               <% if letter.reveal_happiness.nil? %>
                 <div class="absolute -left-[41px] sm:-left-[43px] top-2 w-5 h-5 bg-amber-500 border-4 border-white rounded-full shadow-md animate-pulse"></div>
@@ -28,7 +25,6 @@
               <div class="absolute -left-[41px] sm:-left-[43px] top-2 w-5 h-5 bg-violet-600 border-4 border-white rounded-full shadow-md"></div>
             <% end %>
 
-            <%# Event Card %>
             <div class="bg-white border border-slate-100 rounded-3xl p-6 sm:p-8 shadow-2xs transition-all duration-300 hover:-translate-y-0.5 hover:border-slate-200 space-y-5">
               <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs text-slate-400 border-b border-slate-100 pb-3">
                 <span class="font-bold tracking-wider uppercase text-violet-600">
@@ -39,7 +35,6 @@
                 </span>
               </div>
 
-              <%# Title %>
               <h3 class="text-xl font-bold text-slate-900">
                 <%= letter.title %>
                 <span class="text-xs font-normal text-slate-400 block sm:inline sm:ml-2">
@@ -51,15 +46,12 @@
                 </span>
               </h3>
 
-              <%# Snapshot and predictions summary logs %>
               <% if letter.delivered? %>
                 <p class="text-sm text-slate-600 leading-relaxed max-w-3xl font-serif italic">
                   "<%= letter.content %>"
                 </p>
 
-                <%# Predictions comparison delta box %>
                 <div class="grid md:grid-cols-2 gap-4 bg-violet-50/50 p-5 rounded-2xl border border-violet-100/30 text-xs">
-                  <%# Emotional shifts %>
                   <% if letter.emotional_snapshot.present? %>
                     <div class="space-y-1.5">
                       <p class="font-bold text-slate-800 uppercase tracking-wider text-[10px] flex items-center gap-1.5">
@@ -72,7 +64,6 @@
                     </div>
                   <% end %>
 
-                  <%# Predictions delta summary %>
                   <% if letter.predictions.any? %>
                     <div class="space-y-1.5">
                       <p class="font-bold text-slate-800 uppercase tracking-wider text-[10px] flex items-center gap-1.5">
@@ -89,14 +80,12 @@
                   <% end %>
                 </div>
 
-                <%# Open CTA %>
                 <div class="flex justify-end pt-2">
                   <a href="<%= letter_path(letter) %>" class="btn btn-outline border-slate-200 text-slate-700 hover:bg-slate-50 hover:text-slate-900 rounded-2xl px-5 text-xs font-bold uppercase tracking-wider cursor-pointer min-h-[38px]">
                     <%= letter.reveal_happiness.nil? ? 'Completar comparación' : 'Ver comparación completa' %>
                   </a>
                 </div>
               <% else %>
-                <%# Sealed state details %>
                 <div class="bg-slate-50 p-5 rounded-2xl text-xs space-y-2 border border-slate-100">
                   <div class="flex items-center gap-2 text-violet-600 font-bold">
                     <span>⏳</span>
@@ -110,7 +99,6 @@
         <% end %>
       </div>
     <% else %>
-      <%# Empty timeline %>
       <div class="bg-white border border-slate-100 p-12 rounded-3xl text-center max-w-lg mx-auto space-y-6 shadow-2xs">
         <p class="text-4xl">🕒</p>
         <h3 class="text-xl font-bold text-slate-900">Tu línea de tiempo está vacía</h3>
@@ -120,9 +108,7 @@
     <% end %>
   </div>
 <% else %>
-  <%# ── MIS CARTAS DEFAULT VIEW ── %>
   <div class="space-y-8 max-w-6xl mx-auto py-4 font-sans animate-fade-in">
-    <%# Header %>
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-6 border-b border-slate-100 pb-6">
       <div class="space-y-1">
         <h1 class="text-3xl font-extrabold text-slate-900 tracking-tight">Mis cartas</h1>
@@ -138,30 +124,25 @@
       </div>
     </div>
 
-    <%# Premium Stat Widgets Grid %>
     <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
-      <%# Total letters %>
       <div class="bg-white border border-slate-100 p-5 rounded-3xl shadow-2xs space-y-1">
         <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Cápsulas totales</span>
         <span class="text-3xl font-extrabold text-slate-900 block"><%= @letters.count %></span>
         <span class="text-[10px] text-slate-400 pt-1 block">Mensajes al futuro</span>
       </div>
 
-      <%# Delivered %>
       <div class="bg-white border border-slate-100 p-5 rounded-3xl shadow-2xs space-y-1">
         <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Abiertas</span>
         <span class="text-3xl font-extrabold text-emerald-600 block"><%= @letters.delivered.count %></span>
         <span class="text-[10px] text-slate-400 pt-1 block">Listas para comparar</span>
       </div>
 
-      <%# Sealed %>
       <div class="bg-white border border-slate-100 p-5 rounded-3xl shadow-2xs space-y-1">
         <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">En tránsito</span>
         <span class="text-3xl font-extrabold text-amber-500 block"><%= @letters.pending.count %></span>
         <span class="text-[10px] text-slate-400 pt-1 block">Selladas en el tiempo</span>
       </div>
 
-      <%# Opens %>
       <div class="bg-white border border-slate-100 p-5 rounded-3xl shadow-2xs space-y-1">
         <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Lecturas</span>
         <span class="text-3xl font-extrabold text-violet-600 block"><%= @letters.sum(:open_count) %></span>
@@ -169,7 +150,6 @@
       </div>
     </div>
 
-    <%# Letter cards list %>
     <% if @letters.any? %>
       <div class="space-y-6">
         <% @letters.each do |letter| %>
@@ -191,7 +171,6 @@
                 </h3>
               </div>
 
-              <%# Badges %>
               <div class="flex flex-wrap gap-2">
                 <% if letter.public? %>
                   <span class="bg-violet-50 text-violet-700 border border-violet-100 text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-lg">Pública</span>
@@ -201,14 +180,12 @@
               </div>
             </div>
 
-            <%# Content preview / Countdown %>
             <% if letter.delivered? %>
               <div class="space-y-4">
                 <p class="text-sm text-slate-600 leading-relaxed max-w-4xl line-clamp-3 font-serif italic">
                   "<%= letter.content %>"
                 </p>
 
-                <%# Custom small statistics %>
                 <div class="grid md:grid-cols-2 gap-4 bg-slate-50 p-4 rounded-2xl border border-slate-100 text-xs">
                   <% if letter.emotional_snapshot.present? %>
                     <div class="space-y-1">
@@ -240,7 +217,6 @@
                 </div>
               </div>
             <% else %>
-              <%# Countdown status for pending letter %>
               <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-slate-50 p-5 rounded-2xl border border-slate-100 text-xs">
                 <div class="flex items-center gap-3">
                   <span class="text-xl">⏳</span>
@@ -260,7 +236,6 @@
         <% end %>
       </div>
     <% else %>
-      <%# Empty state %>
       <div class="bg-white border border-slate-100 p-12 rounded-3xl text-center max-w-xl mx-auto space-y-6 shadow-2xs">
         <span class="text-4xl block">📭</span>
         <h3 class="text-xl font-bold text-slate-900">Tu baúl está vacío</h3>

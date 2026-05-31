@@ -4,7 +4,6 @@ class WebhooksController < ApplicationController
   def resend
     payload = JSON.parse(request.raw_post)
 
-    # Process the webhook payload asynchronously using Solid Queue
     ProcessEmailWebhookJob.perform_later(payload)
 
     head :ok
