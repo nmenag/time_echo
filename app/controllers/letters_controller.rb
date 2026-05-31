@@ -1,25 +1,20 @@
 class LettersController < ApplicationController
   before_action :authenticate_user!, only: [ :index ]
 
-  # Dashboard: timeline/history of letters
   def index
     @letters = UserTimelineQuery.call(current_user_email)
 
-    # Track dashboard view
     Analytics::TrackEventService.call("dashboard_viewed", { email: current_user_email })
   end
 
-  # Public feed of letters
   def public_feed
     @letters = PublicLettersQuery.call
   end
 
-  # Create future letter page
   def new
     @letter_form = LetterForm.new(email: current_user_email)
   end
 
-  # Create a letter
   def create
     modified_params = letter_params.to_h
     if user_signed_in?
@@ -29,7 +24,6 @@ class LettersController < ApplicationController
     result = Letters::CreateService.call(modified_params)
 
     if result.success?
-      # If they are not logged in, we must send them a confirmation/magic link email to confirm the email and activate the account!
       unless user_signed_in?
         Auth::MagicLinkService.generate_and_send(result.letter.email)
       end
@@ -40,7 +34,6 @@ class LettersController < ApplicationController
       redirect_to success_letters_path
     else
       @letter_form = LetterForm.new(modified_params)
-      # Copy errors
       result.errors.each do |error|
         @letter_form.errors.add(error.attribute, error.message)
       end
@@ -48,7 +41,6 @@ class LettersController < ApplicationController
     end
   end
 
-  # Open / show a letter (securely via signed_id or logged in session)
   def show
     @letter = find_letter
 
@@ -63,7 +55,6 @@ class LettersController < ApplicationController
       return
     end
 
-    # If the letter is not delivered yet, show a countdown page rather than the content
     if @letter.pending?
       @countdown = true
     else
@@ -76,7 +67,6 @@ class LettersController < ApplicationController
     end
   end
 
-  # Post endpoint to update predictions reality
   def update_predictions
     @letter = find_letter
     if @letter.nil? || @letter.pending?
@@ -91,14 +81,12 @@ class LettersController < ApplicationController
     end
 
     Letter.transaction do
-      # Update reveal emotions if provided
       @letter.update!(
         reveal_happiness: params[:reveal_happiness],
         reveal_anxiety: params[:reveal_anxiety],
         reveal_motivation: params[:reveal_motivation]
       )
 
-      # Update predictions
       if params[:predictions].present?
         params[:predictions].each do |pred_id, pred_params|
           prediction = @letter.predictions.find_by(id: pred_id)
@@ -111,7 +99,6 @@ class LettersController < ApplicationController
         end
       end
 
-      # Track events in analytics
       Analytics::TrackEventService.call("prediction_completion", { letter_id: @letter.id, email: @letter.email })
       Analytics::TrackEventService.call("emotional_snapshot_completion", { letter_id: @letter.id, email: @letter.email })
     end
@@ -120,7 +107,6 @@ class LettersController < ApplicationController
     redirect_to letter_path(@letter)
   end
 
-  # Success page
   def success
     @email = flash[:success_email]
     @deliver_at = flash[:success_deliver_at] ? Time.parse(flash[:success_deliver_at]) : nil
@@ -133,20 +119,17 @@ class LettersController < ApplicationController
   private
 
   def find_letter
-    # 1. Try finding by signed ID (from email)
     letter = Letter.find_signed(params[:id])
     if letter
       @accessed_via_signed_id = true
       return letter
     end
 
-    # 2. If logged in, find by standard ID matching user email
     if user_signed_in?
       letter = Letter.find_by(id: params[:id], email: current_user_email)
       return letter if letter
     end
 
-    # 3. If public and delivered, allow anyone to view by ID
     letter = Letter.find_by(id: params[:id], public: true, status: "delivered")
     letter
   end

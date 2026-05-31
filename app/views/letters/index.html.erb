@@ -1,37 +1,37 @@
 <% if params[:timeline] %>
-  <!-- ----------------- LINEA DE TIEMPO VIEW ----------------- -->
-  <div class="space-y-12 max-w-4xl mx-auto py-4 font-sans animate-fade-in">
-    <!-- Header -->
-    <div class="border-b border-base-200 pb-6 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+  <%# ── LINEA DE TIEMPO VIEW ── %>
+  <div class="space-y-8 max-w-4xl mx-auto py-4 font-sans animate-fade-in">
+    <%# Header %>
+    <div class="border-b border-slate-100 pb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-6">
       <div class="space-y-1">
-        <h1 class="font-serif italic text-4xl sm:text-5xl text-primary font-normal leading-tight">Línea de tiempo</h1>
-        <p class="text-sm text-base-content/50">Tu evolución, momentos emocionales y hitos de predicción ordenados cronológicamente.</p>
+        <h1 class="text-3xl font-extrabold text-slate-900 tracking-tight">Línea de tiempo</h1>
+        <p class="text-sm text-slate-500">Tu evolución, momentos emocionales y hitos de predicción ordenados cronológicamente.</p>
       </div>
-      <a href="<%= new_letter_path %>" class="btn bg-[#3b2e7a] hover:bg-[#2c2061] text-white rounded-xl text-xs font-semibold uppercase tracking-wider px-5 shadow-xs cursor-pointer">
+      <a href="<%= new_letter_path %>" class="btn bg-[#2e1065] hover:bg-[#1e0a45] text-white rounded-2xl py-3 px-6 text-sm font-bold border-none cursor-pointer transition-all hover:scale-[1.02] active:scale-[0.98] shadow-sm shrink-0">
         ✏️ Escribir carta
       </a>
     </div>
 
     <% if @letters.any? %>
-      <!-- Elegant Vertical Line -->
-      <div class="relative border-l-2 border-[#3b2e7a]/20 pl-8 ml-4 sm:ml-6 space-y-12 select-none">
+      <% # Elegant Vertical Line %>
+      <div class="relative border-l-2 border-[#2e1065]/10 pl-8 ml-4 sm:ml-6 space-y-10 select-none">
         <% @letters.order(deliver_at: :desc).each do |letter| %>
           <div class="relative group">
-            <!-- Decorative timeline node -->
+            <%# Decorative timeline node %>
             <% if letter.delivered? %>
               <% if letter.reveal_happiness.nil? %>
-                <div class="absolute -left-[41px] sm:-left-[43px] top-2 w-5 h-5 bg-accent border-4 border-base-100 rounded-full shadow-md animate-pulse"></div>
+                <div class="absolute -left-[41px] sm:-left-[43px] top-2 w-5 h-5 bg-amber-500 border-4 border-white rounded-full shadow-md animate-pulse"></div>
               <% else %>
-                <div class="absolute -left-[41px] sm:-left-[43px] top-2 w-5 h-5 bg-success border-4 border-base-100 rounded-full shadow-md"></div>
+                <div class="absolute -left-[41px] sm:-left-[43px] top-2 w-5 h-5 bg-emerald-500 border-4 border-white rounded-full shadow-md"></div>
               <% end %>
             <% else %>
-              <div class="absolute -left-[41px] sm:-left-[43px] top-2 w-5 h-5 bg-warning border-4 border-base-100 rounded-full shadow-md"></div>
+              <div class="absolute -left-[41px] sm:-left-[43px] top-2 w-5 h-5 bg-violet-600 border-4 border-white rounded-full shadow-md"></div>
             <% end %>
 
-            <!-- Event Card -->
-            <div class="card card-bordered border-base-200 bg-base-100 rounded-2xl p-6 sm:p-8 shadow-xs card-hover-effect space-y-5">
-              <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs text-base-content/40 border-b border-base-200 pb-3">
-                <span class="font-bold tracking-wider uppercase text-purple-700">
+            <%# Event Card %>
+            <div class="bg-white border border-slate-100 rounded-3xl p-6 sm:p-8 shadow-2xs transition-all duration-300 hover:-translate-y-0.5 hover:border-slate-200 space-y-5">
+              <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs text-slate-400 border-b border-slate-100 pb-3">
+                <span class="font-bold tracking-wider uppercase text-violet-600">
                   <%= letter.delivered? ? (letter.reveal_happiness.nil? ? 'Pendiente por revelación' : 'Revelada & Comparada') : 'Cápsula Sellada' %>
                 </span>
                 <span>
@@ -39,10 +39,10 @@
                 </span>
               </div>
 
-              <!-- Title -->
-              <h3 class="font-serif italic text-2xl text-primary font-normal">
+              <%# Title %>
+              <h3 class="text-xl font-bold text-slate-900">
                 <%= letter.title %>
-                <span class="text-xs font-sans text-base-content/40 font-normal block sm:inline sm:ml-2">
+                <span class="text-xs font-normal text-slate-400 block sm:inline sm:ml-2">
                   <% if letter.delivered? %>
                     (Abierta el <%= I18n.l(letter.delivered_at.to_date, format: :long) %>)
                   <% else %>
@@ -51,54 +51,58 @@
                 </span>
               </h3>
 
-              <!-- Snapshot and predictions summary logs -->
+              <%# Snapshot and predictions summary logs %>
               <% if letter.delivered? %>
-                <p class="text-sm font-serif italic text-base-content/80 leading-relaxed max-w-3xl">
+                <p class="text-sm text-slate-600 leading-relaxed max-w-3xl font-serif italic">
                   "<%= letter.content %>"
                 </p>
 
-                <!-- Predictions comparison delta box -->
-                <div class="grid md:grid-cols-2 gap-4 bg-secondary/15 p-4 rounded-xl border border-accent/20 text-xs">
-                  <!-- Emotional shifts -->
+                <%# Predictions comparison delta box %>
+                <div class="grid md:grid-cols-2 gap-4 bg-violet-50/50 p-5 rounded-2xl border border-violet-100/30 text-xs">
+                  <%# Emotional shifts %>
                   <% if letter.emotional_snapshot.present? %>
                     <div class="space-y-1.5">
-                      <p class="font-semibold text-primary uppercase tracking-wider text-[10px]">🧠 Evolución Emocional:</p>
-                      <div class="space-y-1 text-base-content/70">
-                        <p>Felicidad: <span class="font-bold text-primary"><%= letter.emotional_snapshot.happiness_level %></span> &rarr; <span class="font-bold text-purple-700"><%= letter.reveal_happiness || '?' %></span></p>
-                        <p>Ansiedad: <span class="font-bold text-primary"><%= letter.emotional_snapshot.anxiety_level %></span> &rarr; <span class="font-bold text-purple-700"><%= letter.reveal_anxiety || '?' %></span></p>
+                      <p class="font-bold text-slate-800 uppercase tracking-wider text-[10px] flex items-center gap-1.5">
+                        <span>🧠</span> Evolución Emocional
+                      </p>
+                      <div class="space-y-1 text-slate-500 font-sans">
+                        <p>Felicidad: <span class="font-bold text-violet-600"><%= letter.emotional_snapshot.happiness_level %></span> &rarr; <span class="font-bold text-violet-800"><%= letter.reveal_happiness || '?' %></span></p>
+                        <p>Ansiedad: <span class="font-bold text-violet-600"><%= letter.emotional_snapshot.anxiety_level %></span> &rarr; <span class="font-bold text-violet-800"><%= letter.reveal_anxiety || '?' %></span></p>
                       </div>
                     </div>
                   <% end %>
 
-                  <!-- Predictions delta summary -->
+                  <%# Predictions delta summary %>
                   <% if letter.predictions.any? %>
                     <div class="space-y-1.5">
-                      <p class="font-semibold text-primary uppercase tracking-wider text-[10px]">🔮 Resumen de Predicciones:</p>
+                      <p class="font-bold text-slate-800 uppercase tracking-wider text-[10px] flex items-center gap-1.5">
+                        <span>🔮</span> Resumen de Predicciones
+                      </p>
                       <% if letter.reveal_happiness.nil? %>
-                        <p class="text-xs text-accent italic font-medium">Espera revelación de la realidad.</p>
+                        <p class="text-xs text-violet-600 italic font-medium">Espera revelación de la realidad.</p>
                       <% else %>
                         <% matched_count = letter.predictions.matched.count %>
                         <% total_count = letter.predictions.count %>
-                        <p class="text-base-content/70">Acertaste <span class="font-bold text-purple-700"><%= matched_count %></span> de <span class="font-bold"><%= total_count %></span> predicciones (<%= (matched_count.to_f / total_count * 100).round %>%).</p>
+                        <p class="text-slate-500">Acertaste <span class="font-bold text-violet-600"><%= matched_count %></span> de <span class="font-bold text-slate-700"><%= total_count %></span> predicciones (<%= (matched_count.to_f / total_count * 100).round %>%).</p>
                       <% end %>
                     </div>
                   <% end %>
                 </div>
 
-                <!-- Open CTA -->
+                <%# Open CTA %>
                 <div class="flex justify-end pt-2">
-                  <a href="<%= letter_path(letter) %>" class="btn btn-outline btn-sm border-base-300 hover:bg-base-200 hover:text-primary rounded-xl text-xs font-semibold uppercase tracking-wider cursor-pointer">
+                  <a href="<%= letter_path(letter) %>" class="btn btn-outline border-slate-200 text-slate-700 hover:bg-slate-50 hover:text-slate-900 rounded-2xl px-5 text-xs font-bold uppercase tracking-wider cursor-pointer min-h-[38px]">
                     <%= letter.reveal_happiness.nil? ? 'Completar comparación' : 'Ver comparación completa' %>
                   </a>
                 </div>
               <% else %>
-                <!-- Sealed state details -->
-                <div class="bg-base-200/50 p-4 rounded-xl text-xs space-y-2 border border-base-200/80">
-                  <div class="flex items-center gap-2 text-primary font-semibold">
+                <%# Sealed state details %>
+                <div class="bg-slate-50 p-5 rounded-2xl text-xs space-y-2 border border-slate-100">
+                  <div class="flex items-center gap-2 text-violet-600 font-bold">
                     <span>⏳</span>
                     <span>Cápsula del tiempo sellada</span>
                   </div>
-                  <p class="text-base-content/50">Esta carta viaja de forma privada y encriptada hacia el futuro. Quedan aproximadamente <strong><%= (letter.deliver_at.to_date - Date.current).to_i %> días</strong> para su entrega.</p>
+                  <p class="text-slate-500">Esta carta viaja de forma privada y encriptada hacia el futuro. Quedan aproximadamente <strong><%= (letter.deliver_at.to_date - Date.current).to_i %> días</strong> para su entrega.</p>
                 </div>
               <% end %>
             </div>
@@ -106,78 +110,78 @@
         <% end %>
       </div>
     <% else %>
-      <!-- Empty timeline -->
-      <div class="card card-bordered border-base-200 bg-base-100 p-12 rounded-2xl text-center max-w-lg mx-auto space-y-6">
+      <%# Empty timeline %>
+      <div class="bg-white border border-slate-100 p-12 rounded-3xl text-center max-w-lg mx-auto space-y-6 shadow-2xs">
         <p class="text-4xl">🕒</p>
-        <h3 class="font-serif italic text-2xl text-primary">Tu línea de tiempo está vacía</h3>
-        <p class="text-xs text-base-content/50 leading-relaxed max-w-sm mx-auto">Escribe tu primera carta al futuro para comenzar a graficar tu historia de crecimiento.</p>
-        <a href="<%= new_letter_path %>" class="btn bg-[#3b2e7a] hover:bg-[#2c2061] text-white rounded-xl text-xs font-semibold uppercase tracking-wider px-6 cursor-pointer">Comenzar a escribir</a>
+        <h3 class="text-xl font-bold text-slate-900">Tu línea de tiempo está vacía</h3>
+        <p class="text-xs text-slate-500 leading-relaxed max-w-sm mx-auto">Escribe tu primera carta al futuro para comenzar a graficar tu historia de crecimiento.</p>
+        <a href="<%= new_letter_path %>" class="btn bg-[#2e1065] hover:bg-[#1e0a45] text-white rounded-2xl py-3 px-6 text-sm font-bold border-none cursor-pointer transition-all hover:scale-[1.02] active:scale-[0.98] shadow-sm">Comenzar a escribir</a>
       </div>
     <% end %>
   </div>
 <% else %>
-  <!-- ----------------- MIS CARTAS DEFAULT VIEW ----------------- -->
-  <div class="space-y-12 max-w-6xl mx-auto py-4 font-sans animate-fade-in">
-    <!-- Header -->
-    <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-6 border-b border-base-200 pb-6">
+  <%# ── MIS CARTAS DEFAULT VIEW ── %>
+  <div class="space-y-8 max-w-6xl mx-auto py-4 font-sans animate-fade-in">
+    <%# Header %>
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-6 border-b border-slate-100 pb-6">
       <div class="space-y-1">
-        <h1 class="font-serif italic text-4xl sm:text-5xl text-primary font-normal leading-tight">Mis cartas</h1>
-        <p class="text-sm text-base-content/50">Administra tus cápsulas del tiempo digital, estados emocionales y predicciones.</p>
+        <h1 class="text-3xl font-extrabold text-slate-900 tracking-tight">Mis cartas</h1>
+        <p class="text-sm text-slate-500">Administra tus cápsulas del tiempo digital, estados emocionales y predicciones.</p>
       </div>
-      <div class="flex gap-3">
-        <a href="<%= dashboard_path(timeline: true) %>" class="btn btn-outline border-base-300 hover:bg-base-200 rounded-xl text-xs font-semibold uppercase tracking-wider px-5 cursor-pointer">
+      <div class="flex gap-3 shrink-0">
+        <a href="<%= dashboard_path(timeline: true) %>" class="btn btn-outline border-slate-200 text-slate-700 hover:bg-slate-50 rounded-2xl text-xs font-bold uppercase tracking-wider px-5 min-h-[44px]">
           🕒 Ver línea de tiempo
         </a>
-        <a href="<%= new_letter_path %>" class="btn bg-[#3b2e7a] hover:bg-[#2c2061] text-white rounded-xl text-xs font-semibold uppercase tracking-wider px-5 shadow-xs cursor-pointer">
+        <a href="<%= new_letter_path %>" class="btn bg-[#2e1065] hover:bg-[#1e0a45] text-white rounded-2xl py-3 px-6 text-sm font-bold border-none cursor-pointer transition-all hover:scale-[1.02] active:scale-[0.98] shadow-sm">
           ✏️ Escribir carta
         </a>
       </div>
     </div>
 
-    <!-- Premium Stat Widgets Grid -->
+    <%# Premium Stat Widgets Grid %>
     <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
-      <!-- Total letters -->
-      <div class="card card-bordered border-base-200 bg-base-100 p-5 rounded-2xl shadow-2xs space-y-1">
-        <span class="text-[10px] font-semibold text-base-content/40 uppercase tracking-wider">Cápsulas totales</span>
-        <span class="font-serif text-4xl text-primary font-normal"><%= @letters.count %></span>
-        <span class="text-[10px] text-base-content/40 pt-1 block">Mensajes al futuro</span>
+      <%# Total letters %>
+      <div class="bg-white border border-slate-100 p-5 rounded-3xl shadow-2xs space-y-1">
+        <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Cápsulas totales</span>
+        <span class="text-3xl font-extrabold text-slate-900 block"><%= @letters.count %></span>
+        <span class="text-[10px] text-slate-400 pt-1 block">Mensajes al futuro</span>
       </div>
 
-      <!-- Delivered -->
-      <div class="card card-bordered border-base-200 bg-base-100 p-5 rounded-2xl shadow-2xs space-y-1">
-        <span class="text-[10px] font-semibold text-base-content/40 uppercase tracking-wider">Abiertas</span>
-        <span class="font-serif text-4xl text-success font-normal"><%= @letters.delivered.count %></span>
-        <span class="text-[10px] text-base-content/40 pt-1 block">Listas para comparar</span>
+      <%# Delivered %>
+      <div class="bg-white border border-slate-100 p-5 rounded-3xl shadow-2xs space-y-1">
+        <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Abiertas</span>
+        <span class="text-3xl font-extrabold text-emerald-600 block"><%= @letters.delivered.count %></span>
+        <span class="text-[10px] text-slate-400 pt-1 block">Listas para comparar</span>
       </div>
 
-      <!-- Sealed -->
-      <div class="card card-bordered border-base-200 bg-base-100 p-5 rounded-2xl shadow-2xs space-y-1">
-        <span class="text-[10px] font-semibold text-base-content/40 uppercase tracking-wider">En tránsito</span>
-        <span class="font-serif text-4xl text-warning font-normal"><%= @letters.pending.count %></span>
-        <span class="text-[10px] text-base-content/40 pt-1 block">Selladas en el tiempo</span>
+      <%# Sealed %>
+      <div class="bg-white border border-slate-100 p-5 rounded-3xl shadow-2xs space-y-1">
+        <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">En tránsito</span>
+        <span class="text-3xl font-extrabold text-amber-500 block"><%= @letters.pending.count %></span>
+        <span class="text-[10px] text-slate-400 pt-1 block">Selladas en el tiempo</span>
       </div>
 
-      <!-- Opens -->
-      <div class="card card-bordered border-base-200 bg-base-100 p-5 rounded-2xl shadow-2xs space-y-1">
-        <span class="text-[10px] font-semibold text-base-content/40 uppercase tracking-wider">Lecturas</span>
-        <span class="font-serif text-4xl text-[#3b2e7a] font-normal"><%= @letters.sum(:open_count) %></span>
-        <span class="text-[10px] text-base-content/40 pt-1 block">Veces consultadas</span>
+      <%# Opens %>
+      <div class="bg-white border border-slate-100 p-5 rounded-3xl shadow-2xs space-y-1">
+        <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Lecturas</span>
+        <span class="text-3xl font-extrabold text-violet-600 block"><%= @letters.sum(:open_count) %></span>
+        <span class="text-[10px] text-slate-400 pt-1 block">Veces consultadas</span>
       </div>
     </div>
 
-    <!-- Letter cards list -->
+    <%# Letter cards list %>
     <% if @letters.any? %>
       <div class="space-y-6">
         <% @letters.each do |letter| %>
-          <div class="card card-bordered border-base-200 bg-base-100 rounded-2xl p-6 sm:p-8 shadow-xs card-hover-effect space-y-4">
-            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-base-200 pb-3">
+          <div class="bg-white border border-slate-100 rounded-3xl p-6 sm:p-8 shadow-2xs transition-all duration-300 hover:-translate-y-0.5 hover:border-slate-200 space-y-4">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 pb-3">
               <div class="space-y-1">
-                <span class="text-[10px] font-bold uppercase tracking-wider text-purple-700">
+                <span class="text-[10px] font-bold uppercase tracking-wider text-violet-600 block">
                   <%= letter.delivered? ? (letter.reveal_happiness.nil? ? 'Requiere revelación' : 'Entregada & Evaluada') : 'En tránsito al futuro' %>
                 </span>
-                <h3 class="font-serif italic text-2xl text-primary font-normal">
+                <h3 class="text-xl font-bold text-slate-900">
                   <%= letter.title %>
-                  <span class="text-xs font-sans text-base-content/40 font-normal ml-1">
+                  <span class="text-xs font-normal text-slate-400 ml-1">
                     <% if letter.delivered? %>
                       (Abierta el <%= I18n.l(letter.delivered_at.to_date, format: :long) %>)
                     <% else %>
@@ -187,63 +191,67 @@
                 </h3>
               </div>
 
-              <!-- Badges -->
+              <%# Badges %>
               <div class="flex flex-wrap gap-2">
                 <% if letter.public? %>
-                  <span class="badge badge-secondary py-2 px-3 text-xs font-bold uppercase tracking-wider border border-accent">Pública</span>
+                  <span class="bg-violet-50 text-violet-700 border border-violet-100 text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-lg">Pública</span>
                 <% else %>
-                  <span class="badge badge-outline border-base-300 py-2 px-3 text-xs font-bold uppercase tracking-wider text-base-content/50">Privada</span>
+                  <span class="bg-slate-50 text-slate-500 border border-slate-100 text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-lg">Privada</span>
                 <% end %>
               </div>
             </div>
 
-            <!-- Content preview / Countdown -->
+            <%# Content preview / Countdown %>
             <% if letter.delivered? %>
               <div class="space-y-4">
-                <p class="text-sm font-serif italic text-base-content/80 leading-relaxed max-w-4xl line-clamp-3">
+                <p class="text-sm text-slate-600 leading-relaxed max-w-4xl line-clamp-3 font-serif italic">
                   "<%= letter.content %>"
                 </p>
 
-                <!-- Custom small statistics -->
-                <div class="grid md:grid-cols-2 gap-4 bg-base-200/30 p-4 rounded-xl border border-base-200/50 text-xs">
+                <%# Custom small statistics %>
+                <div class="grid md:grid-cols-2 gap-4 bg-slate-50 p-4 rounded-2xl border border-slate-100 text-xs">
                   <% if letter.emotional_snapshot.present? %>
                     <div class="space-y-1">
-                      <p class="font-semibold text-primary uppercase tracking-wider text-xs">🧠 snapshot emocional:</p>
-                      <p class="text-base-content/60">Felicidad: <span class="font-bold"><%= letter.emotional_snapshot.happiness_level %></span> | Ansiedad: <span class="font-bold"><%= letter.emotional_snapshot.anxiety_level %></span> | Motivación: <span class="font-bold"><%= letter.emotional_snapshot.motivation_level %></span></p>
+                      <p class="font-bold text-slate-800 uppercase tracking-wider text-[10px] flex items-center gap-1.5">
+                        <span>🧠</span> snapshot emocional
+                      </p>
+                      <p class="text-slate-500">Felicidad: <span class="font-bold text-slate-700"><%= letter.emotional_snapshot.happiness_level %></span> | Ansiedad: <span class="font-bold text-slate-700"><%= letter.emotional_snapshot.anxiety_level %></span> | Motivación: <span class="font-bold text-slate-700"><%= letter.emotional_snapshot.motivation_level %></span></p>
                     </div>
                   <% end %>
 
                   <% if letter.predictions.any? %>
                     <div class="space-y-1">
-                      <p class="font-semibold text-primary uppercase tracking-wider text-xs">🔮 predicciones hechas:</p>
-                      <p class="text-base-content/60"><%= letter.predictions.size %> predicciones selladas. <%= letter.reveal_happiness.nil? ? 'Pendiente por comparar' : 'Comparación completada' %>.</p>
+                      <p class="font-bold text-slate-800 uppercase tracking-wider text-[10px] flex items-center gap-1.5">
+                        <span>🔮</span> predicciones hechas
+                      </p>
+                      <p class="text-slate-500"><%= letter.predictions.size %> predicciones selladas. <%= letter.reveal_happiness.nil? ? 'Pendiente por comparar' : 'Comparación completada' %>.</p>
                     </div>
                   <% end %>
                 </div>
 
                 <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-2">
-                  <span class="text-[10px] text-base-content/40">👁️ consultada <%= letter.open_count %> veces</span>
+                  <span class="text-[10px] text-slate-400">👁️ consultada <%= letter.open_count %> veces</span>
                   
                   <% if letter.reveal_happiness.nil? %>
-                    <a href="<%= letter_path(letter) %>" class="btn btn-accent btn-sm rounded-xl text-xs font-semibold uppercase tracking-wider cursor-pointer">Completar revelación</a>
+                    <a href="<%= letter_path(letter) %>" class="btn bg-[#2e1065] hover:bg-[#1e0a45] text-white rounded-2xl py-2 px-5 text-xs font-bold uppercase tracking-wider cursor-pointer min-h-[38px] shadow-sm">Completar revelación</a>
                   <% else %>
-                    <a href="<%= letter_path(letter) %>" class="btn btn-outline btn-sm border-base-300 hover:bg-base-200 rounded-xl text-xs font-semibold uppercase tracking-wider cursor-pointer">Ver predicciones vs realidad</a>
+                    <a href="<%= letter_path(letter) %>" class="btn btn-outline border-slate-200 text-slate-700 hover:bg-slate-50 rounded-2xl py-2 px-5 text-xs font-bold uppercase tracking-wider cursor-pointer min-h-[38px]">Ver predicciones vs realidad</a>
                   <% end %>
                 </div>
               </div>
             <% else %>
-              <!-- Countdown status for pending letter -->
-              <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-base-200/40 p-4 rounded-xl border border-base-200/50 text-xs">
-                <div class="flex items-center gap-2">
+              <%# Countdown status for pending letter %>
+              <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-slate-50 p-5 rounded-2xl border border-slate-100 text-xs">
+                <div class="flex items-center gap-3">
                   <span class="text-xl">⏳</span>
-                  <div>
-                    <p class="font-semibold text-primary">Cápsula en tránsito</p>
-                    <p class="text-base-content/40">Se encuentra resguardada en tu baúl temporal.</p>
+                  <div class="space-y-0.5">
+                    <p class="font-bold text-slate-800">Cápsula en tránsito</p>
+                    <p class="text-slate-500">Se encuentra resguardada de forma privada en tu baúl temporal.</p>
                   </div>
                 </div>
 
                 <% days_left = (letter.deliver_at.to_date - Date.current).to_i %>
-                <span class="badge badge-accent py-3 px-4 text-[10px] font-bold uppercase tracking-wider border-0 shadow-2xs">
+                <span class="bg-violet-50 text-violet-700 border border-violet-100 py-2.5 px-4 text-[10px] font-bold uppercase tracking-wider rounded-xl shadow-2xs">
                   Se abre en <%= days_left %> días
                 </span>
               </div>
@@ -252,12 +260,12 @@
         <% end %>
       </div>
     <% else %>
-      <!-- Empty state -->
-      <div class="card card-bordered border-base-200 bg-base-100 p-12 rounded-3xl text-center max-w-xl mx-auto space-y-6">
+      <%# Empty state %>
+      <div class="bg-white border border-slate-100 p-12 rounded-3xl text-center max-w-xl mx-auto space-y-6 shadow-2xs">
         <span class="text-4xl block">📭</span>
-        <h3 class="font-serif italic text-2xl text-primary">Tu baúl está vacío</h3>
-        <p class="text-xs text-base-content/50 leading-relaxed max-w-sm mx-auto">No has escrito ninguna carta todavía. Las cartas al futuro te ayudan a reflexionar y comparar tus predicciones con la realidad.</p>
-        <a href="<%= new_letter_path %>" class="btn bg-[#3b2e7a] hover:bg-[#2c2061] text-white rounded-xl text-xs font-semibold uppercase tracking-wider px-6 cursor-pointer">Escribir mi primera carta</a>
+        <h3 class="text-xl font-bold text-slate-900">Tu baúl está vacío</h3>
+        <p class="text-xs text-slate-500 leading-relaxed max-w-sm mx-auto">No has escrito ninguna carta todavía. Las cartas al futuro te ayudan a reflexionar y comparar tus predicciones con la realidad.</p>
+        <a href="<%= new_letter_path %>" class="btn bg-[#2e1065] hover:bg-[#1e0a45] text-white rounded-2xl py-3 px-6 text-sm font-bold border-none cursor-pointer transition-all hover:scale-[1.02] active:scale-[0.98] shadow-sm">Escribir mi primera carta</a>
       </div>
     <% end %>
   </div>

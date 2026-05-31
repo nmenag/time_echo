@@ -1,43 +1,43 @@
 <div class="max-w-7xl mx-auto py-4 font-sans animate-fade-in">
   <% if @countdown %>
-    <!-- ==========================================
+    <%# ==========================================
          VIEW 1: LOCKED TIMELOCKED COUNTDOWN CAPSULE
-         ========================================== -->
+         ========================================== %>
     <div class="max-w-xl mx-auto py-12">
-      <div class="card card-bordered border-base-200 bg-base-100 p-8 sm:p-12 rounded-3xl text-center space-y-8 shadow-md relative overflow-hidden">
-        <!-- Ambient decorative lock glow -->
-        <div class="absolute -top-24 -left-24 w-48 h-48 bg-warning/10 rounded-full blur-3xl"></div>
-        <div class="absolute -bottom-24 -right-24 w-48 h-48 bg-primary/10 rounded-full blur-3xl"></div>
+      <div class="bg-white border border-slate-100 p-8 sm:p-12 rounded-3xl text-center space-y-8 shadow-md relative overflow-hidden">
+        <%# Ambient decorative lock glow %>
+        <div class="absolute -top-24 -left-24 w-48 h-48 bg-violet-100/30 rounded-full blur-3xl"></div>
+        <div class="absolute -bottom-24 -right-24 w-48 h-48 bg-violet-100/30 rounded-full blur-3xl"></div>
 
         <div class="relative w-28 h-28 mx-auto select-none">
-          <div class="w-full h-full bg-base-200 rounded-full border border-base-300 flex items-center justify-center text-5xl shadow-inner">
+          <div class="w-full h-full bg-slate-50 rounded-full border border-slate-200 flex items-center justify-center text-5xl shadow-inner">
             ✉️
           </div>
-          <div class="absolute -bottom-1 -right-1 bg-brand text-white w-9 h-9 rounded-full flex items-center justify-center text-sm font-bold border-2 border-white animate-pulse-glow shadow-md" aria-hidden="true">
+          <div class="absolute -bottom-1 -right-1 bg-violet-900 text-white w-9 h-9 rounded-full flex items-center justify-center text-sm font-bold border-2 border-white animate-pulse shadow-md" aria-hidden="true">
             🔒
           </div>
         </div>
 
         <div class="space-y-3">
-          <h1 class="font-serif italic text-3xl sm:text-4xl text-primary font-normal"><%= t('letters.show_locked_title') %></h1>
-          <p class="text-xs text-base-content/60 max-w-sm mx-auto leading-relaxed">
+          <h1 class="text-3xl font-extrabold text-slate-900 tracking-tight"><%= t('letters.show_locked_title') %></h1>
+          <p class="text-xs text-slate-500 max-w-sm mx-auto leading-relaxed">
             <%= t('letters.show_locked_desc', email: @letter.email) %>
           </p>
         </div>
 
         <% days_left = (@letter.deliver_at.to_date - Date.current).to_i %>
         <div class="space-y-2">
-          <span class="text-xs font-medium text-base-content/50 uppercase tracking-wider block">Tiempo restante</span>
-          <div class="inline-block px-8 py-3.5 bg-yellow-50 border border-yellow-200 text-yellow-800 rounded-2xl font-serif italic text-3xl font-semibold tracking-wide shadow-2xs">
+          <span class="text-xs font-bold text-slate-400 uppercase tracking-wider block">Tiempo restante</span>
+          <div class="inline-block px-8 py-3.5 bg-violet-50 border border-violet-100/40 text-violet-700 rounded-2xl font-extrabold text-3xl tracking-wide shadow-2xs">
             <%= days_left == 1 ? "1 día" : "#{days_left} días" %>
           </div>
-          <p class="text-[11px] text-base-content/40 pt-1">
+          <p class="text-[11px] text-slate-400 pt-1">
             Se entregará el <%= I18n.l(@letter.deliver_at.to_date, format: :long) %>
           </p>
         </div>
 
-        <div class="pt-6 border-t border-base-200">
-          <a href="<%= dashboard_path %>" class="btn btn-outline border-base-300 hover:bg-base-200 hover:text-primary rounded-xl px-6 text-xs font-semibold uppercase tracking-wider shadow-2xs cursor-pointer">
+        <div class="pt-6 border-t border-slate-100">
+          <a href="<%= dashboard_path %>" class="btn btn-outline border-slate-200 text-slate-700 hover:bg-slate-50 hover:text-slate-900 rounded-2xl px-6 text-xs font-bold uppercase tracking-wider shadow-2xs cursor-pointer min-h-[40px]">
             Volver a mis cartas
           </a>
         </div>
@@ -45,60 +45,62 @@
     </div>
 
   <% else %>
-    <!-- ==========================================
+    <%# ==========================================
          UNLOCKED LIFE LIFECYCLE VIEWS
-         ========================================== -->
+         ========================================== %>
     <% if @letter.reveal_happiness.nil? && (@accessed_via_signed_id || (user_signed_in? && @letter.email == current_user_email)) %>
-      <!-- ==========================================
-           VIEW 2: REFLECTIVE REALITY INPUT ONBOARDING (Mockup Page 2)
-           ========================================== -->
+      <%# ==========================================
+           VIEW 2: REFLECTIVE REALITY INPUT ONBOARDING
+           ========================================== %>
       <%= form_with url: update_predictions_letter_path(@letter), method: :post, local: true, class: "space-y-8" do |f| %>
         <div style="display: none;"><%= @letter.content %></div>
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
           
-          <!-- Left Column: Envelope Onboarding Card (span 4) -->
+          <%# Left Column: Envelope Onboarding Card (span 4) %>
           <div class="lg:col-span-4 flex">
-            <div class="card card-bordered border-base-200 bg-base-100 p-8 rounded-2xl shadow-xs text-center flex flex-col justify-between items-center w-full relative overflow-hidden">
+            <div class="bg-white border border-slate-100 p-8 rounded-3xl shadow-2xs text-center flex flex-col justify-between items-center w-full relative overflow-hidden">
               <div class="space-y-4">
-                <span class="badge badge-accent py-2 px-3 text-[10px] font-bold tracking-wider uppercase">Cápsula Desbloqueada</span>
-                <h2 class="font-serif italic text-3xl text-primary font-normal leading-snug">
+                <span class="bg-violet-50 text-violet-700 border border-violet-100 text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-lg">Cápsula Desbloqueada</span>
+                <h2 class="text-2xl font-extrabold text-slate-900 leading-snug">
                   Tu carta del pasado te está esperando.
                 </h2>
-                <p class="text-xs text-base-content/50 max-w-xs mx-auto leading-relaxed">
+                <p class="text-xs text-slate-500 max-w-xs mx-auto leading-relaxed">
                   Antes de leerla, cuéntanos qué pasó realmente. Esto nos permitirá calcular el score de predicciones y shifts emocionales.
                 </p>
               </div>
 
-              <!-- Premium Envelope Graphic -->
+              <%# Envelope Graphic %>
               <div class="my-8 relative select-none group">
-                <div class="absolute inset-0 bg-brand/5 rounded-full blur-2xl group-hover:bg-brand/10 transition-colors duration-500"></div>
-                <div class="w-32 h-32 bg-base-100 border border-base-300 rounded-full flex items-center justify-center text-6xl shadow-md transform group-hover:scale-105 transition-transform duration-300">
+                <div class="absolute inset-0 bg-violet-100/20 rounded-full blur-2xl group-hover:bg-violet-100/30 transition-colors duration-500"></div>
+                <div class="w-32 h-32 bg-white border border-slate-200 rounded-full flex items-center justify-center text-6xl shadow-md transform group-hover:scale-105 transition-transform duration-300">
                   ✉️
                 </div>
-                <div class="absolute bottom-1 right-1 bg-success text-white w-9 h-9 rounded-full flex items-center justify-center text-base border-2 border-white shadow-md animate-pulse-glow" aria-hidden="true">
+                <div class="absolute bottom-1 right-1 bg-emerald-500 text-white w-9 h-9 rounded-full flex items-center justify-center text-base border-2 border-white shadow-md animate-pulse" aria-hidden="true">
                   ✨
                 </div>
+              </div>
+
               <div class="w-full space-y-2">
-                <button type="button" onclick="scrollToQuestions()" class="btn w-full text-white rounded-xl py-3.5 text-sm font-semibold shadow-sm border-none cursor-pointer" style="background-color: oklch(40% 0.22 290); --btn-color: oklch(40% 0.22 290);">
+                <button type="button" onclick="scrollToQuestions()" class="btn w-full bg-[#2e1065] hover:bg-[#1e0a45] text-white rounded-2xl py-3.5 text-sm font-bold shadow-sm border-none cursor-pointer min-h-[44px]">
                   Comenzar
                 </button>
-                <p class="text-[10px] text-base-content/40 font-semibold">Tomará solo 2 minutos</p>
+                <p class="text-[10px] text-slate-400 font-bold">Tomará solo 2 minutos</p>
               </div>
             </div>
           </div>
  
-          <!-- Center Column: Cuéntanos tu realidad (span 5) -->
+          <%# Center Column: Cuéntanos tu realidad (span 5) %>
           <div id="questions_section" class="lg:col-span-5 flex">
-            <div class="card card-bordered border-base-200 bg-base-100 p-6 sm:p-8 rounded-2xl shadow-xs w-full space-y-6">
-              <div class="border-b border-base-200 pb-3">
-                <h3 class="font-serif italic text-2xl text-primary font-normal">Cuéntanos tu realidad actual</h3>
-                <p class="text-xs text-base-content/40 mt-1">Responde estas preguntas para comparar tu pasado con tu yo actual.</p>
+            <div class="bg-white border border-slate-100 p-6 sm:p-8 rounded-3xl shadow-2xs w-full space-y-6">
+              <div class="border-b border-slate-100 pb-3.5">
+                <h3 class="text-xl font-bold text-slate-900">Cuéntanos tu realidad actual</h3>
+                <p class="text-xs text-slate-500 mt-1">Responde estas preguntas para comparar tu pasado con tu yo actual.</p>
               </div>
  
               <div class="space-y-5">
                 <% @letter.predictions.each do |pred| %>
-                  <div class="space-y-2 p-4 bg-base-200/25 border border-base-200 rounded-xl">
-                    <label class="text-xs font-semibold text-primary flex items-center gap-2">
+                  <div class="space-y-3 p-4 bg-slate-50 border border-slate-100 rounded-2xl">
+                    <label class="text-xs font-bold text-slate-800 flex items-center gap-2">
                       <% case pred.category %>
                       <% when 'city' %>
                         <span class="text-base">🏠</span> <span>¿Dónde vives hoy en día?</span>
@@ -117,34 +119,34 @@
                       <% end %>
                     </label>
  
-                    <div class="text-[10px] text-base-content/40 italic font-mono bg-white px-2.5 py-1.5 rounded-lg border border-base-200/80 mb-2">
+                    <div class="text-[10px] text-slate-400 italic font-mono bg-white px-2.5 py-1.5 rounded-lg border border-slate-100 mb-2">
                       Tu predicción del pasado: "<%= pred.prediction %>"
                     </div>
  
                     <% if pred.category == 'happiness' %>
-                      <!-- Happiness level slider prediction match -->
+                      <%# Happiness level slider prediction match %>
                       <div class="space-y-2 pt-1">
-                        <div class="flex justify-between text-[11px] font-medium text-purple-700">
+                        <div class="flex justify-between text-xs font-bold text-violet-700">
                           <span>Tu nivel actual:</span>
                           <span id="reality_happiness_pred_lbl">7 / 10</span>
                         </div>
-                        <%= range_field_tag "predictions[#{pred.id}][reality]", 7, min: 1, max: 10, class: "range range-primary range-xs", oninput: "document.getElementById('reality_happiness_pred_lbl').innerText = this.value + ' / 10'" %>
+                        <%= range_field_tag "predictions[#{pred.id}][reality]", 7, min: 1, max: 10, class: "range range-xs cursor-pointer w-full accent-violet-600", oninput: "document.getElementById('reality_happiness_pred_lbl').innerText = this.value + ' / 10'" %>
                         <%= hidden_field_tag "predictions[#{pred.id}][matched]", "1" %>
                       </div>
                     <% else %>
-                      <!-- Text inputs for normal categories with selection matrix -->
+                      <%# Text inputs for normal categories with selection matrix %>
                       <div class="space-y-3">
-                        <%= text_field_tag "predictions[#{pred.id}][reality]", nil, placeholder: "Describe qué pasó en la realidad...", class: "input input-bordered input-sm w-full rounded-xl bg-slate-50 text-slate-900 border-slate-200/80 placeholder:text-slate-400 text-xs hover:bg-slate-100/30 hover:border-slate-300 focus:bg-white focus:border-[#5b21b6] focus:ring-2 focus:ring-[#5b21b6]/10 focus:outline-none transition-all shadow-sm", required: true %>
+                        <%= text_field_tag "predictions[#{pred.id}][reality]", nil, placeholder: "Describe qué pasó en la realidad...", class: "input input-bordered w-full rounded-2xl bg-white text-slate-800 border-slate-200 placeholder:text-slate-400 text-sm focus:border-violet-500 focus:ring-2 focus:ring-violet-100 transition-all px-4 min-h-[44px]", required: true %>
                         
-                        <div class="space-y-1">
-                          <label class="text-[10px] text-base-content/40 uppercase tracking-wider font-semibold">¿Se cumplió tu predicción?</label>
+                        <div class="space-y-2">
+                          <label class="text-[10px] text-slate-400 uppercase tracking-wider font-bold block">¿Se cumplió tu predicción?</label>
                           <div class="grid grid-cols-2 gap-2">
-                            <label class="btn btn-outline btn-xs rounded-lg flex items-center justify-center gap-1 cursor-pointer hover:bg-success hover:text-white transition-colors py-1.5">
-                              <%= radio_button_tag "predictions[#{pred.id}][matched]", "1", true, class: "radio radio-primary radio-xs hidden" %>
+                            <label class="btn btn-outline border-slate-200 text-slate-700 hover:bg-emerald-500 hover:text-white hover:border-emerald-500 rounded-xl flex items-center justify-center gap-1 cursor-pointer transition-colors py-2 text-xs font-bold">
+                              <%= radio_button_tag "predictions[#{pred.id}][matched]", "1", true, class: "hidden" %>
                               <span>🎉 Sí, lo logré</span>
                             </label>
-                            <label class="btn btn-outline btn-xs rounded-lg flex items-center justify-center gap-1 cursor-pointer hover:bg-error hover:text-white transition-colors py-1.5">
-                              <%= radio_button_tag "predictions[#{pred.id}][matched]", "0", false, class: "radio radio-secondary radio-xs hidden" %>
+                            <label class="btn btn-outline border-slate-200 text-slate-700 hover:bg-violet-800 hover:text-white hover:border-violet-800 rounded-xl flex items-center justify-center gap-1 cursor-pointer transition-colors py-2 text-xs font-bold">
+                              <%= radio_button_tag "predictions[#{pred.id}][matched]", "0", false, class: "hidden" %>
                               <span>❌ No exactamente</span>
                             </label>
                           </div>
@@ -157,58 +159,58 @@
             </div>
           </div>
  
-          <!-- Right Column: Emotional Snapshot Today & Instructions (span 3) -->
+          <%# Right Column: Emotional Snapshot Today & Instructions (span 3) %>
           <div class="lg:col-span-3 flex flex-col gap-6">
-            <!-- Emotional Snapshot Card -->
-            <div class="card card-bordered border-base-200 bg-base-100 p-6 rounded-2xl shadow-xs w-full space-y-6">
-              <div class="border-b border-base-200 pb-3">
-                <h3 class="font-serif italic text-2xl text-primary font-normal">Estado emocional hoy</h3>
-                <p class="text-xs text-base-content/40 mt-1">¿Cómo te sientes en este preciso instante?</p>
+            <%# Emotional Snapshot Card %>
+            <div class="bg-white border border-slate-100 p-6 rounded-3xl shadow-2xs w-full space-y-6">
+              <div class="border-b border-slate-100 pb-3.5">
+                <h3 class="text-xl font-bold text-slate-900">Estado emocional hoy</h3>
+                <p class="text-xs text-slate-500 mt-1">¿Cómo te sientes en este preciso instante?</p>
               </div>
  
               <div class="space-y-5">
-                <!-- Felicidad -->
+                <%# Felicidad %>
                 <div class="space-y-2">
-                  <div class="flex justify-between items-center text-xs font-semibold text-primary">
-                    <span>😊 Felicidad</span>
-                    <span id="reveal_happiness_lbl" class="text-base-content/50">5 / 10</span>
+                  <div class="flex justify-between items-center text-xs font-bold text-slate-700">
+                    <span>😆 Felicidad</span>
+                    <span id="reveal_happiness_lbl" class="text-slate-400 font-mono">5 / 10</span>
                   </div>
-                  <%= f.range_field :reveal_happiness, min: 1, max: 10, value: 5, class: "range range-primary range-xs", oninput: "document.getElementById('reveal_happiness_lbl').innerText = this.value + ' / 10'" %>
+                  <%= f.range_field :reveal_happiness, min: 1, max: 10, value: 5, class: "range range-xs cursor-pointer w-full accent-violet-600", oninput: "document.getElementById('reveal_happiness_lbl').innerText = this.value + ' / 10'" %>
                 </div>
  
-                <!-- Ansiedad -->
+                <%# Ansiedad %>
                 <div class="space-y-2">
-                  <div class="flex justify-between items-center text-xs font-semibold text-primary">
-                    <span>😔 Ansiedad</span>
-                    <span id="reveal_anxiety_lbl" class="text-base-content/50">5 / 10</span>
+                  <div class="flex justify-between items-center text-xs font-bold text-slate-700">
+                    <span>🥺 Ansiedad</span>
+                    <span id="reveal_anxiety_lbl" class="text-slate-400 font-mono">5 / 10</span>
                   </div>
-                  <%= f.range_field :reveal_anxiety, min: 1, max: 10, value: 5, class: "range range-secondary range-xs", oninput: "document.getElementById('reveal_anxiety_lbl').innerText = this.value + ' / 10'" %>
+                  <%= f.range_field :reveal_anxiety, min: 1, max: 10, value: 5, class: "range range-xs cursor-pointer w-full accent-violet-600", oninput: "document.getElementById('reveal_anxiety_lbl').innerText = this.value + ' / 10'" %>
                 </div>
  
-                <!-- Motivación -->
+                <%# Motivación %>
                 <div class="space-y-2">
-                  <div class="flex justify-between items-center text-xs font-semibold text-primary">
+                  <div class="flex justify-between items-center text-xs font-bold text-slate-700">
                     <span>⭐ Motivación</span>
-                    <span id="reveal_motivation_lbl" class="text-base-content/50">5 / 10</span>
+                    <span id="reveal_motivation_lbl" class="text-slate-400 font-mono">5 / 10</span>
                   </div>
-                  <%= f.range_field :reveal_motivation, min: 1, max: 10, value: 5, class: "range range-accent range-xs", oninput: "document.getElementById('reveal_motivation_lbl').innerText = this.value + ' / 10'" %>
+                  <%= f.range_field :reveal_motivation, min: 1, max: 10, value: 5, class: "range range-xs cursor-pointer w-full accent-violet-600", oninput: "document.getElementById('reveal_motivation_lbl').innerText = this.value + ' / 10'" %>
                 </div>
               </div>
             </div>
  
-            <!-- Helpful Tip Card -->
-            <div class="card card-bordered border-purple-200 bg-purple-50/30 p-5 rounded-2xl space-y-2.5 text-xs text-purple-950">
-              <p class="font-semibold flex items-center gap-1.5">💡 Consejo de reflexión:</p>
-              <p class="leading-relaxed opacity-85">Sé honesto contigo mismo. No hay respuestas correctas o incorrectas. Esta experiencia es 100% tuya y te ayuda a ver lo mucho que has crecido en este tiempo. 🌱</p>
+            <%# Helpful Tip Card %>
+            <div class="bg-[#f5f1ff] border border-violet-100/50 p-5 rounded-3xl space-y-2.5 text-xs text-slate-700">
+              <p class="font-extrabold flex items-center gap-1.5 text-violet-700">💡 Consejo de reflexión:</p>
+              <p class="leading-relaxed opacity-90">Sé honesto contigo mismo. No hay respuestas correctas o incorrectas. Esta experiencia es 100% tuya y te ayuda a ver lo mucho que has crecido en este tiempo. 🌱</p>
             </div>
  
-            <!-- Submit Button -->
-            <%= f.submit "Guardar y ver mi carta", class: "btn w-full bg-[#5b21b6] hover:bg-[#4c1d95] text-white rounded-2xl py-3.5 px-6 text-xs font-bold tracking-wider uppercase shadow-md transition-all border-none cursor-pointer mt-auto" %>
+            <%# Submit Button %>
+            <%= f.submit "Guardar y ver mi carta", class: "btn w-full bg-[#2e1065] hover:bg-[#1e0a45] text-white rounded-2xl py-3.5 px-6 text-xs font-bold tracking-wider uppercase border-none cursor-pointer mt-auto min-h-[44px] shadow-sm" %>
           </div>
 
         </div>
       <% end %>
-
+ 
       <script>
         function scrollToQuestions() {
           const target = document.getElementById('questions_section');
@@ -217,61 +219,61 @@
           }
         }
       </script>
-
+ 
     <% else %>
-      <!-- ==========================================
-           VIEW 3: THE COMPLETED REFLECTION COMPARISON VAULT (Mockup Page 3)
-           ========================================== -->
+      <%# ==========================================
+           VIEW 3: THE COMPLETED REFLECTION COMPARISON VAULT
+           ========================================== %>
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
         
-        <!-- Left Column: The Letter text and side-by-side matrices (span 8) -->
+        <%# Left Column: The Letter text and side-by-side matrices (span 8) %>
         <div class="lg:col-span-8 space-y-8">
-          <!-- The Letter Card -->
-          <div class="card card-bordered border-base-200 bg-[#faf9f6] p-8 sm:p-10 rounded-2xl shadow-xs space-y-6 relative overflow-hidden">
-            <!-- Header layout -->
-            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-base-200 pb-5 text-xs text-base-content/40">
+          <%# The Letter Card %>
+          <div class="bg-white border border-slate-100 p-8 sm:p-10 rounded-3xl shadow-2xs space-y-6 relative overflow-hidden">
+            <%# Header layout %>
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-100 pb-5 text-xs text-slate-400">
               <div>
-                <p class="uppercase tracking-wider font-semibold text-xs">Escrita el</p>
-                <p class="font-serif italic text-sm text-primary"><%= I18n.l(@letter.created_at.to_date, format: :long) %></p>
+                <p class="uppercase tracking-wider font-bold text-[10px]">Escrita el</p>
+                <p class="font-bold text-slate-800 text-sm"><%= I18n.l(@letter.created_at.to_date, format: :long) %></p>
               </div>
               <div class="text-center">
-                <h1 class="font-serif text-3xl text-primary italic font-normal"><%= @letter.title %></h1>
+                <h1 class="text-2xl font-extrabold text-slate-900 tracking-tight"><%= @letter.title %></h1>
               </div>
               <div class="sm:text-right">
-                <p class="uppercase tracking-wider font-semibold text-xs">Entregada el</p>
-                <p class="font-serif italic text-sm text-primary"><%= I18n.l(@letter.delivered_at.to_date, format: :long) %></p>
+                <p class="uppercase tracking-wider font-bold text-[10px]">Entregada el</p>
+                <p class="font-bold text-slate-800 text-sm"><%= I18n.l(@letter.delivered_at.to_date, format: :long) %></p>
               </div>
             </div>
 
-            <!-- Authentic paper journaling styled content -->
+            <%# Authentic paper journaling styled content %>
             <article class="font-serif text-lg text-primary leading-relaxed whitespace-pre-wrap select-text px-1">
               <%= @letter.content %>
             </article>
 
-            <!-- Actions footer -->
-            <div class="pt-6 border-t border-base-200 flex justify-between items-center text-[10px] text-base-content/40 font-sans">
+            <%# Actions footer %>
+            <div class="pt-6 border-t border-slate-100 flex justify-between items-center text-[10px] text-slate-400 font-sans">
               <span>👁️ Consultada <%= @letter.open_count %> veces</span>
-              <a href="<%= dashboard_path %>" class="hover:text-primary transition-colors flex items-center gap-1 font-semibold uppercase tracking-wider">
+              <a href="<%= dashboard_path %>" class="hover:text-violet-600 transition-colors flex items-center gap-1 font-bold uppercase tracking-wider">
                 &larr; Volver a mis cartas
               </a>
             </div>
           </div>
 
-          <!-- Predictions vs Reality side-by-side matrices -->
+          <%# Predictions vs Reality side-by-side matrices %>
           <% if @letter.predictions.any? %>
-            <div class="card card-bordered border-base-200 bg-base-100 p-6 sm:p-8 rounded-2xl shadow-xs space-y-6">
-              <div class="border-b border-base-200 pb-3">
-                <h2 class="font-serif italic text-2xl text-primary font-normal">Predicciones vs Realidad</h2>
-                <p class="text-xs text-base-content/40 mt-1">Compara lo que imaginabas hace un tiempo con la vida que estás viviendo hoy.</p>
+            <div class="bg-white border border-slate-100 p-6 sm:p-8 rounded-3xl shadow-2xs space-y-6">
+              <div class="border-b border-slate-100 pb-3.5">
+                <h2 class="text-xl font-bold text-slate-900">Predicciones vs Realidad</h2>
+                <p class="text-xs text-slate-500 mt-1">Compara lo que imaginabas hace un tiempo con la vida que estás viviendo hoy.</p>
               </div>
 
               <div class="space-y-4">
                 <% @letter.predictions.each do |pred| %>
-                  <div class="card card-bordered border-base-200 bg-base-50/50 rounded-2xl overflow-hidden shadow-2xs hover:shadow-xs transition-shadow">
+                  <div class="bg-white border border-slate-100 rounded-3xl overflow-hidden shadow-2xs hover:shadow-xs transition-shadow">
                     
-                    <!-- Header -->
-                    <div class="bg-base-200/50 px-5 py-3.5 flex justify-between items-center border-b border-base-200/40">
-                      <span class="badge badge-outline py-2 px-3 text-[10px] font-bold font-mono uppercase tracking-wider text-base-content/50">
+                    <%# Header %>
+                    <div class="bg-slate-50 px-5 py-3.5 flex justify-between items-center border-b border-slate-100">
+                      <span class="bg-violet-50 text-violet-700 border border-violet-100 text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-lg">
                         <% case pred.category %>
                         <% when 'city' %>
                           🏠 Ubicación
@@ -290,44 +292,44 @@
                         <% end %>
                       </span>
 
-                      <!-- Status Badge -->
+                      <%# Status Badge %>
                       <% if pred.matched? %>
                         <% if pred.category == 'salary' || pred.category == 'achievement' %>
-                          <span class="badge badge-success border-0 py-2.5 px-3 text-[10px] font-bold text-white uppercase tracking-wider rounded-lg shadow-2xs bg-[#2e7d32]">
+                          <span class="bg-emerald-500 text-white border-0 py-1.5 px-3 text-[10px] font-bold uppercase tracking-wider rounded-lg shadow-2xs">
                             Superaste 🚀
                           </span>
                         <% else %>
-                          <span class="badge badge-success border-0 py-2.5 px-3 text-[10px] font-bold text-white uppercase tracking-wider rounded-lg shadow-2xs bg-green-600">
+                          <span class="bg-emerald-500 text-white border-0 py-1.5 px-3 text-[10px] font-bold uppercase tracking-wider rounded-lg shadow-2xs">
                             Lo lograste! 🎉
                           </span>
                         <% end %>
                       <% else %>
                         <% if pred.category == 'city' || pred.category == 'relationship' %>
-                          <span class="badge badge-warning border-0 py-2.5 px-3 text-[10px] font-bold text-white uppercase tracking-wider rounded-lg shadow-2xs bg-amber-600">
+                          <span class="bg-amber-500 text-white border-0 py-1.5 px-3 text-[10px] font-bold uppercase tracking-wider rounded-lg shadow-2xs">
                             Parcialmente ➖
                           </span>
                         <% else %>
-                          <span class="badge badge-secondary border-0 py-2.5 px-3 text-[10px] font-bold text-white uppercase tracking-wider rounded-lg shadow-2xs bg-purple-700">
+                          <span class="bg-violet-900 text-white border-0 py-1.5 px-3 text-[10px] font-bold uppercase tracking-wider rounded-lg shadow-2xs">
                             No acertaste ❌
                           </span>
                         <% end %>
                       <% end %>
                     </div>
 
-                    <!-- Comparison Side by Side -->
-                    <div class="grid md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-base-200 bg-white">
-                      <!-- Prediction column -->
+                    <%# Comparison Side by Side %>
+                    <div class="grid md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-slate-100 bg-white">
+                      <%# Prediction column %>
                       <div class="p-5 space-y-1.5">
-                        <span class="text-xs font-bold text-base-content/40 uppercase tracking-wider block">Predicción del pasado:</span>
-                        <p class="font-serif italic text-base text-primary leading-relaxed">
+                        <span class="text-xs font-bold text-slate-400 uppercase tracking-wider block">Predicción del pasado:</span>
+                        <p class="text-sm text-slate-800 leading-relaxed font-sans">
                           "<%= pred.prediction %>"
                         </p>
                       </div>
                       
-                      <!-- Reality column -->
-                      <div class="p-5 space-y-1.5 bg-[#faf9f6]">
-                        <span class="text-xs font-bold text-base-content/40 uppercase tracking-wider block">Realidad hoy en día:</span>
-                        <p class="font-serif italic text-base text-primary leading-relaxed">
+                      <%# Reality column %>
+                      <div class="p-5 space-y-1.5 bg-[#fbfbfb]">
+                        <span class="text-xs font-bold text-slate-400 uppercase tracking-wider block">Realidad hoy en día:</span>
+                        <p class="text-sm text-slate-800 leading-relaxed font-sans">
                           "<%= pred.reality %>"
                         </p>
                       </div>
@@ -340,13 +342,13 @@
           <% end %>
         </div>
 
-        <!-- Right Column: Emotional charts & Score widgets (span 4) -->
+        <%# Right Column: Emotional charts & Score widgets (span 4) %>
         <div class="lg:col-span-4 space-y-6 flex flex-col">
           
-          <!-- Widget 1: Tu Score de Predicciones (Mockup Page 3 Donut) -->
-          <div class="card card-bordered border-base-200 bg-base-100 p-6 rounded-2xl shadow-xs space-y-5 text-center">
-            <div class="border-b border-base-200 pb-3">
-              <h3 class="font-serif italic text-xl text-primary font-normal">Tu Score de Predicciones</h3>
+          <%# Widget 1: Tu Score de Predicciones %>
+          <div class="bg-white border border-slate-100 p-6 rounded-3xl shadow-2xs space-y-5 text-center">
+            <div class="border-b border-slate-100 pb-3">
+              <h3 class="text-lg font-bold text-slate-900">Tu Score de Predicciones</h3>
             </div>
 
             <% if @letter.predictions.any? %>
@@ -354,23 +356,22 @@
               <% total = @letter.predictions.count %>
               <% pct = ((matched.to_f / total) * 100).round %>
               
-              <!-- Donut chart -->
+              <%# Donut chart %>
               <div class="relative w-36 h-36 mx-auto flex items-center justify-center">
-                <!-- Circular progress via DaisyUI -->
-              <div class="radial-progress text-brand font-serif text-3xl font-bold"
-                   style="--value:<%= pct %>; --size:9rem; --thickness: 10px;"
-                   role="progressbar"
-                   aria-valuenow="<%= pct %>"
-                   aria-valuemin="0"
-                   aria-valuemax="100"
-                   aria-label="Score de predicciones: <%= pct %>%">
-                <%= pct %>%
-              </div>
+                <div class="radial-progress text-violet-600 font-sans text-3xl font-extrabold"
+                     style="--value:<%= pct %>; --size:9rem; --thickness: 10px;"
+                     role="progressbar"
+                     aria-valuenow="<%= pct %>"
+                     aria-valuemin="0"
+                     aria-valuemax="100"
+                     aria-label="Score de predicciones: <%= pct %>%">
+                  <%= pct %>%
+                </div>
               </div>
 
               <div class="space-y-1 text-xs">
-                <p class="font-semibold text-primary">Acertaste <%= matched %> de <%= total %> predicciones</p>
-                <p class="text-base-content/50 leading-relaxed max-w-xs mx-auto">
+                <p class="font-bold text-slate-800">Acertaste <%= matched %> de <%= total %> predicciones</p>
+                <p class="text-slate-500 leading-relaxed max-w-xs mx-auto">
                   <% if pct >= 70 %>
                     ¡Tu brújula del futuro está sumamente afilada! Excelente intuición. 🌟
                   <% elsif pct >= 40 %>
@@ -381,76 +382,76 @@
                 </p>
               </div>
             <% else %>
-              <p class="text-xs text-base-content/40 py-4">No registraste predicciones para esta carta.</p>
+              <p class="text-xs text-slate-400 py-4">No registraste predicciones para esta carta.</p>
             <% end %>
           </div>
 
-          <!-- Widget 2: Evolución emocional (Mockup Page 3 line comparison) -->
-          <div class="card card-bordered border-base-200 bg-base-100 p-6 rounded-2xl shadow-xs space-y-6">
-            <div class="border-b border-base-200 pb-3">
-              <h3 class="font-serif italic text-xl text-primary font-normal">Evolución emocional</h3>
-              <p class="text-[10px] text-base-content/40 mt-0.5 uppercase tracking-wider">Cambio en tu bienestar interno</p>
+          <%# Widget 2: Evolución emocional %>
+          <div class="bg-white border border-slate-100 p-6 rounded-3xl shadow-2xs space-y-6">
+            <div class="border-b border-slate-100 pb-3">
+              <h3 class="text-lg font-bold text-slate-900">Evolución emocional</h3>
+              <p class="text-[10px] text-slate-400 mt-0.5 uppercase tracking-wider font-bold">Cambio en tu bienestar interno</p>
             </div>
 
             <% if @letter.emotional_snapshot.present? %>
               <div class="space-y-5">
-                <!-- Felicidad shifts -->
-                <div class="space-y-2 bg-[#f5f3eb]/30 p-3.5 rounded-xl border border-base-200/50">
+                <%# Felicidad shifts %>
+                <div class="space-y-2 bg-slate-50 p-3.5 rounded-2xl border border-slate-100">
                   <div class="flex justify-between items-center text-xs">
-                    <span class="font-semibold text-primary flex items-center gap-1">😊 Felicidad</span>
+                    <span class="font-bold text-slate-700 flex items-center gap-1">😆 Felicidad</span>
                     <% hap_shift = @letter.reveal_happiness.to_i - @letter.emotional_snapshot.happiness_level.to_i %>
                     <% if hap_shift > 0 %>
-                      <span class="badge badge-success text-xs font-bold py-1 px-2 border-0 bg-green-600 text-white">+<%= hap_shift %> Crecimiento</span>
+                      <span class="bg-emerald-500 text-white text-[10px] font-bold py-1 px-2.5 rounded-lg">+<%= hap_shift %> Crecimiento</span>
                     <% elsif hap_shift < 0 %>
-                      <span class="badge badge-secondary text-xs font-bold py-1 px-2 border-0 bg-purple-700 text-white"><%= hap_shift %> Descenso</span>
+                      <span class="bg-violet-900 text-white text-[10px] font-bold py-1 px-2.5 rounded-lg"><%= hap_shift %> Descenso</span>
                     <% else %>
-                      <span class="badge badge-outline text-xs font-bold py-1 px-2 text-base-content/40 font-sans">Estable</span>
+                      <span class="bg-slate-100 text-slate-500 border border-slate-200 text-[10px] font-bold py-1 px-2.5 rounded-lg">Estable</span>
                     <% end %>
                   </div>
                   
-                  <div class="flex justify-between items-center text-[11px] text-base-content/50 font-mono">
+                  <div class="flex justify-between items-center text-[11px] text-slate-400 font-mono">
                     <span>Pasado: <strong><%= @letter.emotional_snapshot.happiness_level %></strong></span>
                     <span class="text-xs">&rarr;</span>
                     <span>Hoy: <strong><%= @letter.reveal_happiness %></strong></span>
                   </div>
                 </div>
 
-                <!-- Ansiedad shifts -->
-                <div class="space-y-2 bg-[#f5f3eb]/30 p-3.5 rounded-xl border border-base-200/50">
+                <%# Ansiedad shifts %>
+                <div class="space-y-2 bg-slate-50 p-3.5 rounded-2xl border border-slate-100">
                   <div class="flex justify-between items-center text-xs">
-                    <span class="font-semibold text-primary flex items-center gap-1">😔 Ansiedad</span>
+                    <span class="font-bold text-slate-700 flex items-center gap-1">🥺 Ansiedad</span>
                     <% anx_shift = @letter.reveal_anxiety.to_i - @letter.emotional_snapshot.anxiety_level.to_i %>
                     <% if anx_shift < 0 %>
-                      <span class="badge badge-success text-xs font-bold py-1 px-2 border-0 bg-green-600 text-white"><%= anx_shift %> Más calma</span>
+                      <span class="bg-emerald-500 text-white text-[10px] font-bold py-1 px-2.5 rounded-lg"><%= anx_shift %> Más calma</span>
                     <% elsif anx_shift > 0 %>
-                      <span class="badge badge-warning text-xs font-bold py-1 px-2 border-0 bg-amber-600 text-white">+<%= anx_shift %> Estrés</span>
+                      <span class="bg-amber-500 text-white text-[10px] font-bold py-1 px-2.5 rounded-lg">+<%= anx_shift %> Estrés</span>
                     <% else %>
-                      <span class="badge badge-outline text-xs font-bold py-1 px-2 text-base-content/40 font-sans">Estable</span>
+                      <span class="bg-slate-100 text-slate-500 border border-slate-200 text-[10px] font-bold py-1 px-2.5 rounded-lg">Estable</span>
                     <% end %>
                   </div>
                   
-                  <div class="flex justify-between items-center text-[11px] text-base-content/50 font-mono">
+                  <div class="flex justify-between items-center text-[11px] text-slate-400 font-mono">
                     <span>Pasado: <strong><%= @letter.emotional_snapshot.anxiety_level %></strong></span>
                     <span class="text-xs">&rarr;</span>
                     <span>Hoy: <strong><%= @letter.reveal_anxiety %></strong></span>
                   </div>
                 </div>
 
-                <!-- Motivación shifts -->
-                <div class="space-y-2 bg-[#f5f3eb]/30 p-3.5 rounded-xl border border-base-200/50">
+                <%# Motivación shifts %>
+                <div class="space-y-2 bg-slate-50 p-3.5 rounded-2xl border border-slate-100">
                   <div class="flex justify-between items-center text-xs">
-                    <span class="font-semibold text-primary flex items-center gap-1">⭐ Motivación</span>
+                    <span class="font-bold text-slate-700 flex items-center gap-1">⭐ Motivación</span>
                     <% mot_shift = @letter.reveal_motivation.to_i - @letter.emotional_snapshot.motivation_level.to_i %>
                     <% if mot_shift > 0 %>
-                      <span class="badge badge-success text-xs font-bold py-1 px-2 border-0 bg-green-600 text-white">+<%= mot_shift %> Inspirado</span>
+                      <span class="bg-emerald-500 text-white text-[10px] font-bold py-1 px-2.5 rounded-lg">+<%= mot_shift %> Inspirado</span>
                     <% elsif mot_shift < 0 %>
-                      <span class="badge badge-secondary text-xs font-bold py-1 px-2 border-0 bg-purple-700 text-white"><%= mot_shift %> Descenso</span>
+                      <span class="bg-violet-900 text-white text-[10px] font-bold py-1 px-2.5 rounded-lg"><%= mot_shift %> Descenso</span>
                     <% else %>
-                      <span class="badge badge-outline text-xs font-bold py-1 px-2 text-base-content/40 font-sans">Estable</span>
+                      <span class="bg-slate-100 text-slate-500 border border-slate-200 text-[10px] font-bold py-1 px-2.5 rounded-lg">Estable</span>
                     <% end %>
                   </div>
                   
-                  <div class="flex justify-between items-center text-[11px] text-base-content/50 font-mono">
+                  <div class="flex justify-between items-center text-[11px] text-slate-400 font-mono">
                     <span>Pasado: <strong><%= @letter.emotional_snapshot.motivation_level %></strong></span>
                     <span class="text-xs">&rarr;</span>
                     <span>Hoy: <strong><%= @letter.reveal_motivation %></strong></span>
@@ -458,15 +459,15 @@
                 </div>
               </div>
             <% else %>
-              <p class="text-xs text-base-content/40">No hay datos emocionales disponibles.</p>
+              <p class="text-xs text-slate-400">No hay datos emocionales disponibles.</p>
             <% end %>
           </div>
 
-          <!-- Widget 3: ¿Qué sigue? -->
-          <div class="card card-bordered border-base-200 bg-base-100 p-6 rounded-2xl shadow-xs space-y-4 mt-auto">
-            <h4 class="font-serif italic text-lg text-primary font-normal">¿Qué sigue?</h4>
-            <p class="text-xs text-base-content/50 leading-relaxed">Descubre cómo evoluciona tu historia a través de los años. Sigue escribiendo cartas y guarda tus memorias en el baúl del tiempo.</p>
-            <a href="<%= new_letter_path %>" class="btn w-full bg-[#5b21b6] hover:bg-[#4c1d95] text-white rounded-2xl py-3 text-xs font-bold tracking-wider uppercase shadow-md border-none cursor-pointer">
+          <%# Widget 3: ¿Qué sigue? %>
+          <div class="bg-white border border-slate-100 p-6 rounded-3xl shadow-2xs space-y-4 mt-auto">
+            <h4 class="text-base font-bold text-slate-900">¿Qué sigue?</h4>
+            <p class="text-xs text-slate-500 leading-relaxed">Descubre cómo evoluciona tu historia a través de los años. Sigue escribiendo cartas y guarda tus memorias en el baúl del tiempo.</p>
+            <a href="<%= new_letter_path %>" class="btn w-full bg-[#2e1065] hover:bg-[#1e0a45] text-white rounded-2xl py-3 text-xs font-bold tracking-wider uppercase border-none cursor-pointer min-h-[40px] flex items-center justify-center">
               Escribir nueva carta
             </a>
           </div>

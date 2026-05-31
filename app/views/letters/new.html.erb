@@ -1,18 +1,14 @@
-<%# Letter creation form — new.html.erb %>
-<div class="relative max-w-7xl mx-auto py-6 group font-sans">
-  <%# Interactive mood glow backdrop — state-driven color, not decoration %>
-  <div id="mood_glow" class="absolute inset-0 bg-gradient-to-tr from-brand/10 via-base-200/50 to-accent/10 rounded-xl blur-3xl opacity-50 transition-colors duration-1000 -z-10"></div>
-
-  <%= form_with model: @letter_form, url: letters_path, local: true, class: "space-y-8" do |f| %>
+<div class="relative max-w-7xl mx-auto py-6 group font-sans animate-fade-in">
+  <%= form_with model: @letter_form, url: letters_path, local: true, class: "space-y-6" do |f| %>
 
     <%# Validation errors %>
     <% if @letter_form.errors.any? %>
-      <div class="bg-error/10 border border-error/30 rounded-xl p-5 max-w-7xl mx-auto text-base-content animate-fade-in" role="alert" aria-live="polite">
+      <div class="bg-error/5 border border-error/20 rounded-2xl p-5 max-w-7xl mx-auto text-base-content animate-fade-in shadow-2xs" role="alert" aria-live="polite">
         <div class="flex flex-col gap-2">
-          <span class="font-semibold flex items-center gap-2 text-sm text-error">
+          <span class="font-serif italic text-lg font-semibold flex items-center gap-2 text-error">
             <span aria-hidden="true">⚠️</span> <%= t('flash.errors_title') || "Por favor corrige los siguientes errores:" %>
           </span>
-          <ul class="list-disc list-inside pl-1 space-y-1 text-xs leading-relaxed text-base-content/80">
+          <ul class="list-disc list-inside pl-1 space-y-1 text-xs leading-relaxed text-base-content/80 font-sans">
             <% @letter_form.errors.full_messages.each do |message| %>
               <li><%= message %></li>
             <% end %>
@@ -21,170 +17,163 @@
       </div>
     <% end %>
 
-    <%# ── Header ──────────────────────────────────────────────── %>
-    <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-base-200 pb-6">
-      <div class="space-y-1.5 max-w-lg">
-        <h1 class="font-serif text-4xl sm:text-5xl font-normal text-base-content leading-tight">
-          Escribe a tu yo del futuro
-        </h1>
-        <p class="text-sm text-base-content/60 leading-relaxed">
-          Tus pensamientos de hoy viajarán encriptados. Captura tus anhelos, predice tu vida y sella tus emociones.
-        </p>
+    <%# ── Header Section ── %>
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-6 pb-6">
+      <div class="space-y-1">
+        <h1 class="text-3xl font-extrabold text-slate-900 tracking-tight">1. Cuando escribes tu carta</h1>
+        <p class="text-sm text-slate-500">Estás creando una carta para tu yo del futuro.</p>
       </div>
 
-      <%# Date picker widget %>
-      <div class="flex flex-col gap-3 bg-base-100 border border-base-200 p-5 rounded-xl w-full md:w-auto md:min-w-80" role="group" aria-labelledby="date-picker-label">
-        <div class="space-y-0.5">
-          <p id="date-picker-label" class="text-xs font-semibold text-brand block">Fecha de apertura</p>
-          <span class="text-xs text-base-content/50 block">Elige un plazo o fecha personalizada:</span>
-        </div>
-        <div class="grid grid-cols-2 sm:grid-cols-5 gap-1.5 text-xs font-semibold">
-          <button type="button" onclick="setPresetDateNewForm(this, 180)" class="border border-base-200 py-2 rounded-lg hover:bg-base-200/60 hover:border-base-300 transition-colors cursor-pointer text-center min-h-[44px]">6 meses</button>
-          <button type="button" id="default-date-btn-new" onclick="setPresetDateNewForm(this, 365)" class="border border-brand/40 bg-brand/5 text-brand py-2 rounded-lg font-semibold transition-colors cursor-pointer text-center min-h-[44px]">1 año</button>
-          <button type="button" onclick="setPresetDateNewForm(this, 1095)" class="border border-base-200 py-2 rounded-lg hover:bg-base-200/60 hover:border-base-300 transition-colors cursor-pointer text-center min-h-[44px]">3 años</button>
-          <button type="button" onclick="setPresetDateNewForm(this, 1825)" class="border border-base-200 py-2 rounded-lg hover:bg-base-200/60 hover:border-base-300 transition-colors cursor-pointer text-center min-h-[44px]">5 años</button>
-          <button type="button" onclick="toggleCustomDateNewForm(this)" class="border border-base-200 py-2 rounded-lg hover:bg-base-200/60 hover:border-base-300 transition-colors flex items-center justify-center gap-1 cursor-pointer text-center min-h-[44px]" aria-label="Elegir fecha personalizada">
-            <span>Fecha</span>
-            <span aria-hidden="true">📅</span>
-          </button>
-        </div>
-        <div id="custom-date-container-new" class="hidden animate-fade-in pt-1">
+      <%# Header Date Picker aligned to the right %>
+      <div class="flex items-center gap-3 shrink-0">
+        <span class="text-xs font-semibold text-slate-500">Se abrirá el</span>
+        <div class="flex items-center gap-2 bg-white border border-slate-200 px-4 py-2.5 rounded-xl shadow-2xs hover:border-slate-300 transition-colors">
           <%= f.date_field :deliver_at,
               id: "deliver_at_new_form",
               min: (Date.current + 1.day).to_s,
-              class: "input input-bordered input-sm w-full rounded-lg bg-base-200/40 text-base-content border-base-200 text-xs hover:border-base-300 focus:border-brand focus:ring-2 focus:ring-brand/10 focus:outline-none px-3 py-1 cursor-pointer transition-colors",
+              class: "bg-transparent text-sm font-bold text-slate-800 border-none outline-none focus:ring-0 p-0 cursor-pointer w-38",
               required: true,
-              onchange: "updateSummaryInfo()",
-              "aria-label": "Fecha de apertura personalizada" %>
+              onchange: "updateSummaryInfo()" %>
+          <span class="text-slate-400">📅</span>
         </div>
       </div>
     </div>
 
-    <%# ── Main 3-Column Layout ──────────────────────────────── %>
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+    <% # ── Main 3-Column Layout ── %>
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
 
-      <%# Column 1: Tu carta (span 5) %>
-      <div class="lg:col-span-5 space-y-6">
-        <div class="bg-base-100 border border-base-200 rounded-xl p-6 space-y-5">
-          <div class="flex items-center justify-between border-b border-base-200 pb-3">
-            <h2 class="font-serif text-xl text-base-content font-normal">Tu carta personal</h2>
-            <span class="text-sm text-brand/70 font-serif italic" aria-hidden="true">Para ti, desde hoy</span>
+      <%# Column 1: Tu carta (span 4) %>
+      <div class="lg:col-span-4 bg-white border border-slate-100 rounded-3xl p-6 sm:p-8 shadow-2xs space-y-6">
+        <h2 class="text-xl font-bold text-slate-900">Tu carta</h2>
+
+        <%# Title %>
+        <div class="space-y-2">
+          <%= f.label :title, "Título", class: "text-sm font-bold text-slate-800 block" %>
+          <%= f.text_field :title,
+              placeholder: "Ej: Para mi yo del futuro",
+              class: "input input-bordered w-full rounded-2xl bg-white text-slate-800 border-slate-200 placeholder:text-slate-400 text-sm focus:border-violet-500 focus:ring-2 focus:ring-violet-100 transition-all px-4 min-h-[44px]",
+              required: true,
+              "aria-required": "true" %>
+        </div>
+
+        <%# Content %>
+        <div class="space-y-2 relative">
+          <%= f.label :content, "Contenido", class: "text-sm font-bold text-slate-800 block" %>
+          <%= f.text_area :content,
+              id: "letter_content_area",
+              placeholder: "Escribe aquí todo lo que quieras contarle a tu yo del futuro...",
+              rows: 14,
+              class: "textarea textarea-bordered w-full p-6 focus:border-violet-500 focus:ring-2 focus:ring-violet-100 focus:outline-none rounded-2xl bg-white text-slate-800 border-slate-200 placeholder:text-slate-400 text-sm hover:border-slate-300 transition-all shadow-inner",
+              required: true,
+              "aria-required": "true",
+              "aria-describedby": "char_counter" %>
+          <div class="flex justify-end text-[10px] text-slate-400 font-mono mt-1" aria-live="polite" aria-atomic="true">
+            <span id="char_counter">0 / 2000</span>
           </div>
+        </div>
 
-          <%# Title %>
-          <div class="space-y-1.5">
-            <%= f.label :title, "Título de la carta", class: "text-xs font-medium text-base-content/70 block" %>
-            <%= f.text_field :title,
-                placeholder: "Ej: Mensaje para mi yo de 30 años",
-                class: "input input-bordered w-full rounded-lg bg-base-200/30 text-base-content border-base-200 placeholder:text-base-content/40 text-sm hover:border-base-300 focus:border-brand focus:ring-2 focus:ring-brand/10 focus:outline-none transition-colors",
+        <%# Email field for visitors %>
+        <% unless user_signed_in? %>
+          <div class="space-y-2 border-t border-slate-100 pt-5">
+            <%= f.label :email, "Tu correo electrónico", class: "text-sm font-bold text-slate-800 block" %>
+            <%= f.email_field :email,
+                placeholder: "tu@correo.com",
+                class: "input input-bordered w-full rounded-2xl bg-white text-slate-800 border-slate-200 placeholder:text-slate-400 text-sm focus:border-violet-500 focus:ring-2 focus:ring-violet-100 transition-all px-4 min-h-[44px]",
                 required: true,
                 "aria-required": "true" %>
           </div>
-
-          <%# Content canvas %>
-          <div class="space-y-1.5 relative">
-            <%= f.label :content, "Mensaje íntimo", class: "text-xs font-medium text-base-content/70 block" %>
-            <%= f.text_area :content,
-                id: "letter_content_area",
-                placeholder: "Querido yo del futuro, hoy te escribo para recordar quiénes somos en este instante...",
-                rows: 14,
-                class: "textarea textarea-bordered w-full p-6 focus:border-brand focus:ring-2 focus:ring-brand/10 focus:outline-none rounded-xl bg-base-100 text-base-content border-base-200 writing-canvas lined-paper-canvas placeholder:font-sans placeholder:text-sm placeholder:text-base-content/40 hover:border-base-300 transition-colors",
-                required: true,
-                "aria-required": "true",
-                "aria-describedby": "char_counter" %>
-            <div class="flex justify-end text-xs text-base-content/40 font-mono mt-1" aria-live="polite" aria-atomic="true">
-              <span id="char_counter">0 / 2000</span>
-            </div>
-          </div>
-
-          <%# Email field for visitors %>
-          <% unless user_signed_in? %>
-            <div class="space-y-2 border-t border-base-200 pt-4">
-              <%= f.label :email, "Tu correo electrónico", class: "text-xs font-medium text-base-content/70 block" %>
-              <%= f.email_field :email,
-                  placeholder: "tu@correo.com",
-                  class: "input input-bordered w-full rounded-lg bg-base-200/30 text-base-content border-base-200 placeholder:text-base-content/40 text-sm hover:border-base-300 focus:border-brand focus:ring-2 focus:ring-brand/10 focus:outline-none transition-colors",
-                  required: true,
-                  "aria-required": "true",
-                  "aria-describedby": "email-hint" %>
-              <p id="email-hint" class="text-xs text-base-content/50 leading-relaxed">
-                Te enviaremos el enlace para acceder a tu carta cuando llegue la fecha.
-              </p>
-            </div>
-          <% else %>
-            <%= f.hidden_field :email, value: current_user_email %>
-          <% end %>
-        </div>
+        <% else %>
+          <%= f.hidden_field :email, value: current_user_email %>
+        <% end %>
       </div>
 
-      <%# Column 2: Predicciones (span 4) %>
-      <div class="lg:col-span-4 space-y-6">
-        <div class="bg-base-100 border border-base-200 rounded-xl p-6 space-y-5">
-          <div class="border-b border-base-200 pb-3">
-            <h2 class="font-serif text-xl text-base-content font-normal">Predicciones del futuro</h2>
-            <p class="text-xs text-base-content/50 leading-relaxed mt-1">¿Cómo visualizas tu vida cuando abras esta cápsula?</p>
+      <%# Column 2: Tus predicciones (span 5) %>
+      <div class="lg:col-span-5 bg-white border border-slate-100 rounded-3xl p-6 sm:p-8 shadow-2xs space-y-6">
+        <div class="space-y-1">
+          <h2 class="text-xl font-bold text-slate-900">Tus predicciones</h2>
+          <p class="text-xs text-slate-500">¿Cómo crees que será tu vida cuando abras esta carta?</p>
+        </div>
+
+        <div class="space-y-4">
+          <%# 1. City %>
+          <div class="space-y-2">
+            <div class="flex items-center gap-2.5">
+              <div class="w-8 h-8 rounded-full bg-violet-50 text-violet-600 flex items-center justify-center shrink-0 font-sans text-sm">
+                🏠
+              </div>
+              <%= f.label :prediction_city, "¿Dónde vivirás?", class: "text-sm font-bold text-slate-800" %>
+            </div>
+            <%= f.text_field :prediction_city,
+                placeholder: "Escribe tu predicción...",
+                class: "input input-bordered w-full rounded-2xl bg-white text-slate-800 border-slate-200 placeholder:text-slate-400 text-sm hover:border-slate-300 focus:border-violet-500 focus:ring-2 focus:ring-violet-100 transition-all px-4 min-h-[44px]" %>
           </div>
 
-          <div class="space-y-4">
-            <div class="space-y-1">
-              <%= f.label :prediction_city, class: "text-xs font-medium text-base-content/70 flex items-center gap-1.5" do %>
-                <span aria-hidden="true">🏠</span> ¿Dónde vivirás?
-              <% end %>
-              <%= f.text_field :prediction_city,
-                  placeholder: "Ciudad, país, hogar...",
-                  class: "input input-bordered input-sm w-full rounded-lg bg-base-200/30 text-base-content border-base-200 placeholder:text-base-content/40 text-sm focus:border-brand focus:outline-none transition-colors py-3.5" %>
-            </div>
-
-            <div class="space-y-1">
-              <%= f.label :prediction_career, class: "text-xs font-medium text-base-content/70 flex items-center gap-1.5" do %>
-                <span aria-hidden="true">💼</span> ¿En qué trabajarás?
-              <% end %>
-              <%= f.text_field :prediction_career,
-                  placeholder: "Rol, profesión, proyecto...",
-                  class: "input input-bordered input-sm w-full rounded-lg bg-base-200/30 text-base-content border-base-200 placeholder:text-base-content/40 text-sm focus:border-brand focus:outline-none transition-colors py-3.5" %>
-            </div>
-
-            <div class="space-y-1">
-              <%= f.label :prediction_salary, class: "text-xs font-medium text-base-content/70 flex items-center gap-1.5" do %>
-                <span aria-hidden="true">💵</span> ¿Cuánto ganarás al mes?
-              <% end %>
-              <%= f.text_field :prediction_salary,
-                  placeholder: "Tu ingreso mensual estimado...",
-                  class: "input input-bordered input-sm w-full rounded-lg bg-base-200/30 text-base-content border-base-200 placeholder:text-base-content/40 text-sm focus:border-brand focus:outline-none transition-colors py-3.5" %>
-            </div>
-
-            <div class="space-y-1">
-              <%= f.label :prediction_relationship, class: "text-xs font-medium text-base-content/70 flex items-center gap-1.5" do %>
-                <span aria-hidden="true">❤️</span> ¿Cómo estará tu corazón?
-              <% end %>
-              <%= f.text_field :prediction_relationship,
-                  placeholder: "Estado sentimental, amor propio...",
-                  class: "input input-bordered input-sm w-full rounded-lg bg-base-200/30 text-base-content border-base-200 placeholder:text-base-content/40 text-sm focus:border-brand focus:outline-none transition-colors py-3.5" %>
-            </div>
-
-            <div class="space-y-1">
-              <%= f.label :prediction_achievement, class: "text-xs font-medium text-base-content/70 flex items-center gap-1.5" do %>
-                <span aria-hidden="true">🏆</span> ¿Cuál será tu gran logro?
-              <% end %>
-              <%= f.text_field :prediction_achievement,
-                  placeholder: "Un sueño cumplido o meta lograda...",
-                  class: "input input-bordered input-sm w-full rounded-lg bg-base-200/30 text-base-content border-base-200 placeholder:text-base-content/40 text-sm focus:border-brand focus:outline-none transition-colors py-3.5" %>
-            </div>
-
-            <%# Happiness prediction slider %>
-            <div class="space-y-1.5 pt-2">
-              <div class="flex justify-between items-center">
-                <label for="letter_form_prediction_happiness" class="text-xs font-medium text-base-content/70 flex items-center gap-1.5">
-                  <span aria-hidden="true">😊</span> ¿Qué tan feliz serás?
-                </label>
-                <span id="pred_happiness_val" class="text-xs font-semibold text-brand" aria-live="polite">7 / 10</span>
+          <%# 2. Career %>
+          <div class="space-y-2">
+            <div class="flex items-center gap-2.5">
+              <div class="w-8 h-8 rounded-full bg-violet-50 text-violet-600 flex items-center justify-center shrink-0 font-sans text-sm">
+                💼
               </div>
+              <%= f.label :prediction_career, "¿En qué trabajarás?", class: "text-sm font-bold text-slate-800" %>
+            </div>
+            <%= f.text_field :prediction_career,
+                placeholder: "Escribe tu predicción...",
+                class: "input input-bordered w-full rounded-2xl bg-white text-slate-800 border-slate-200 placeholder:text-slate-400 text-sm hover:border-slate-300 focus:border-violet-500 focus:ring-2 focus:ring-violet-100 transition-all px-4 min-h-[44px]" %>
+          </div>
+
+          <%# 3. Salary %>
+          <div class="space-y-2">
+            <div class="flex items-center gap-2.5">
+              <div class="w-8 h-8 rounded-full bg-violet-50 text-violet-600 flex items-center justify-center shrink-0 font-sans text-sm">
+                💵
+              </div>
+              <%= f.label :prediction_salary, "¿Cuánto ganarás al mes?", class: "text-sm font-bold text-slate-800" %>
+            </div>
+            <%= f.text_field :prediction_salary,
+                placeholder: "Escribe tu predicción...",
+                class: "input input-bordered w-full rounded-2xl bg-white text-slate-800 border-slate-200 placeholder:text-slate-400 text-sm hover:border-slate-300 focus:border-violet-500 focus:ring-2 focus:ring-violet-100 transition-all px-4 min-h-[44px]" %>
+          </div>
+
+          <%# 4. Relationship %>
+          <div class="space-y-2">
+            <div class="flex items-center gap-2.5">
+              <div class="w-8 h-8 rounded-full bg-violet-50 text-violet-600 flex items-center justify-center shrink-0 font-sans text-sm">
+                💖
+              </div>
+              <%= f.label :prediction_relationship, "¿Cómo estará tu relación sentimental?", class: "text-sm font-bold text-slate-800" %>
+            </div>
+            <%= f.text_field :prediction_relationship,
+                placeholder: "Escribe tu predicción...",
+                class: "input input-bordered w-full rounded-2xl bg-white text-slate-800 border-slate-200 placeholder:text-slate-400 text-sm hover:border-slate-300 focus:border-violet-500 focus:ring-2 focus:ring-violet-100 transition-all px-4 min-h-[44px]" %>
+          </div>
+
+          <%# 5. Achievement %>
+          <div class="space-y-2">
+            <div class="flex items-center gap-2.5">
+              <div class="w-8 h-8 rounded-full bg-violet-50 text-violet-600 flex items-center justify-center shrink-0 font-sans text-sm">
+                🏆
+              </div>
+              <%= f.label :prediction_achievement, "¿Cuál será tu mayor logro?", class: "text-sm font-bold text-slate-800" %>
+            </div>
+            <%= f.text_field :prediction_achievement,
+                placeholder: "Escribe tu predicción...",
+                class: "input input-bordered w-full rounded-2xl bg-white text-slate-800 border-slate-200 placeholder:text-slate-400 text-sm hover:border-slate-300 focus:border-violet-500 focus:ring-2 focus:ring-violet-100 transition-all px-4 min-h-[44px]" %>
+          </div>
+
+          <%# 6. Happiness slider %>
+          <div class="space-y-2 pt-2">
+            <div class="flex items-center gap-2.5">
+              <div class="w-8 h-8 rounded-full bg-violet-50 text-violet-600 flex items-center justify-center shrink-0 font-sans text-sm">
+                😆
+              </div>
+              <%= f.label :prediction_happiness, "¿Qué tan feliz crees que serás?", class: "text-sm font-bold text-slate-800" %>
+            </div>
+            <div class="flex items-center gap-4">
               <%= f.range_field :prediction_happiness,
                   min: 1, max: 10,
-                  class: "range range-primary range-xs custom-range-slider cursor-pointer w-full",
-                  oninput: "document.getElementById('pred_happiness_val').innerText = this.value + ' / 10'",
-                  "aria-label": "Felicidad predicha",
-                  "aria-valuemin": "1", "aria-valuemax": "10" %>
+                  class: "range range-xs cursor-pointer w-full accent-violet-600",
+                  oninput: "document.getElementById('pred_happiness_val').innerText = this.value + ' / 10'" %>
+              <span id="pred_happiness_val" class="text-xs font-bold text-slate-600 w-12 text-right font-sans" aria-live="polite">7 / 10</span>
             </div>
           </div>
         </div>
@@ -194,95 +183,96 @@
       <div class="lg:col-span-3 space-y-6">
 
         <%# Emotional snapshot card %>
-        <div class="bg-base-100 border border-base-200 rounded-xl p-6 space-y-5">
-          <div class="border-b border-base-200 pb-3">
-            <h2 class="font-serif text-xl text-base-content font-normal">Estado de hoy</h2>
-            <p class="text-xs text-base-content/50 leading-relaxed mt-1">¿Cómo resuena tu alma en este momento?</p>
+        <div class="bg-white border border-slate-100 rounded-3xl p-6 shadow-2xs space-y-6">
+          <div class="space-y-1">
+            <h2 class="text-xl font-bold text-slate-900">Estado emocional hoy</h2>
+            <p class="text-xs text-slate-500">¿Cómo te sientes en este momento?</p>
           </div>
 
-          <div class="space-y-4">
-            <div class="space-y-1">
-              <div class="flex justify-between items-center">
-                <label for="letter_form_happiness_level" class="text-xs font-medium text-base-content/70 flex items-center gap-1.5">
-                  <span aria-hidden="true">😊</span> Felicidad
-                </label>
-                <span id="happiness_val" class="text-xs font-semibold text-brand" aria-live="polite">6 / 10</span>
-              </div>
-              <%= f.range_field :happiness_level,
-                  min: 1, max: 10,
-                  class: "range range-primary range-xs custom-range-slider cursor-pointer w-full",
-                  oninput: "document.getElementById('happiness_val').innerText = this.value + ' / 10'; updateMoodGlow()",
-                  "aria-label": "Nivel de felicidad actual",
-                  "aria-valuemin": "1", "aria-valuemax": "10" %>
-            </div>
-
-            <div class="space-y-1">
-              <div class="flex justify-between items-center">
-                <label for="letter_form_anxiety_level" class="text-xs font-medium text-base-content/70 flex items-center gap-1.5">
-                  <span aria-hidden="true">😔</span> Ansiedad
-                </label>
-                <span id="anxiety_val" class="text-xs font-semibold text-base-content/60" aria-live="polite">4 / 10</span>
-              </div>
-              <%= f.range_field :anxiety_level,
-                  min: 1, max: 10,
-                  class: "range range-secondary range-xs custom-range-slider cursor-pointer w-full",
-                  oninput: "document.getElementById('anxiety_val').innerText = this.value + ' / 10'; updateMoodGlow()",
-                  "aria-label": "Nivel de ansiedad actual",
-                  "aria-valuemin": "1", "aria-valuemax": "10" %>
-            </div>
-
-            <div class="space-y-1">
-              <div class="flex justify-between items-center">
-                <label for="letter_form_motivation_level" class="text-xs font-medium text-base-content/70 flex items-center gap-1.5">
-                  <span aria-hidden="true">⭐</span> Motivación
-                </label>
-                <span id="motivation_val" class="text-xs font-semibold text-base-content/60" aria-live="polite">7 / 10</span>
-              </div>
-              <%= f.range_field :motivation_level,
-                  min: 1, max: 10,
-                  class: "range range-accent range-xs custom-range-slider cursor-pointer w-full",
-                  oninput: "document.getElementById('motivation_val').innerText = this.value + ' / 10'; updateMoodGlow()",
-                  "aria-label": "Nivel de motivación actual",
-                  "aria-valuemin": "1", "aria-valuemax": "10" %>
-            </div>
-          </div>
-        </div>
-
-        <%# Journey summary card %>
-        <div class="bg-base-100 border border-base-200 rounded-xl p-5 space-y-4 text-xs">
-          <h3 class="font-semibold text-base-content text-sm border-b border-base-200 pb-2">Resumen de viaje</h3>
-
-          <div class="space-y-3">
-            <div class="flex items-center gap-2.5 text-base-content/70">
-              <span class="text-base text-base-content/40" aria-hidden="true">📅</span>
-              <div class="min-w-0">
-                <p class="text-xs text-base-content/40 font-medium">Se abrirá el</p>
-                <p id="summary_delivery_date" class="font-semibold text-base-content truncate">Cargando...</p>
+          <div class="space-y-5">
+            <%# Happiness %>
+            <div class="flex items-center gap-3">
+              <span class="text-2xl shrink-0">😆</span>
+              <div class="flex-grow space-y-1">
+                <span class="text-xs font-bold text-slate-700 block">Felicidad</span>
+                <div class="flex items-center gap-3">
+                  <%= f.range_field :happiness_level,
+                      min: 1, max: 10,
+                      class: "range range-xs cursor-pointer w-full accent-violet-600",
+                      oninput: "document.getElementById('happiness_val').innerText = this.value + ' / 10'" %>
+                  <span id="happiness_val" class="text-xs font-bold text-slate-600 font-sans shrink-0 w-8 text-right" aria-live="polite">6 / 10</span>
+                </div>
               </div>
             </div>
 
-            <div class="flex items-center gap-2.5 text-base-content/70">
-              <span class="text-base text-base-content/40" aria-hidden="true">🕒</span>
-              <div class="min-w-0">
-                <p class="text-xs text-base-content/40 font-medium">Dentro de</p>
-                <p id="summary_countdown" class="font-semibold text-brand truncate">Cargando...</p>
+            <%# Anxiety %>
+            <div class="flex items-center gap-3">
+              <span class="text-2xl shrink-0">🥺</span>
+              <div class="flex-grow space-y-1">
+                <span class="text-xs font-bold text-slate-700 block">Ansiedad</span>
+                <div class="flex items-center gap-3">
+                  <%= f.range_field :anxiety_level,
+                      min: 1, max: 10,
+                      class: "range range-xs cursor-pointer w-full accent-violet-600",
+                      oninput: "document.getElementById('anxiety_val').innerText = this.value + ' / 10'" %>
+                  <span id="anxiety_val" class="text-xs font-bold text-slate-600 font-sans shrink-0 w-8 text-right" aria-live="polite">4 / 10</span>
+                </div>
               </div>
             </div>
 
-            <div class="flex items-center gap-2.5 text-base-content/70">
-              <span class="text-base text-base-content/40" aria-hidden="true">🔒</span>
-              <div class="min-w-0">
-                <p class="text-xs text-base-content/40 font-medium">Privacidad</p>
-                <p class="font-medium text-base-content truncate">Solo para tus ojos</p>
+            <%# Motivation %>
+            <div class="flex items-center gap-3">
+              <span class="text-2xl shrink-0">⭐</span>
+              <div class="flex-grow space-y-1">
+                <span class="text-xs font-bold text-slate-700 block">Motivación</span>
+                <div class="flex items-center gap-3">
+                  <%= f.range_field :motivation_level,
+                      min: 1, max: 10,
+                      class: "range range-xs cursor-pointer w-full accent-violet-600",
+                      oninput: "document.getElementById('motivation_val').innerText = this.value + ' / 10'" %>
+                  <span id="motivation_val" class="text-xs font-bold text-slate-600 font-sans shrink-0 w-8 text-right" aria-live="polite">7 / 10</span>
+                </div>
               </div>
             </div>
           </div>
         </div>
 
-        <%# Submit %>
-        <%= f.submit "Sellar carta en el tiempo 🔒",
-            class: "btn w-full text-white rounded-xl py-3.5 px-6 text-sm font-semibold shadow-sm cursor-pointer border-none",
-            style: "background-color: oklch(40% 0.22 290); --btn-color: oklch(40% 0.22 290);" %>
+        <%# Resumen Card (Tinted Violet) %>
+        <div class="bg-[#f5f1ff] border border-violet-100/50 rounded-3xl p-6 space-y-4 shadow-2xs text-xs">
+          <h3 class="font-extrabold text-slate-800 text-sm">Resumen</h3>
+
+          <div class="space-y-3 pt-1">
+            <div class="flex items-center gap-3 text-slate-700">
+              <span class="text-base" aria-hidden="true">📅</span>
+              <div class="min-w-0">
+                <span class="text-[10px] text-slate-400 font-bold uppercase tracking-wider block">Se abrirá el</span>
+                <p id="summary_delivery_date" class="font-bold text-slate-800 truncate">Cargando...</p>
+              </div>
+            </div>
+
+            <div class="flex items-center gap-3 text-slate-700">
+              <span class="text-base" aria-hidden="true">🕒</span>
+              <div class="min-w-0">
+                <span class="text-[10px] text-slate-400 font-bold uppercase tracking-wider block">Dentro de</span>
+                <p id="summary_countdown" class="font-bold text-slate-800 truncate">Cargando...</p>
+              </div>
+            </div>
+
+            <div class="flex items-center gap-3 text-slate-700">
+              <span class="text-base" aria-hidden="true">🔒</span>
+              <div class="min-w-0">
+                <span class="text-[10px] text-slate-400 font-bold uppercase tracking-wider block">Privacidad</span>
+                <p class="font-bold text-slate-800 truncate">Solo tú podrás verlo</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <%# Guardar Carta Button (Deep Violet block) %>
+        <div class="flex justify-end pt-2">
+          <%= f.submit "Guardar carta",
+              class: "btn bg-[#2e1065] hover:bg-[#1e0a45] text-white rounded-2xl py-3 px-8 text-sm font-bold border-none cursor-pointer transition-all hover:scale-[1.02] active:scale-[0.98] min-h-[44px]" %>
+        </div>
       </div>
 
     </div>
@@ -290,63 +280,28 @@
 </div>
 
 <script>
-  // Character counter
   document.addEventListener("DOMContentLoaded", () => {
+    // Character counter
     const textarea = document.getElementById("letter_content_area");
     const counter  = document.getElementById("char_counter");
     if (textarea && counter) {
       const updateCounter = () => {
-        counter.innerText = `${textarea.value.length} / 2000`;
+        counter.innerText = `${textarea.value.length}/2000`;
       };
       textarea.addEventListener("input", updateCounter);
       updateCounter();
     }
 
-    // Set default preset on load (1 year)
-    const defaultBtn = document.getElementById("default-date-btn-new");
-    if (defaultBtn) {
-      setPresetDateNewForm(defaultBtn, 365);
-    } else {
-      const dateInput = document.getElementById("deliver_at_new_form");
-      if (dateInput && !dateInput.value) {
-        const d = new Date();
-        d.setFullYear(d.getFullYear() + 1);
-        dateInput.value = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
-      }
-    }
-
-    updateSummaryInfo();
-    updateMoodGlow();
-  });
-
-  function setPresetDateNewForm(button, days) {
-    document.getElementById("custom-date-container-new").classList.add("hidden");
-
-    const target = new Date();
-    target.setDate(target.getDate() + days);
+    // Set default target to 365 days from now
     const dateInput = document.getElementById("deliver_at_new_form");
-    if (dateInput) {
-      dateInput.value = `${target.getFullYear()}-${String(target.getMonth()+1).padStart(2,'0')}-${String(target.getDate()).padStart(2,'0')}`;
+    if (dateInput && !dateInput.value) {
+      const d = new Date();
+      d.setDate(d.getDate() + 365);
+      dateInput.value = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
     }
 
-    button.parentNode.querySelectorAll("button").forEach(btn => {
-      btn.className = "border border-base-200 py-2 rounded-lg hover:bg-base-200/60 hover:border-base-300 transition-colors font-semibold cursor-pointer text-center min-h-[44px]";
-    });
-    button.className = "border border-brand/40 bg-brand/5 text-brand py-2 rounded-lg font-semibold transition-colors cursor-pointer text-center min-h-[44px]";
-
     updateSummaryInfo();
-  }
-
-  function toggleCustomDateNewForm(button) {
-    document.getElementById("custom-date-container-new").classList.remove("hidden");
-
-    button.parentNode.querySelectorAll("button").forEach(btn => {
-      btn.className = "border border-base-200 py-2 rounded-lg hover:bg-base-200/60 hover:border-base-300 transition-colors font-semibold cursor-pointer text-center min-h-[44px]";
-    });
-    button.className = "border border-brand/40 bg-brand/5 text-brand py-2 rounded-lg font-semibold transition-colors cursor-pointer text-center min-h-[44px]";
-
-    updateSummaryInfo();
-  }
+  });
 
   function updateSummaryInfo() {
     const dateInput       = document.getElementById("deliver_at_new_form");
@@ -365,34 +320,10 @@
       const today = new Date();
       today.setHours(0, 0, 0, 0);
 
-      summaryDate.innerText     = selected.toLocaleDateString("es-ES", { year: "numeric", month: "long", day: "numeric" });
+      // Match layout format: "15 de mayo de 2026"
+      summaryDate.innerText     = selected.toLocaleDateString("es-ES", { day: "numeric", month: "long", year: "numeric" });
       const diffDays            = Math.ceil((selected - today) / (1000 * 60 * 60 * 24));
       summaryCountdown.innerText = diffDays <= 0 ? "Mañana" : `${diffDays} días`;
-    }
-  }
-
-  // Mood glow — respects prefers-reduced-motion
-  function updateMoodGlow() {
-    if (!window.matchMedia("(prefers-reduced-motion: no-preference)").matches) return;
-
-    const happinessEl  = document.querySelector("input[name*='happiness_level']");
-    const anxietyEl    = document.querySelector("input[name*='anxiety_level']");
-    const motivationEl = document.querySelector("input[name*='motivation_level']");
-    const glow         = document.getElementById("mood_glow");
-
-    if (glow && happinessEl && anxietyEl && motivationEl) {
-      const happiness  = parseInt(happinessEl.value  || 6);
-      const anxiety    = parseInt(anxietyEl.value    || 4);
-      const motivation = parseInt(motivationEl.value || 7);
-
-      const h = 20  + happiness  * 16;
-      const a = 230 + anxiety    * 10;
-      const m = 145 + motivation * 14;
-
-      glow.style.background = `linear-gradient(135deg,
-        hsla(${h}, 75%, 68%, 0.12),
-        hsla(${a}, 65%, 72%, 0.12),
-        hsla(${m}, 70%, 64%, 0.12))`;
     }
   }
 </script>

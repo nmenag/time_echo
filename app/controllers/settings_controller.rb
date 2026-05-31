@@ -79,7 +79,7 @@ class SettingsController < ApplicationController
           if existing_pref
             existing_pref.destroy!
           end
-          
+
           pref.update!(email: new_email, unconfirmed_email: nil)
 
           # 3. Update active session

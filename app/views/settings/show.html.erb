@@ -1,56 +1,62 @@
-<div class="max-w-2xl mx-auto space-y-12 font-sans pb-16 animate-fade-in">
-  
-  <!-- Calming Header Section (Matches Dashboard & Timeline headers exactly) -->
-  <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-6 border-b border-base-200 pb-6">
+<div class="max-w-2xl mx-auto space-y-8 font-sans pb-16 animate-fade-in">
+
+  <%# Header %>
+  <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-6 border-b border-slate-100 pb-6">
     <div class="space-y-1">
-      <h1 class="font-serif italic text-4xl sm:text-5xl text-primary font-normal leading-tight">
+      <h1 class="text-3xl font-extrabold text-slate-900 tracking-tight">
         Ajustes de cuenta
       </h1>
-      <p class="text-sm text-base-content/50">
+      <p class="text-sm text-slate-500">
         Administra la dirección de correo electrónico asociada a tu baúl y gestiona tu sesión.
       </p>
     </div>
   </div>
 
-  <!-- 1. Email Management Section Card -->
-  <div class="card card-bordered border-base-200 bg-base-100 rounded-2xl p-6 sm:p-8 shadow-xs card-hover-effect space-y-6">
-    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-base-200 pb-3">
-      <h3 class="font-serif italic text-2xl text-primary font-normal flex items-center gap-2">
-        <span class="font-sans not-italic text-base" aria-hidden="true">✉️</span> Cambiar correo electrónico
-      </h3>
-      <span class="badge badge-success bg-success/10 text-success border border-success/20 py-2 px-3 text-[10px] font-bold uppercase tracking-wider self-start sm:self-auto">Verificado</span>
+  <%# Email card %>
+  <div class="bg-white border border-slate-100 rounded-3xl p-6 sm:p-8 shadow-2xs space-y-6">
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 pb-3.5">
+      <h2 class="text-xl font-bold text-slate-900 flex items-center gap-2">
+        <span aria-hidden="true">✉️</span> Cambiar correo electrónico
+      </h2>
     </div>
 
     <%= form_with model: @user_preference, url: settings_path, method: :patch, class: "space-y-6" do |f| %>
       <div class="space-y-2">
-        <%= f.label :email, "Nueva dirección de correo electrónico", class: "text-[10px] font-semibold text-base-content/40 uppercase tracking-wider block" %>
-        <%= f.email_field :email, value: current_user_email, class: "input input-bordered w-full rounded-xl font-sans text-sm focus:outline-none focus:border-brand focus:ring-1 focus:ring-brand min-h-[44px] bg-base-200/20", placeholder: "ejemplo@correo.com", required: true %>
-        <p class="text-xs text-base-content/40 leading-relaxed">
+        <%= f.label :email, "Nueva dirección de correo electrónico", class: "text-xs font-bold text-slate-700 block" %>
+        <%= f.email_field :email,
+            value: current_user_email,
+            class: "input input-bordered w-full rounded-2xl bg-white text-slate-800 border-slate-200 placeholder:text-slate-400 text-sm focus:border-violet-500 focus:ring-2 focus:ring-violet-100 transition-all px-4 min-h-[44px]",
+            placeholder: "ejemplo@correo.com",
+            required: true %>
+        <p class="text-xs text-slate-400 leading-relaxed">
           Nota: Al cambiar tu correo, todas tus cartas futuras y predicciones guardadas se vincularán automáticamente a la nueva dirección.
         </p>
       </div>
 
-      <%= f.submit "Actualizar dirección de correo", class: "btn w-full text-white rounded-xl px-5 text-xs font-semibold uppercase tracking-wider border-none cursor-pointer transition-all duration-200 hover:scale-[1.01] active:scale-[0.99]", style: "background-color: oklch(40% 0.22 290); --btn-color: oklch(40% 0.22 290);" %>
+      <%= f.submit "Actualizar dirección de correo",
+          class: "btn w-full bg-[#2e1065] hover:bg-[#1e0a45] text-white rounded-2xl py-3 px-8 text-sm font-bold border-none cursor-pointer transition-all hover:scale-[1.02] active:scale-[0.98] min-h-[44px] shadow-sm" %>
     <% end %>
   </div>
 
-
-  <!-- 3. Danger Zone Card -->
-  <div class="card card-bordered border-error/20 bg-base-100 rounded-2xl p-6 sm:p-8 shadow-xs space-y-6">
-    <div class="flex items-center gap-2 border-b border-error/10 pb-3 text-error">
+  <%# Danger zone card %>
+  <div class="bg-white border border-rose-100 rounded-3xl p-6 sm:p-8 shadow-2xs space-y-6">
+    <div class="flex items-center gap-2 border-b border-rose-100/50 pb-3 text-rose-600">
       <span aria-hidden="true">⚠️</span>
-      <h3 class="font-serif italic text-2xl text-error font-normal">Zona de Peligro</h3>
+      <h2 class="text-xl font-bold text-rose-600">Zona de Peligro</h2>
     </div>
 
     <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
       <div class="space-y-1.5">
-        <h4 class="text-sm font-semibold text-error/90 font-sans">Borrar cuenta de forma permanente</h4>
-        <p class="text-xs text-base-content/50 leading-relaxed max-w-lg">
+        <h4 class="text-sm font-bold text-rose-700 font-sans">Borrar cuenta de forma permanente</h4>
+        <p class="text-xs text-slate-500 leading-relaxed max-w-lg">
           Esto eliminará inmediatamente todas tus cartas selladas, predicciones y estado emocional. Esta acción es totalmente irreversible.
         </p>
       </div>
 
-      <%= button_to settings_path, method: :delete, class: "btn btn-outline border-error/35 text-error hover:bg-error hover:text-white hover:border-error btn-sm rounded-xl cursor-pointer shrink-0 font-semibold font-sans tracking-normal transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] min-h-[36px] whitespace-nowrap", data: { turbo_confirm: "¿Estás completamente seguro de que deseas borrar permanentemente tu baúl y todas tus cartas? Todos tus recuerdos y predicciones guardados se perderán para siempre." } do %>
+      <%= button_to settings_path,
+          method: :delete,
+          class: "btn btn-outline border-rose-200 text-rose-600 hover:bg-rose-50 hover:border-rose-300 btn-sm rounded-2xl cursor-pointer shrink-0 font-bold font-sans tracking-normal transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] min-h-[40px] px-5 whitespace-nowrap",
+          data: { turbo_confirm: "¿Estás completamente seguro de que deseas borrar permanentemente tu baúl y todas tus cartas? Todos tus recuerdos y predicciones guardados se perderán para siempre." } do %>
         Eliminar mi baúl
       <% end %>
     </div>

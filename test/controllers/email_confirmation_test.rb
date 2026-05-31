@@ -29,7 +29,7 @@ class EmailConfirmationTest < ActionDispatch::IntegrationTest
     end
 
     assert_redirected_to success_letters_url
-    
+
     # Verify a SessionToken was generated for confirmation
     token = SessionToken.find_by(email: "stranger@timeecho.com")
     assert_not_nil token
