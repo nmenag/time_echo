@@ -2,13 +2,13 @@
 
 Welcome to the architectural overview of **TimeEcho**, a premium future-letter digital capsule platform built with **Ruby on Rails 8** and **Tailwind CSS v4 / DaisyUI v5**. 
 
-This document details the core design patterns, data relationships, transactional workflows, and the secure magic-link authentication lifecycle powering the TimeEcho ecosystem.
+This document details the layered architectural patterns, data relationships, transactional boundaries, background job execution lifecycles, and the secure authentication flow powering the TimeEcho ecosystem.
 
 ---
 
-## 🏛️ System Topology
+## 🏛️ 1. Layered Architecture & Architectural Patterns
 
-TimeEcho adheres to a strict, highly decoupled **Model-View-Controller (MVC)** pattern supplemented by isolated **Service Objects** (under `app/services/`) for orchestrating cross-cutting business rules (e.g., authentication, analytics, mailings).
+TimeEcho adopts a highly decoupled, layered architecture built on top of the traditional Model-View-Controller (MVC) paradigm. By isolating business logic, query parameters, authorization checks, and form validations into dedicated layers, the codebase remains clean, testable, and highly maintainable.
 
 ```mermaid
 graph TD
@@ -19,34 +19,91 @@ graph TD
         SC[SettingsController]
         SessC[SessionsController]
         AC[AnalyticsController]
+        WC[WebhooksController]
+    end
+
+    subgraph Policies [Authorization Layer]
+        LP[LetterPolicy]
+    end
+
+    subgraph Forms [Form Objects Layer]
+        LF[LetterForm]
+        MLF[MagicLinkForm]
     end
 
     subgraph Services [Service Layer]
+        CS[Letters::CreateService]
+        DS[Letters::DeliverService]
         MLS[Auth::MagicLinkService]
         TES[Analytics::TrackEventService]
+    end
+
+    subgraph Queries [Query Objects Layer]
+        UTQ[UserTimelineQuery]
+        PLQ[PublicLettersQuery]
+        PLQ2[PendingLettersQuery]
     end
 
     subgraph Models [Active Record Models]
         Let[Letter]
         Pref[UserPreferences]
         Evt[AnalyticsEvent]
+        Snap[EmotionalSnapshot]
+        Pred[Prediction]
+        Tok[SessionToken]
     end
 
-    subgraph Cache & DB [Database Persistence]
+    subgraph Database [Database Persistence]
         PG[(PostgreSQL DB)]
     end
 
     Client -->|HTTP Requests| Controllers
-    Controllers -->|Orchestrates Auth| Services
-    Controllers -->|Manipulates Data| Models
-    Models -->|Performs Actions / Queries| PG
+    Controllers -->|Authorizes Actions| Policies
+    Controllers -->|Validates Input Data| Forms
+    Forms -->|Orchestrates Multi-Model Saving| Services
+    Controllers -->|Orchestrates Actions| Services
+    Controllers -->|Fetches Complex Data| Queries
+    Queries -->|Queries Database| Models
+    Services -->|Manipulates Data| Models
+    Models -->|Performs Actions / SQL Queries| PG
 ```
+
+### Key Structural Layers:
+
+1. **Model-View-Controller (MVC)**:
+   * **Controllers**: Extremely thin layers responsible only for parsing parameters, enforcing authentication (`authenticate_user!`), calling Form or Service objects, and redirecting or rendering HTML/Turbo Stream templates.
+   * **Views**: Rendered in English/Spanish (using Rails i18n localization). Powered by Tailwind CSS v4 and DaisyUI v5, using semantic component layout rules.
+   * **Models**: Encapsulate basic relationships, validations, and scopes. Heavy business actions are offloaded to Services.
+
+2. **Form Objects Layer (`app/forms/`)**:
+   * Encapsulate form validation and multi-model record synchronization.
+   * **`LetterForm`**: Collects and validates inputs for `Letter`, `EmotionalSnapshot`, and several potential `Prediction` fields in a single schema. It executes the creation inside a single ActiveRecord database transaction.
+   * **`MagicLinkForm`**: Validates the email submitted during login.
+
+3. **Service Objects Layer (`app/services/`)**:
+   * Encapsulate single-responsibility business operations.
+   * **`Letters::CreateService`**: Receives params, validates them via `LetterForm`, and persists the future capsule.
+   * **`Letters::DeliverService`**: Transition capsule status, sends the email via `TimeCapsuleMailer`, tracks success/failure analytics, and rollback if errors arise.
+   * **`Auth::MagicLinkService`**: Generates, signs, sends, and authenticates cryptographically secure passwordless tokens.
+   * **`Analytics::TrackEventService`**: Logs granular user actions to `analytics_events` for retrospection.
+
+4. **Query Objects Layer (`app/queries/`)**:
+   * Isolate complex ActiveRecord operations from controllers and models to maintain clean separation of concerns.
+   * **`UserTimelineQuery`**: Loads all capsules owned by a user, utilizing eager-loading (`includes(:predictions, :emotional_snapshot)`) to avoid $N+1$ query issues.
+   * **`PublicLettersQuery`**: Returns delivered, public letters sorted chronologically.
+   * **`PendingLettersQuery`**: Finds letters ready for release, employing high-concurrency database row locking (`FOR UPDATE SKIP LOCKED`).
+
+5. **Policy Layer (`app/policies/`)**:
+   * Decouples authorization rules.
+   * **`LetterPolicy`**: Implements fine-grained access control rules:
+     * Anyone can read a letter if it is marked public and its release date has passed (`delivered`).
+     * Only the letter's owner (matching `email`) can view or modify private/pending letters.
 
 ---
 
-## 🔑 Secure Magic Link Authentication Lifecycle
+## 🔑 2. Passwordless Magic Link Authentication Lifecycle
 
-TimeEcho is passwordless by design. Authentication is managed via atomic, single-use, time-sensitive access tokens generated on demand and dispatched securely.
+TimeEcho implements a secure, passwordless authentication workflow utilizing single-use, time-sensitive cryptographic access tokens generated on the fly.
 
 ```mermaid
 sequenceDiagram
@@ -59,17 +116,17 @@ sequenceDiagram
     User->>App: Submits email at /login
     activate App
     App->>App: Validates & Normalizes Email
-    App->>App: Generates Cryptographically Secure Token
-    App->>DB: Stores Hashed Token (expires in 15m)
-    App->>SMTP: Dispatches email containing Token Link
-    App-->>User: Renders Check Email Confirmation page
+    App->>App: Generates Cryptographically Secure Token (SecureRandom.hex(24))
+    App->>DB: Stores Hashed Token (expires in 15 minutes)
+    App->>SMTP: Dispatches magic link email containing Token URL
+    App-->>User: Renders check email page
     deactivate App
 
     User->>App: Clicks Magic Link in Email
     activate App
-    App->>DB: Looks up and decodes Token
+    App->>DB: Looks up and decodes Token in active scope
     alt Token Valid & Unexpired
-        App->>DB: Invalidates Token (single-use check)
+        App->>DB: Invalidates Token (sets used_at = Time.current)
         App->>App: Establishes session cookie (session[:current_user_email])
         App->>DB: Logs "user_logged_in" event
         App-->>User: Redirects to /dashboard (Success Notice)
@@ -81,17 +138,26 @@ sequenceDiagram
 
 ---
 
-## 📊 Database Schema & Domain Relations
+## 📊 3. Database Schema & Domain Relations
 
-Below is the entity-relationship layout demonstrating the data boundary of a user's vault.
+Below is the entity-relationship design showing the relational mapping, attributes, and ownership structures within a user's vault.
 
 ```mermaid
 erDiagram
-    UserPreferences {
-        string email PK
-        string locale
-        boolean email_notifications
-        boolean global_private_mode
+    UserPreference {
+        bigint id PK
+        string email UK
+        string appearance_mode "system/light/dark"
+        string theme "timeecho/pastel/etc"
+        string reflection_style "reflective/motivational/nostalgic"
+        string memory_frequency "low/normal/frequent"
+        boolean all_letters_private
+        boolean anonymous_analytics
+        boolean future_letter_reminders
+        boolean monthly_checkpoints
+        boolean surprise_memories
+        boolean emotional_summary_emails
+        boolean automatic_memories
         datetime created_at
         datetime updated_at
     }
@@ -101,39 +167,79 @@ erDiagram
         string email FK
         string title
         text content
+        string status "draft/pending/delivered"
+        string delivery_status "pending/delivered/failed/bounced"
         datetime deliver_at
-        boolean is_public
-        integer happiness_level
-        integer anxiety_level
-        integer motivation_level
-        string prediction_city
-        string prediction_salary
-        string prediction_relationship
-        string prediction_career
-        string prediction_achievement
-        text reality_commentary
-        datetime verified_at
+        datetime delivered_at
+        datetime opened_at
+        datetime clicked_at
+        integer open_count
+        boolean public
+        integer reveal_happiness
+        integer reveal_anxiety
+        integer reveal_motivation
+        string recipient_email
+        string recipient_name
+        boolean recipient_delivery_permission
+        string relationship
+        datetime created_at
+        datetime updated_at
+    }
+
+    Prediction {
+        bigint id PK
+        bigint letter_id FK
+        string category "city/salary/relationship/career/achievement/happiness"
+        text prediction
+        text reality
+        boolean matched
+        datetime created_at
+        datetime updated_at
+    }
+
+    EmotionalSnapshot {
+        bigint id PK
+        bigint letter_id FK
+        integer happiness_level "1-10"
+        integer anxiety_level "1-10"
+        integer motivation_level "1-10"
         datetime created_at
         datetime updated_at
     }
 
     AnalyticsEvent {
         bigint id PK
-        string email FK
         string event_type
-        jsonb properties
+        jsonb metadata
+        datetime occurred_at
         datetime created_at
+        datetime updated_at
     }
 
-    UserPreferences ||--o{ Letter : "owns"
-    UserPreferences ||--o{ AnalyticsEvent : "triggers"
+    SessionToken {
+        bigint id PK
+        string email
+        string token UK
+        datetime expires_at
+        datetime used_at
+        datetime created_at
+        datetime updated_at
+    }
+
+    UserPreference ||--o{ Letter : "owns"
+    Letter ||--o| EmotionalSnapshot : "has one"
+    Letter ||--o{ Prediction : "has many"
+    UserPreference ||--o{ SessionToken : "requests"
 ```
 
 ---
 
-## 🔄 Transactional Data Migration Sequence
+## 🔄 4. Atomic Transactional Email Migrations & Data Wipeouts
 
-When a user migrates their email address inside `SettingsController#update`, TimeEcho executes a high-integrity, atomic Postgres transaction to preserve historical integrity, transfer entity ownership, and update active session markers in a single transaction step.
+To guarantee absolute transactional integrity and prevent orphaned rows or security breaches, TimeEcho handles sensitive account updates in strict atomic blocks.
+
+### Email Update Transaction
+When a user updates their email inside `SettingsController#update`, all associated entities must migrate in tandem to prevent locking out the user from their historical capsules.
 
 ```mermaid
 flowchart TD
@@ -156,17 +262,81 @@ flowchart TD
     class Success success;
 ```
 
+### Complete Account Deletion ("Danger Zone" Wipeout)
+If a user triggers "Eliminar mi baúl" in their settings, a direct SQLite/PostgreSQL transactional block triggers. This wipes out:
+1. All foreign keys (`comments`, `reactions`, `goals`, `predictions`, `emotional_snapshots`) matching the user's `Letter` IDs.
+2. The `Letter` records themselves.
+3. The `UserPreference` records.
+4. Historical `AnalyticsEvent` records matching the user's email inside metadata.
+5. All active session contexts are immediately cleared.
+
 ---
 
-## 🎨 Premium Style System Tokens (Tailwind v4 / DaisyUI v5)
+## ⚙️ 5. Background Job Processing (Solid Queue)
 
-TimeEcho operates on a tailored typographic and visual system, giving it a nostalgic, premium journal aesthetic.
+Rails 8 relies on **Solid Queue** as the default Active Job database-backed queue adapter. TimeEcho is configured to leverage Solid Queue for all asynchronous services in both development and production.
 
-### Typography Hierarchy
-* **Main Headlines & Card Headers**: `font-serif italic text-primary` using **Instrument Serif** to convey elegance and memory preservation.
-* **Secondary Action Labels & Metas**: `font-sans uppercase text-[10px] tracking-wider font-semibold` using **Inter** to maximize structural legibility.
+```mermaid
+graph LR
+    subgraph Trigger [Scheduling Layer]
+        Rec[recurring.yml Schedule]
+    end
 
-### Semantic Color Design Rules
-1. **Never use hardcoded hex codes** (e.g. `#5b21b6` is strictly replaced with `@theme` brand variables).
-2. **Standardized Radii**: Standard components are locked into `rounded-xl` or `rounded-2xl` shapes; over-rounded shapes (`rounded-3xl`) are explicitly forbidden.
-3. **Contrast Compliance**: Contrast ratios strictly respect WCAG AA guidelines by leveraging soft theme-neutral values and OKLCH color spaces.
+    subgraph SolidQueue [Queue Manager]
+        Ready[Solid Queue Ready Executions]
+    end
+
+    subgraph Workers [Worker Threads]
+        DelJob[DeliverPendingLettersJob]
+        ClClean[CleanupExpiredTokensJob]
+        WebHook[ProcessEmailWebhookJob]
+    end
+
+    subgraph Execution [Service Actions]
+        DS[Letters::DeliverService]
+        SMTP[TimeCapsuleMailer]
+    end
+
+    Rec -->|Every Minute| Ready
+    Ready -->|Pulls Job| DelJob
+    DelJob -->|Runs Transactionally| DS
+    DS -->|Sends Capsule| SMTP
+    
+    Rec -->|Every Hour| ClClean
+    ClClean -->|Purges DB| PG[(PostgreSQL)]
+```
+
+### Background System Components:
+1. **Recurring Scheduler (`config/recurring.yml`)**:
+   * **`DeliverPendingLettersJob`** runs **every minute** to check if any pending capsule is due for delivery.
+   * **`CleanupExpiredTokensJob`** runs **every hour** to clean up expired magic-link sessions and spent tokens.
+   * **`SolidQueue::Job.clear_finished_in_batches`** runs **every hour** (in production) to prune processed worker logs.
+2. **High-Concurrency Locking (`SKIP LOCKED`)**:
+   * In `PendingLettersQuery`, letters due for unlock are queried with `.lock("FOR UPDATE SKIP LOCKED")`. This allows multiple active Solid Queue worker threads to run concurrently without duplicate mailing attempts or deadlocking the letters table.
+3. **Webhook Ingest Async Pipeline**:
+   * When emails are sent via mailer providers (like Resend), delivery events are pushed back to the app via `WebhooksController#resend`.
+   * This payload is immediately offloaded to the background via **`ProcessEmailWebhookJob`** so that the HTTP controller can return a `200 OK` instantaneously, ensuring high-throughput webhook response times.
+
+---
+
+## 🎨 6. Premium Theme System & Styling Tokens
+
+TimeEcho operates on a tailored design system powered by Tailwind CSS v4 and DaisyUI v5. The application achieves its **Calm, Nostalgic, Secure** aesthetic through strict, consistent visual variables.
+
+### Semantic Design Tokens:
+* **Typography Hierarchy**:
+  * *Titles & Branding*: `font-serif italic` utilizing the elegant **Instrument Serif** typeface to convey nostalgia.
+  * *UI Controls & Metrics*: `font-sans font-semibold tracking-wider uppercase` using the **Inter** font family to maximize structural clarity.
+* **Palette Design Rules**:
+  * Uses tailored OkLCH-supported color configurations (avoiding raw hex values) to maintain color contrast standards.
+  * Soft dark modes, retro themes (e.g. `pastel`, `cupcake`, `autumn`, `luxury`) are dynamically set by reading the `UserPreference#theme` configuration, which updates the root page's `data-theme` attribute dynamically.
+* **Consistent Shapes**:
+  * Rigid border-radius tokens are restricted to `rounded-xl` and `rounded-2xl`. Oversaturated and overly rounded shapes (`rounded-3xl` or standard circles) are avoided to maintain premium materiality.
+
+---
+
+## 📱 7. Progressive Web Application (PWA) Setup
+
+To provide a native-app sensation on mobile devices (Android/iOS), TimeEcho is built with native Progressive Web Application capabilities integrated into the Rails layout:
+* **`manifest.json.erb`**: Declares app metadata, launcher icons, retro background splash colors, and displays the app in standard `standalone` orientation.
+* **`service-worker.js`**: Caches basic static files (fonts, icons, and shell layouts) offline, enabling offline caching and instant boot speeds.

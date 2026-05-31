@@ -1,6 +1,6 @@
 class SettingsController < ApplicationController
-  before_action :authenticate_user!
-  before_action :set_user_preference
+  before_action :authenticate_user!, except: [ :confirm_email ]
+  before_action :set_user_preference, except: [ :confirm_email ]
 
   def show
     # Find or create user creation date based on their oldest letter, fallback to today
@@ -19,30 +19,23 @@ class SettingsController < ApplicationController
         return
       end
 
-      # Check if another UserPreference already exists for new_email
-      existing_pref = UserPreference.find_by(email: new_email)
+      # Generate verification token using SessionToken
+      token_record = SessionToken.create!(email: new_email)
 
-      ActiveRecord::Base.transaction do
-        # 1. Update all letters
-        Letter.where(email: old_email).update_all(email: new_email)
-        
-        # 2. Update user preferences
-        if existing_pref
-          @user_preference.destroy!
-          @user_preference = existing_pref
-        else
-          @user_preference.update!(email: new_email)
-        end
-        
-        # 3. Update active session
-        session[:current_user_email] = new_email
-      end
+      # Store unconfirmed email in settings
+      @user_preference.update!(unconfirmed_email: new_email)
 
-      redirect_to settings_path, notice: "Correo electrónico actualizado correctamente ✨"
+      # Send confirmation mailer to the new email address
+      TimeCapsuleMailer.confirm_email_update(old_email, new_email, token_record.token).deliver_later
+
+      # Track event in Postgres
+      Analytics::TrackEventService.call("email_update_requested", { old_email: old_email, new_email: new_email }) rescue nil
+
+      redirect_to settings_path, notice: "Hemos enviado un correo de confirmación a tu nueva dirección: #{new_email}. Por favor, haz clic en el enlace para confirmar y activar el cambio. ✨"
       return
     end
 
-    if @user_preference.update(settings_params)
+    if @user_preference.update(settings_params.except(:email))
       # Record an analytics event for settings update
       AnalyticsEvent.create!(
         event_type: "settings_updated",
@@ -63,6 +56,45 @@ class SettingsController < ApplicationController
       flash.now[:alert] = "No se pudieron guardar los ajustes."
       render :show, status: :unprocessable_entity
     end
+  end
+
+  def confirm_email
+    token_record = SessionToken.active.find_by(token: params[:token])
+    if token_record
+      new_email = token_record.email
+      pref = UserPreference.find_by(unconfirmed_email: new_email)
+
+      if pref
+        old_email = pref.email
+        ActiveRecord::Base.transaction do
+          token_record.use!
+
+          # Check if another UserPreference already exists for new_email
+          existing_pref = UserPreference.find_by(email: new_email)
+
+          # 1. Update all letters
+          Letter.where(email: old_email).update_all(email: new_email)
+
+          # 2. Update user preferences
+          if existing_pref
+            existing_pref.destroy!
+          end
+          
+          pref.update!(email: new_email, unconfirmed_email: nil)
+
+          # 3. Update active session
+          session[:current_user_email] = new_email
+        end
+
+        # Track event in Postgres
+        Analytics::TrackEventService.call("email_update_confirmed", { old_email: old_email, new_email: new_email }) rescue nil
+
+        redirect_to settings_path, notice: "¡Dirección de correo electrónico confirmada y actualizada con éxito! ✨"
+        return
+      end
+    end
+
+    redirect_to settings_path, alert: "El enlace de confirmación no es válido o ha caducado."
   end
 
   def destroy

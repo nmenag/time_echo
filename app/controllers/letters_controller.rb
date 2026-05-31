@@ -29,6 +29,11 @@ class LettersController < ApplicationController
     result = Letters::CreateService.call(modified_params)
 
     if result.success?
+      # If they are not logged in, we must send them a confirmation/magic link email to confirm the email and activate the account!
+      unless user_signed_in?
+        Auth::MagicLinkService.generate_and_send(result.letter.email)
+      end
+
       flash[:success_email] = result.letter.email
       flash[:success_deliver_at] = result.letter.deliver_at.to_s
 

@@ -27,6 +27,10 @@ class SessionsController < ApplicationController
     if email
       session[:current_user_email] = email
 
+      # Confirm/activate user preferences since they clicked the magic link sent to their email
+      pref = UserPreference.find_or_create_by!(email: email)
+      pref.update!(confirmed_at: Time.current) unless pref.confirmed_at.present?
+
       # Track event in Postgres
       Analytics::TrackEventService.call("user_logged_in", { email: email })
 

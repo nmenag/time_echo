@@ -33,6 +33,7 @@ Rails.application.routes.draw do
   get "settings", to: "settings#show", as: :settings
   patch "settings", to: "settings#update"
   delete "settings", to: "settings#destroy"
+  get "settings/confirm_email", to: "settings#confirm_email", as: :confirm_email_update_settings
 
   # Webhook Delivery Endpoint
   post "webhooks/resend", to: "webhooks#resend"
