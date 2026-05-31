@@ -12,6 +12,15 @@ TimeEcho is a premium future-letter platform designed to capture personal evolut
   - **Predictions vs Reality**: Predict specific future categories (city, salary, career, relationships, achievements) and confirm matches when unlocked.
 - **Minimalist Vertical Timeline**: Scroll through backdated sealed capsules and completed interactive reflections.
 - **Retrospective Analytics**: Visualize average emotional growth matrices and track prediction match accuracy with responsive progress metrics and radial gauges.
+- **Architectural Integrity**: Fully documented, high-integrity Postgres transactional updates and single-use magic-link auth cycles.
+
+---
+
+## 🏛️ System Architecture
+
+Detailed system designs, sequence diagrams, ER schemas, and data boundary maps are documented in:
+👉 **[docs/architecture.md](docs/architecture.md)**
+
 
 ---
 
