@@ -2,7 +2,6 @@ module Auth
   class MagicLinkService
     def self.generate_and_send(email)
       token_record = SessionToken.create!(email: email)
-      # Send email
       TimeCapsuleMailer.magic_link(email, token_record.token).deliver_later
       token_record
     end

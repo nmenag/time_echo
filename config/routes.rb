@@ -1,40 +1,30 @@
 Rails.application.routes.draw do
-  # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
   get "up" => "rails/health#show", as: :rails_health_check
 
-  # Root page
   root "pages#landing"
 
-  # Passwordless Authentication
   get "login", to: "sessions#new", as: :login
   post "login", to: "sessions#create"
   get "login/:token", to: "sessions#show", as: :magic_login
   delete "logout", to: "sessions#destroy", as: :logout
-  get "check_email", to: "sessions#check_email", as: :check_email
 
-  # Letters & Digital Vault
-  get "letters/success", to: "letters#success", as: :success_letters
-  resources :letters, only: [ :new, :create, :show ] do
-    member do
-      post :update_predictions
-    end
-    collection do
-      get "public", to: "letters#public_feed", as: :public_feed
-    end
-  end
+  get "check_email", to: "check_emails#show", as: :check_email
 
-  # Dashboard
+  get "letters/success", to: "letter_successes#show", as: :success_letters
+  get "letters/public", to: "public_letters#index", as: :public_feed
+
+  post "letters/:letter_id/predictions", to: "letter_predictions#update", as: :update_predictions_letter
+  resources :letters, only: [ :new, :create, :show ]
+
   get "dashboard", to: "letters#index", as: :dashboard
 
-  # Emotional Analytics
   get "analytics", to: "analytics#index", as: :analytics
 
-  # Settings
   get "settings", to: "settings#show", as: :settings
   patch "settings", to: "settings#update"
   delete "settings", to: "settings#destroy"
-  get "settings/confirm_email", to: "settings#confirm_email", as: :confirm_email_update_settings
 
-  # Webhook Delivery Endpoint
-  post "webhooks/resend", to: "webhooks#resend"
+  get "settings/confirm_email", to: "settings/email_confirmations#show", as: :confirm_email_update_settings
+
+  post "webhooks/resend", to: "webhooks/resends#create", as: :resend_webhook
 end

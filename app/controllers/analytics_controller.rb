@@ -2,47 +2,25 @@ class AnalyticsController < ApplicationController
   before_action :authenticate_user!
 
   def index
-    @letters = UserTimelineQuery.call(current_user_email)
-    @total_letters = @letters.count
-    @delivered_letters = @letters.delivered.count
-    @scheduled_letters = @letters.pending.count
+    metrics = Analytics::FetchMetricsService.call(current_user_email)
 
-    delivered_and_opened = @letters.delivered.where.not(opened_at: nil).count
-    @open_rate = @delivered_letters > 0 ? (delivered_and_opened.to_f / @delivered_letters * 100).round(1) : 0
-
-    delivered_and_clicked = @letters.delivered.where.not(clicked_at: nil).count
-    @click_rate = @delivered_letters > 0 ? (delivered_and_clicked.to_f / @delivered_letters * 100).round(1) : 0
-
-    @bounced_letters = @letters.where(delivery_status: "bounced").count
-    @bounce_rate = @total_letters > 0 ? (@bounced_letters.to_f / @total_letters * 100).round(1) : 0
-
-    @total_opens = @letters.sum(:open_count)
-
-    @total_predictions = Prediction.where(letter_id: @letters.pluck(:id)).count
-    @completed_predictions = Prediction.where(letter_id: @letters.pluck(:id)).where.not(reality: nil).count
-    @matched_predictions = Prediction.where(letter_id: @letters.pluck(:id), matched: true).count
-    @prediction_match_rate = @completed_predictions > 0 ? (@matched_predictions.to_f / @completed_predictions * 100).round(1) : 0
-
-    initial_snapshots = EmotionalSnapshot.where(letter_id: @letters.pluck(:id))
-    @avg_initial_happiness = initial_snapshots.average(:happiness_level)&.to_f&.round(1) || 0
-    @avg_initial_anxiety = initial_snapshots.average(:anxiety_level)&.to_f&.round(1) || 0
-    @avg_initial_motivation = initial_snapshots.average(:motivation_level)&.to_f&.round(1) || 0
-
-    revealed_letters = @letters.where.not(reveal_happiness: nil)
-    @avg_reveal_happiness = revealed_letters.average(:reveal_happiness)&.to_f&.round(1) || 0
-    @avg_reveal_anxiety = revealed_letters.average(:reveal_anxiety)&.to_f&.round(1) || 0
-    @avg_reveal_motivation = revealed_letters.average(:reveal_motivation)&.to_f&.round(1) || 0
-
-    letter_ids = @letters.pluck(:id)
-    if letter_ids.any?
-      @recent_events = AnalyticsEvent.where("metadata->>'email' = ?", current_user_email)
-                                      .or(AnalyticsEvent.where("metadata->>'letter_id' IN (?)", letter_ids.map(&:to_s)))
-                                      .order(occurred_at: :desc)
-                                      .limit(10)
-    else
-      @recent_events = AnalyticsEvent.where("metadata->>'email' = ?", current_user_email)
-                                      .order(occurred_at: :desc)
-                                      .limit(10)
-    end
+    @total_letters          = metrics.total_letters
+    @delivered_letters      = metrics.delivered_letters
+    @scheduled_letters      = metrics.scheduled_letters
+    @open_rate              = metrics.open_rate
+    @click_rate             = metrics.click_rate
+    @bounce_rate            = metrics.bounce_rate
+    @total_opens            = metrics.total_opens
+    @total_predictions      = metrics.total_predictions
+    @completed_predictions  = metrics.completed_predictions
+    @matched_predictions    = metrics.matched_predictions
+    @prediction_match_rate  = metrics.prediction_match_rate
+    @avg_initial_happiness  = metrics.avg_initial_happiness
+    @avg_initial_anxiety    = metrics.avg_initial_anxiety
+    @avg_initial_motivation = metrics.avg_initial_motivation
+    @avg_reveal_happiness   = metrics.avg_reveal_happiness
+    @avg_reveal_anxiety     = metrics.avg_reveal_anxiety
+    @avg_reveal_motivation  = metrics.avg_reveal_motivation
+    @recent_events          = metrics.recent_events
   end
 end

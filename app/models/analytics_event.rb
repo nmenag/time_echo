@@ -4,7 +4,6 @@ class AnalyticsEvent < ApplicationRecord
 
   before_validation :set_occurred_at, on: :create
 
-  # Helper scopes/methods for calculating emotional and delivery metrics
   scope :by_type, ->(type) { where(event_type: type) }
 
   private
