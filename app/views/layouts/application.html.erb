@@ -68,14 +68,14 @@
 
               <!-- Estadísticas -->
               <% analytics_active = current_page?(analytics_path) %>
-              <a href="<%= analytics_path %>" class="flex items-center gap-3.5 px-4 py-3 rounded-lg text-sm font-medium transition-colors duration-150 <%= analytics_active ? 'bg-brand text-white' : 'text-base-content/70 hover:bg-base-200 hover:text-primary' %>">
+              <a href="<%= analytics_path %>" class="flex items-center gap-3.5 px-4 py-3 rounded-xl text-sm font-medium transition-colors duration-150 <%= analytics_active ? 'bg-brand text-white' : 'text-base-content/70 hover:bg-base-200 hover:text-primary' %>">
                 <span class="text-base" aria-hidden="true">📊</span>
                 <span><%= t('navigation.analytics') %></span>
               </a>
 
               <!-- Ajustes -->
               <% settings_active = current_page?(settings_path) %>
-              <a href="<%= settings_path %>" class="flex items-center gap-3.5 px-4 py-3 rounded-lg text-sm font-medium transition-colors duration-150 <%= settings_active ? 'bg-brand text-white' : 'text-base-content/70 hover:bg-base-200 hover:text-primary' %>">
+              <a href="<%= settings_path %>" class="flex items-center gap-3.5 px-4 py-3 rounded-xl text-sm font-medium transition-colors duration-150 <%= settings_active ? 'bg-brand text-white' : 'text-base-content/70 hover:bg-base-200 hover:text-primary' %>">
                 <span class="text-base" aria-hidden="true">⚙️</span>
                 <span><%= t('navigation.settings') || "Ajustes" %></span>
               </a>
@@ -85,7 +85,7 @@
           <!-- Bottom Quote & User Card -->
           <div class="space-y-6">
             <!-- Inspirational Quote -->
-            <div class="border border-base-200 bg-base-200/40 p-4 rounded-lg space-y-2 select-none">
+            <div class="border border-base-200 bg-base-200/40 p-4 rounded-xl space-y-2 select-none">
               <p class="text-xs font-serif italic text-base-content/70 leading-relaxed font-normal">
                 "<%= t('navigation.quote') { "El futuro no es algo que llega, es algo que creas." } %>"
               </p>
@@ -95,14 +95,16 @@
             <% if user_signed_in? %>
               <div class="flex items-center justify-between border-t border-base-200 pt-4">
                 <div class="min-w-0 flex-1">
-                  <p class="text-xs text-base-content/50 font-medium"><%= current_user_email %></p>
+                  <p class="text-xs text-base-content/50 font-medium truncate pr-2"><%= current_user_email %></p>
                 </div>
-                <%= button_to logout_path, method: :delete, class: "btn btn-ghost btn-circle btn-xs text-error hover:bg-error/10 cursor-pointer", data: { turbo: "false" }, "aria-label": t('navigation.sign_out') do %>
-                  🔒
+                <%= button_to logout_path, method: :delete, class: "btn btn-ghost btn-circle btn-sm text-error hover:bg-error/10 cursor-pointer flex items-center justify-center transition-transform duration-200 hover:scale-105 active:scale-95", data: { turbo: "false" }, "aria-label": t('navigation.sign_out') do %>
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15m3 0l3-3m0 0l-3-3m3 3H9" />
+                  </svg>
                 <% end %>
               </div>
             <% else %>
-              <a href="<%= login_path %>" class="btn text-white btn-sm rounded-lg w-full text-xs font-semibold border-none cursor-pointer" style="background-color: oklch(40% 0.22 290); --btn-color: oklch(40% 0.22 290);">
+              <a href="<%= login_path %>" class="btn text-white btn-sm rounded-xl w-full text-xs font-semibold border-none cursor-pointer hover:scale-[1.02] active:scale-[0.98] transition-transform duration-200" style="background-color: oklch(40% 0.22 290); --btn-color: oklch(40% 0.22 290);">
                 <%= t('navigation.sign_in') %>
               </a>
             <% end %>
@@ -172,9 +174,9 @@
           <div class="flex items-center gap-8 text-sm font-medium">
             <a href="<%= root_path %>#how-it-works" class="text-base-content/60 hover:text-brand transition-colors">¿Cómo funciona?</a>
             <% if user_signed_in? %>
-              <a href="<%= dashboard_path %>" class="btn text-white rounded-lg px-5 text-xs font-semibold border-none" style="background-color: oklch(40% 0.22 290); --btn-color: oklch(40% 0.22 290);"><%= t('navigation.vault') %></a>
+              <a href="<%= dashboard_path %>" class="btn text-white rounded-xl px-5 text-xs font-semibold border-none cursor-pointer hover:scale-[1.02] active:scale-[0.98] transition-transform duration-200" style="background-color: oklch(40% 0.22 290); --btn-color: oklch(40% 0.22 290);"><%= t('navigation.vault') %></a>
             <% else %>
-              <a href="<%= login_path %>" class="btn text-white rounded-lg px-5 text-sm font-semibold border-none" style="background-color: oklch(40% 0.22 290); --btn-color: oklch(40% 0.22 290);">Iniciar sesión</a>
+              <a href="<%= login_path %>" class="btn text-white rounded-xl px-5 text-sm font-semibold border-none cursor-pointer hover:scale-[1.02] active:scale-[0.98] transition-transform duration-200" style="background-color: oklch(40% 0.22 290); --btn-color: oklch(40% 0.22 290);">Iniciar sesión</a>
             <% end %>
           </div>
         </div>
@@ -244,8 +246,8 @@
 
         <div class="modal-action">
           <form method="dialog" class="w-full flex gap-3">
-            <button class="btn btn-outline border-base-300 hover:bg-base-200 rounded-lg text-sm font-semibold flex-1 cursor-pointer">Cancelar</button>
-            <button class="btn btn-primary rounded-lg text-sm font-semibold flex-1 cursor-pointer">Guardar</button>
+            <button class="btn btn-outline border-base-300 hover:bg-base-200 rounded-xl text-sm font-semibold flex-1 cursor-pointer">Cancelar</button>
+            <button class="btn btn-primary rounded-xl text-sm font-semibold flex-1 cursor-pointer">Guardar</button>
           </form>
         </div>
       </div>

@@ -27,6 +27,7 @@ es:
     vault: "Mis Cartas"
     timeline: "Línea de Tiempo"
     analytics: "Estadísticas"
+    settings: "Ajustes"
     sign_in: "Iniciar Sesión"
     sign_out: "Cerrar Sesión"
     anonymous: "Anónimo"

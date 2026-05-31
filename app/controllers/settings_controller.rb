@@ -8,6 +8,40 @@ class SettingsController < ApplicationController
   end
 
   def update
+    old_email = current_user_email
+    new_email = params.dig(:user_preference, :email)&.strip&.downcase
+
+    if new_email.present? && new_email != old_email
+      # Validate email format
+      unless new_email.match?(URI::MailTo::EMAIL_REGEXP)
+        flash.now[:alert] = "Por favor introduce un correo electrónico válido."
+        render :show, status: :unprocessable_entity
+        return
+      end
+
+      # Check if another UserPreference already exists for new_email
+      existing_pref = UserPreference.find_by(email: new_email)
+
+      ActiveRecord::Base.transaction do
+        # 1. Update all letters
+        Letter.where(email: old_email).update_all(email: new_email)
+        
+        # 2. Update user preferences
+        if existing_pref
+          @user_preference.destroy!
+          @user_preference = existing_pref
+        else
+          @user_preference.update!(email: new_email)
+        end
+        
+        # 3. Update active session
+        session[:current_user_email] = new_email
+      end
+
+      redirect_to settings_path, notice: "Correo electrónico actualizado correctamente ✨"
+      return
+    end
+
     if @user_preference.update(settings_params)
       # Record an analytics event for settings update
       AnalyticsEvent.create!(
@@ -20,9 +54,7 @@ class SettingsController < ApplicationController
         format.turbo_stream do
           flash.now[:notice] = "Ajustes actualizados correctamente ✨"
           render turbo_stream: [
-            turbo_stream.replace("flash-container", partial: "shared/flash"),
-            # Dynamic theme swap if the theme has changed
-            turbo_stream.append("body", html: "<script>document.documentElement.setAttribute('data-theme', '#{@user_preference.theme}');</script>")
+            turbo_stream.replace("flash-container", partial: "shared/flash")
           ]
         end
         format.html { redirect_to settings_path, notice: "Ajustes guardados ✨" }
@@ -71,6 +103,7 @@ class SettingsController < ApplicationController
 
   def settings_params
     params.require(:user_preference).permit(
+      :email,
       :future_letter_reminders,
       :monthly_checkpoints,
       :surprise_memories,

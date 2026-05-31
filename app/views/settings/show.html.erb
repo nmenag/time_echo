@@ -1,239 +1,59 @@
-<div class="max-w-2xl mx-auto space-y-8 font-sans pb-16">
+<div class="max-w-2xl mx-auto space-y-12 font-sans pb-16 animate-fade-in">
   
-  <!-- Calming Header Section -->
-  <div class="space-y-2 border-b border-base-200/60 pb-6">
-    <h1 class="font-serif text-3xl sm:text-4xl font-normal text-base-content">
-      Tu Espacio de Reflexión
-    </h1>
-    <p class="text-sm text-base-content/50 leading-relaxed">
-      Configura cómo deseas que TimeEcho guarde tus recuerdos, te envíe recordatorios y personalice tu experiencia.
-    </p>
+  <!-- Calming Header Section (Matches Dashboard & Timeline headers exactly) -->
+  <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-6 border-b border-base-200 pb-6">
+    <div class="space-y-1">
+      <h1 class="font-serif italic text-4xl sm:text-5xl text-primary font-normal leading-tight">
+        Ajustes de cuenta
+      </h1>
+      <p class="text-sm text-base-content/50">
+        Administra la dirección de correo electrónico asociada a tu baúl y gestiona tu sesión.
+      </p>
+    </div>
   </div>
 
-  <!-- 1. Account Section Card -->
-  <div class="bg-base-100 border border-base-200 rounded-xl p-6 sm:p-8 space-y-6">
-    <div class="flex items-center justify-between border-b border-base-200 pb-4">
-      <h3 class="text-sm font-semibold text-base-content flex items-center gap-2">
-        <span aria-hidden="true">👤</span> Cuenta y Seguridad
+  <!-- 1. Email Management Section Card -->
+  <div class="card card-bordered border-base-200 bg-base-100 rounded-2xl p-6 sm:p-8 shadow-xs card-hover-effect space-y-6">
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-base-200 pb-3">
+      <h3 class="font-serif italic text-2xl text-primary font-normal flex items-center gap-2">
+        <span class="font-sans not-italic text-base" aria-hidden="true">✉️</span> Cambiar correo electrónico
       </h3>
-      <span class="px-2.5 py-0.5 rounded-full bg-success/15 text-success border border-success/20 text-xs font-semibold">Verificado</span>
+      <span class="badge badge-success bg-success/10 text-success border border-success/20 py-2 px-3 text-[10px] font-bold uppercase tracking-wider self-start sm:self-auto">Verificado</span>
     </div>
 
-    <!-- Clean Profile Card Details -->
-    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-6 bg-base-200/30 p-5 rounded-lg border border-base-200/60">
-      <div class="space-y-1.5 min-w-0">
-        <p class="text-xs text-base-content/50 font-medium">Dirección de correo</p>
-        <p class="text-sm font-semibold text-base-content truncate"><%= current_user_email %></p>
-        <p class="text-xs text-base-content/50">
-          Miembro activo desde: <span class="font-semibold text-base-content"><%= @account_created_at.strftime("%d de %B de %Y") %></span>
-        </p>
-      </div>
-
-      <!-- Logout action -->
-      <%= button_to logout_path, method: :delete, class: "btn btn-outline border-base-300 btn-xs sm:btn-sm rounded-lg cursor-pointer hover:bg-error/10 hover:text-error hover:border-error/30 shrink-0 font-semibold font-sans", data: { turbo: "false" } do %>
-        Cerrar sesión 🔒
-      <% end %>
-    </div>
-
-    <!-- Subtle Danger State Account Deletion -->
-    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pt-2">
-      <div class="space-y-0.5">
-        <h4 class="text-sm font-semibold text-error/80">Borrar cuenta de forma permanente</h4>
+    <%= form_with model: @user_preference, url: settings_path, method: :patch, class: "space-y-6" do |f| %>
+      <div class="space-y-2">
+        <%= f.label :email, "Nueva dirección de correo electrónico", class: "text-[10px] font-semibold text-base-content/40 uppercase tracking-wider block" %>
+        <%= f.email_field :email, value: current_user_email, class: "input input-bordered w-full rounded-xl font-sans text-sm focus:outline-none focus:border-brand focus:ring-1 focus:ring-brand min-h-[44px] bg-base-200/20", placeholder: "ejemplo@correo.com", required: true %>
         <p class="text-xs text-base-content/40 leading-relaxed">
-          Esto eliminará inmediatamente todas tus cartas selladas, predicciones y estado emocional. Esta acción es irreversible.
+          Nota: Al cambiar tu correo, todas tus cartas futuras y predicciones guardadas se vincularán automáticamente a la nueva dirección.
         </p>
       </div>
 
-      <%= button_to settings_path, method: :delete, class: "btn btn-ghost text-sm text-error/60 hover:text-error hover:bg-error/10 btn-xs rounded-lg cursor-pointer font-semibold shrink-0 transition-colors", data: { turbo_confirm: "¿Estás completamente seguro de que deseas borrar permanentemente tu baúl y todas tus cartas? Todos tus recuerdos y predicciones guardados se perderán para siempre." } do %>
+      <%= f.submit "Actualizar dirección de correo", class: "btn w-full text-white rounded-xl px-5 text-xs font-semibold uppercase tracking-wider border-none cursor-pointer transition-all duration-200 hover:scale-[1.01] active:scale-[0.99]", style: "background-color: oklch(40% 0.22 290); --btn-color: oklch(40% 0.22 290);" %>
+    <% end %>
+  </div>
+
+
+  <!-- 3. Danger Zone Card -->
+  <div class="card card-bordered border-error/20 bg-base-100 rounded-2xl p-6 sm:p-8 shadow-xs space-y-6">
+    <div class="flex items-center gap-2 border-b border-error/10 pb-3 text-error">
+      <span aria-hidden="true">⚠️</span>
+      <h3 class="font-serif italic text-2xl text-error font-normal">Zona de Peligro</h3>
+    </div>
+
+    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
+      <div class="space-y-1.5">
+        <h4 class="text-sm font-semibold text-error/90 font-sans">Borrar cuenta de forma permanente</h4>
+        <p class="text-xs text-base-content/50 leading-relaxed max-w-lg">
+          Esto eliminará inmediatamente todas tus cartas selladas, predicciones y estado emocional. Esta acción es totalmente irreversible.
+        </p>
+      </div>
+
+      <%= button_to settings_path, method: :delete, class: "btn btn-outline border-error/35 text-error hover:bg-error hover:text-white hover:border-error btn-sm rounded-xl cursor-pointer shrink-0 font-semibold font-sans tracking-normal transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] min-h-[36px] whitespace-nowrap", data: { turbo_confirm: "¿Estás completamente seguro de que deseas borrar permanentemente tu baúl y todas tus cartas? Todos tus recuerdos y predicciones guardados se perderán para siempre." } do %>
         Eliminar mi baúl
       <% end %>
     </div>
   </div>
 
-  <!-- Forms submit on change for instant save feeling -->
-  <%= form_with model: @user_preference, url: settings_path, method: :patch, class: "space-y-8", data: { turbo_frame: "_self" } do |f| %>
-
-    <!-- 2. Notifications Section Card -->
-    <div class="bg-base-100 border border-base-200 rounded-xl p-6 sm:p-8 space-y-6">
-      <div class="border-b border-base-200 pb-4">
-        <h3 class="text-sm font-semibold text-base-content flex items-center gap-2">
-          <span aria-hidden="true">🔔</span> Recordatorios y Notificaciones
-        </h3>
-      </div>
-
-      <div class="space-y-4">
-        <!-- Switch 1: Future letter reminders -->
-        <div class="flex items-start justify-between gap-6 py-2">
-          <div class="space-y-0.5">
-            <label class="text-xs font-bold text-primary block">Alertas de cartas futuras</label>
-            <p class="text-[10px] text-base-content/40 leading-relaxed">Notify me before a future letter opens.</p>
-          </div>
-          <%= f.check_box :future_letter_reminders, class: "toggle toggle-primary toggle-sm sm:toggle-md mt-1 cursor-pointer", onchange: "this.form.requestSubmit()" %>
-        </div>
-
-        <div class="divider my-0 opacity-40"></div>
-
-        <!-- Switch 2: Monthly checkpoints -->
-        <div class="flex items-start justify-between gap-6 py-2">
-          <div class="space-y-0.5">
-            <label class="text-xs font-bold text-primary block">Checkpoints de evolución</label>
-            <p class="text-[10px] text-base-content/40 leading-relaxed">Recibir alertas de reflexiones mensuales para registrar metas y avances.</p>
-          </div>
-          <%= f.check_box :monthly_checkpoints, class: "toggle toggle-primary toggle-sm sm:toggle-md mt-1 cursor-pointer", onchange: "this.form.requestSubmit()" %>
-        </div>
-
-        <div class="divider my-0 opacity-40"></div>
-
-        <!-- Switch 3: Surprise memories -->
-        <div class="flex items-start justify-between gap-6 py-2">
-          <div class="space-y-0.5">
-            <label class="text-xs font-bold text-primary block">Recuerdos inesperados</label>
-            <p class="text-[10px] text-base-content/40 leading-relaxed">Receive emotional memory reminders.</p>
-          </div>
-          <%= f.check_box :surprise_memories, class: "toggle toggle-primary toggle-sm sm:toggle-md mt-1 cursor-pointer", onchange: "this.form.requestSubmit()" %>
-        </div>
-
-        <div class="divider my-0 opacity-40"></div>
-
-        <!-- Switch 4: Emotional summary emails -->
-        <div class="flex items-start justify-between gap-6 py-2">
-          <div class="space-y-0.5">
-            <label class="text-xs font-bold text-primary block">Resúmenes de nostalgia trimestrales</label>
-            <p class="text-[10px] text-base-content/40 leading-relaxed">Recibir correos periódicos con gráficos comparativos de evolución emocional.</p>
-          </div>
-          <%= f.check_box :emotional_summary_emails, class: "toggle toggle-primary toggle-sm sm:toggle-md mt-1 cursor-pointer", onchange: "this.form.requestSubmit()" %>
-        </div>
-      </div>
-    </div>
-
-    <!-- 3. Appearance Section Card -->
-    <div class="bg-base-100 border border-base-200 rounded-xl p-6 sm:p-8 space-y-6">
-      <div class="border-b border-base-200 pb-4">
-        <h3 class="text-sm font-semibold text-base-content flex items-center gap-2">
-          <span aria-hidden="true">🎨</span> Personalización Visual
-        </h3>
-      </div>
-
-      <div class="space-y-6">
-        <!-- Select Mode: Light, Dark, System -->
-        <div class="space-y-2">
-          <label class="text-xs font-bold text-primary block">Modo de pantalla</label>
-          <div class="grid grid-cols-3 gap-2 text-xs font-semibold text-primary">
-            <% %w[light dark system].each do |mode| %>
-              <label class="cursor-pointer">
-                <%= f.radio_button :appearance_mode, mode, class: "peer hidden", onchange: "this.form.requestSubmit()" %>
-                <div class="border border-base-200/80 text-center py-2.5 rounded-xl peer-checked:border-[#5b21b6]/40 peer-checked:bg-[#5b21b6]/5 peer-checked:text-[#5b21b6] hover:bg-base-200/40 transition-all font-bold">
-                  <%= mode == 'light' ? 'Claro' : (mode == 'dark' ? 'Oscuro' : 'Sistema 💻') %>
-                </div>
-              </label>
-            <% end %>
-          </div>
-        </div>
-
-        <!-- Dynamic Theme Selector -->
-        <div class="space-y-3 pt-2">
-          <label class="text-xs font-bold text-primary block">Temas cromáticos (DaisyUI)</label>
-          <div class="grid grid-cols-2 sm:grid-cols-5 gap-3">
-            
-            <!-- TimeEcho (Default Custom) -->
-            <label class="relative">
-              <%= f.radio_button :theme, "timeecho", class: "peer theme-radio-input hidden", onchange: "this.form.requestSubmit()" %>
-              <div class="theme-radio-card border border-base-200 rounded-2xl p-3 flex flex-col items-center gap-2 bg-[#fafaf9] peer-checked:border-[#5b21b6]">
-                <div class="flex gap-1 select-none">
-                  <span class="w-2.5 h-2.5 rounded-full bg-[#fafaf9] inline-block border border-base-200 shadow-3xs"></span>
-                  <span class="w-2.5 h-2.5 rounded-full bg-[#5b21b6] inline-block"></span>
-                </div>
-                <span class="text-[10px] font-bold text-primary">TimeEcho</span>
-              </div>
-            </label>
-
-            <!-- Cupcake -->
-            <label class="relative">
-              <%= f.radio_button :theme, "cupcake", class: "peer theme-radio-input hidden", onchange: "this.form.requestSubmit()" %>
-              <div class="theme-radio-card border border-base-200 rounded-2xl p-3 flex flex-col items-center gap-2 bg-white peer-checked:border-[#5b21b6]">
-                <div class="flex gap-1 select-none">
-                  <span class="w-2.5 h-2.5 rounded-full bg-[#efeae6] inline-block"></span>
-                  <span class="w-2.5 h-2.5 rounded-full bg-[#65c3c8] inline-block"></span>
-                </div>
-                <span class="text-[10px] font-bold text-primary">Cupcake</span>
-              </div>
-            </label>
-
-            <!-- Pastel -->
-            <label class="relative">
-              <%= f.radio_button :theme, "pastel", class: "peer theme-radio-input hidden", onchange: "this.form.requestSubmit()" %>
-              <div class="theme-radio-card border border-base-200 rounded-2xl p-3 flex flex-col items-center gap-2 bg-white peer-checked:border-[#5b21b6]">
-                <div class="flex gap-1 select-none">
-                  <span class="w-2.5 h-2.5 rounded-full bg-[#d1c1d7] inline-block"></span>
-                  <span class="w-2.5 h-2.5 rounded-full bg-[#70acc7] inline-block"></span>
-                </div>
-                <span class="text-[10px] font-bold text-primary">Pastel</span>
-              </div>
-            </label>
-
-            <!-- Autumn -->
-            <label class="relative">
-              <%= f.radio_button :theme, "autumn", class: "peer theme-radio-input hidden", onchange: "this.form.requestSubmit()" %>
-              <div class="theme-radio-card border border-base-200 rounded-2xl p-3 flex flex-col items-center gap-2 bg-white peer-checked:border-[#5b21b6]">
-                <div class="flex gap-1 select-none">
-                  <span class="w-2.5 h-2.5 rounded-full bg-[#f1f1f1] inline-block"></span>
-                  <span class="w-2.5 h-2.5 rounded-full bg-[#8c0327] inline-block"></span>
-                </div>
-                <span class="text-[10px] font-bold text-primary">Autumn</span>
-              </div>
-            </label>
-
-            <!-- Luxury -->
-            <label class="relative">
-              <%= f.radio_button :theme, "luxury", class: "peer theme-radio-input hidden", onchange: "this.form.requestSubmit()" %>
-              <div class="theme-radio-card border border-base-200 rounded-2xl p-3 flex flex-col items-center gap-2 bg-[#09090b] peer-checked:border-[#5b21b6]">
-                <div class="flex gap-1 select-none">
-                  <span class="w-2.5 h-2.5 rounded-full bg-[#18181b] inline-block"></span>
-                  <span class="w-2.5 h-2.5 rounded-full bg-[#c5a880] inline-block"></span>
-                </div>
-                <span class="text-[10px] font-bold text-white/90">Luxury</span>
-              </div>
-            </label>
-
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- 4. Privacidad básica Section Card -->
-    <div class="bg-base-100 border border-base-200 rounded-xl p-6 sm:p-8 space-y-6">
-      <div class="border-b border-base-200 pb-4">
-        <h3 class="text-sm font-semibold text-base-content flex items-center gap-2">
-          <span aria-hidden="true">🔒</span> Privacidad básica
-        </h3>
-      </div>
-
-      <div class="space-y-4">
-        <!-- Option 1: Enable automatic memories -->
-        <div class="flex items-start justify-between gap-6 py-2">
-          <div class="space-y-0.5">
-            <label class="text-xs font-bold text-primary block">Memorias automáticas sugeridas</label>
-            <p class="text-[10px] text-base-content/40 leading-relaxed">
-              Permitir que el motor de TimeEcho relacione cápsulas pasadas y resurja recuerdos análogos en tu timeline.
-            </p>
-          </div>
-          <%= f.check_box :automatic_memories, class: "toggle toggle-primary toggle-sm sm:toggle-md mt-1 cursor-pointer", onchange: "this.form.requestSubmit()" %>
-        </div>
-
-        <div class="divider my-0 opacity-40"></div>
-
-        <!-- Option 2: Allow anonymous analytics -->
-        <div class="flex items-start justify-between gap-6 py-2">
-          <div class="space-y-0.5">
-            <label class="text-xs font-bold text-primary block">Compartir métricas de precisión</label>
-            <p class="text-[10px] text-base-content/40 leading-relaxed">
-              Compartir tasas anónimas de acierto predictivo para ayudar a perfeccionar el algoritmo de retrospección.
-            </p>
-          </div>
-          <%= f.check_box :anonymous_analytics, class: "toggle toggle-primary toggle-sm sm:toggle-md mt-1 cursor-pointer", onchange: "this.form.requestSubmit()" %>
-        </div>
-      </div>
-    </div>
-
-  <% end %>
 </div>
