@@ -1,6 +1,6 @@
 class SettingsController < ApplicationController
-  before_action :authenticate_user!, except: [ :confirm_email ]
-  before_action :set_user_preference, except: [ :confirm_email ]
+  before_action :authenticate_user!
+  before_action :set_user_preference
 
   def show
     @account_created_at = Letter.where(email: current_user_email).order(:created_at).first&.created_at || @user_preference.created_at || Time.current
@@ -40,17 +40,6 @@ class SettingsController < ApplicationController
     else
       flash.now[:alert] = "No se pudieron guardar los ajustes."
       render :show, status: :unprocessable_entity
-    end
-  end
-
-  def confirm_email
-    result = Settings::ConfirmEmailUpdateService.call(params[:token])
-
-    if result.success?
-      session[:current_user_email] = result.new_email
-      redirect_to settings_path, notice: "¡Dirección de correo electrónico confirmada y actualizada con éxito! ✨"
-    else
-      redirect_to settings_path, alert: "El enlace de confirmación no es válido o ha caducado."
     end
   end
 

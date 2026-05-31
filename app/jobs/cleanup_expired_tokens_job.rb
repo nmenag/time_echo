@@ -6,7 +6,6 @@ class CleanupExpiredTokensJob < ApplicationJob
                                 .or(SessionToken.where.not(used_at: nil))
                                 .delete_all
 
-    # Track the cleanup event
     Analytics::TrackEventService.call("cleanup_expired_tokens", {
       deleted_count: deleted_count,
       occurred_at: Time.current

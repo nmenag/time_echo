@@ -6,12 +6,9 @@ class LetterPolicy
     @letter = letter
   end
 
-  # Check if the user is authorized to read the letter
   def show?
-    # 1. Anyone can view a public letter after it has been delivered
     return true if letter.public? && letter.delivered?
 
-    # 2. Otherwise, only the owner who wrote it can view it
     user_email.present? && letter.email == user_email
   end
 end

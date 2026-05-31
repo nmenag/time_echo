@@ -18,10 +18,8 @@ module Letters
           delivery_status: "delivered"
         )
 
-        # Deliver via Action Mailer
         TimeCapsuleMailer.future_letter(@letter).deliver_now
 
-        # Track event
         Analytics::TrackEventService.call("email_delivered", {
           letter_id: @letter.id,
           email: @letter.email

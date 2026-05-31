@@ -43,10 +43,6 @@ class SessionsController < ApplicationController
     redirect_to root_path, notice: t("flash.logged_out")
   end
 
-  def check_email
-    @email = params[:email]
-  end
-
   private
 
   def session_params

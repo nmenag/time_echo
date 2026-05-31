@@ -8,7 +8,6 @@ class LetterForm
   attribute :deliver_at, :datetime
   attribute :public, :boolean, default: false
 
-  # Predictions
   attribute :prediction_city, :string
   attribute :prediction_salary, :string
   attribute :prediction_relationship, :string
@@ -16,7 +15,6 @@ class LetterForm
   attribute :prediction_achievement, :string
   attribute :prediction_happiness, :string, default: "7"
 
-  # Emotional Snapshot
   attribute :happiness_level, :integer, default: 5
   attribute :anxiety_level, :integer, default: 5
   attribute :motivation_level, :integer, default: 5
@@ -27,7 +25,6 @@ class LetterForm
   validates :deliver_at, presence: true
   validate :deliver_at_must_be_in_future
 
-  # Emotional snapshot validation
   validates :happiness_level, presence: true, numericality: { only_integer: true, in: 1..10 }
   validates :anxiety_level, presence: true, numericality: { only_integer: true, in: 1..10 }
   validates :motivation_level, presence: true, numericality: { only_integer: true, in: 1..10 }
@@ -47,14 +44,12 @@ class LetterForm
         status: "pending"
       )
 
-      # Build emotional snapshot
       @letter.build_emotional_snapshot(
         happiness_level: happiness_level,
         anxiety_level: anxiety_level,
         motivation_level: motivation_level
       )
 
-      # Build predictions if provided
       build_prediction("city", prediction_city)
       build_prediction("salary", prediction_salary)
       build_prediction("relationship", prediction_relationship)
@@ -64,7 +59,6 @@ class LetterForm
 
       @letter.save!
 
-      # Track event in analytics
       Analytics::TrackEventService.call("letter_created", { email: email, public: public })
       Analytics::TrackEventService.call("emotional_snapshot_completed", { email: email })
       if any_predictions?

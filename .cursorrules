@@ -1,0 +1,73 @@
+# TimeEcho Development Rules & Standards
+
+Welcome to TimeEcho! To maintain visual consistency, pristine code elegance, and fast database performance, all development (by human developers or AI agents) must strictly follow these rules.
+
+---
+
+## 🎨 1. Design System & Premium Aesthetics
+TimeEcho uses a refined, modern, and reflective visual identity built on top of **Tailwind CSS v4** and **DaisyUI v5**.
+* **Typography**: Use the geometric **Inter** sans-serif font stack for all headings and body copy. No default browser fonts or serif/mixed font pairs.
+* **Containers**: Content cards must be structured using standard white card blocks with `rounded-3xl` corners, thin border boundaries (`border-slate-100`), and subtle `shadow-2xs` profiles.
+* **Affordances**: Primary action buttons must be styled in deep-violet (`#2e1065` / `bg-violet-950`). Secondary badges, status pills, and interactive category buttons should use light-violet accents (`bg-violet-50` / `text-violet-700`).
+* **Animations**: Integrate subtle micro-animations (e.g., smooth transitions on hovers, interactive focus states, responsive timeline nodes).
+
+---
+
+## 🏛️ 2. Thin Controllers & Service Objects
+TimeEcho enforces a strict separation of concerns following the **"Thin Controllers, Single-Responsibility Services"** standard.
+* **No Database Operations in Controllers**: Controller actions must not contain direct multi-table transactions, format validations, token creations, mailer dispatch loops, or raw SQL.
+* **Delegation**: Move complex business flows into dedicated **Service Objects** under `app/services/` (e.g., `Settings::ConfirmEmailUpdateService`).
+* **Action Size**: Keep controller actions incredibly light (ideally under 15-20 lines), handling only HTTP routing, session assignments, flash alerts, and rendering.
+
+---
+
+## 🔮 3. Decorator / Presenter Pattern
+Views must remain highly semantic and lightweight, free of data-massaging and layout-state conditions.
+* **Decorate Models**: Any model that requires custom visual formatting (dates, localized state icons, dynamic victory badges, contextual CSS status class selectors) must be wrapped in a decorator located in `app/decorators/` extending `ApplicationDecorator`.
+* **View Separation**: Never perform date calculations (`deliver_at.to_date - Date.current`), custom localized attribute conversions (`case category when 'city'`), or color matching in your ERB templates. Call decorated methods directly (e.g., `@letter.days_left_text`, `pred.category_label`).
+
+---
+
+## 🧹 4. Zero Comments Policy in Views & Controllers
+Keep presentation and routing files neat, clean, and highly readable.
+* **No Comments in ERB**: Do not include ERB comments (`<%# ... %>`) or visual layout dividers inside view files.
+* **No Comments in Ruby Controllers**: Do not write structural, header, or step comments (`# ...`) in your controllers.
+* **Self-Documenting Code**: Code should be clean and self-documenting. Clear helper names, decorators, and slim actions eliminate the need for inline explanations.
+
+---
+
+## ⚡ 5. Highly Efficient Database Aggregations
+Avoid the **SQL Query Flooding** anti-pattern.
+* **Batch Queries**: Consolidate multiple sequential `COUNT`, `SUM`, or `AVG` database checks on the same table into a single `select` query with inline conditional SQL statements:
+  ```ruby
+  # Correct Pattern: Collapses multiple counts and sums into 1 database round-trip
+  stats = letters.select(
+    "COUNT(*) as total",
+    "COUNT(CASE WHEN status = 'delivered' THEN 1 END) as delivered",
+    "SUM(COALESCE(open_count, 0)) as total_opens"
+  ).take
+  ```
+* **Pluck Caching**: Avoid plucking IDs multiple times. Pluck the array once and pass the local variable to downstream queries.
+
+---
+
+## 🛠️ 6. Dev Workflow & Tailwind CLI Watcher
+* **CSS Compilation**: When updating styling tokens, the Tailwind compiler watcher in `package.json` must always include the `--watch=always` flag.
+* **Why**: This prevents Foreman (`bin/dev`) from silently shutting down the background compilation process when `stdin` is closed.
+
+---
+
+## 🚦 7. Rails Controller Design Rules
+Controllers should remain strictly focused on the seven standard RESTful actions:
+* `index`, `show`, `new`, `edit`, `create`, `update`, `destroy`
+
+Avoid adding custom member or collection actions directly to existing controllers.
+When a controller starts accumulating actions that do not fit the standard RESTful actions, introduce a new resource and controller instead.
+
+### Guidelines:
+* **Favor Resource-Oriented Design**: Keep controllers single-responsibility.
+* **New Resources**: Prefer creating new controllers over adding custom actions.
+* **Identify Resources**: When generating code, always ask: *"Is this behavior a new action, or is it actually a new resource?"* If it is a new resource, create a dedicated controller with standard RESTful actions.
+
+---
+*Follow these rules closely to keep TimeEcho premium, performant, and maintainable!* ✨

@@ -7,10 +7,6 @@ class LettersController < ApplicationController
     Analytics::TrackEventService.call("dashboard_viewed", { email: current_user_email })
   end
 
-  def public_feed
-    @letters = PublicLettersQuery.call
-  end
-
   def new
     @letter_form = LetterForm.new(email: current_user_email)
   end
@@ -66,55 +62,6 @@ class LettersController < ApplicationController
         Analytics::TrackEventService.call("letter_opened", { letter_id: @letter.id, email: @letter.email })
       end
       @letter.increment!(:open_count)
-    end
-  end
-
-  def update_predictions
-    @letter = find_letter
-    if @letter.nil? || @letter.pending?
-      redirect_to root_path, alert: t("flash.private_or_inaccessible")
-      return
-    end
-
-    policy = LetterPolicy.new(current_user_email, @letter)
-    unless @accessed_via_signed_id || policy.show?
-      redirect_to root_path, alert: t("flash.unauthorized_modify")
-      return
-    end
-
-    Letter.transaction do
-      @letter.update!(
-        reveal_happiness: params[:reveal_happiness],
-        reveal_anxiety: params[:reveal_anxiety],
-        reveal_motivation: params[:reveal_motivation]
-      )
-
-      if params[:predictions].present?
-        params[:predictions].each do |pred_id, pred_params|
-          prediction = @letter.predictions.find_by(id: pred_id)
-          if prediction
-            prediction.update!(
-              reality: pred_params[:reality],
-              matched: ActiveModel::Type::Boolean.new.cast(pred_params[:matched])
-            )
-          end
-        end
-      end
-
-      Analytics::TrackEventService.call("prediction_completion", { letter_id: @letter.id, email: @letter.email })
-      Analytics::TrackEventService.call("emotional_snapshot_completion", { letter_id: @letter.id, email: @letter.email })
-    end
-
-    flash[:success] = t("flash.reality_updated")
-    redirect_to letter_path(@letter)
-  end
-
-  def success
-    @email = flash[:success_email]
-    @deliver_at = flash[:success_deliver_at] ? Time.parse(flash[:success_deliver_at]) : nil
-
-    if @email.nil?
-      redirect_to root_path
     end
   end
 

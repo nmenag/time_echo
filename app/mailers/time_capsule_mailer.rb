@@ -53,12 +53,10 @@ class TimeCapsuleMailer < ApplicationMailer
   private
 
   def magic_login_url(token:)
-    # We will define the route for magic login
     Rails.application.routes.url_helpers.magic_login_url(token: token, host: ENV.fetch("APP_HOST") { "localhost:3000" })
   end
 
   def confirm_email_update_url(token:)
-    # We will define the route for email update confirmation
     Rails.application.routes.url_helpers.confirm_email_update_settings_url(token: token, host: ENV.fetch("APP_HOST") { "localhost:3000" })
   end
 end
