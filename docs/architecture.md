@@ -8,18 +8,28 @@ This document details the layered architectural patterns, data relationships, tr
 
 ## 🏛️ 1. Layered Architecture & Architectural Patterns
 
-TimeEcho adopts a highly decoupled, layered architecture built on top of the traditional Model-View-Controller (MVC) paradigm. By isolating business logic, query parameters, authorization checks, and form validations into dedicated layers, the codebase remains clean, testable, and highly maintainable.
+TimeEcho adopts a highly decoupled, layered architecture built on top of the traditional Model-View-Controller (MVC) paradigm. By isolating business logic, query parameters, presentation formats, authorization checks, and form validations into dedicated layers, the codebase remains clean, testable, and highly maintainable.
 
 ```mermaid
 graph TD
     Client[Browser / Client View]
     
-    subgraph Controllers [Controller Layer]
+    subgraph Controllers [RESTful Controller Layer]
         LC[LettersController]
         SC[SettingsController]
         SessC[SessionsController]
         AC[AnalyticsController]
-        WC[WebhooksController]
+        LPC[LetterPredictionsController]
+        LSC[LetterSuccessesController]
+        PLC[PublicLettersController]
+        CEC[CheckEmailsController]
+        WRC[Webhooks::ResendsController]
+        SEC[Settings::EmailConfirmationsController]
+    end
+
+    subgraph Decorators [Decorator Layer]
+        LD[LetterDecorator]
+        PD[PredictionDecorator]
     end
 
     subgraph Policies [Authorization Layer]
@@ -65,17 +75,24 @@ graph TD
     Controllers -->|Fetches Complex Data| Queries
     Queries -->|Queries Database| Models
     Services -->|Manipulates Data| Models
+    Controllers -->|Formats Presentation| Decorators
+    Decorators -->|Wraps Models| Models
     Models -->|Performs Actions / SQL Queries| PG
 ```
 
 ### Key Structural Layers:
 
-1. **Model-View-Controller (MVC)**:
-   * **Controllers**: Extremely thin layers responsible only for parsing parameters, enforcing authentication (`authenticate_user!`), calling Form or Service objects, and redirecting or rendering HTML/Turbo Stream templates.
+1. **Model-View-Controller (MVC) & RESTful Controller Design**:
+   * **Controllers**: Extremely thin layers strictly focused on the seven standard RESTful actions (`index`, `show`, `new`, `create`, `update`, `destroy`). Any custom collection or member flows are extracted into dedicated, single-responsibility controllers (e.g., `LetterPredictionsController` to update reality states, `Settings::EmailConfirmationsController` to process confirmation links).
    * **Views**: Rendered in English/Spanish (using Rails i18n localization). Powered by Tailwind CSS v4 and DaisyUI v5, using semantic component layout rules.
    * **Models**: Encapsulate basic relationships, validations, and scopes. Heavy business actions are offloaded to Services.
 
-2. **Form Objects Layer (`app/forms/`)**:
+2. **Decorator / Presenter Layer (`app/decorators/`)**:
+   * Completely decouples visual presentation logic, custom date formatting, dynamic icons, status pills, and localized conditional class tags from views and database models.
+   * **`LetterDecorator`**: Handles letters relative date strings, delivery states, and countdown days left metrics.
+   * **`PredictionDecorator`**: Manages prediction category labels, achievement victory badges, and status colors.
+
+3. **Form Objects Layer (`app/forms/`)**:
    * Encapsulate form validation and multi-model record synchronization.
    * **`LetterForm`**: Collects and validates inputs for `Letter`, `EmotionalSnapshot`, and several potential `Prediction` fields in a single schema. It executes the creation inside a single ActiveRecord database transaction.
    * **`MagicLinkForm`**: Validates the email submitted during login.
@@ -314,7 +331,7 @@ graph LR
 2. **High-Concurrency Locking (`SKIP LOCKED`)**:
    * In `PendingLettersQuery`, letters due for unlock are queried with `.lock("FOR UPDATE SKIP LOCKED")`. This allows multiple active Solid Queue worker threads to run concurrently without duplicate mailing attempts or deadlocking the letters table.
 3. **Webhook Ingest Async Pipeline**:
-   * When emails are sent via mailer providers (like Resend), delivery events are pushed back to the app via `WebhooksController#resend`.
+   * When emails are sent via mailer providers (like Resend), delivery events are pushed back to the app via `Webhooks::ResendsController#create`.
    * This payload is immediately offloaded to the background via **`ProcessEmailWebhookJob`** so that the HTTP controller can return a `200 OK` instantaneously, ensuring high-throughput webhook response times.
 
 ---
@@ -325,13 +342,12 @@ TimeEcho operates on a tailored design system powered by Tailwind CSS v4 and Dai
 
 ### Semantic Design Tokens:
 * **Typography Hierarchy**:
-  * *Titles & Branding*: `font-serif italic` utilizing the elegant **Instrument Serif** typeface to convey nostalgia.
-  * *UI Controls & Metrics*: `font-sans font-semibold tracking-wider uppercase` using the **Inter** font family to maximize structural clarity.
+  * *UI & Body Copy*: Use the geometric **Inter** sans-serif stack exclusively across all views, headers, forms, settings cards, and letter representations. Typographic consistency is crucial to maintaining our high-integrity digital vault aesthetics.
 * **Palette Design Rules**:
-  * Uses tailored OkLCH-supported color configurations (avoiding raw hex values) to maintain color contrast standards.
-  * Soft dark modes, retro themes (e.g. `pastel`, `cupcake`, `autumn`, `luxury`) are dynamically set by reading the `UserPreference#theme` configuration, which updates the root page's `data-theme` attribute dynamically.
+  * Uses tailored HSL and OkLCH-supported color configurations (avoiding raw hex values) to maintain high contrast standards.
+  * Soft dark modes, retro themes (e.g. `pastel`, `autumn`, `luxury`) are dynamically set by reading the `UserPreference#theme` configuration, updating the root page's `data-theme` attribute dynamically.
 * **Consistent Shapes**:
-  * Rigid border-radius tokens are restricted to `rounded-xl` and `rounded-2xl`. Oversaturated and overly rounded shapes (`rounded-3xl` or standard circles) are avoided to maintain premium materiality.
+  * Standardized white content container cards must always use `rounded-3xl` border-radius shapes, thin border boundaries (`border-slate-100`), and clean micro-shadows (`shadow-2xs`) across all views.
 
 ---
 

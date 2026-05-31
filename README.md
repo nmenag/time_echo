@@ -21,14 +21,16 @@ Built with **Ruby on Rails 8**, **Tailwind CSS v4 / DaisyUI v5**, and a PostgreS
 
 ## 🏛️ System Architecture & Design Patterns
 
-TimeEcho adopts a layered, highly decoupled design pattern that keeps models focused and controllers thin:
+TimeEcho adopts a layered, highly decoupled design pattern that keeps models focused, controllers strictly RESTful, and templates thinned:
 
-1. **Form Objects (`app/forms/`)**: Enforce complex multi-model validation. `LetterForm` validates and saves `Letter`, `EmotionalSnapshot`, and several nested `Prediction` records within a single database transaction.
-2. **Service Objects (`app/services/`)**: Isolate single business actions (e.g. `Letters::DeliverService`, `Auth::MagicLinkService`, `Analytics::TrackEventService`).
-3. **Query Objects (`app/queries/`)**: Decouple database querying. `UserTimelineQuery` uses eager-loading to avoid $N+1$ query overheads, and `PendingLettersQuery` runs highly concurrent row locks (`FOR UPDATE SKIP LOCKED`).
-4. **Policy Layer (`app/policies/`)**: Manages access controls (e.g. public letters are open to everyone, but pending/private letters are locked strictly to their creator).
-5. **Background Jobs (Solid Queue)**: Standard Active Job queuing in Rails 8. Uses `config/recurring.yml` to trigger capsule delivery scripts every minute.
-6. **Webhook Pipeline**: Ingests Resend Webhook API callbacks asynchronously, allowing instant updates on email delivery, bounces, opens, and link clicks.
+1. **RESTful Controller Design**: All controllers are strictly focused on the seven standard RESTful actions (`index`, `show`, `new`, `create`, `update`, `destroy`). Non-RESTful custom actions are extracted into dedicated single-responsibility sub-resources (e.g. `LetterPredictionsController`, `Settings::EmailConfirmationsController`, `Webhooks::ResendsController`).
+2. **Decorator / Presenter Pattern (`app/decorators/`)**: Removes all visual formatting, countdown calculations, and i18n label selectors from view templates. Built around a base `ApplicationDecorator` using Ruby's native `SimpleDelegator` standard library.
+3. **Form Objects (`app/forms/`)**: Enforce complex multi-model validation. `LetterForm` validates and saves `Letter`, `EmotionalSnapshot`, and several nested `Prediction` records within a single database transaction.
+4. **Service Objects (`app/services/`)**: Isolate single business actions (e.g. `Letters::DeliverService`, `Auth::MagicLinkService`, `Analytics::TrackEventService`).
+5. **Query Objects (`app/queries/`)**: Decouple database querying. `UserTimelineQuery` uses eager-loading to avoid $N+1$ query overheads, and `PendingLettersQuery` runs highly concurrent row locks (`FOR UPDATE SKIP LOCKED`).
+6. **Policy Layer (`app/policies/`)**: Manages access controls (e.g. public letters are open to everyone, but pending/private letters are locked strictly to their creator).
+7. **Background Jobs (Solid Queue)**: Standard Active Job queuing in Rails 8. Uses `config/recurring.yml` to trigger capsule delivery scripts every minute.
+8. **Webhook Pipeline**: Ingests Resend Webhook API callbacks asynchronously via `Webhooks::ResendsController#create`, allowing instant background processing of email delivery updates.
 
 For detailed system sequence diagrams, database schemas, and transactional boundary details, read the:
 👉 **[System Architecture & Design Document (docs/architecture.md)](docs/architecture.md)**
