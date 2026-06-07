@@ -15,7 +15,6 @@ class Letter < ApplicationRecord
 
   scope :pending, -> { where(status: "pending").where("deliver_at <= ?", Time.current) }
   scope :scheduled, -> { where(status: "pending").where("deliver_at > ?", Time.current) }
-  scope :published, -> { where(public: true, status: "delivered").order(delivered_at: :desc) }
   scope :delivered, -> { where(status: "delivered").order(delivered_at: :desc) }
   scope :for_email, ->(email) { where(email: email) }
 

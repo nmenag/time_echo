@@ -16,7 +16,7 @@ module Settings
 
         if letter_ids.any?
           conn = ActiveRecord::Base.connection
-          %w[reactions comments goals predictions emotional_snapshots].each do |table|
+          %w[goals predictions emotional_snapshots].each do |table|
             conn.execute(conn.sanitize_sql_array([ "DELETE FROM #{table} WHERE letter_id IN (?)", letter_ids ])) rescue nil
           end
         end

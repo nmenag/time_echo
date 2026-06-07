@@ -40,7 +40,7 @@ delivered_letter.predictions.create!([
 
 # Create historical analytics events for delivered letter
 AnalyticsEvent.create!([
-  { event_type: "letter_created", metadata: { email: "user@example.com", public: false }, occurred_at: 1.year.ago },
+  { event_type: "letter_created", metadata: { email: "user@example.com" }, occurred_at: 1.year.ago },
   { event_type: "emotional_snapshot_completed", metadata: { email: "user@example.com" }, occurred_at: 1.year.ago },
   { event_type: "predictions_completed", metadata: { email: "user@example.com" }, occurred_at: 1.year.ago },
   { event_type: "email_delivered", metadata: { letter_id: delivered_letter.id, email: "user@example.com" }, occurred_at: 1.year.ago },
@@ -77,7 +77,7 @@ pending_reflection_letter.predictions.create!([
 
 # Create historical analytics events
 AnalyticsEvent.create!([
-  { event_type: "letter_created", metadata: { email: "user@example.com", public: false }, occurred_at: 6.months.ago },
+  { event_type: "letter_created", metadata: { email: "user@example.com" }, occurred_at: 6.months.ago },
   { event_type: "emotional_snapshot_completed", metadata: { email: "user@example.com" }, occurred_at: 6.months.ago },
   { event_type: "predictions_completed", metadata: { email: "user@example.com" }, occurred_at: 6.months.ago },
   { event_type: "email_delivered", metadata: { letter_id: pending_reflection_letter.id, email: "user@example.com" }, occurred_at: 1.day.ago },
@@ -111,7 +111,7 @@ sealed_letter.predictions.create!([
 
 # Create historical analytics events
 AnalyticsEvent.create!([
-  { event_type: "letter_created", metadata: { email: "user@example.com", public: false }, occurred_at: Time.current },
+  { event_type: "letter_created", metadata: { email: "user@example.com" }, occurred_at: Time.current },
   { event_type: "emotional_snapshot_completed", metadata: { email: "user@example.com" }, occurred_at: Time.current },
   { event_type: "predictions_completed", metadata: { email: "user@example.com" }, occurred_at: Time.current }
 ])

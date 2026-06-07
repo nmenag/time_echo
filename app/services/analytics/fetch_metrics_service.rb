@@ -14,7 +14,7 @@ module Analytics
       letters = UserTimelineQuery.call(@email)
       letter_ids = letters.pluck(:id)
 
-      letter_stats = letters.select(
+      letter_stats = letters.unscope(:order).select(
         "COUNT(*) as total",
         "COUNT(CASE WHEN status = 'delivered' THEN 1 END) as delivered",
         "COUNT(CASE WHEN status = 'pending' THEN 1 END) as pending",
@@ -40,12 +40,12 @@ module Analytics
         pred_stats = Prediction.where(letter_id: letter_ids).select(
           "COUNT(*) as total",
           "COUNT(CASE WHEN reality IS NOT NULL THEN 1 END) as completed",
-          "COUNT(CASE WHEN matched = true THEN 1 END) as matched"
+          "COUNT(CASE WHEN matched = true THEN 1 END) as matched_count"
         ).take
 
         total_predictions = pred_stats&.total.to_i
         completed_predictions = pred_stats&.completed.to_i
-        matched_predictions = pred_stats&.matched.to_i
+        matched_predictions = pred_stats&.matched_count.to_i
       else
         total_predictions = 0
         completed_predictions = 0
@@ -69,7 +69,7 @@ module Analytics
         avg_initial_motivation = 0
       end
 
-      revealed_letters = letters.where.not(reveal_happiness: nil).select(
+      revealed_letters = letters.unscope(:order).where.not(reveal_happiness: nil).select(
         "AVG(reveal_happiness) as happiness",
         "AVG(reveal_anxiety) as anxiety",
         "AVG(reveal_motivation) as motivation"

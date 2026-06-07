@@ -65,42 +65,6 @@
     </div>
   </section>
 
-  <!-- Community Public Stories Feed Preview -->
-  <% if @public_letters && @public_letters.any? %>
-    <section class="space-y-12">
-      <div class="flex flex-col sm:flex-row sm:items-end justify-between border-b border-base-200 pb-4 gap-4">
-        <div class="space-y-2">
-          <h2 class="font-serif text-3xl sm:text-4xl text-primary font-normal"><%= t('landing.stories_title') %></h2>
-          <p class="text-sm text-base-content/50"><%= t('landing.stories_subtitle') %></p>
-        </div>
-        <a href="<%= public_feed_letters_path %>" class="btn btn-link btn-sm text-primary hover:text-neutral p-0 font-semibold self-start sm:self-auto">
-          <%= t('landing.stories_all').html_safe %>
-        </a>
-      </div>
-
-      <div class="grid md:grid-cols-3 gap-8">
-        <% @public_letters.each do |letter| %>
-          <div class="card card-bordered border-base-200 bg-base-100 rounded-box card-hover-effect flex flex-col justify-between p-6">
-            <div class="space-y-4">
-              <span class="badge badge-secondary badge-sm text-[10px] uppercase font-semibold px-2 py-1.5">
-                <%= t('landing.stories_opened', date: I18n.l(letter.delivered_at.to_date, format: :long)) %>
-              </span>
-              <p class="text-sm text-base-content/80 font-serif italic line-clamp-4 leading-relaxed">
-                "<%= letter.content %>"
-              </p>
-            </div>
-            <div class="pt-4 mt-4 border-t border-base-200 flex justify-between items-center text-xs text-base-content/50">
-              <span class="flex items-center gap-1">👤 <%= t('navigation.anonymous') %></span>
-              <a href="<%= letter_path(letter) %>" class="btn btn-link btn-xs text-primary p-0 min-h-0 h-auto hover:underline font-semibold">
-                <%= t('landing.stories_read_more').html_safe %>
-              </a>
-            </div>
-          </div>
-        <% end %>
-      </div>
-    </section>
-  <% end %>
-
 
 
   <!-- Premium Emotional Quote / Testimonial -->
