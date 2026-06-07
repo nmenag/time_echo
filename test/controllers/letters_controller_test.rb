@@ -8,7 +8,6 @@ class LettersControllerTest < ActionDispatch::IntegrationTest
         email: "test@example.com",
         content: "Hello from the past!",
         deliver_at: 1.year.from_now.to_s,
-        public: "1",
         happiness_level: "7",
         anxiety_level: "3",
         motivation_level: "8",
@@ -70,23 +69,6 @@ class LettersControllerTest < ActionDispatch::IntegrationTest
     assert_select "h1", text: I18n.t("letters.show_locked_title")
   end
 
-  test "should show content for delivered letter if public" do
-    letter = Letter.new(
-      title: "Delivered Letter",
-      email: "test@example.com",
-      content: "Opened Capsule Content",
-      deliver_at: 1.day.ago,
-      delivered_at: 1.day.ago,
-      status: "delivered",
-      public: true
-    )
-    letter.save!(validate: false)
-
-    get letter_path(letter)
-    assert_response :success
-    assert_match "Opened Capsule Content", response.body
-  end
-
   test "should redirect private letter for unauthorized viewer" do
     letter = Letter.new(
       title: "Private Letter",
@@ -94,8 +76,7 @@ class LettersControllerTest < ActionDispatch::IntegrationTest
       content: "Private Content",
       deliver_at: 1.day.ago,
       delivered_at: 1.day.ago,
-      status: "delivered",
-      public: false
+      status: "delivered"
     )
     letter.save!(validate: false)
 
@@ -114,8 +95,7 @@ class LettersControllerTest < ActionDispatch::IntegrationTest
       content: "Private Content",
       deliver_at: 1.day.ago,
       delivered_at: 1.day.ago,
-      status: "delivered",
-      public: false
+      status: "delivered"
     )
     letter.save!(validate: false)
 

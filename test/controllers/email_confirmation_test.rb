@@ -20,7 +20,6 @@ class EmailConfirmationTest < ActionDispatch::IntegrationTest
           title: "Anonymous Capsule",
           content: "I will be confirmed.",
           deliver_at: Date.current + 1.year,
-          public: "0",
           happiness_level: "5",
           anxiety_level: "5",
           motivation_level: "5"

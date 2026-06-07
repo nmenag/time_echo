@@ -7,8 +7,6 @@ class LetterPolicy
   end
 
   def show?
-    return true if letter.public? && letter.delivered?
-
     user_email.present? && letter.email == user_email
   end
 end

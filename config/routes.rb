@@ -11,7 +11,6 @@ Rails.application.routes.draw do
   get "check_email", to: "check_emails#show", as: :check_email
 
   get "letters/success", to: "letter_successes#show", as: :success_letters
-  get "letters/public", to: "public_letters#index", as: :public_feed
 
   post "letters/:letter_id/predictions", to: "letter_predictions#update", as: :update_predictions_letter
   resources :letters, only: [ :new, :create, :show ]

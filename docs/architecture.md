@@ -281,7 +281,7 @@ flowchart TD
 
 ### Complete Account Deletion ("Danger Zone" Wipeout)
 If a user triggers "Eliminar mi baúl" in their settings, a direct SQLite/PostgreSQL transactional block triggers. This wipes out:
-1. All foreign keys (`comments`, `reactions`, `goals`, `predictions`, `emotional_snapshots`) matching the user's `Letter` IDs.
+1. All foreign keys (`goals`, `predictions`, `emotional_snapshots`) matching the user's `Letter` IDs.
 2. The `Letter` records themselves.
 3. The `UserPreference` records.
 4. Historical `AnalyticsEvent` records matching the user's email inside metadata.

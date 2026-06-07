@@ -6,7 +6,6 @@ class LetterForm
   attribute :email, :string
   attribute :content, :string
   attribute :deliver_at, :datetime
-  attribute :public, :boolean, default: false
 
   attribute :prediction_city, :string
   attribute :prediction_salary, :string
@@ -40,7 +39,6 @@ class LetterForm
         email: email,
         content: content,
         deliver_at: deliver_at,
-        public: public,
         status: "pending"
       )
 
@@ -59,7 +57,7 @@ class LetterForm
 
       @letter.save!
 
-      Analytics::TrackEventService.call("letter_created", { email: email, public: public })
+      Analytics::TrackEventService.call("letter_created", { email: email })
       Analytics::TrackEventService.call("emotional_snapshot_completed", { email: email })
       if any_predictions?
         Analytics::TrackEventService.call("predictions_completed", { email: email })

@@ -7,7 +7,6 @@ class LetterFormTest < ActiveSupport::TestCase
       email: "test@example.com",
       content: "Hello from the past!",
       deliver_at: 1.year.from_now,
-      public: true,
       happiness_level: 7,
       anxiety_level: 3,
       motivation_level: 8,
@@ -29,7 +28,6 @@ class LetterFormTest < ActiveSupport::TestCase
     assert_equal "My Future self", letter.title
     assert_equal "test@example.com", letter.email
     assert_equal "Hello from the past!", letter.content
-    assert letter.public?
     assert_equal "pending", letter.status
 
     # Verify emotional snapshot

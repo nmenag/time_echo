@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_05_31_032110) do
+ActiveRecord::Schema[8.1].define(version: 2026_06_07_035841) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -88,16 +88,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_31_032110) do
     t.index ["collective_capsule_id"], name: "index_collective_contributions_on_collective_capsule_id"
   end
 
-  create_table "comments", force: :cascade do |t|
-    t.boolean "approved", default: true, null: false
-    t.string "author_name", null: false
-    t.text "content", null: false
-    t.datetime "created_at", null: false
-    t.bigint "letter_id", null: false
-    t.datetime "updated_at", null: false
-    t.index ["letter_id"], name: "index_comments_on_letter_id"
-  end
-
   create_table "emotional_snapshots", force: :cascade do |t|
     t.integer "anxiety_level", null: false
     t.datetime "created_at", null: false
@@ -128,7 +118,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_31_032110) do
     t.string "email", null: false
     t.integer "open_count", default: 0, null: false
     t.datetime "opened_at"
-    t.boolean "public", default: false, null: false
     t.boolean "recipient_delivery_permission", default: false, null: false
     t.string "recipient_email"
     t.string "recipient_name"
@@ -141,7 +130,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_31_032110) do
     t.datetime "updated_at", null: false
     t.index ["deliver_at"], name: "index_letters_on_deliver_at"
     t.index ["email"], name: "index_letters_on_email"
-    t.index ["public"], name: "index_letters_on_public"
     t.index ["status"], name: "index_letters_on_status"
   end
 
@@ -154,15 +142,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_31_032110) do
     t.text "reality"
     t.datetime "updated_at", null: false
     t.index ["letter_id"], name: "index_predictions_on_letter_id"
-  end
-
-  create_table "reactions", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.string "ip_address"
-    t.bigint "letter_id", null: false
-    t.string "reaction_type", null: false
-    t.datetime "updated_at", null: false
-    t.index ["letter_id"], name: "index_reactions_on_letter_id"
   end
 
   create_table "session_tokens", force: :cascade do |t|
@@ -319,11 +298,9 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_31_032110) do
 
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "collective_contributions", "collective_capsules"
-  add_foreign_key "comments", "letters"
   add_foreign_key "emotional_snapshots", "letters"
   add_foreign_key "goals", "letters"
   add_foreign_key "predictions", "letters"
-  add_foreign_key "reactions", "letters"
   add_foreign_key "solid_queue_blocked_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
   add_foreign_key "solid_queue_claimed_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
   add_foreign_key "solid_queue_failed_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade

@@ -7,38 +7,24 @@ class SettingsController < ApplicationController
   end
 
   def update
-    old_email = current_user_email
-    new_email = params.dig(:user_preference, :email)
+    result = Settings::UpdatePreferencesService.call(@user_preference, settings_params, current_user_email)
 
-    if new_email.present? && new_email.strip.downcase != old_email
-      result = Settings::RequestEmailUpdateService.call(@user_preference, new_email, old_email)
-      if result.success?
-        redirect_to settings_path, notice: "Hemos enviado un correo de confirmación a tu nueva dirección: #{new_email.strip.downcase}. Por favor, haz clic en el enlace para confirmar y activar el cambio. ✨"
+    if result.success?
+      if result.action == :email_update_requested
+        redirect_to settings_path, notice: result.message
       else
-        flash.now[:alert] = result.error
-        render :show, status: :unprocessable_entity
-      end
-      return
-    end
-
-    if @user_preference.update(settings_params.except(:email))
-      AnalyticsEvent.create!(
-        event_type: "settings_updated",
-        occurred_at: Time.current,
-        metadata: { email: current_user_email, changed_keys: settings_params.keys }
-      ) rescue nil
-
-      respond_to do |format|
-        format.turbo_stream do
-          flash.now[:notice] = "Ajustes actualizados correctamente ✨"
-          render turbo_stream: [
-            turbo_stream.replace("flash-container", partial: "shared/flash")
-          ]
+        respond_to do |format|
+          format.turbo_stream do
+            flash.now[:notice] = "Ajustes actualizados correctamente ✨"
+            render turbo_stream: [
+              turbo_stream.replace("flash-container", partial: "shared/flash")
+            ]
+          end
+          format.html { redirect_to settings_path, notice: result.message }
         end
-        format.html { redirect_to settings_path, notice: "Ajustes guardados ✨" }
       end
     else
-      flash.now[:alert] = "No se pudieron guardar los ajustes."
+      flash.now[:alert] = result.error
       render :show, status: :unprocessable_entity
     end
   end
