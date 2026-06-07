@@ -29,7 +29,7 @@ TimeEcho adopts a layered, highly decoupled design pattern that keeps models foc
 4. **Service Objects (`app/services/`)**: Isolate single business actions (e.g. `Letters::DeliverService`, `Auth::MagicLinkService`, `Analytics::TrackEventService`).
 5. **Query Objects (`app/queries/`)**: Decouple database querying. `UserTimelineQuery` uses eager-loading to avoid $N+1$ query overheads, and `PendingLettersQuery` runs highly concurrent row locks (`FOR UPDATE SKIP LOCKED`).
 6. **Policy Layer (`app/policies/`)**: Manages access controls (e.g. public letters are open to everyone, but pending/private letters are locked strictly to their creator).
-7. **Background Jobs (Solid Queue)**: Standard Active Job queuing in Rails 8. Uses `config/recurring.yml` to trigger capsule delivery scripts every minute.
+7. **Background Jobs (GoodJob)**: Standard Active Job queuing in Rails 8. Uses `config/application.rb` cron configuration to trigger capsule delivery scripts every minute and cleanup expired tokens every hour.
 8. **Webhook Pipeline**: Ingests Resend Webhook API callbacks asynchronously via `Webhooks::ResendsController#create`, allowing instant background processing of email delivery updates.
 
 For detailed system sequence diagrams, database schemas, and transactional boundary details, read the:
@@ -43,7 +43,7 @@ For detailed system sequence diagrams, database schemas, and transactional bound
 * **Node.js**: `v18.x` or higher (with `npm`)
 * **Database**: PostgreSQL (v14+)
 * **Styling**: Tailwind CSS v4 & DaisyUI v5 (CSS-first setup)
-* **Active Job Queue**: Solid Queue (database-backed)
+* **Active Job Queue**: GoodJob (database-backed)
 
 ---
 
@@ -104,7 +104,7 @@ bin/dev
 This starts the application at `http://localhost:3000` and does the following:
 * Launches the Puma server on port 3000.
 * Compiles and hot-reloads Tailwind CSS v4 stylesheets.
-* Bootstraps the `Solid Queue` supervisor worker to process background jobs and cron schedules.
+* Bootstraps the `GoodJob` in-process worker to process background jobs and cron schedules.
 
 *(Alternatively, you can run them manually in separate shells: `npm run watch:css` and `bundle exec rails server`)*
 
