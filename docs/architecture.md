@@ -289,18 +289,18 @@ If a user triggers "Eliminar mi baúl" in their settings, a direct SQLite/Postgr
 
 ---
 
-## ⚙️ 5. Background Job Processing (Solid Queue)
+## ⚙️ 5. Background Job Processing (GoodJob)
 
-Rails 8 relies on **Solid Queue** as the default Active Job database-backed queue adapter. TimeEcho is configured to leverage Solid Queue for all asynchronous services in both development and production.
+Rails 8 uses **GoodJob** as the database-backed Active Job queue adapter. TimeEcho is configured to leverage GoodJob for all asynchronous services in both development and production.
 
 ```mermaid
 graph LR
     subgraph Trigger [Scheduling Layer]
-        Rec[recurring.yml Schedule]
+        Cron[GoodJob Cron Scheduler]
     end
 
-    subgraph SolidQueue [Queue Manager]
-        Ready[Solid Queue Ready Executions]
+    subgraph GoodJob [Queue Manager]
+        Ready[GoodJob Executions]
     end
 
     subgraph Workers [Worker Threads]
@@ -314,22 +314,21 @@ graph LR
         SMTP[TimeCapsuleMailer]
     end
 
-    Rec -->|Every Minute| Ready
+    Cron -->|Every Minute| Ready
     Ready -->|Pulls Job| DelJob
     DelJob -->|Runs Transactionally| DS
     DS -->|Sends Capsule| SMTP
     
-    Rec -->|Every Hour| ClClean
+    Cron -->|Every Hour| ClClean
     ClClean -->|Purges DB| PG[(PostgreSQL)]
 ```
 
 ### Background System Components:
-1. **Recurring Scheduler (`config/recurring.yml`)**:
+1. **Recurring Scheduler (`config/application.rb` GoodJob Cron)**:
    * **`DeliverPendingLettersJob`** runs **every minute** to check if any pending capsule is due for delivery.
    * **`CleanupExpiredTokensJob`** runs **every hour** to clean up expired magic-link sessions and spent tokens.
-   * **`SolidQueue::Job.clear_finished_in_batches`** runs **every hour** (in production) to prune processed worker logs.
 2. **High-Concurrency Locking (`SKIP LOCKED`)**:
-   * In `PendingLettersQuery`, letters due for unlock are queried with `.lock("FOR UPDATE SKIP LOCKED")`. This allows multiple active Solid Queue worker threads to run concurrently without duplicate mailing attempts or deadlocking the letters table.
+   * In `PendingLettersQuery`, letters due for unlock are queried with `.lock("FOR UPDATE SKIP LOCKED")`. This allows multiple active GoodJob worker threads to run concurrently without duplicate mailing attempts or deadlocking the letters table.
 3. **Webhook Ingest Async Pipeline**:
    * When emails are sent via mailer providers (like Resend), delivery events are pushed back to the app via `Webhooks::ResendsController#create`.
    * This payload is immediately offloaded to the background via **`ProcessEmailWebhookJob`** so that the HTTP controller can return a `200 OK` instantaneously, ensuring high-throughput webhook response times.

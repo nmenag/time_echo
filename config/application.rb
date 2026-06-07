@@ -10,6 +10,18 @@ module TimeEcho
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 8.1
+    config.active_job.queue_adapter = :good_job
+    config.good_job.enable_cron = true
+    config.good_job.cron = {
+      deliver_pending_letters: {
+        cron: "* * * * *",
+        class: "DeliverPendingLettersJob"
+      },
+      cleanup_expired_tokens: {
+        cron: "0 * * * *",
+        class: "CleanupExpiredTokensJob"
+      }
+    }
 
     # Configure available locales and default locale
     config.i18n.available_locales = [ :es ]

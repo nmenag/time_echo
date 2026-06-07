@@ -25,8 +25,8 @@
     <!-- Active Layout Switcher -->
     <% 
       current_route = "#{controller_path}/#{action_name}"
-      no_sidebar_pages = %w[pages/landing sessions/new sessions/check_email letters/success]
-      show_sidebar = !no_sidebar_pages.include?(current_route)
+      no_sidebar_pages = %w[pages/landing sessions/new check_emails/show letter_successes/show]
+      show_sidebar = user_signed_in? && !no_sidebar_pages.include?(current_route)
     %>
 
     <% if show_sidebar %>
