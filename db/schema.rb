@@ -52,42 +52,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_07_040922) do
     t.index ["occurred_at"], name: "index_analytics_events_on_occurred_at"
   end
 
-  create_table "checkpoints", force: :cascade do |t|
-    t.datetime "completed_at"
-    t.datetime "created_at", null: false
-    t.string "email", null: false
-    t.text "goals_progress"
-    t.text "life_changes"
-    t.datetime "scheduled_for", null: false
-    t.string "status", default: "pending", null: false
-    t.datetime "updated_at", null: false
-    t.index ["email"], name: "index_checkpoints_on_email"
-  end
-
-  create_table "collective_capsules", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.text "description", null: false
-    t.string "slug", null: false
-    t.string "title", null: false
-    t.datetime "unlock_date", null: false
-    t.datetime "updated_at", null: false
-    t.index ["slug"], name: "index_collective_capsules_on_slug", unique: true
-  end
-
-  create_table "collective_contributions", force: :cascade do |t|
-    t.integer "anxiety", null: false
-    t.bigint "collective_capsule_id", null: false
-    t.text "content", null: false
-    t.datetime "created_at", null: false
-    t.string "email", null: false
-    t.integer "energy", null: false
-    t.integer "happiness", null: false
-    t.integer "motivation", null: false
-    t.text "prediction_text"
-    t.datetime "updated_at", null: false
-    t.index ["collective_capsule_id"], name: "index_collective_contributions_on_collective_capsule_id"
-  end
-
   create_table "emotional_snapshots", force: :cascade do |t|
     t.integer "anxiety_level", null: false
     t.datetime "created_at", null: false
@@ -96,16 +60,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_07_040922) do
     t.integer "motivation_level", null: false
     t.datetime "updated_at", null: false
     t.index ["letter_id"], name: "index_emotional_snapshots_on_letter_id"
-  end
-
-  create_table "goals", force: :cascade do |t|
-    t.boolean "achieved"
-    t.datetime "created_at", null: false
-    t.bigint "letter_id", null: false
-    t.text "reflection"
-    t.string "title", null: false
-    t.datetime "updated_at", null: false
-    t.index ["letter_id"], name: "index_goals_on_letter_id"
   end
 
   create_table "good_job_batches", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -218,10 +172,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_07_040922) do
     t.string "email", null: false
     t.integer "open_count", default: 0, null: false
     t.datetime "opened_at"
-    t.boolean "recipient_delivery_permission", default: false, null: false
-    t.string "recipient_email"
-    t.string "recipient_name"
-    t.string "relationship"
     t.integer "reveal_anxiety"
     t.integer "reveal_happiness"
     t.integer "reveal_motivation"
@@ -276,8 +226,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_07_040922) do
   end
 
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
-  add_foreign_key "collective_contributions", "collective_capsules"
   add_foreign_key "emotional_snapshots", "letters"
-  add_foreign_key "goals", "letters"
   add_foreign_key "predictions", "letters"
 end
