@@ -20,31 +20,31 @@
       <!-- Value Props List -->
       <div class="space-y-5 pt-2">
         <div class="flex items-start gap-4">
-          <div class="w-10 h-10 rounded-xl bg-[#5b21b6]/5 flex items-center justify-center text-lg text-[#5b21b6] shrink-0 border border-[#5b21b6]/10">
+          <div class="w-10 h-10 rounded-xl bg-primary/5 flex items-center justify-center text-lg text-primary shrink-0 border border-primary/10">
             🔒
           </div>
           <div class="space-y-0.5">
-            <h4 class="text-xs font-bold text-[#111827] uppercase tracking-wider">Privado y seguro</h4>
+            <h4 class="text-xs font-bold text-base-content uppercase tracking-wider">Privado y seguro</h4>
             <p class="text-xs text-base-content/50 leading-relaxed">Solo tú puedes abrir tu carta cuando llegue el momento.</p>
           </div>
         </div>
 
         <div class="flex items-start gap-4">
-          <div class="w-10 h-10 rounded-xl bg-[#5b21b6]/5 flex items-center justify-center text-lg text-[#5b21b6] shrink-0 border border-[#5b21b6]/10">
+          <div class="w-10 h-10 rounded-xl bg-primary/5 flex items-center justify-center text-lg text-primary shrink-0 border border-primary/10">
             🕒
           </div>
           <div class="space-y-0.5">
-            <h4 class="text-xs font-bold text-[#111827] uppercase tracking-wider">Entregado a tiempo</h4>
+            <h4 class="text-xs font-bold text-base-content uppercase tracking-wider">Entregado a tiempo</h4>
             <p class="text-xs text-base-content/50 leading-relaxed">Tu carta será guardada y te la enviaremos en la fecha que elijas.</p>
           </div>
         </div>
 
         <div class="flex items-start gap-4">
-          <div class="w-10 h-10 rounded-xl bg-[#5b21b6]/5 flex items-center justify-center text-lg text-[#5b21b6] shrink-0 border border-[#5b21b6]/10">
+          <div class="w-10 h-10 rounded-xl bg-primary/5 flex items-center justify-center text-lg text-primary shrink-0 border border-primary/10">
             💜
           </div>
           <div class="space-y-0.5">
-            <h4 class="text-xs font-bold text-[#111827] uppercase tracking-wider">Conecta contigo</h4>
+            <h4 class="text-xs font-bold text-base-content uppercase tracking-wider">Conecta contigo</h4>
             <p class="text-xs text-base-content/50 leading-relaxed">Compara tus predicciones con tu realidad y reflexiona sobre tu evolución.</p>
           </div>
         </div>
@@ -56,11 +56,11 @@
         
         <!-- Interactive Hand-drawn handwriting note & arrow absolute overlay -->
         <div class="absolute bottom-16 right-10 flex flex-col items-center select-none pointer-events-none transform rotate-3">
-          <span class="font-handwritten text-xl sm:text-2xl text-[#5b21b6] bg-white/70 backdrop-blur-xs px-3 py-1 rounded-xl shadow-2xs">
+          <span class="font-handwritten text-xl sm:text-2xl text-primary bg-base-100/70 backdrop-blur-xs px-3 py-1 rounded-xl shadow-2xs">
             💜 Para ti, desde hoy
           </span>
           <!-- Hand-drawn SVG curved arrow pointing from text to horizon -->
-          <svg class="w-16 h-12 text-[#5b21b6] mt-1 drop-shadow-sm" fill="none" viewBox="0 0 50 40" stroke="currentColor" stroke-width="2.5">
+          <svg class="w-16 h-12 text-primary mt-1 drop-shadow-sm" fill="none" viewBox="0 0 50 40" stroke="currentColor" stroke-width="2.5">
             <path stroke-linecap="round" stroke-linejoin="round" d="M10,5 Q20,30 40,25" />
             <path stroke-linecap="round" stroke-linejoin="round" d="M35,20 L40,25 L34,30" />
           </svg>
@@ -69,13 +69,13 @@
     </div>
 
     <!-- Right Column: Premium Interactive Writing Form Card -->
-    <div class="lg:col-span-7 bg-white border border-base-200 p-6 sm:p-8 rounded-3xl shadow-sm space-y-6">
+    <div class="lg:col-span-7 bg-base-100 border border-base-200 p-6 sm:p-8 rounded-3xl shadow-sm space-y-6">
       
       <!-- Card Title & Progress segment bar matching the image -->
       <div class="border-b border-base-100 pb-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div class="space-y-1">
           <h2 class="font-serif text-2xl text-base-content font-semibold flex items-center gap-2">
-            <span>✍️</span> Escribe tu carta a tu futuro <span class="text-[#5b21b6]">✨</span>
+            <span>✍️</span> Escribe tu carta a tu futuro <span class="text-primary">✨</span>
           </h2>
         </div>
         
@@ -83,7 +83,7 @@
         <div class="flex items-center gap-2 shrink-0 select-none text-[11px] font-bold text-base-content/40">
           <span>1 de 4</span>
           <div class="flex items-center gap-1">
-            <span class="w-8 h-1.5 rounded-full bg-[#5b21b6]"></span>
+            <span class="w-8 h-1.5 rounded-full bg-primary"></span>
             <span class="w-8 h-1.5 rounded-full bg-base-200"></span>
             <span class="w-8 h-1.5 rounded-full bg-base-200"></span>
             <span class="w-8 h-1.5 rounded-full bg-base-200"></span>
@@ -98,8 +98,8 @@
 
         <!-- Tu carta textarea block -->
         <div class="space-y-3">
-          <label class="text-xs font-bold text-[#111827] uppercase tracking-wider block">Tu carta</label>
-          <%= f.text_area :content, id: "landing_content_area", placeholder: "Querido yo del futuro...", rows: 8, class: "textarea w-full p-4 border border-base-200 focus:border-[#5b21b6]/40 focus:outline-none rounded-2xl font-brand-serif text-sm sm:text-base leading-relaxed placeholder:font-brand-sans placeholder:text-xs placeholder:text-base-content/30 resize-y bg-white shadow-3xs", required: true %>
+          <label class="text-xs font-bold text-base-content uppercase tracking-wider block">Tu carta</label>
+          <%= f.text_area :content, id: "landing_content_area", placeholder: "Querido yo del futuro...", rows: 8, class: "textarea w-full p-4 border border-base-200 focus:border-primary/40 focus:outline-none rounded-2xl font-serif-body text-sm sm:text-base leading-relaxed placeholder:font-sans placeholder:text-xs placeholder:text-base-content/30 resize-y bg-base-200/20 shadow-3xs", required: true %>
           <!-- Character count indicator -->
           <div class="flex justify-end text-[10px] text-base-content/30 font-mono">
             <span id="landing_char_counter">0 / 2000</span>
@@ -108,10 +108,10 @@
 
         <!-- ¿Cuándo quieres recibirla? buttons -->
         <div class="space-y-3">
-          <label class="text-xs font-bold text-[#111827] uppercase tracking-wider block">¿Cuándo quieres recibirla?</label>
+          <label class="text-xs font-bold text-base-content uppercase tracking-wider block">¿Cuándo quieres recibirla?</label>
           <div class="grid grid-cols-2 sm:grid-cols-5 gap-2 text-[11px] font-semibold">
             <button type="button" onclick="setPresetDate(this, 180)" class="border border-base-200 py-2.5 rounded-xl hover:bg-base-200/40 transition-all cursor-pointer">6 meses</button>
-            <button type="button" id="default-date-btn" onclick="setPresetDate(this, 365)" class="border border-[#5b21b6]/40 bg-[#5b21b6]/5 text-[#5b21b6] py-2.5 rounded-xl font-bold transition-all cursor-pointer">1 año</button>
+            <button type="button" id="default-date-btn" onclick="setPresetDate(this, 365)" class="border border-primary/40 bg-primary/5 text-primary py-2.5 rounded-xl font-bold transition-all cursor-pointer">1 año</button>
             <button type="button" onclick="setPresetDate(this, 1095)" class="border border-base-200 py-2.5 rounded-xl hover:bg-base-200/40 transition-all cursor-pointer">3 años</button>
             <button type="button" onclick="setPresetDate(this, 1825)" class="border border-base-200 py-2.5 rounded-xl hover:bg-base-200/40 transition-all cursor-pointer">5 años</button>
             <button type="button" onclick="toggleCustomDate(this)" class="col-span-2 sm:col-span-1 border border-base-200 py-2.5 rounded-xl hover:bg-base-200/40 transition-all flex items-center justify-center gap-1 cursor-pointer">
@@ -123,7 +123,7 @@
           <div id="custom-date-container" class="hidden animate-fade-in">
             <div class="bg-base-200/30 border border-base-200 p-3 rounded-2xl">
               <label class="text-[10px] text-base-content/40 font-bold uppercase tracking-wider block mb-1">Elige una fecha específica</label>
-              <input type="date" id="custom-date-input" min="<%= (Date.current + 1.day).to_s %>" onchange="setCustomDate(this.value)" class="input input-bordered w-full rounded-xl bg-white text-slate-900 border-slate-200/80 text-xs hover:border-slate-300 focus:border-[#5b21b6] focus:ring-2 focus:ring-[#5b21b6]/10 focus:outline-none transition-all shadow-2xs h-12 px-4">
+              <input type="date" id="custom-date-input" min="<%= (Date.current + 1.day).to_s %>" onchange="setCustomDate(this.value)" class="input input-bordered w-full rounded-xl bg-base-200/20 text-base-content border-base-200/80 text-xs hover:border-slate-300 focus:border-primary focus:ring-2 focus:ring-primary/10 focus:outline-none transition-all shadow-2xs h-12 px-4">
             </div>
           </div>
         </div>
@@ -131,92 +131,92 @@
         <!-- Tus predicciones (opcional) grid -->
         <div class="space-y-4">
           <div class="flex justify-between items-center border-b border-base-100 pb-1">
-            <label class="text-xs font-bold text-[#111827] uppercase tracking-wider block">Tus predicciones (opcional)</label>
+            <label class="text-xs font-bold text-base-content uppercase tracking-wider block">Tus predicciones (opcional)</label>
           </div>
 
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs font-medium">
             <!-- Where will you live -->
             <div class="relative flex items-center">
-              <span class="absolute left-3.5 text-sm text-[#5b21b6]">📍</span>
-              <%= f.text_field :prediction_city, placeholder: "¿Dónde crees que vivirás?", class: "input input-bordered w-full pl-9 rounded-xl bg-white text-slate-900 border-slate-200/80 placeholder:text-slate-400 text-xs hover:border-slate-300 focus:border-[#5b21b6] focus:ring-2 focus:ring-[#5b21b6]/10 focus:outline-none transition-all shadow-2xs h-12" %>
+              <span class="absolute left-3.5 text-sm text-primary">📍</span>
+              <%= f.text_field :prediction_city, placeholder: "¿Dónde crees que vivirás?", class: "input input-bordered w-full pl-9 rounded-xl bg-base-200/20 text-base-content border-base-200/80 placeholder:text-base-content/30 text-xs hover:border-slate-300 focus:border-primary focus:ring-2 focus:ring-primary/10 focus:outline-none transition-all shadow-2xs h-12" %>
             </div>
 
             <!-- What will you do -->
             <div class="relative flex items-center">
-              <span class="absolute left-3.5 text-sm text-[#5b21b6]">💼</span>
-              <%= f.text_field :prediction_career, placeholder: "¿A qué te dedicarás?", class: "input input-bordered w-full pl-9 rounded-xl bg-white text-slate-900 border-slate-200/80 placeholder:text-slate-400 text-xs hover:border-slate-300 focus:border-[#5b21b6] focus:ring-2 focus:ring-[#5b21b6]/10 focus:outline-none transition-all shadow-2xs h-12" %>
+              <span class="absolute left-3.5 text-sm text-primary">💼</span>
+              <%= f.text_field :prediction_career, placeholder: "¿A qué te dedicarás?", class: "input input-bordered w-full pl-9 rounded-xl bg-base-200/20 text-base-content border-base-200/80 placeholder:text-base-content/30 text-xs hover:border-slate-300 focus:border-primary focus:ring-2 focus:ring-primary/10 focus:outline-none transition-all shadow-2xs h-12" %>
             </div>
 
             <!-- How much will you earn -->
             <div class="relative flex items-center">
-              <span class="absolute left-3.5 text-sm text-[#5b21b6]">💵</span>
-              <%= f.text_field :prediction_salary, placeholder: "¿Cuánto dinero crees que ganarás?", class: "input input-bordered w-full pl-9 rounded-xl bg-white text-slate-900 border-slate-200/80 placeholder:text-slate-400 text-xs hover:border-slate-300 focus:border-[#5b21b6] focus:ring-2 focus:ring-[#5b21b6]/10 focus:outline-none transition-all shadow-2xs h-12" %>
+              <span class="absolute left-3.5 text-sm text-primary">💵</span>
+              <%= f.text_field :prediction_salary, placeholder: "¿Cuánto dinero crees que ganarás?", class: "input input-bordered w-full pl-9 rounded-xl bg-base-200/20 text-base-content border-base-200/80 placeholder:text-base-content/30 text-xs hover:border-slate-300 focus:border-primary focus:ring-2 focus:ring-primary/10 focus:outline-none transition-all shadow-2xs h-12" %>
             </div>
 
             <!-- Relationship status -->
             <div class="relative flex items-center">
-              <span class="absolute left-3.5 text-sm text-[#5b21b6]">💜</span>
-              <%= f.text_field :prediction_relationship, placeholder: "¿Cómo será tu relación sentimental?", class: "input input-bordered w-full pl-9 rounded-xl bg-white text-slate-900 border-slate-200/80 placeholder:text-slate-400 text-xs hover:border-slate-300 focus:border-[#5b21b6] focus:ring-2 focus:ring-[#5b21b6]/10 focus:outline-none transition-all shadow-2xs h-12" %>
+              <span class="absolute left-3.5 text-sm text-primary">💜</span>
+              <%= f.text_field :prediction_relationship, placeholder: "¿Cómo será tu relación sentimental?", class: "input input-bordered w-full pl-9 rounded-xl bg-base-200/20 text-base-content border-base-200/80 placeholder:text-base-content/30 text-xs hover:border-slate-300 focus:border-primary focus:ring-2 focus:ring-primary/10 focus:outline-none transition-all shadow-2xs h-12" %>
             </div>
 
             <!-- Biggest achievement -->
             <div class="relative flex items-center">
-              <span class="absolute left-3.5 text-sm text-[#5b21b6]">⭐️</span>
-              <%= f.text_field :prediction_achievement, placeholder: "¿Cuál será tu mayor logro?", class: "input input-bordered w-full pl-9 rounded-xl bg-white text-slate-900 border-slate-200/80 placeholder:text-slate-400 text-xs hover:border-slate-300 focus:border-[#5b21b6] focus:ring-2 focus:ring-[#5b21b6]/10 focus:outline-none transition-all shadow-2xs h-12" %>
+              <span class="absolute left-3.5 text-sm text-primary">⭐️</span>
+              <%= f.text_field :prediction_achievement, placeholder: "¿Cuál será tu mayor logro?", class: "input input-bordered w-full pl-9 rounded-xl bg-base-200/20 text-base-content border-base-200/80 placeholder:text-base-content/30 text-xs hover:border-slate-300 focus:border-primary focus:ring-2 focus:ring-primary/10 focus:outline-none transition-all shadow-2xs h-12" %>
             </div>
 
             <!-- Happiness prediction slider card (h-12 offset matching mockup) -->
-            <div class="bg-white border border-slate-200/80 p-2.5 px-3 rounded-xl shadow-2xs space-y-1 relative pl-10 flex flex-col justify-center h-12">
-              <span class="absolute left-3.5 top-1/2 -translate-y-1/2 text-sm text-[#5b21b6]">🤖</span>
-              <div class="flex justify-between items-center text-[10px] font-bold text-slate-700 uppercase tracking-wide leading-none">
+            <div class="bg-base-200/20 border border-base-200/50 p-2.5 px-3 rounded-xl shadow-2xs space-y-1 relative pl-10 flex flex-col justify-center h-12">
+              <span class="absolute left-3.5 top-1/2 -translate-y-1/2 text-sm text-primary">🤖</span>
+              <div class="flex justify-between items-center text-[10px] font-bold text-base-content/80 uppercase tracking-wide leading-none">
                 <span>¿Qué tan feliz serás?</span>
-                <span id="landing_pred_happiness_val" class="font-extrabold text-[#5b21b6] font-mono">5 / 10</span>
+                <span id="landing_pred_happiness_val" class="font-extrabold text-primary font-mono">5 / 10</span>
               </div>
-              <input type="range" name="letter_form[prediction_happiness]" value="5" min="1" max="10" class="w-full accent-[#5b21b6] cursor-pointer h-3" oninput="document.getElementById('landing_pred_happiness_val').innerText = this.value + ' / 10'">
+              <input type="range" name="letter_form[prediction_happiness]" value="5" min="1" max="10" class="w-full accent-primary cursor-pointer h-3" oninput="document.getElementById('landing_pred_happiness_val').innerText = this.value + ' / 10'">
             </div>
           </div>
         </div>
 
         <!-- ¿Cómo te sientes hoy? sliders grid -->
         <div class="space-y-3">
-          <label class="text-xs font-bold text-[#111827] uppercase tracking-wider block">¿Cómo te sientes hoy?</label>
+          <label class="text-xs font-bold text-base-content uppercase tracking-wider block">¿Cómo te sientes hoy?</label>
           
           <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
             <!-- Felicidad -->
             <div class="bg-base-200/30 border border-base-200/50 p-3.5 rounded-2xl space-y-2">
               <div class="flex justify-between items-center text-primary font-semibold">
                 <span class="flex items-center gap-1.5">😃 Felicidad</span>
-                <span id="landing_happiness_val" class="font-bold text-[#5b21b6] font-mono">6 / 10</span>
+                <span id="landing_happiness_val" class="font-bold text-primary font-mono">6 / 10</span>
               </div>
-              <input type="range" name="letter_form[happiness_level]" value="6" min="1" max="10" class="w-full accent-[#5b21b6] cursor-pointer" oninput="document.getElementById('landing_happiness_val').innerText = this.value + ' / 10'">
+              <input type="range" name="letter_form[happiness_level]" value="6" min="1" max="10" class="w-full accent-primary cursor-pointer" oninput="document.getElementById('landing_happiness_val').innerText = this.value + ' / 10'">
             </div>
 
             <!-- Ansiedad -->
             <div class="bg-base-200/30 border border-base-200/50 p-3.5 rounded-2xl space-y-2">
               <div class="flex justify-between items-center text-primary font-semibold">
                 <span class="flex items-center gap-1.5">😩 Ansiedad</span>
-                <span id="landing_anxiety_val" class="font-bold text-[#5b21b6] font-mono">4 / 10</span>
+                <span id="landing_anxiety_val" class="font-bold text-primary font-mono">4 / 10</span>
               </div>
-              <input type="range" name="letter_form[anxiety_level]" value="4" min="1" max="10" class="w-full accent-[#5b21b6] cursor-pointer" oninput="document.getElementById('landing_anxiety_val').innerText = this.value + ' / 10'">
+              <input type="range" name="letter_form[anxiety_level]" value="4" min="1" max="10" class="w-full accent-primary cursor-pointer" oninput="document.getElementById('landing_anxiety_val').innerText = this.value + ' / 10'">
             </div>
 
             <!-- Motivacion -->
             <div class="bg-base-200/30 border border-base-200/50 p-3.5 rounded-2xl space-y-2">
               <div class="flex justify-between items-center text-primary font-semibold">
                 <span class="flex items-center gap-1.5">⭐️ Motivación</span>
-                <span id="landing_motivation_val" class="font-bold text-[#5b21b6] font-mono">7 / 10</span>
+                <span id="landing_motivation_val" class="font-bold text-primary font-mono">7 / 10</span>
               </div>
-              <input type="range" name="letter_form[motivation_level]" value="7" min="1" max="10" class="w-full accent-[#5b21b6] cursor-pointer" oninput="document.getElementById('landing_motivation_val').innerText = this.value + ' / 10'">
+              <input type="range" name="letter_form[motivation_level]" value="7" min="1" max="10" class="w-full accent-primary cursor-pointer" oninput="document.getElementById('landing_motivation_val').innerText = this.value + ' / 10'">
             </div>
           </div>
         </div>
 
         <!-- ¿A dónde te enviamos tu carta? email field & purple CTA -->
         <div class="space-y-3 pt-2">
-          <label class="text-xs font-bold text-[#111827] uppercase tracking-wider block">¿A dónde te enviamos tu carta?</label>
+          <label class="text-xs font-bold text-base-content uppercase tracking-wider block">¿A dónde te enviamos tu carta?</label>
           <div class="flex flex-col sm:flex-row gap-2.5">
-            <%= f.email_field :email, placeholder: "tu@email.com", class: "input input-bordered w-full rounded-xl bg-white text-slate-900 border-slate-200/80 placeholder:text-slate-400 text-sm hover:border-slate-300 focus:border-[#5b21b6] focus:ring-2 focus:ring-[#5b21b6]/10 focus:outline-none transition-all shadow-2xs h-12 px-4 font-sans", required: true %>
-            <button type="submit" class="btn bg-[#5b21b6] hover:bg-[#4c1d95] text-white rounded-2xl px-7 text-xs font-bold tracking-wider uppercase shadow-md transition-all duration-300 cursor-pointer flex items-center justify-center gap-1.5 shrink-0 py-3.5 border-none font-sans">
+            <%= f.email_field :email, placeholder: "tu@email.com", class: "input input-bordered w-full rounded-xl bg-base-200/20 text-base-content border-base-200/80 placeholder:text-base-content/30 text-sm hover:border-slate-300 focus:border-primary focus:ring-2 focus:ring-primary/10 focus:outline-none transition-all shadow-2xs h-12 px-4 font-sans", required: true %>
+            <button type="submit" class="btn btn-primary text-primary-content rounded-2xl px-7 text-xs font-bold tracking-wider uppercase shadow-md transition-all duration-300 cursor-pointer flex items-center justify-center gap-1.5 shrink-0 py-3.5 border-none font-sans">
               <span>Enviar a mi yo futuro</span>
               <span>🚀</span>
             </button>
@@ -242,16 +242,16 @@
     </div>
 
     <!-- Beautiful Browser Mockup Panel -->
-    <div class="bg-white border border-base-200 rounded-3xl shadow-md overflow-hidden max-w-5xl mx-auto font-sans relative">
+    <div class="bg-base-100 border border-base-200 rounded-3xl shadow-md overflow-hidden max-w-5xl mx-auto font-sans relative">
       <!-- Browser Top Bar -->
       <div class="bg-base-200/50 px-5 py-3 border-b border-base-200/70 flex items-center justify-between">
         <!-- Control dots -->
         <div class="flex items-center gap-1.5 select-none">
-          <span class="w-3 h-3 rounded-full bg-[#cf8a8a] inline-block"></span>
-          <span class="w-3 h-3 rounded-full bg-[#ebdcb9] inline-block"></span>
-          <span class="w-3 h-3 rounded-full bg-[#a3b899] inline-block"></span>
+          <span class="w-3 h-3 rounded-full bg-error/60 inline-block"></span>
+          <span class="w-3 h-3 rounded-full bg-accent inline-block"></span>
+          <span class="w-3 h-3 rounded-full bg-success/60 inline-block"></span>
         </div>
-        <div class="bg-white/80 border border-base-200 rounded-xl px-8 py-1.5 text-[10px] font-medium text-base-content/40 font-mono tracking-wide w-72 text-center truncate select-none shadow-3xs">
+        <div class="bg-base-200/80 border border-base-200 rounded-xl px-8 py-1.5 text-[10px] font-medium text-base-content/40 font-mono tracking-wide w-72 text-center truncate select-none shadow-3xs">
           https://app.timeecho.com/letters/revealed
         </div>
         <div class="w-12"></div>
@@ -260,19 +260,19 @@
       <!-- App Inside content grid -->
       <div class="grid grid-cols-1 md:grid-cols-12 min-h-[500px]">
         <!-- Left Sidebar Navigation Mock -->
-        <aside class="md:col-span-3 bg-[#fafaf9] border-r border-base-200/80 p-6 flex flex-col justify-between space-y-8 select-none">
+        <aside class="md:col-span-3 bg-base-200/40 border-r border-base-200/80 p-6 flex flex-col justify-between space-y-8 select-none">
           <div class="space-y-8">
             <!-- Brand -->
             <div class="space-y-1 text-primary">
-              <span class="flex items-center gap-1 text-lg font-brand-serif italic font-semibold text-[#111827]">
+              <span class="flex items-center gap-1 text-lg font-serif-body italic font-semibold text-base-content">
                 TimeEcho
-                <span class="text-[#5b21b6] text-xs font-sans relative -top-1 font-bold">+</span>
+                <span class="text-primary text-xs font-sans relative -top-1 font-bold">+</span>
               </span>
             </div>
 
             <!-- Sidebar links -->
             <nav class="space-y-1.5 text-[12px] font-semibold text-base-content/70">
-              <div class="flex items-center gap-2.5 px-3.5 py-2.5 rounded-xl bg-white text-[#5b21b6] border border-base-200/70 shadow-3xs font-bold">
+              <div class="flex items-center gap-2.5 px-3.5 py-2.5 rounded-xl bg-white text-primary border border-base-200/70 shadow-3xs font-bold">
                 <span class="text-sm">📝</span>
                 <span>Mis cartas</span>
               </div>
@@ -297,21 +297,21 @@
 
           <!-- Bottom inspirational card -->
           <div class="space-y-3 border-t border-base-200/80 pt-4">
-            <p class="text-[10px] font-brand-serif italic text-primary/80 leading-relaxed font-semibold">
+            <p class="text-[10px] font-serif-body italic text-primary/80 leading-relaxed font-semibold">
               "El futuro no es algo que llega, es algo que creas. 🪄"
             </p>
-            <div class="text-[10px] text-[#5b21b6] font-bold">✦</div>
+            <div class="text-[10px] text-primary font-bold">✦</div>
           </div>
         </aside>
 
         <!-- Main Workspace mock -->
-        <main class="md:col-span-9 p-6 sm:p-8 grid grid-cols-1 lg:grid-cols-12 gap-6 bg-white">
+        <main class="md:col-span-9 p-6 sm:p-8 grid grid-cols-1 lg:grid-cols-12 gap-6 bg-base-100">
           
           <!-- Predicción vs Realidad Matrix Comparison Card -->
           <div class="lg:col-span-7 space-y-4">
             <div class="border-b border-base-100 pb-3">
               <h3 class="text-xs font-bold text-primary uppercase tracking-wider flex items-center gap-1.5">
-                Predicción vs Realidad <span class="text-[#5b21b6]">✨</span>
+                Predicción vs Realidad <span class="text-primary">✨</span>
               </h3>
             </div>
 
@@ -321,7 +321,7 @@
               <!-- Item 1: City -->
               <div class="bg-base-200/20 border border-base-200/50 p-3.5 rounded-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-3 font-semibold text-base-content/80 shadow-3xs">
                 <div class="flex items-center gap-3">
-                  <span class="text-base text-[#5b21b6] shrink-0">📍</span>
+                  <span class="text-base text-primary shrink-0">📍</span>
                   <div class="space-y-0.5">
                     <p class="text-[9px] text-base-content/40 font-bold uppercase">Predicción</p>
                     <p class="text-primary font-bold">Viviré en Barcelona</p>
@@ -332,13 +332,13 @@
                     <p class="text-primary font-bold">Vivo en Medellín</p>
                   </div>
                 </div>
-                <span class="px-2.5 py-0.5 rounded-full bg-amber-50 text-amber-600 border border-amber-200/40 text-[9px] font-extrabold uppercase tracking-wide self-start sm:self-auto shrink-0">Parcialmente</span>
+                <span class="px-2.5 py-0.5 rounded-full bg-warning/15 text-warning border border-warning/30 text-[9px] font-extrabold uppercase tracking-wide self-start sm:self-auto shrink-0">Parcialmente</span>
               </div>
 
               <!-- Item 2: Career -->
               <div class="bg-base-200/20 border border-base-200/50 p-3.5 rounded-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-3 font-semibold text-base-content/80 shadow-3xs">
                 <div class="flex items-center gap-3">
-                  <span class="text-base text-[#5b21b6] shrink-0">💼</span>
+                  <span class="text-base text-primary shrink-0">💼</span>
                   <div class="space-y-0.5">
                     <p class="text-[9px] text-base-content/40 font-bold uppercase">Predicción</p>
                     <p class="text-primary font-bold">Seré diseñadora freelance</p>
@@ -349,13 +349,13 @@
                     <p class="text-primary font-bold">Soy Product Designer</p>
                   </div>
                 </div>
-                <span class="px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-600 border border-emerald-200/40 text-[9px] font-extrabold uppercase tracking-wide self-start sm:self-auto shrink-0">¡Acertaste!</span>
+                <span class="px-2.5 py-0.5 rounded-full bg-success/15 text-success border border-success/30 text-[9px] font-extrabold uppercase tracking-wide self-start sm:self-auto shrink-0">¡Acertaste!</span>
               </div>
 
               <!-- Item 3: Salary -->
               <div class="bg-base-200/20 border border-base-200/50 p-3.5 rounded-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-3 font-semibold text-base-content/80 shadow-3xs">
                 <div class="flex items-center gap-3">
-                  <span class="text-base text-[#5b21b6] shrink-0">💵</span>
+                  <span class="text-base text-primary shrink-0">💵</span>
                   <div class="space-y-0.5">
                     <p class="text-[9px] text-base-content/40 font-bold uppercase">Predicción</p>
                     <p class="text-primary font-bold">Ganaré $5.000.000 COP</p>
@@ -366,13 +366,13 @@
                     <p class="text-primary font-bold">Gano $7.200.000 COP</p>
                   </div>
                 </div>
-                <span class="px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200/40 text-[9px] font-extrabold uppercase tracking-wide self-start sm:self-auto shrink-0">¡Superaste! 🚀</span>
+                <span class="px-2.5 py-0.5 rounded-full bg-success/15 text-success border border-success/30 text-[9px] font-extrabold uppercase tracking-wide self-start sm:self-auto shrink-0">¡Superaste! 🚀</span>
               </div>
 
               <!-- Item 4: Relationship -->
               <div class="bg-base-200/20 border border-base-200/50 p-3.5 rounded-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-3 font-semibold text-base-content/80 shadow-3xs">
                 <div class="flex items-center gap-3">
-                  <span class="text-base text-[#5b21b6] shrink-0">💜</span>
+                  <span class="text-base text-primary shrink-0">💜</span>
                   <div class="space-y-0.5">
                     <p class="text-[9px] text-base-content/40 font-bold uppercase">Predicción</p>
                     <p class="text-primary font-bold">Estaré soltera</p>
@@ -383,13 +383,13 @@
                     <p class="text-primary font-bold">Tengo una relación 🥴</p>
                   </div>
                 </div>
-                <span class="px-2.5 py-0.5 rounded-full bg-amber-50 text-amber-600 border border-amber-200/40 text-[9px] font-extrabold uppercase tracking-wide self-start sm:self-auto shrink-0">Parcialmente</span>
+                <span class="px-2.5 py-0.5 rounded-full bg-warning/15 text-warning border border-warning/30 text-[9px] font-extrabold uppercase tracking-wide self-start sm:self-auto shrink-0">Parcialmente</span>
               </div>
 
               <!-- Item 5: Achievement -->
               <div class="bg-base-200/20 border border-base-200/50 p-3.5 rounded-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-3 font-semibold text-base-content/80 shadow-3xs">
                 <div class="flex items-center gap-3">
-                  <span class="text-base text-[#5b21b6] shrink-0">⭐️</span>
+                  <span class="text-base text-primary shrink-0">⭐️</span>
                   <div class="space-y-0.5">
                     <p class="text-[9px] text-base-content/40 font-bold uppercase">Predicción</p>
                     <p class="text-primary font-bold">Lanzaré mi startup</p>
@@ -400,13 +400,13 @@
                     <p class="text-primary font-bold">Aún estoy planeándolo</p>
                   </div>
                 </div>
-                <span class="px-2.5 py-0.5 rounded-full bg-rose-50 text-rose-600 border border-rose-200/40 text-[9px] font-extrabold uppercase tracking-wide self-start sm:self-auto shrink-0">Aún no</span>
+                <span class="px-2.5 py-0.5 rounded-full bg-error/15 text-error border border-error/30 text-[9px] font-extrabold uppercase tracking-wide self-start sm:self-auto shrink-0">Aún no</span>
               </div>
 
               <!-- Item 6: Happiness -->
               <div class="bg-base-200/20 border border-base-200/50 p-3.5 rounded-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-3 font-semibold text-base-content/80 shadow-3xs">
                 <div class="flex items-center gap-3">
-                  <span class="text-base text-[#5b21b6] shrink-0">😃</span>
+                  <span class="text-base text-primary shrink-0">😃</span>
                   <div class="space-y-0.5">
                     <p class="text-[9px] text-base-content/40 font-bold uppercase">Predicción</p>
                     <p class="text-primary font-bold">8 / 10 de felicidad</p>
@@ -417,7 +417,7 @@
                     <p class="text-primary font-bold">7 / 10 de felicidad</p>
                   </div>
                 </div>
-                <span class="px-2.5 py-0.5 rounded-full bg-sky-50 text-sky-600 border border-sky-200/40 text-[9px] font-extrabold uppercase tracking-wide self-start sm:self-auto shrink-0">Muy cerca</span>
+                <span class="px-2.5 py-0.5 rounded-full bg-info/15 text-info border border-info/30 text-[9px] font-extrabold uppercase tracking-wide self-start sm:self-auto shrink-0">Muy cerca</span>
               </div>
 
             </div>
@@ -435,7 +435,7 @@
                     <span class="border-b-2 border-dotted border-[#ebdcb9] w-4 inline-block"></span> Hace 1 año
                   </span>
                   <span class="flex items-center gap-1 font-semibold">
-                    <span class="border-b-2 border-[#5b21b6] w-4 inline-block"></span> Hoy
+                    <span class="border-b-2 border-primary w-4 inline-block"></span> Hoy
                   </span>
                 </div>
               </div>
@@ -454,16 +454,16 @@
                   <line x1="0" y1="45" x2="100" y2="45" stroke="#f5f3eb" stroke-width="0.5" />
 
                   <!-- Dotted Line: Hace 1 año (Felicidad: 7, Ansiedad: 3, Motivacion: 5) -->
-                  <path d="M 15 15 L 50 36 L 85 24" fill="none" stroke="#ebdcb9" stroke-width="1.5" stroke-dasharray="2 2" />
-                  <circle cx="15" cy="15" r="1.5" fill="#ebdcb9" />
-                  <circle cx="50" cy="36" r="1.5" fill="#ebdcb9" />
-                  <circle cx="85" cy="24" r="1.5" fill="#ebdcb9" />
+                  <path d="M 15 15 L 50 36 L 85 24" fill="none" stroke="oklch(var(--a))" stroke-width="1.5" stroke-dasharray="2 2" />
+                  <circle cx="15" cy="15" r="1.5" fill="oklch(var(--a))" />
+                  <circle cx="50" cy="36" r="1.5" fill="oklch(var(--a))" />
+                  <circle cx="85" cy="24" r="1.5" fill="oklch(var(--a))" />
 
                   <!-- Solid Purple Line: Hoy (Felicidad: 8, Ansiedad: 2, Motivacion: 9) -->
-                  <path d="M 15 10 L 50 40 L 85 5" fill="none" stroke="#5b21b6" stroke-width="2" stroke-linecap="round" />
-                  <circle cx="15" cy="10" r="2.5" fill="#5b21b6" stroke="white" stroke-width="0.75" />
-                  <circle cx="50" cy="40" r="2.5" fill="#5b21b6" stroke="white" stroke-width="0.75" />
-                  <circle cx="85" cy="5" r="2.5" fill="#5b21b6" stroke="white" stroke-width="0.75" />
+                  <path d="M 15 10 L 50 40 L 85 5" fill="none" stroke="oklch(var(--p))" stroke-width="2" stroke-linecap="round" />
+                  <circle cx="15" cy="10" r="2.5" fill="oklch(var(--p))" stroke="white" stroke-width="0.75" />
+                  <circle cx="50" cy="40" r="2.5" fill="oklch(var(--p))" stroke="white" stroke-width="0.75" />
+                  <circle cx="85" cy="5" r="2.5" fill="oklch(var(--p))" stroke="white" stroke-width="0.75" />
                 </svg>
 
                 <div class="absolute bottom-0 left-0 right-0 flex justify-between text-[8px] font-bold text-base-content/40 tracking-wider uppercase px-2 select-none">
@@ -480,7 +480,7 @@
               <div class="relative w-16 h-16 shrink-0 flex items-center justify-center">
                 <svg class="w-full h-full transform -rotate-90" viewBox="0 0 36 36">
                   <path class="text-base-200" stroke-width="3.5" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
-                  <path class="text-[#5b21b6]" stroke-dasharray="75, 100" stroke-width="3.5" stroke-linecap="round" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                  <path class="text-primary" stroke-dasharray="75, 100" stroke-width="3.5" stroke-linecap="round" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
                 </svg>
                 <div class="absolute text-[13px] font-extrabold text-primary font-mono">
                   75%
@@ -489,7 +489,7 @@
 
               <div class="space-y-1 font-sans text-xs">
                 <h5 class="font-bold text-primary uppercase tracking-wider text-[10px]">Tu precisión general</h5>
-                <p class="font-semibold text-[#5b21b6] text-[11px]">Acertaste 3 de 4 predicciones</p>
+                <p class="font-semibold text-primary text-[11px]">Acertaste 3 de 4 predicciones</p>
                 <p class="text-[10px] text-base-content/40 font-semibold">¡Vas por buen camino! 🚀</p>
               </div>
             </div>
@@ -503,7 +503,7 @@
   <!-- Cómo funciona Section with Sparkle Top icon -->
   <section id="how-it-works" class="space-y-12 scroll-mt-24">
     <div class="text-center space-y-3">
-      <div class="text-[#5b21b6] text-xl font-bold select-none">✦</div>
+      <div class="text-primary text-xl font-bold select-none">✦</div>
       <h2 class="font-serif text-4xl text-base-content font-semibold">Cómo funciona</h2>
       <p class="text-xs text-base-content/40 max-w-xs mx-auto font-semibold leading-relaxed">Un viaje simple hacia tu mejor yo.</p>
     </div>
@@ -513,9 +513,9 @@
       
       <!-- Step 1 -->
       <div class="flex-1 flex flex-col items-center text-center space-y-4 max-w-xs relative">
-        <div class="w-16 h-16 rounded-full bg-[#5b21b6]/5 border border-[#5b21b6]/15 text-[#5b21b6] flex items-center justify-center text-xl font-bold shadow-3xs relative select-none">
+        <div class="w-16 h-16 rounded-full bg-primary/5 border border-primary/15 text-primary flex items-center justify-center text-xl font-bold shadow-3xs relative select-none">
           ✏️
-          <span class="absolute -bottom-1.5 bg-[#ebdcb9] text-primary border border-accent text-[9px] font-extrabold w-5 h-5 rounded-full flex items-center justify-center shadow-3xs">1</span>
+          <span class="absolute -bottom-1.5 bg-accent text-primary border border-accent text-[9px] font-extrabold w-5 h-5 rounded-full flex items-center justify-center shadow-3xs">1</span>
         </div>
         <div class="space-y-1">
           <h3 class="text-sm font-bold text-primary uppercase tracking-wider">Escribes tu carta</h3>
@@ -534,9 +534,9 @@
 
       <!-- Step 2 -->
       <div class="flex-1 flex flex-col items-center text-center space-y-4 max-w-xs relative">
-        <div class="w-16 h-16 rounded-full bg-[#5b21b6]/5 border border-[#5b21b6]/15 text-[#5b21b6] flex items-center justify-center text-xl font-bold shadow-3xs relative select-none">
+        <div class="w-16 h-16 rounded-full bg-primary/5 border border-primary/15 text-primary flex items-center justify-center text-xl font-bold shadow-3xs relative select-none">
           ✉️
-          <span class="absolute -bottom-1.5 bg-[#ebdcb9] text-primary border border-accent text-[9px] font-extrabold w-5 h-5 rounded-full flex items-center justify-center shadow-3xs">2</span>
+          <span class="absolute -bottom-1.5 bg-accent text-primary border border-accent text-[9px] font-extrabold w-5 h-5 rounded-full flex items-center justify-center shadow-3xs">2</span>
         </div>
         <div class="space-y-1">
           <h3 class="text-sm font-bold text-primary uppercase tracking-wider">La guardamos por ti</h3>
@@ -555,9 +555,9 @@
 
       <!-- Step 3 -->
       <div class="flex-1 flex flex-col items-center text-center space-y-4 max-w-xs relative">
-        <div class="w-16 h-16 rounded-full bg-[#5b21b6]/5 border border-[#5b21b6]/15 text-[#5b21b6] flex items-center justify-center text-xl font-bold shadow-3xs relative select-none">
+        <div class="w-16 h-16 rounded-full bg-primary/5 border border-primary/15 text-primary flex items-center justify-center text-xl font-bold shadow-3xs relative select-none">
           📦
-          <span class="absolute -bottom-1.5 bg-[#ebdcb9] text-primary border border-accent text-[9px] font-extrabold w-5 h-5 rounded-full flex items-center justify-center shadow-3xs">3</span>
+          <span class="absolute -bottom-1.5 bg-accent text-primary border border-accent text-[9px] font-extrabold w-5 h-5 rounded-full flex items-center justify-center shadow-3xs">3</span>
         </div>
         <div class="space-y-1">
           <h3 class="text-sm font-bold text-primary uppercase tracking-wider">La abres en el futuro</h3>
@@ -574,7 +574,7 @@
   <section class="max-w-5xl mx-auto px-4 border-t border-base-200/80 pt-10 text-center space-y-4">
     <div class="flex items-center justify-center gap-0.5 text-2xl font-serif italic text-base-content select-none font-semibold">
       <span>TimeEcho</span>
-      <span class="text-[#5b21b6] text-lg font-sans relative -top-2.5 font-bold">+</span>
+      <span class="text-primary text-lg font-sans relative -top-2.5 font-bold">+</span>
     </div>
     <p class="text-xs text-base-content/40 font-semibold leading-relaxed font-serif italic">
       Una carta a tu futuro. Un regalo para tu presente.
@@ -619,7 +619,7 @@
     buttons.forEach(btn => {
       btn.className = "border border-base-200 py-2.5 rounded-xl hover:bg-base-200/40 transition-all font-semibold cursor-pointer";
     });
-    button.className = "border border-[#5b21b6]/40 bg-[#5b21b6]/5 text-[#5b21b6] py-2.5 rounded-xl font-bold transition-all cursor-pointer";
+    button.className = "border border-primary/40 bg-primary/5 text-primary py-2.5 rounded-xl font-bold transition-all cursor-pointer";
   }
 
   function toggleCustomDate(button) {
@@ -630,7 +630,7 @@
     buttons.forEach(btn => {
       btn.className = "border border-base-200 py-2.5 rounded-xl hover:bg-base-200/40 transition-all font-semibold cursor-pointer";
     });
-    button.className = "border border-[#5b21b6]/40 bg-[#5b21b6]/5 text-[#5b21b6] py-2.5 rounded-xl font-bold transition-all cursor-pointer";
+    button.className = "border border-primary/40 bg-primary/5 text-primary py-2.5 rounded-xl font-bold transition-all cursor-pointer";
     
     const customInput = document.getElementById('custom-date-input');
     if (customInput.value) {

@@ -1,8 +1,8 @@
 <div class="max-w-md mx-auto py-12 font-sans select-none animate-fade-in">
   <div class="card card-bordered border-base-200 bg-base-100 p-8 sm:p-10 rounded-2xl shadow-xs space-y-8 relative overflow-hidden text-base-content">
     
-    <!-- Dynamic subtle backing glow using brand OKLCH tokens -->
-    <div class="absolute -top-10 -right-10 w-32 h-32 bg-brand/5 rounded-full blur-2xl pointer-events-none"></div>
+    <!-- Dynamic subtle backing glow using primary OKLCH tokens -->
+    <div class="absolute -top-10 -right-10 w-32 h-32 bg-primary/5 rounded-full blur-2xl pointer-events-none"></div>
     <div class="absolute -bottom-10 -left-10 w-32 h-32 bg-secondary/10 rounded-full blur-2xl pointer-events-none"></div>
 
     <div class="text-center space-y-3 relative">
@@ -32,14 +32,14 @@
 
       <div class="space-y-2">
         <%= f.label :email, t('sessions.label_email'), class: "text-[10px] font-semibold text-base-content/40 uppercase tracking-wider block" %>
-        <%= f.email_field :email, placeholder: "you@example.com", class: "input input-bordered w-full rounded-xl bg-base-200/20 text-base-content border-base-200 placeholder:text-base-content/30 text-sm hover:bg-base-200/40 hover:border-base-300 focus:bg-base-100 focus:border-brand focus:ring-2 focus:ring-brand/10 focus:outline-none transition-all shadow-xs min-h-[44px]", required: true %>
+        <%= f.email_field :email, placeholder: "you@example.com", class: "input input-bordered w-full rounded-xl bg-base-200/20 text-base-content border-base-200 placeholder:text-base-content/30 text-sm hover:bg-base-200/40 hover:border-base-300 focus:bg-base-100 focus:border-primary focus:ring-2 focus:ring-primary/10 focus:outline-none transition-all shadow-xs min-h-[44px]", required: true %>
       </div>
 
-      <%= f.submit t('sessions.btn_submit'), class: "btn w-full text-white rounded-xl py-3 px-5 text-xs font-semibold uppercase tracking-wider shadow-sm transition-all duration-200 hover:scale-[1.01] active:scale-[0.99] border-none cursor-pointer font-sans", style: "background-color: oklch(40% 0.22 290); --btn-color: oklch(40% 0.22 290);" %>
+      <%= f.submit t('sessions.btn_submit'), class: "btn btn-primary text-primary-content w-full rounded-xl py-3 px-5 text-xs font-semibold uppercase tracking-wider shadow-sm transition-all duration-200 hover:scale-[1.01] active:scale-[0.99] border-none cursor-pointer font-sans" %>
     <% end %>
 
     <div class="text-center pt-2 relative border-t border-base-200/60">
-      <a href="<%= root_path %>" class="text-[10px] font-semibold text-base-content/40 hover:text-brand transition-colors duration-200 uppercase tracking-wider flex items-center justify-center gap-1.5">
+      <a href="<%= root_path %>" class="text-[10px] font-semibold text-base-content/40 hover:text-primary transition-colors duration-200 uppercase tracking-wider flex items-center justify-center gap-1.5">
         <span>&larr;</span> <%= t('sessions.back_to_landing') || "Volver al inicio" %>
       </a>
     </div>
