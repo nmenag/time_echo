@@ -47,35 +47,35 @@
             <nav class="space-y-2">
               <!-- Escribir Carta -->
               <% write_active = current_page?(new_letter_path) %>
-              <a href="<%= new_letter_path %>" class="flex items-center gap-3.5 px-4 py-3 rounded-lg text-sm font-medium transition-colors duration-150 <%= write_active ? 'bg-brand text-white' : 'text-base-content/70 hover:bg-base-200 hover:text-primary' %>">
+              <a href="<%= new_letter_path %>" class="flex items-center gap-3.5 px-4 py-3 rounded-lg text-sm font-medium transition-colors duration-150 <%= write_active ? 'bg-primary text-primary-content' : 'text-base-content/70 hover:bg-base-200 hover:text-primary' %>">
                 <span class="text-base" aria-hidden="true">✏️</span>
                 <span><%= t('navigation.write') %></span>
               </a>
 
               <!-- Mis Cartas -->
               <% vault_active = current_page?(dashboard_path) && !params[:timeline] %>
-              <a href="<%= dashboard_path %>" class="flex items-center gap-3.5 px-4 py-3 rounded-lg text-sm font-medium transition-colors duration-150 <%= vault_active ? 'bg-brand text-white' : 'text-base-content/70 hover:bg-base-200 hover:text-primary' %>">
+              <a href="<%= dashboard_path %>" class="flex items-center gap-3.5 px-4 py-3 rounded-lg text-sm font-medium transition-colors duration-150 <%= vault_active ? 'bg-primary text-primary-content' : 'text-base-content/70 hover:bg-base-200 hover:text-primary' %>">
                 <span class="text-base" aria-hidden="true">✉️</span>
                 <span><%= t('navigation.vault') %></span>
               </a>
 
               <!-- Línea de tiempo -->
               <% timeline_active = current_page?(dashboard_path) && params[:timeline] %>
-              <a href="<%= dashboard_path(timeline: true) %>" class="flex items-center gap-3.5 px-4 py-3 rounded-lg text-sm font-medium transition-colors duration-150 <%= timeline_active ? 'bg-brand text-white' : 'text-base-content/70 hover:bg-base-200 hover:text-primary' %>">
+              <a href="<%= dashboard_path(timeline: true) %>" class="flex items-center gap-3.5 px-4 py-3 rounded-lg text-sm font-medium transition-colors duration-150 <%= timeline_active ? 'bg-primary text-primary-content' : 'text-base-content/70 hover:bg-base-200 hover:text-primary' %>">
                 <span class="text-base" aria-hidden="true">🕒</span>
                 <span><%= t('navigation.timeline') || "Línea de tiempo" %></span>
               </a>
 
               <!-- Estadísticas -->
               <% analytics_active = current_page?(analytics_path) %>
-              <a href="<%= analytics_path %>" class="flex items-center gap-3.5 px-4 py-3 rounded-xl text-sm font-medium transition-colors duration-150 <%= analytics_active ? 'bg-brand text-white' : 'text-base-content/70 hover:bg-base-200 hover:text-primary' %>">
+              <a href="<%= analytics_path %>" class="flex items-center gap-3.5 px-4 py-3 rounded-xl text-sm font-medium transition-colors duration-150 <%= analytics_active ? 'bg-primary text-primary-content' : 'text-base-content/70 hover:bg-base-200 hover:text-primary' %>">
                 <span class="text-base" aria-hidden="true">📊</span>
                 <span><%= t('navigation.analytics') %></span>
               </a>
 
               <!-- Ajustes -->
               <% settings_active = current_page?(settings_path) %>
-              <a href="<%= settings_path %>" class="flex items-center gap-3.5 px-4 py-3 rounded-xl text-sm font-medium transition-colors duration-150 <%= settings_active ? 'bg-brand text-white' : 'text-base-content/70 hover:bg-base-200 hover:text-primary' %>">
+              <a href="<%= settings_path %>" class="flex items-center gap-3.5 px-4 py-3 rounded-xl text-sm font-medium transition-colors duration-150 <%= settings_active ? 'bg-primary text-primary-content' : 'text-base-content/70 hover:bg-base-200 hover:text-primary' %>">
                 <span class="text-base" aria-hidden="true">⚙️</span>
                 <span><%= t('navigation.settings') || "Ajustes" %></span>
               </a>
@@ -104,7 +104,7 @@
                 <% end %>
               </div>
             <% else %>
-              <a href="<%= login_path %>" class="btn text-white btn-sm rounded-xl w-full text-xs font-semibold border-none cursor-pointer hover:scale-[1.02] active:scale-[0.98] transition-transform duration-200" style="background-color: oklch(40% 0.22 290); --btn-color: oklch(40% 0.22 290);">
+              <a href="<%= login_path %>" class="btn btn-primary text-primary-content btn-sm rounded-xl w-full text-xs font-semibold border-none cursor-pointer hover:scale-[1.02] active:scale-[0.98] transition-transform duration-200">
                 <%= t('navigation.sign_in') %>
               </a>
             <% end %>

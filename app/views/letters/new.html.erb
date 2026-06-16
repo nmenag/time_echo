@@ -18,20 +18,20 @@
 
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-6 pb-6">
       <div class="space-y-1">
-        <h1 class="text-3xl font-extrabold text-slate-900 tracking-tight">1. Cuando escribes tu carta</h1>
-        <p class="text-sm text-slate-500">Estás creando una carta para tu yo del futuro.</p>
+        <h1 class="font-serif text-3xl font-normal text-base-content tracking-tight">1. Cuando escribes tu carta</h1>
+        <p class="text-sm text-base-content/50">Estás creando una carta para tu yo del futuro.</p>
       </div>
 
       <div class="flex items-center gap-3 shrink-0">
-        <span class="text-xs font-semibold text-slate-500">Se abrirá el</span>
-        <div class="flex items-center gap-2 bg-white border border-slate-200 px-4 py-2.5 rounded-xl shadow-2xs hover:border-slate-300 transition-colors">
+        <span class="text-xs font-semibold text-base-content/50">Se abrirá el</span>
+        <div class="flex items-center gap-2 bg-base-200/20 border border-base-200 px-4 py-2.5 rounded-xl shadow-2xs hover:border-base-300 transition-colors">
           <%= f.date_field :deliver_at,
               id: "deliver_at_new_form",
               min: (Date.current + 1.day).to_s,
-              class: "bg-transparent text-sm font-bold text-slate-800 border-none outline-none focus:ring-0 p-0 cursor-pointer w-38",
+              class: "bg-transparent text-sm font-bold text-base-content/85 border-none outline-none focus:ring-0 p-0 cursor-pointer w-38",
               required: true,
               onchange: "updateSummaryInfo()" %>
-          <span class="text-slate-400">📅</span>
+          <span class="text-base-content/30">📅</span>
         </div>
       </div>
     </div>
@@ -39,39 +39,39 @@
     <% # ── Main 3-Column Layout ── %>
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
 
-      <div class="lg:col-span-4 bg-white border border-slate-100 rounded-3xl p-6 sm:p-8 shadow-2xs space-y-6">
-        <h2 class="text-xl font-bold text-slate-900">Tu carta</h2>
+      <div class="lg:col-span-4 bg-base-100 border border-base-200 rounded-3xl p-6 sm:p-8 shadow-2xs space-y-6">
+        <h2 class="font-serif text-xl font-normal text-base-content">Tu carta</h2>
 
         <div class="space-y-2">
-          <%= f.label :title, "Título", class: "text-sm font-bold text-slate-800 block" %>
+          <%= f.label :title, "Título", class: "text-sm font-bold text-base-content/85 block" %>
           <%= f.text_field :title,
               placeholder: "Ej: Para mi yo del futuro",
-              class: "input input-bordered w-full rounded-2xl bg-white text-slate-800 border-slate-200 placeholder:text-slate-400 text-sm focus:border-violet-500 focus:ring-2 focus:ring-violet-100 transition-all px-4 min-h-[44px]",
+              class: "input input-bordered w-full rounded-2xl bg-white text-base-content/85 border-slate-200 placeholder:text-base-content/30 text-sm focus:border-primary focus:ring-2 focus:ring-primary/10 transition-all px-4 min-h-[44px]",
               required: true,
               "aria-required": "true" %>
         </div>
 
         <div class="space-y-2 relative">
-          <%= f.label :content, "Contenido", class: "text-sm font-bold text-slate-800 block" %>
+          <%= f.label :content, "Contenido", class: "text-sm font-bold text-base-content/85 block" %>
           <%= f.text_area :content,
               id: "letter_content_area",
               placeholder: "Escribe aquí todo lo que quieras contarle a tu yo del futuro...",
               rows: 14,
-              class: "textarea textarea-bordered w-full p-6 focus:border-violet-500 focus:ring-2 focus:ring-violet-100 focus:outline-none rounded-2xl bg-white text-slate-800 border-slate-200 placeholder:text-slate-400 text-sm hover:border-slate-300 transition-all shadow-inner",
+              class: "textarea textarea-bordered w-full p-6 focus:border-primary focus:ring-2 focus:ring-primary/10 focus:outline-none rounded-2xl bg-white text-base-content/85 border-slate-200 placeholder:text-base-content/30 text-sm hover:border-base-300 transition-all shadow-inner",
               required: true,
               "aria-required": "true",
               "aria-describedby": "char_counter" %>
-          <div class="flex justify-end text-[10px] text-slate-400 font-mono mt-1" aria-live="polite" aria-atomic="true">
+          <div class="flex justify-end text-[10px] text-base-content/30 font-mono mt-1" aria-live="polite" aria-atomic="true">
             <span id="char_counter">0 / 2000</span>
           </div>
         </div>
 
         <% unless user_signed_in? %>
-          <div class="space-y-2 border-t border-slate-100 pt-5">
-            <%= f.label :email, "Tu correo electrónico", class: "text-sm font-bold text-slate-800 block" %>
+          <div class="space-y-2 border-t border-base-200 pt-5">
+            <%= f.label :email, "Tu correo electrónico", class: "text-sm font-bold text-base-content/85 block" %>
             <%= f.email_field :email,
                 placeholder: "tu@correo.com",
-                class: "input input-bordered w-full rounded-2xl bg-white text-slate-800 border-slate-200 placeholder:text-slate-400 text-sm focus:border-violet-500 focus:ring-2 focus:ring-violet-100 transition-all px-4 min-h-[44px]",
+                class: "input input-bordered w-full rounded-2xl bg-white text-base-content/85 border-slate-200 placeholder:text-base-content/30 text-sm focus:border-primary focus:ring-2 focus:ring-primary/10 transition-all px-4 min-h-[44px]",
                 required: true,
                 "aria-required": "true" %>
           </div>
@@ -80,86 +80,86 @@
         <% end %>
       </div>
 
-      <div class="lg:col-span-5 bg-white border border-slate-100 rounded-3xl p-6 sm:p-8 shadow-2xs space-y-6">
+      <div class="lg:col-span-5 bg-base-100 border border-base-200 rounded-3xl p-6 sm:p-8 shadow-2xs space-y-6">
         <div class="space-y-1">
-          <h2 class="text-xl font-bold text-slate-900">Tus predicciones</h2>
-          <p class="text-xs text-slate-500">¿Cómo crees que será tu vida cuando abras esta carta?</p>
+          <h2 class="font-serif text-xl font-normal text-base-content">Tus predicciones</h2>
+          <p class="text-xs text-base-content/50">¿Cómo crees que será tu vida cuando abras esta carta?</p>
         </div>
 
         <div class="space-y-4">
           <div class="space-y-2">
             <div class="flex items-center gap-2.5">
-              <div class="w-8 h-8 rounded-full bg-violet-50 text-violet-600 flex items-center justify-center shrink-0 font-sans text-sm">
+              <div class="w-8 h-8 rounded-full bg-primary/5 text-primary flex items-center justify-center shrink-0 font-sans text-sm">
                 🏠
               </div>
-              <%= f.label :prediction_city, "¿Dónde vivirás?", class: "text-sm font-bold text-slate-800" %>
+              <%= f.label :prediction_city, "¿Dónde vivirás?", class: "text-sm font-bold text-base-content/85" %>
             </div>
             <%= f.text_field :prediction_city,
                 placeholder: "Escribe tu predicción...",
-                class: "input input-bordered w-full rounded-2xl bg-white text-slate-800 border-slate-200 placeholder:text-slate-400 text-sm hover:border-slate-300 focus:border-violet-500 focus:ring-2 focus:ring-violet-100 transition-all px-4 min-h-[44px]" %>
+                class: "input input-bordered w-full rounded-2xl bg-white text-base-content/85 border-slate-200 placeholder:text-base-content/30 text-sm hover:border-base-300 focus:border-primary focus:ring-2 focus:ring-primary/10 transition-all px-4 min-h-[44px]" %>
           </div>
 
           <div class="space-y-2">
             <div class="flex items-center gap-2.5">
-              <div class="w-8 h-8 rounded-full bg-violet-50 text-violet-600 flex items-center justify-center shrink-0 font-sans text-sm">
+              <div class="w-8 h-8 rounded-full bg-primary/5 text-primary flex items-center justify-center shrink-0 font-sans text-sm">
                 💼
               </div>
-              <%= f.label :prediction_career, "¿En qué trabajarás?", class: "text-sm font-bold text-slate-800" %>
+              <%= f.label :prediction_career, "¿En qué trabajarás?", class: "text-sm font-bold text-base-content/85" %>
             </div>
             <%= f.text_field :prediction_career,
                 placeholder: "Escribe tu predicción...",
-                class: "input input-bordered w-full rounded-2xl bg-white text-slate-800 border-slate-200 placeholder:text-slate-400 text-sm hover:border-slate-300 focus:border-violet-500 focus:ring-2 focus:ring-violet-100 transition-all px-4 min-h-[44px]" %>
+                class: "input input-bordered w-full rounded-2xl bg-white text-base-content/85 border-slate-200 placeholder:text-base-content/30 text-sm hover:border-base-300 focus:border-primary focus:ring-2 focus:ring-primary/10 transition-all px-4 min-h-[44px]" %>
           </div>
 
           <div class="space-y-2">
             <div class="flex items-center gap-2.5">
-              <div class="w-8 h-8 rounded-full bg-violet-50 text-violet-600 flex items-center justify-center shrink-0 font-sans text-sm">
+              <div class="w-8 h-8 rounded-full bg-primary/5 text-primary flex items-center justify-center shrink-0 font-sans text-sm">
                 💵
               </div>
-              <%= f.label :prediction_salary, "¿Cuánto ganarás al mes?", class: "text-sm font-bold text-slate-800" %>
+              <%= f.label :prediction_salary, "¿Cuánto ganarás al mes?", class: "text-sm font-bold text-base-content/85" %>
             </div>
             <%= f.text_field :prediction_salary,
                 placeholder: "Escribe tu predicción...",
-                class: "input input-bordered w-full rounded-2xl bg-white text-slate-800 border-slate-200 placeholder:text-slate-400 text-sm hover:border-slate-300 focus:border-violet-500 focus:ring-2 focus:ring-violet-100 transition-all px-4 min-h-[44px]" %>
+                class: "input input-bordered w-full rounded-2xl bg-white text-base-content/85 border-slate-200 placeholder:text-base-content/30 text-sm hover:border-base-300 focus:border-primary focus:ring-2 focus:ring-primary/10 transition-all px-4 min-h-[44px]" %>
           </div>
 
           <div class="space-y-2">
             <div class="flex items-center gap-2.5">
-              <div class="w-8 h-8 rounded-full bg-violet-50 text-violet-600 flex items-center justify-center shrink-0 font-sans text-sm">
+              <div class="w-8 h-8 rounded-full bg-primary/5 text-primary flex items-center justify-center shrink-0 font-sans text-sm">
                 💖
               </div>
-              <%= f.label :prediction_relationship, "¿Cómo estará tu relación sentimental?", class: "text-sm font-bold text-slate-800" %>
+              <%= f.label :prediction_relationship, "¿Cómo estará tu relación sentimental?", class: "text-sm font-bold text-base-content/85" %>
             </div>
             <%= f.text_field :prediction_relationship,
                 placeholder: "Escribe tu predicción...",
-                class: "input input-bordered w-full rounded-2xl bg-white text-slate-800 border-slate-200 placeholder:text-slate-400 text-sm hover:border-slate-300 focus:border-violet-500 focus:ring-2 focus:ring-violet-100 transition-all px-4 min-h-[44px]" %>
+                class: "input input-bordered w-full rounded-2xl bg-white text-base-content/85 border-slate-200 placeholder:text-base-content/30 text-sm hover:border-base-300 focus:border-primary focus:ring-2 focus:ring-primary/10 transition-all px-4 min-h-[44px]" %>
           </div>
 
           <div class="space-y-2">
             <div class="flex items-center gap-2.5">
-              <div class="w-8 h-8 rounded-full bg-violet-50 text-violet-600 flex items-center justify-center shrink-0 font-sans text-sm">
+              <div class="w-8 h-8 rounded-full bg-primary/5 text-primary flex items-center justify-center shrink-0 font-sans text-sm">
                 🏆
               </div>
-              <%= f.label :prediction_achievement, "¿Cuál será tu mayor logro?", class: "text-sm font-bold text-slate-800" %>
+              <%= f.label :prediction_achievement, "¿Cuál será tu mayor logro?", class: "text-sm font-bold text-base-content/85" %>
             </div>
             <%= f.text_field :prediction_achievement,
                 placeholder: "Escribe tu predicción...",
-                class: "input input-bordered w-full rounded-2xl bg-white text-slate-800 border-slate-200 placeholder:text-slate-400 text-sm hover:border-slate-300 focus:border-violet-500 focus:ring-2 focus:ring-violet-100 transition-all px-4 min-h-[44px]" %>
+                class: "input input-bordered w-full rounded-2xl bg-white text-base-content/85 border-slate-200 placeholder:text-base-content/30 text-sm hover:border-base-300 focus:border-primary focus:ring-2 focus:ring-primary/10 transition-all px-4 min-h-[44px]" %>
           </div>
 
           <div class="space-y-2 pt-2">
             <div class="flex items-center gap-2.5">
-              <div class="w-8 h-8 rounded-full bg-violet-50 text-violet-600 flex items-center justify-center shrink-0 font-sans text-sm">
+              <div class="w-8 h-8 rounded-full bg-primary/5 text-primary flex items-center justify-center shrink-0 font-sans text-sm">
                 😆
               </div>
-              <%= f.label :prediction_happiness, "¿Qué tan feliz crees que serás?", class: "text-sm font-bold text-slate-800" %>
+              <%= f.label :prediction_happiness, "¿Qué tan feliz crees que serás?", class: "text-sm font-bold text-base-content/85" %>
             </div>
             <div class="flex items-center gap-4">
               <%= f.range_field :prediction_happiness,
                   min: 1, max: 10,
-                  class: "range range-xs cursor-pointer w-full accent-violet-600",
+                  class: "range range-xs cursor-pointer w-full accent-primary",
                   oninput: "document.getElementById('pred_happiness_val').innerText = this.value + ' / 10'" %>
-              <span id="pred_happiness_val" class="text-xs font-bold text-slate-600 w-12 text-right font-sans" aria-live="polite">7 / 10</span>
+              <span id="pred_happiness_val" class="text-xs font-bold text-base-content/70 w-12 text-right font-sans" aria-live="polite">7 / 10</span>
             </div>
           </div>
         </div>
@@ -167,23 +167,23 @@
 
       <div class="lg:col-span-3 space-y-6">
 
-        <div class="bg-white border border-slate-100 rounded-3xl p-6 shadow-2xs space-y-6">
+        <div class="bg-base-100 border border-base-200 rounded-3xl p-6 shadow-2xs space-y-6">
           <div class="space-y-1">
-            <h2 class="text-xl font-bold text-slate-900">Estado emocional hoy</h2>
-            <p class="text-xs text-slate-500">¿Cómo te sientes en este momento?</p>
+            <h2 class="font-serif text-xl font-normal text-base-content">Estado emocional hoy</h2>
+            <p class="text-xs text-base-content/50">¿Cómo te sientes en este momento?</p>
           </div>
 
           <div class="space-y-5">
             <div class="flex items-center gap-3">
               <span class="text-2xl shrink-0">😆</span>
               <div class="flex-grow space-y-1">
-                <span class="text-xs font-bold text-slate-700 block">Felicidad</span>
+                <span class="text-xs font-bold text-base-content/80 block">Felicidad</span>
                 <div class="flex items-center gap-3">
                   <%= f.range_field :happiness_level,
                       min: 1, max: 10,
-                      class: "range range-xs cursor-pointer w-full accent-violet-600",
+                      class: "range range-xs cursor-pointer w-full accent-primary",
                       oninput: "document.getElementById('happiness_val').innerText = this.value + ' / 10'" %>
-                  <span id="happiness_val" class="text-xs font-bold text-slate-600 font-sans shrink-0 w-8 text-right" aria-live="polite">6 / 10</span>
+                  <span id="happiness_val" class="text-xs font-bold text-base-content/70 font-sans shrink-0 w-8 text-right" aria-live="polite">6 / 10</span>
                 </div>
               </div>
             </div>
@@ -191,13 +191,13 @@
             <div class="flex items-center gap-3">
               <span class="text-2xl shrink-0">🥺</span>
               <div class="flex-grow space-y-1">
-                <span class="text-xs font-bold text-slate-700 block">Ansiedad</span>
+                <span class="text-xs font-bold text-base-content/80 block">Ansiedad</span>
                 <div class="flex items-center gap-3">
                   <%= f.range_field :anxiety_level,
                       min: 1, max: 10,
-                      class: "range range-xs cursor-pointer w-full accent-violet-600",
+                      class: "range range-xs cursor-pointer w-full accent-primary",
                       oninput: "document.getElementById('anxiety_val').innerText = this.value + ' / 10'" %>
-                  <span id="anxiety_val" class="text-xs font-bold text-slate-600 font-sans shrink-0 w-8 text-right" aria-live="polite">4 / 10</span>
+                  <span id="anxiety_val" class="text-xs font-bold text-base-content/70 font-sans shrink-0 w-8 text-right" aria-live="polite">4 / 10</span>
                 </div>
               </div>
             </div>
@@ -205,44 +205,44 @@
             <div class="flex items-center gap-3">
               <span class="text-2xl shrink-0">⭐</span>
               <div class="flex-grow space-y-1">
-                <span class="text-xs font-bold text-slate-700 block">Motivación</span>
+                <span class="text-xs font-bold text-base-content/80 block">Motivación</span>
                 <div class="flex items-center gap-3">
                   <%= f.range_field :motivation_level,
                       min: 1, max: 10,
-                      class: "range range-xs cursor-pointer w-full accent-violet-600",
+                      class: "range range-xs cursor-pointer w-full accent-primary",
                       oninput: "document.getElementById('motivation_val').innerText = this.value + ' / 10'" %>
-                  <span id="motivation_val" class="text-xs font-bold text-slate-600 font-sans shrink-0 w-8 text-right" aria-live="polite">7 / 10</span>
+                  <span id="motivation_val" class="text-xs font-bold text-base-content/70 font-sans shrink-0 w-8 text-right" aria-live="polite">7 / 10</span>
                 </div>
               </div>
             </div>
           </div>
         </div>
 
-        <div class="bg-[#f5f1ff] border border-violet-100/50 rounded-3xl p-6 space-y-4 shadow-2xs text-xs">
-          <h3 class="font-extrabold text-slate-800 text-sm">Resumen</h3>
+        <div class="bg-primary/5 border border-primary/10 rounded-3xl p-6 space-y-4 shadow-2xs text-xs">
+          <h3 class="font-extrabold text-base-content/85 text-sm">Resumen</h3>
 
           <div class="space-y-3 pt-1">
-            <div class="flex items-center gap-3 text-slate-700">
+            <div class="flex items-center gap-3 text-base-content/80">
               <span class="text-base" aria-hidden="true">📅</span>
               <div class="min-w-0">
-                <span class="text-[10px] text-slate-400 font-bold uppercase tracking-wider block">Se abrirá el</span>
-                <p id="summary_delivery_date" class="font-bold text-slate-800 truncate">Cargando...</p>
+                <span class="text-[10px] text-base-content/30 font-bold uppercase tracking-wider block">Se abrirá el</span>
+                <p id="summary_delivery_date" class="font-bold text-base-content/85 truncate">Cargando...</p>
               </div>
             </div>
 
-            <div class="flex items-center gap-3 text-slate-700">
+            <div class="flex items-center gap-3 text-base-content/80">
               <span class="text-base" aria-hidden="true">🕒</span>
               <div class="min-w-0">
-                <span class="text-[10px] text-slate-400 font-bold uppercase tracking-wider block">Dentro de</span>
-                <p id="summary_countdown" class="font-bold text-slate-800 truncate">Cargando...</p>
+                <span class="text-[10px] text-base-content/30 font-bold uppercase tracking-wider block">Dentro de</span>
+                <p id="summary_countdown" class="font-bold text-base-content/85 truncate">Cargando...</p>
               </div>
             </div>
 
-            <div class="flex items-center gap-3 text-slate-700">
+            <div class="flex items-center gap-3 text-base-content/80">
               <span class="text-base" aria-hidden="true">🔒</span>
               <div class="min-w-0">
-                <span class="text-[10px] text-slate-400 font-bold uppercase tracking-wider block">Privacidad</span>
-                <p class="font-bold text-slate-800 truncate">Solo tú podrás verlo</p>
+                <span class="text-[10px] text-base-content/30 font-bold uppercase tracking-wider block">Privacidad</span>
+                <p class="font-bold text-base-content/85 truncate">Solo tú podrás verlo</p>
               </div>
             </div>
           </div>
@@ -250,7 +250,7 @@
 
         <div class="flex justify-end pt-2">
           <%= f.submit "Guardar carta",
-              class: "btn bg-[#2e1065] hover:bg-[#1e0a45] text-white rounded-2xl py-3 px-8 text-sm font-bold border-none cursor-pointer transition-all hover:scale-[1.02] active:scale-[0.98] min-h-[44px]" %>
+              class: "btn btn-primary text-primary-content rounded-2xl py-3 px-8 text-sm font-bold border-none cursor-pointer transition-all hover:scale-[1.02] active:scale-[0.98] min-h-[44px]" %>
         </div>
       </div>
 

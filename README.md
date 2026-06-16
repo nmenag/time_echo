@@ -72,6 +72,7 @@ npm install
 Ensure PostgreSQL is running locally. You can customize connection credentials by setting the following environment variables (or let them fall back to standard defaults):
 
 * `DATABASE_HOST` (default: `localhost`)
+* `DATABASE_PORT` (default: `5432`)
 * `DATABASE_USERNAME` (default: `postgres`)
 * `DATABASE_PASSWORD` (default: `postgres`)
 

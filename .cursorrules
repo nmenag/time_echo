@@ -69,5 +69,10 @@ When a controller starts accumulating actions that do not fit the standard RESTf
 * **New Resources**: Prefer creating new controllers over adding custom actions.
 * **Identify Resources**: When generating code, always ask: *"Is this behavior a new action, or is it actually a new resource?"* If it is a new resource, create a dedicated controller with standard RESTful actions.
 
+## 🚫 8. Execution Restrictions (Migrations, Server, Docker)
+* **No Database Migrations**: AI agents and automated assistants must **NEVER** run database migrations (such as `bin/rails db:migrate` or `rake db:migrate`).
+* **No Server Execution**: AI agents must **NEVER** start or run the local Rails server (such as `rails server`, `bin/rails s`, or `bin/dev`).
+* **No Docker Control**: AI agents must **NEVER** execute Docker or docker-compose commands (such as `docker ps`, `docker compose up`, or docker start/stop/prune actions).
+
 ---
 *Follow these rules closely to keep TimeEcho premium, performant, and maintainable!* ✨

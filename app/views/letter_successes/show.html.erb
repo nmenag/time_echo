@@ -1,25 +1,53 @@
-<div class="max-w-md mx-auto py-12 font-sans select-none animate-fade-in text-center">
-  <div class="bg-white border border-base-200/80 p-8 sm:p-12 rounded-3xl shadow-sm space-y-8 relative overflow-hidden">
+<div class="max-w-md mx-auto py-12 font-sans select-none animate-fade-in text-center text-base-content">
+  <div class="bg-base-100 border border-base-200 p-8 sm:p-12 rounded-3xl shadow-sm space-y-8 relative overflow-hidden">
     <!-- Dynamic subtle backing glow -->
-    <div class="absolute -top-10 -right-10 w-32 h-32 bg-[#5b21b6]/5 rounded-full blur-2xl pointer-events-none"></div>
-    <div class="absolute -bottom-10 -left-10 w-32 h-32 bg-[#2dd4bf]/5 rounded-full blur-2xl pointer-events-none"></div>
+    <div class="absolute -top-10 -right-10 w-32 h-32 bg-primary/5 rounded-full blur-2xl pointer-events-none"></div>
+    <div class="absolute -bottom-10 -left-10 w-32 h-32 bg-secondary/10 rounded-full blur-2xl pointer-events-none"></div>
 
-    <div class="w-20 h-20 bg-[#5b21b6]/5 text-[#5b21b6] rounded-full flex items-center justify-center text-4xl mx-auto border border-[#5b21b6]/10 select-none shadow-3xs">
-      🔒
+    <!-- Tactile Three-Dimensional Irregular Wax Seal -->
+    <div class="relative w-24 h-24 mx-auto flex items-center justify-center transition-all duration-300 hover:scale-[1.05] active:scale-[0.95] group cursor-pointer select-none">
+      <!-- Outer irregular wax edges -->
+      <div class="absolute inset-0 bg-primary/85 opacity-95 rounded-[48%_52%_45%_55%/_50%_45%_55%_50%] shadow-md group-hover:rotate-6 transition-transform duration-500"></div>
+      <div class="absolute inset-1 bg-primary rounded-[52%_48%_55%_45%/_45%_55%_50%_50%] shadow-inner border border-primary/20"></div>
+      <div class="absolute inset-2 bg-primary-focus/40 rounded-full blur-xs pointer-events-none"></div>
+      
+      <!-- Embossed keyhole symbol inside seal -->
+      <div class="relative text-primary-content font-serif text-3xl font-normal drop-shadow-[0_1.5px_1.5px_rgba(0,0,0,0.3)] select-none">
+        🔑
+      </div>
     </div>
 
-    <div class="space-y-3 relative">
+    <div class="space-y-4 relative">
       <h1 class="font-serif text-3xl font-normal text-primary leading-tight"><%= t('letters.success_header') %></h1>
       <p class="text-xs text-base-content/60 leading-relaxed font-medium">
         <%= t('letters.success_sub').html_safe %>
       </p>
-      <div class="inline-block px-4 py-2 bg-[#5b21b6]/5 border border-[#5b21b6]/10 text-[#5b21b6] rounded-2xl font-serif text-base italic tracking-wide font-semibold mt-2 shadow-3xs">
-        <%= @deliver_at&.strftime('%B %d, %Y') || t('letters.success_date_fallback') %>
+
+      <!-- Nostalgic Postmark Stamp Display -->
+      <div class="relative max-w-[280px] mx-auto border-2 border-dashed border-primary/20 p-4 rounded-xl font-mono text-[9px] tracking-widest text-primary/70 uppercase select-none space-y-1.5 shadow-3xs bg-base-200/10 overflow-hidden">
+        <div class="flex justify-between items-center px-1">
+          <span>Sello: <%= Date.current.strftime('%d.%m.%Y') %></span>
+          <span>•</span>
+          <span>TimeEcho</span>
+        </div>
+        <div class="border-t border-dashed border-primary/20 pt-1.5 flex justify-between items-center px-1 font-serif italic text-xs tracking-normal text-primary">
+          <span>Apertura programada:</span>
+          <span class="font-bold font-sans not-italic tracking-tight"><%= @deliver_at&.strftime('%d %b %Y') || t('letters.success_date_fallback') %></span>
+        </div>
+        
+        <!-- Postmark wavy cancellation lines overlay -->
+        <div class="absolute -right-3 -top-2 opacity-15 pointer-events-none text-primary transform rotate-6">
+          <svg class="w-20 h-10" fill="none" viewBox="0 0 100 30" stroke="currentColor" stroke-width="1.5">
+            <path d="M 0,5 Q 25,12 50,5 T 100,5" />
+            <path d="M 0,12 Q 25,19 50,12 T 100,12" />
+            <path d="M 0,19 Q 25,26 50,19 T 100,19" />
+          </svg>
+        </div>
       </div>
     </div>
 
     <div class="p-4 bg-base-200/30 rounded-2xl space-y-2 border border-base-200/50 text-left font-sans shadow-3xs">
-      <p class="text-xs font-bold text-[#5b21b6] uppercase tracking-wider"><%= t('letters.success_next_title') %></p>
+      <p class="text-xs font-bold text-primary uppercase tracking-wider"><%= t('letters.success_next_title') %></p>
       <p class="text-xs text-base-content/60 leading-relaxed font-semibold">
         <%= t('letters.success_next_desc', email: @email) %>
       </p>
@@ -27,17 +55,17 @@
 
     <div class="pt-6 border-t border-base-200/80 space-y-4 font-sans relative">
       <% if user_signed_in? %>
-        <a href="<%= dashboard_path %>" class="btn w-full bg-[#5b21b6] hover:bg-[#4c1d95] text-white rounded-2xl py-3.5 px-6 text-xs font-bold tracking-wider uppercase shadow-md transition-all duration-300 cursor-pointer border-none flex items-center justify-center">
+        <a href="<%= dashboard_path %>" class="btn btn-primary text-primary-content w-full rounded-2xl py-3.5 px-6 text-xs font-bold tracking-wider uppercase shadow-md transition-all duration-300 cursor-pointer border-none flex items-center justify-center">
           <%= t('letters.success_btn_dashboard') %>
         </a>
       <% else %>
-        <a href="<%= login_path %>" class="btn w-full bg-[#5b21b6] hover:bg-[#4c1d95] text-white rounded-2xl py-3.5 px-6 text-xs font-bold tracking-wider uppercase shadow-md transition-all duration-300 cursor-pointer border-none flex items-center justify-center">
+        <a href="<%= login_path %>" class="btn btn-primary text-primary-content w-full rounded-2xl py-3.5 px-6 text-xs font-bold tracking-wider uppercase shadow-md transition-all duration-300 cursor-pointer border-none flex items-center justify-center">
           <%= t('letters.success_btn_signin') %>
         </a>
         <p class="text-xs text-base-content/40 font-semibold"><%= t('letters.success_signin_help') %></p>
       <% end %>
       
-      <a href="<%= root_path %>" class="text-[10px] font-bold text-base-content/40 hover:text-[#5b21b6] transition-colors duration-200 uppercase tracking-widest flex items-center justify-center gap-1 pt-2">
+      <a href="<%= root_path %>" class="text-[10px] font-bold text-base-content/40 hover:text-primary transition-colors duration-200 uppercase tracking-widest flex items-center justify-center gap-1 pt-2">
         <span>&larr;</span> <%= t('letters.success_btn_home') || "Volver al inicio" %>
       </a>
     </div>
