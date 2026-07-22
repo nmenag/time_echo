@@ -6,6 +6,23 @@ on:
     branches: [ main ]
 
 jobs:
+  commitlint:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: read
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Validate PR commits with commitlint
+        uses: wagoid/commitlint-github-action@v6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          configFile: .commitlintrc.json
+
   scan_ruby:
     runs-on: ubuntu-latest
 
