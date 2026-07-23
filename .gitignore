@@ -41,4 +41,4 @@ PRODUCT.md
 skills-lock.json
 
 # Ignore node_modules
-/node_modules
+node_modules/
