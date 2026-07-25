@@ -7,6 +7,7 @@ class CreateLetters < ActiveRecord::Migration[8.1]
       t.datetime :delivered_at
       t.datetime :opened_at
       t.datetime :clicked_at
+      t.string :letters, :title, :string
       t.string :status, null: false, default: "pending"
       t.boolean :public, null: false, default: false
       t.integer :open_count, null: false, default: 0
