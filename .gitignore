@@ -42,3 +42,7 @@ skills-lock.json
 
 # Ignore node_modules
 node_modules/
+
+# Ignore key files for decrypting credentials and more.
+/config/credentials/*.key
+
