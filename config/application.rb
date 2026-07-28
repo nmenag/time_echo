@@ -9,9 +9,9 @@ Bundler.require(*Rails.groups)
 module TimeEcho
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
-    config.active_record.encryption.primary_key = "dbteSzJIwwHzUAspB8nyXdlvarBRgFYO"
-    config.active_record.encryption.deterministic_key = "EULH1g9HM1PXPoeZMOcV7cOi8YG0CqaB"
-    config.active_record.encryption.key_derivation_salt = "Zxgmbb11MJQpZr7GBlMaZBuwDoO7poXr"
+    config.active_record.encryption.primary_key = Rails.application.credentials.active_record_encryption[:primary_key]
+    config.active_record.encryption.deterministic_key = Rails.application.credentials.active_record_encryption[:deterministic_key]
+    config.active_record.encryption.key_derivation_salt = Rails.application.credentials.active_record_encryption[:key_derivation_salt]
     config.load_defaults 8.1
     config.active_job.queue_adapter = :good_job
     config.good_job.enable_cron = true
