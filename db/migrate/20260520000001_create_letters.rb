@@ -9,9 +9,11 @@ class CreateLetters < ActiveRecord::Migration[8.1]
       t.datetime :opened_at
       t.datetime :clicked_at
       t.string :status, null: false, default: "pending"
-      t.boolean :public, null: false, default: false
       t.integer :open_count, null: false, default: 0
       t.string :delivery_status, null: false, default: "pending"
+      t.integer :reveal_happiness
+      t.integer :reveal_anxiety
+      t.integer :reveal_motivation
 
       t.timestamps
     end
