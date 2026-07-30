@@ -1,4 +1,6 @@
 class Letter < ApplicationRecord
+  encrypts :title
+  encrypts :content
   has_many :predictions, dependent: :destroy
   has_one :emotional_snapshot, dependent: :destroy
 
