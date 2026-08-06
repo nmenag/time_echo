@@ -80,8 +80,13 @@ class LettersControllerTest < ActionDispatch::IntegrationTest
     )
     letter.save!(validate: false)
 
+    post login_path, params: { magic_link_form: { email: "user@example.com" } }
+    token = SessionToken.last.token
+    get magic_login_path(token)
+
     get letter_path(letter)
     assert_redirected_to root_path
+    assert_equal t("flash.unauthorized_view"), flash[:alert]
   end
 
   test "should allow viewing private letter when logged in as owner" do
@@ -143,5 +148,24 @@ class LettersControllerTest < ActionDispatch::IntegrationTest
     pred.reload
     assert_equal "Milan", pred.reality
     assert_not pred.matched?
+  end
+
+  test "should get index when logged in" do
+    post login_path, params: { magic_link_form: { email: "user@example.com" } }
+    token = SessionToken.last.token
+    get magic_login_path(token)
+
+    get dashboard_path
+    assert_response :success
+  end
+
+  test "should render new with unprocessable_entity on invalid create" do
+    post letters_path, params: { letter_form: { title: "" } }
+    assert_response :unprocessable_entity
+  end
+
+  test "should redirect to root on show when letter not found" do
+    get letter_path("nonexistent-signed-id")
+    assert_redirected_to root_path
   end
 end

@@ -1,0 +1,52 @@
+name: Pull Request Size CI
+
+on:
+  pull_request:
+    types: [opened, edited, synchronize, reopened]
+
+jobs:
+  validate_pr_size:
+    name: Validate PR Size
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: read
+    if: github.event_name == 'pull_request'
+
+    steps:
+      - name: Validate PR Size Limits
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const pr = context.payload.pull_request;
+            const additions = pr.additions;
+            const deletions = pr.deletions;
+            const changedFiles = pr.changed_files;
+            const totalChanges = additions + deletions;
+
+            // Threshold configuration:
+            // - MAX_CHANGED_LINES: Maximum total lines (additions + deletions) allowed (default: 500 lines)
+            // - MAX_CHANGED_FILES: Maximum files modified allowed (default: 30 files)
+            const MAX_CHANGED_LINES = 500;
+            const MAX_CHANGED_FILES = 30;
+
+            console.log(`PR Stats: +${additions} -${deletions} (${totalChanges} total lines changed across ${changedFiles} files)`);
+
+            let errors = [];
+
+            if (totalChanges > MAX_CHANGED_LINES) {
+              errors.push(`Total lines changed (${totalChanges}) exceeds maximum limit (${MAX_CHANGED_LINES}).`);
+            }
+
+            if (changedFiles > MAX_CHANGED_FILES) {
+              errors.push(`Total changed files (${changedFiles}) exceeds maximum limit (${MAX_CHANGED_FILES}).`);
+            }
+
+            if (errors.length > 0) {
+              core.setFailed(
+                `Pull Request size check failed:\n` +
+                errors.map(err => `- ${err}`).join('\n') +
+                `\n\nThresholds are configured in '.github/workflows/pr_size.yml'. Please divide your work into smaller, more focused Pull Requests.`
+              );
+            } else {
+              console.log(`✅ PR size is within acceptable limits (+${additions} -${deletions}, ${changedFiles} files).`);
+            }

@@ -59,4 +59,17 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to root_path
     assert_nil session[:current_user_email]
   end
+
+  test "should redirect to dashboard on get login when already logged in" do
+    token_record = SessionToken.create!(email: "user@example.com")
+    get magic_login_path(token_record.token)
+
+    get login_path
+    assert_redirected_to dashboard_path
+  end
+
+  test "should render new with unprocessable_entity on invalid email" do
+    post login_path, params: { magic_link_form: { email: "invalid-email" } }
+    assert_response :unprocessable_entity
+  end
 end

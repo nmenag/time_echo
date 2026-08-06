@@ -85,4 +85,40 @@ class LetterFormTest < ActiveSupport::TestCase
     assert_not form.valid?
     assert form.errors[:happiness_level].any?
   end
+
+  test "returns false when form is invalid on save" do
+    form = LetterForm.new(title: "")
+    assert_not form.save
+  end
+
+  test "returns false and adds base error when letter save raises RecordInvalid" do
+    form = LetterForm.new(
+      title: "My Future self",
+      email: "test@example.com",
+      content: "Hello from the past!",
+      deliver_at: 1.year.from_now,
+      happiness_level: 7,
+      anxiety_level: 3,
+      motivation_level: 8
+    )
+
+    assert form.valid?
+
+    failing_letter = Letter.new
+    failing_letter.define_singleton_method(:save!) { raise ActiveRecord::RecordInvalid.new(failing_letter) }
+
+    original_new = Letter.method(:new)
+    Letter.define_singleton_method(:new) { |*args, **kwargs| failing_letter }
+
+    assert_not form.save
+    assert form.errors[:base].any?
+  ensure
+    if original_new
+      begin
+        Letter.singleton_class.remove_method(:new)
+      rescue NameError
+      end
+      Letter.define_singleton_method(:new, &original_new)
+    end
+  end
 end

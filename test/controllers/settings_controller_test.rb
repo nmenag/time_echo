@@ -89,4 +89,25 @@ class SettingsControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to root_url
     assert_nil session[:current_user_email]
   end
+
+  test "should handle email update request in settings update" do
+    sign_in(@email)
+
+    patch settings_url, params: {
+      user_preference: {
+        email: "new_email@timeecho.com"
+      }
+    }
+
+    assert_redirected_to settings_url
+  end
+
+  test "should render unprocessable entity when update service fails" do
+    sign_in(@email)
+
+    patch settings_url, params: {
+      user_preference: { email: "invalid-email" }
+    }
+    assert_response :unprocessable_entity
+  end
 end

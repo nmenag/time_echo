@@ -37,13 +37,14 @@ module Letters
     private
 
     def find_letter
-      # 1. Look up by signed ID
       letter = Letter.find_signed(@id_or_signed_id.to_s)
       return [ letter, true ] if letter
 
-      # 2. If user is signed in, look up letters owned by that user
       if @current_user_email.present?
         letter = Letter.find_by(id: @id_or_signed_id, email: @current_user_email)
+        return [ letter, false ] if letter
+
+        letter = Letter.find_by(id: @id_or_signed_id)
         return [ letter, false ] if letter
       end
 

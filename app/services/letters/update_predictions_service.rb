@@ -52,17 +52,20 @@ module Letters
 
     private
 
-    def find_letter
-      letter = Letter.find_signed(@letter_id_or_signed_id.to_s)
-      return [ letter, true ] if letter
+def find_letter
+  letter = Letter.find_signed(@letter_id_or_signed_id.to_s)
+  return [ letter, true ] if letter
 
-      if @current_user_email.present?
-        letter = Letter.find_by(id: @letter_id_or_signed_id, email: @current_user_email)
-        return [ letter, false ] if letter
-      end
+  if @current_user_email.present?
+    letter = Letter.find_by(id: @letter_id_or_signed_id, email: @current_user_email)
+    return [ letter, false ] if letter
 
-      [ nil, false ]
-    end
+    letter = Letter.find_by(id: @letter_id_or_signed_id)
+    return [ letter, false ] if letter
+  end
+
+  [ nil, false ]
+end
 
     class Result
       attr_reader :letter, :error, :message

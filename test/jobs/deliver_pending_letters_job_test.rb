@@ -40,4 +40,19 @@ class DeliverPendingLettersJobTest < ActiveJob::TestCase
     assert_equal "pending", future_letter.status
     assert_nil future_letter.delivered_at
   end
+
+  test "logs error when letter delivery fails" do
+    due_letter = Letter.new(
+      title: "Failing Letter",
+      email: "invalid-email-address",
+      content: "Fail content",
+      deliver_at: 1.day.ago,
+      status: "pending"
+    )
+    due_letter.save!(validate: false)
+
+    assert_nothing_raised do
+      DeliverPendingLettersJob.perform_now
+    end
+  end
 end

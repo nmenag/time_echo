@@ -48,4 +48,15 @@ class Settings::UpdatePreferencesServiceTest < ActiveSupport::TestCase
     assert_not result.success?
     assert_match "correo electrónico válido", result.error
   end
+
+  test "returns error when preferences fail to update" do
+    result = Settings::UpdatePreferencesService.call(
+      @prefs,
+      { appearance_mode: "invalid" },
+      @email
+    )
+
+    assert_not result.success?
+    assert_equal "No se pudieron guardar los ajustes.", result.error
+  end
 end
