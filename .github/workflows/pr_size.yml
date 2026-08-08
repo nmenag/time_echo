@@ -6,12 +6,39 @@ on:
 
 jobs:
   size:
+    name: Check PR size
     runs-on: ubuntu-latest
+
+    permissions:
+      pull-requests: read
+
     steps:
       - name: Check PR size
-        uses: github/size-limit@v1
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SIZE_LIMIT: 500
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          REPOSITORY: ${{ github.repository }}
+        run: |
+          TOTAL=$(
+            gh api "repos/$REPOSITORY/pulls/$PR_NUMBER/files" \
+              --paginate \
+              --jq '
+                [
+                  .[]
+                  | select(.filename | startswith("test/") | not)
+                  | (.additions + .deletions)
+                ]
+                | add // 0
+              '
+          )
+
+          echo "Total changed lines excluding test/: $TOTAL"
+          echo "Maximum allowed: 500"
+
+          if [ "$TOTAL" -gt 500 ]; then
+            echo "❌ PR is too large: $TOTAL changed lines."
+            echo "Maximum allowed is 500 lines (test/ is excluded)."
+            exit 1
+          fi
+
+          echo "✅ PR size is within the 500-line limit."
