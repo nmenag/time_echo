@@ -12,3 +12,6 @@ jobs:
         uses: github/size-limit@v1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SIZE_LIMIT: 500
