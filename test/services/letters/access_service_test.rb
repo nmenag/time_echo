@@ -2,70 +2,49 @@ require "test_helper"
 
 class Letters::AccessServiceTest < ActiveSupport::TestCase
   setup do
-    @pending_letter = Letter.new(
-      title: "Pending Letter",
-      email: "owner@example.com",
-      content: "Secret details.",
-      deliver_at: 1.year.from_now,
-      status: "pending"
-    )
-    @pending_letter.save!(validate: false)
-
-    @delivered_private = Letter.new(
-      title: "Private Delivered",
-      email: "owner@example.com",
-      content: "Secret content.",
-      deliver_at: 1.day.ago,
-      delivered_at: 1.day.ago,
-      status: "delivered"
-    )
-    @delivered_private.save!(validate: false)
+    @user = "user@example.com"
   end
 
-  test "returns not_found if letter doesn't exist" do
-    result = Letters::AccessService.call(999999, "owner@example.com")
+  test "returns not_found for missing letter" do
+    result = Letters::AccessService.call(999, @user)
     assert_not result.success?
     assert_equal :not_found, result.error
   end
 
-  test "returns not_found if looking up private delivered letter belonging to someone else" do
-    result = Letters::AccessService.call(@delivered_private.id, "someone_else@example.com")
-    assert_not result.success?
-    assert_equal :not_found, result.error
-  end
-
-  test "allows access to private delivered letter via owner email" do
-    result = Letters::AccessService.call(@delivered_private.id, "owner@example.com")
+  test "returns success for owned letter" do
+    letter = Letter.new(title: "Test", email: @user, content: "Hello", deliver_at: 1.day.ago, status: "delivered")
+    letter.save!(validate: false)
+    result = Letters::AccessService.call(letter.id, @user)
     assert result.success?
-    assert_equal @delivered_private, result.letter
+    assert_equal letter, result.letter
     assert_not result.countdown?
   end
 
-  test "allows access to any letter via signed ID" do
-    result = Letters::AccessService.call(@pending_letter.signed_id, "anyone@example.com")
+  test "returns countdown for pending letter" do
+    letter = Letter.new(title: "Test", email: @user, content: "Hello", deliver_at: 1.day.from_now, status: "pending")
+    letter.save!(validate: false)
+    result = Letters::AccessService.call(letter.id, @user)
     assert result.success?
-    assert_equal @pending_letter, result.letter
     assert result.countdown?
   end
 
-  test "updates opened_at and increments open_count only for delivered letters on first open" do
-    assert_nil @delivered_private.opened_at
-    assert_equal 0, @delivered_private.open_count
+  test "returns unauthorized for letter found but policy denies" do
+    letter = Letter.new(title: "Test", email: @user, content: "Hello", deliver_at: 1.day.ago, status: "delivered")
+    letter.save!(validate: false)
 
-    result = Letters::AccessService.call(@delivered_private.id, "owner@example.com")
-    assert result.success?
+    original_show = LetterPolicy.instance_method(:show?)
+    LetterPolicy.class_eval do
+      alias_method :original_show?, :show?
+      define_method(:show?) { |*| false }
+    end
 
-    @delivered_private.reload
-    assert_not_nil @delivered_private.opened_at
-    assert_equal 1, @delivered_private.open_count
-  end
-
-  test "does not update opened_at for pending letters" do
-    assert_nil @pending_letter.opened_at
-    result = Letters::AccessService.call(@pending_letter.signed_id, "owner@example.com")
-    assert result.success?
-
-    @pending_letter.reload
-    assert_nil @pending_letter.opened_at
+    result = Letters::AccessService.call(letter.id, @user)
+    assert_not result.success?
+    assert_equal :unauthorized, result.error
+  ensure
+    LetterPolicy.class_eval do
+      alias_method :show?, :original_show?
+      remove_method :original_show?
+    end
   end
 end

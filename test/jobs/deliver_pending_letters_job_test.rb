@@ -40,4 +40,26 @@ class DeliverPendingLettersJobTest < ActiveJob::TestCase
     assert_equal "pending", future_letter.status
     assert_nil future_letter.delivered_at
   end
+
+  test "logs error when letter delivery fails" do
+    due_letter = Letter.new(
+      title: "Failing Letter",
+      email: "fail@example.com",
+      content: "Fail content",
+      deliver_at: 1.day.ago,
+      status: "pending"
+    )
+    due_letter.save!(validate: false)
+
+    original_call = Letters::DeliverService.method(:call)
+    Letters::DeliverService.define_singleton_method(:call) do |*args|
+      raise StandardError, "Delivery error"
+    end
+
+    assert_nothing_raised do
+      DeliverPendingLettersJob.perform_now
+    end
+  ensure
+    Letters::DeliverService.define_singleton_method(:call, original_call.to_proc)
+  end
 end

@@ -104,6 +104,55 @@ class LettersControllerTest < ActionDispatch::IntegrationTest
     assert_match "Private Content", response.body
   end
 
+  test "should get index when logged in" do
+    post login_path, params: { magic_link_form: { email: "user@example.com" } }
+    token = SessionToken.last.token
+    get magic_login_path(token)
+
+    get dashboard_path
+    assert_response :success
+  end
+
+  test "should render new when create fails when logged in" do
+    post login_path, params: { magic_link_form: { email: "user@example.com" } }
+    token = SessionToken.last.token
+    get magic_login_path(token)
+
+    struct_fail = Struct.new(:success?, :form).new(false, LetterForm.new)
+    original_call = Letters::CreateService.method(:call)
+    Letters::CreateService.define_singleton_method(:call, ->(*) { struct_fail })
+
+    post letters_path, params: @letter_params
+    assert_response :unprocessable_entity
+  ensure
+    Letters::CreateService.define_singleton_method(:call, original_call.to_proc)
+  end
+
+  test "should redirect unauthorized viewing other user's letter when logged in" do
+    post login_path, params: { magic_link_form: { email: "other@example.com" } }
+    token = SessionToken.last.token
+    get magic_login_path(token)
+
+    letter = Letter.new(
+      title: "Private Letter",
+      email: "owner@example.com",
+      content: "Private Content",
+      deliver_at: 1.day.ago,
+      delivered_at: 1.day.ago,
+      status: "delivered"
+    )
+    letter.save!(validate: false)
+
+    struct_unauth = Struct.new(:success?, :error).new(false, :unauthorized)
+    original_call = Letters::AccessService.method(:call)
+    Letters::AccessService.define_singleton_method(:call, ->(*) { struct_unauth })
+
+    get letter_path(letter)
+    assert_redirected_to root_path
+  ensure
+    Letters::AccessService.define_singleton_method(:call, original_call.to_proc)
+  end
+
   test "should update predictions reality" do
     # Authenticate
     post login_path, params: { magic_link_form: { email: "owner@example.com" } }
