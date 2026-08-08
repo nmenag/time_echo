@@ -31,8 +31,7 @@
 /public/assets
 
 # Ignore key files for decrypting credentials and more.
-/config/*.key
-
+/config/credentials/*.key
 
 /app/assets/builds/*
 !/app/assets/builds/.keep
@@ -42,9 +41,6 @@ skills-lock.json
 
 # Ignore node_modules
 node_modules/
-
-# Ignore key files for decrypting credentials and more.
- /config/credentials/*.key
 
 /coverage/
 
