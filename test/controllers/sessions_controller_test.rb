@@ -6,6 +6,15 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
+  test "should redirect to dashboard when already logged in" do
+    post login_path, params: { magic_link_form: { email: "user@example.com" } }
+    token = SessionToken.last.token
+    get magic_login_path(token)
+
+    get login_path
+    assert_redirected_to dashboard_path
+  end
+
   test "should create magic link and redirect to check email" do
     assert_emails 1 do
       post login_path, params: { magic_link_form: { email: "user@example.com" } }
@@ -17,6 +26,11 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
     assert_equal "user@example.com", token_record.email
     assert_not_nil token_record.token
     assert_not token_record.expired?
+  end
+
+  test "should render new when magic link submission fails" do
+    post login_path, params: { magic_link_form: { email: "invalid-email" } }
+    assert_response :unprocessable_entity
   end
 
   test "should authenticate magic link token and log in" do

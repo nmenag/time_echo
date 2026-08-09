@@ -85,4 +85,26 @@ class LetterFormTest < ActiveSupport::TestCase
     assert_not form.valid?
     assert form.errors[:happiness_level].any?
   end
+
+  test "handles ActiveRecord::RecordInvalid on save" do
+    form = LetterForm.new(
+      title: "Title",
+      email: "user@example.com",
+      content: "Content",
+      deliver_at: 1.year.from_now
+    )
+
+    fake_letter = Letter.new
+    def fake_letter.save!
+      raise ActiveRecord::RecordInvalid.new(Letter.new)
+    end
+
+    original_new = Letter.method(:new)
+    Letter.define_singleton_method(:new, ->(attrs = {}) { fake_letter })
+
+    assert_not form.save
+    assert form.errors[:base].any?
+  ensure
+    Letter.define_singleton_method(:new, original_new.to_proc) if original_new
+  end
 end

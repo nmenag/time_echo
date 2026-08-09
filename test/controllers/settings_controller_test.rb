@@ -89,4 +89,31 @@ class SettingsControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to root_url
     assert_nil session[:current_user_email]
   end
+
+  test "should handle email update request in settings update" do
+    sign_in(@email)
+
+    patch settings_url, params: {
+      user_preference: {
+        email: "new_email@timeecho.com"
+      }
+    }
+
+    assert_redirected_to settings_url
+  end
+
+  test "should render unprocessable entity when update service fails" do
+    sign_in(@email)
+
+    struct_fail = Struct.new(:success?, :error).new(false, "Invalid settings")
+    original_call = Settings::UpdatePreferencesService.method(:call)
+    Settings::UpdatePreferencesService.define_singleton_method(:call, ->(*) { struct_fail })
+
+    patch settings_url, params: {
+      user_preference: { theme: "invalid" }
+    }
+    assert_response :unprocessable_entity
+  ensure
+    Settings::UpdatePreferencesService.define_singleton_method(:call, original_call.to_proc)
+  end
 end

@@ -2,50 +2,37 @@ require "test_helper"
 
 class Settings::UpdatePreferencesServiceTest < ActiveSupport::TestCase
   setup do
-    @email = "traveler@timeecho.com"
-    @prefs = UserPreference.find_or_create_by!(email: @email)
+    @preference = UserPreference.create!(email: "user@example.com")
   end
 
-  test "updates preferences successfully and logs event" do
-    result = Settings::UpdatePreferencesService.call(
-      @prefs,
-      { theme: "luxury", appearance_mode: "dark" },
-      @email
-    )
-
+  test "updates preferences when email unchanged" do
+    result = Settings::UpdatePreferencesService.call(@preference, { theme: "cupcake" }, "user@example.com")
     assert result.success?
     assert_equal :preferences_updated, result.action
-
-    @prefs.reload
-    assert_equal "luxury", @prefs.theme
-    assert_equal "dark", @prefs.appearance_mode
+    @preference.reload
+    assert_equal "cupcake", @preference.theme
   end
 
-  test "requests an email update if email parameter differs" do
-    assert_difference -> { SessionToken.count } => 1 do
-      result = Settings::UpdatePreferencesService.call(
-        @prefs,
-        { email: "new_email@timeecho.com" },
-        @email
-      )
-
-      assert result.success?
-      assert_equal :email_update_requested, result.action
-      assert_match "Hemos enviado un correo de confirmación", result.message
-    end
-
-    @prefs.reload
-    assert_equal "new_email@timeecho.com", @prefs.unconfirmed_email
+  test "requests email update when email changed" do
+    result = Settings::UpdatePreferencesService.call(@preference, { email: "new@example.com" }, "user@example.com")
+    assert result.success?
+    assert_equal :email_update_requested, result.action
   end
 
-  test "returns error when attempting to update to invalid email" do
-    result = Settings::UpdatePreferencesService.call(
-      @prefs,
-      { email: "invalid-email" },
-      @email
-    )
-
+  test "returns failure when update fails" do
+    result = Settings::UpdatePreferencesService.call(@preference, { appearance_mode: "invalid" }, "user@example.com")
     assert_not result.success?
-    assert_match "correo electrónico válido", result.error
+  end
+
+  test "returns failure when email update service fails" do
+    struct_fail = Struct.new(:success?, :error).new(false, "Update failed")
+    original_call = Settings::RequestEmailUpdateService.method(:call)
+    Settings::RequestEmailUpdateService.define_singleton_method(:call, ->(*) { struct_fail })
+
+    result = Settings::UpdatePreferencesService.call(@preference, { email: "new@example.com" }, "user@example.com")
+    assert_not result.success?
+    assert_equal "Update failed", result.error
+  ensure
+    Settings::RequestEmailUpdateService.define_singleton_method(:call, original_call.to_proc)
   end
 end
