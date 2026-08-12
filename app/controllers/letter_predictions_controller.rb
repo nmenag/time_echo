@@ -16,7 +16,7 @@ class LetterPredictionsController < ApplicationController
       when :unauthorized
         redirect_to root_path, alert: t("flash.unauthorized_modify")
       else
-        redirect_to root_path, alert: result.message || "Error al guardar los ajustes."
+        redirect_to root_path, alert: t("letters.error_saving")
       end
     end
   end

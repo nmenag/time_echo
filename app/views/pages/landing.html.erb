@@ -8,12 +8,12 @@
       <div class="space-y-6">
         <!-- Elegant Serif Headline -->
         <h1 class="font-serif text-5xl sm:text-6xl font-normal text-base-content leading-tight">
-          Escribe hoy.<br>Descubre mañana.
+          <%= t('landing.headline').html_safe %>
         </h1>
 
         <!-- Subheadline -->
         <p class="text-sm sm:text-base text-base-content/60 leading-relaxed max-w-xl">
-          Escribe una carta a tu futuro, haz predicciones y descubre cómo realmente evolucionas con el tiempo.
+          <%= t('landing.subtitle') %>
         </p>
       </div>
 
@@ -24,8 +24,8 @@
             🔒
           </div>
           <div class="space-y-0.5">
-            <h4 class="text-xs font-bold text-base-content uppercase tracking-wider">Privado y seguro</h4>
-            <p class="text-xs text-base-content/50 leading-relaxed">Solo tú puedes abrir tu carta cuando llegue el momento.</p>
+            <h4 class="text-xs font-bold text-base-content uppercase tracking-wider"><%= t('landing.private_and_secure') %></h4>
+            <p class="text-xs text-base-content/50 leading-relaxed"><%= t('landing.private_desc') %></p>
           </div>
         </div>
 
@@ -34,8 +34,8 @@
             🕒
           </div>
           <div class="space-y-0.5">
-            <h4 class="text-xs font-bold text-base-content uppercase tracking-wider">Entregado a tiempo</h4>
-            <p class="text-xs text-base-content/50 leading-relaxed">Tu carta será guardada y te la enviaremos en la fecha que elijas.</p>
+            <h4 class="text-xs font-bold text-base-content uppercase tracking-wider"><%= t('landing.delivered_on_time') %></h4>
+            <p class="text-xs text-base-content/50 leading-relaxed"><%= t('landing.delivery_desc') %></p>
           </div>
         </div>
 
@@ -44,20 +44,20 @@
             💜
           </div>
           <div class="space-y-0.5">
-            <h4 class="text-xs font-bold text-base-content uppercase tracking-wider">Conecta contigo</h4>
-            <p class="text-xs text-base-content/50 leading-relaxed">Compara tus predicciones con tu realidad y reflexiona sobre tu evolución.</p>
+            <h4 class="text-xs font-bold text-base-content uppercase tracking-wider"><%= t('landing.connect_with_yourself') %></h4>
+            <p class="text-xs text-base-content/50 leading-relaxed"><%= t('landing.compare_desc') %></p>
           </div>
         </div>
       </div>
 
       <!-- Young Man Sunset Cliff Image Mockup with hand-written overlay -->
       <div class="relative overflow-hidden rounded-3xl border border-base-200/80 shadow-md max-w-md group">
-        <img src="/images/hero_cliff.png" class="w-full h-80 object-cover hover:scale-105 transition-transform duration-700" alt="Reflexión sobre el futuro">
+        <img src="/images/hero_cliff.png" class="w-full h-80 object-cover hover:scale-105 transition-transform duration-700" alt="<%= t('landing.hero_image_alt') %>">
         
         <!-- Interactive Hand-drawn handwriting note & arrow absolute overlay -->
         <div class="absolute bottom-16 right-10 flex flex-col items-center select-none pointer-events-none transform rotate-3">
           <span class="font-handwritten text-xl sm:text-2xl text-primary bg-base-100/70 backdrop-blur-xs px-3 py-1 rounded-xl shadow-2xs">
-            💜 Para ti, desde hoy
+            <%= t('landing.note_for_you') %>
           </span>
           <!-- Hand-drawn SVG curved arrow pointing from text to horizon -->
           <svg class="w-16 h-12 text-primary mt-1 drop-shadow-sm" fill="none" viewBox="0 0 50 40" stroke="currentColor" stroke-width="2.5">
@@ -75,13 +75,13 @@
       <div class="border-b border-base-100 pb-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div class="space-y-1">
           <h2 class="font-serif text-2xl text-base-content font-semibold flex items-center gap-2">
-            <span>✍️</span> Escribe tu carta a tu futuro <span class="text-primary">✨</span>
+            <span>✍️</span> <%= t('landing.write_card_title').html_safe %>
           </h2>
         </div>
         
         <!-- Multi-segment Onboarding Steps bar (1 de 4) -->
         <div class="flex items-center gap-2 shrink-0 select-none text-[11px] font-bold text-base-content/40">
-          <span>1 de 4</span>
+          <span><%= t('landing.step_1_of_4') %></span>
           <div class="flex items-center gap-1">
             <span class="w-8 h-1.5 rounded-full bg-primary"></span>
             <span class="w-8 h-1.5 rounded-full bg-base-200"></span>
@@ -93,13 +93,13 @@
 
       <!-- Form submissions direct to letters_path -->
       <%= form_with model: LetterForm.new, url: letters_path, local: true, class: "space-y-6" do |f| %>
-        <%= f.hidden_field :title, value: "Mi carta al futuro" %>
+        <%= f.hidden_field :title, value: t('landing.your_letter') %>
         <%= f.hidden_field :deliver_at, id: "letter_deliver_at_hidden" %>
 
         <!-- Tu carta textarea block -->
         <div class="space-y-3">
-          <label class="text-xs font-bold text-base-content uppercase tracking-wider block">Tu carta</label>
-          <%= f.text_area :content, id: "landing_content_area", placeholder: "Querido yo del futuro...", rows: 8, class: "textarea w-full p-4 border border-base-200 focus:border-primary/40 focus:outline-none rounded-2xl font-serif-body text-sm sm:text-base leading-relaxed placeholder:font-sans placeholder:text-xs placeholder:text-base-content/30 resize-y bg-base-200/20 shadow-3xs", required: true %>
+          <label class="text-xs font-bold text-base-content uppercase tracking-wider block"><%= t('landing.your_letter') %></label>
+          <%= f.text_area :content, id: "landing_content_area", placeholder: t('landing.dear_future_self'), rows: 8, class: "textarea w-full p-4 border border-base-200 focus:border-primary/40 focus:outline-none rounded-2xl font-serif-body text-sm sm:text-base leading-relaxed placeholder:font-sans placeholder:text-xs placeholder:text-base-content/30 resize-y bg-base-200/20 shadow-3xs", required: true %>
           <!-- Character count indicator -->
           <div class="flex justify-end text-[10px] text-base-content/30 font-mono">
             <span id="landing_char_counter">0 / 2000</span>
@@ -108,21 +108,21 @@
 
         <!-- ¿Cuándo quieres recibirla? buttons -->
         <div class="space-y-3">
-          <label class="text-xs font-bold text-base-content uppercase tracking-wider block">¿Cuándo quieres recibirla?</label>
+          <label class="text-xs font-bold text-base-content uppercase tracking-wider block"><%= t('landing.when_do_you_want_it') %></label>
           <div class="grid grid-cols-2 sm:grid-cols-5 gap-2 text-[11px] font-semibold">
-            <button type="button" onclick="setPresetDate(this, 180)" class="border border-base-200 py-2.5 rounded-xl hover:bg-base-200/40 transition-all cursor-pointer">6 meses</button>
-            <button type="button" id="default-date-btn" onclick="setPresetDate(this, 365)" class="border border-primary/40 bg-primary/5 text-primary py-2.5 rounded-xl font-bold transition-all cursor-pointer">1 año</button>
-            <button type="button" onclick="setPresetDate(this, 1095)" class="border border-base-200 py-2.5 rounded-xl hover:bg-base-200/40 transition-all cursor-pointer">3 años</button>
-            <button type="button" onclick="setPresetDate(this, 1825)" class="border border-base-200 py-2.5 rounded-xl hover:bg-base-200/40 transition-all cursor-pointer">5 años</button>
+            <button type="button" onclick="setPresetDate(this, 180)" class="border border-base-200 py-2.5 rounded-xl hover:bg-base-200/40 transition-all cursor-pointer"><%= t('landing.six_months') %></button>
+            <button type="button" id="default-date-btn" onclick="setPresetDate(this, 365)" class="border border-primary/40 bg-primary/5 text-primary py-2.5 rounded-xl font-bold transition-all cursor-pointer"><%= t('landing.one_year') %></button>
+            <button type="button" onclick="setPresetDate(this, 1095)" class="border border-base-200 py-2.5 rounded-xl hover:bg-base-200/40 transition-all cursor-pointer"><%= t('landing.three_years') %></button>
+            <button type="button" onclick="setPresetDate(this, 1825)" class="border border-base-200 py-2.5 rounded-xl hover:bg-base-200/40 transition-all cursor-pointer"><%= t('landing.five_years') %></button>
             <button type="button" onclick="toggleCustomDate(this)" class="col-span-2 sm:col-span-1 border border-base-200 py-2.5 rounded-xl hover:bg-base-200/40 transition-all flex items-center justify-center gap-1 cursor-pointer">
-              <span>Fecha personalizada</span>
+              <span><%= t('landing.custom_date') %></span>
               <span>📅</span>
             </button>
           </div>
           <!-- Custom Date Input container (collapsible) -->
           <div id="custom-date-container" class="hidden animate-fade-in">
             <div class="bg-base-200/30 border border-base-200 p-3 rounded-2xl">
-              <label class="text-[10px] text-base-content/40 font-bold uppercase tracking-wider block mb-1">Elige una fecha específica</label>
+              <label class="text-[10px] text-base-content/40 font-bold uppercase tracking-wider block mb-1"><%= t('landing.choose_specific_date') %></label>
               <input type="date" id="custom-date-input" min="<%= (Date.current + 1.day).to_s %>" onchange="setCustomDate(this.value)" class="input input-bordered w-full rounded-xl bg-base-200/20 text-base-content border-base-200/80 text-xs hover:border-slate-300 focus:border-primary focus:ring-2 focus:ring-primary/10 focus:outline-none transition-all shadow-2xs h-12 px-4">
             </div>
           </div>
@@ -131,45 +131,45 @@
         <!-- Tus predicciones (opcional) grid -->
         <div class="space-y-4">
           <div class="flex justify-between items-center border-b border-base-100 pb-1">
-            <label class="text-xs font-bold text-base-content uppercase tracking-wider block">Tus predicciones (opcional)</label>
+            <label class="text-xs font-bold text-base-content uppercase tracking-wider block"><%= t('landing.your_predictions_optional') %></label>
           </div>
 
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs font-medium">
             <!-- Where will you live -->
             <div class="relative flex items-center">
               <span class="absolute left-3.5 text-sm text-primary">📍</span>
-              <%= f.text_field :prediction_city, placeholder: "¿Dónde crees que vivirás?", class: "input input-bordered w-full pl-9 rounded-xl bg-base-200/20 text-base-content border-base-200/80 placeholder:text-base-content/30 text-xs hover:border-slate-300 focus:border-primary focus:ring-2 focus:ring-primary/10 focus:outline-none transition-all shadow-2xs h-12" %>
+              <%= f.text_field :prediction_city, placeholder: t('landing.where_will_you_live'), class: "input input-bordered w-full pl-9 rounded-xl bg-base-200/20 text-base-content border-base-200/80 placeholder:text-base-content/30 text-xs hover:border-slate-300 focus:border-primary focus:ring-2 focus:ring-primary/10 focus:outline-none transition-all shadow-2xs h-12" %>
             </div>
 
             <!-- What will you do -->
             <div class="relative flex items-center">
               <span class="absolute left-3.5 text-sm text-primary">💼</span>
-              <%= f.text_field :prediction_career, placeholder: "¿A qué te dedicarás?", class: "input input-bordered w-full pl-9 rounded-xl bg-base-200/20 text-base-content border-base-200/80 placeholder:text-base-content/30 text-xs hover:border-slate-300 focus:border-primary focus:ring-2 focus:ring-primary/10 focus:outline-none transition-all shadow-2xs h-12" %>
+              <%= f.text_field :prediction_career, placeholder: t('landing.what_work_will_you_do'), class: "input input-bordered w-full pl-9 rounded-xl bg-base-200/20 text-base-content border-base-200/80 placeholder:text-base-content/30 text-xs hover:border-slate-300 focus:border-primary focus:ring-2 focus:ring-primary/10 focus:outline-none transition-all shadow-2xs h-12" %>
             </div>
 
             <!-- How much will you earn -->
             <div class="relative flex items-center">
               <span class="absolute left-3.5 text-sm text-primary">💵</span>
-              <%= f.text_field :prediction_salary, placeholder: "¿Cuánto dinero crees que ganarás?", class: "input input-bordered w-full pl-9 rounded-xl bg-base-200/20 text-base-content border-base-200/80 placeholder:text-base-content/30 text-xs hover:border-slate-300 focus:border-primary focus:ring-2 focus:ring-primary/10 focus:outline-none transition-all shadow-2xs h-12" %>
+              <%= f.text_field :prediction_salary, placeholder: t('landing.how_much_money_will_you_earn'), class: "input input-bordered w-full pl-9 rounded-xl bg-base-200/20 text-base-content border-base-200/80 placeholder:text-base-content/30 text-xs hover:border-slate-300 focus:border-primary focus:ring-2 focus:ring-primary/10 focus:outline-none transition-all shadow-2xs h-12" %>
             </div>
 
             <!-- Relationship status -->
             <div class="relative flex items-center">
               <span class="absolute left-3.5 text-sm text-primary">💜</span>
-              <%= f.text_field :prediction_relationship, placeholder: "¿Cómo será tu relación sentimental?", class: "input input-bordered w-full pl-9 rounded-xl bg-base-200/20 text-base-content border-base-200/80 placeholder:text-base-content/30 text-xs hover:border-slate-300 focus:border-primary focus:ring-2 focus:ring-primary/10 focus:outline-none transition-all shadow-2xs h-12" %>
+              <%= f.text_field :prediction_relationship, placeholder: t('landing.how_will_your_relationship_be'), class: "input input-bordered w-full pl-9 rounded-xl bg-base-200/20 text-base-content border-base-200/80 placeholder:text-base-content/30 text-xs hover:border-slate-300 focus:border-primary focus:ring-2 focus:ring-primary/10 focus:outline-none transition-all shadow-2xs h-12" %>
             </div>
 
             <!-- Biggest achievement -->
             <div class="relative flex items-center">
               <span class="absolute left-3.5 text-sm text-primary">⭐️</span>
-              <%= f.text_field :prediction_achievement, placeholder: "¿Cuál será tu mayor logro?", class: "input input-bordered w-full pl-9 rounded-xl bg-base-200/20 text-base-content border-base-200/80 placeholder:text-base-content/30 text-xs hover:border-slate-300 focus:border-primary focus:ring-2 focus:ring-primary/10 focus:outline-none transition-all shadow-2xs h-12" %>
+              <%= f.text_field :prediction_achievement, placeholder: t('landing.what_will_be_your_achievement'), class: "input input-bordered w-full pl-9 rounded-xl bg-base-200/20 text-base-content border-base-200/80 placeholder:text-base-content/30 text-xs hover:border-slate-300 focus:border-primary focus:ring-2 focus:ring-primary/10 focus:outline-none transition-all shadow-2xs h-12" %>
             </div>
 
             <!-- Happiness prediction slider card (h-12 offset matching mockup) -->
             <div class="bg-base-200/20 border border-base-200/50 p-2.5 px-3 rounded-xl shadow-2xs space-y-1 relative pl-10 flex flex-col justify-center h-12">
               <span class="absolute left-3.5 top-1/2 -translate-y-1/2 text-sm text-primary">🤖</span>
               <div class="flex justify-between items-center text-[10px] font-bold text-base-content/80 uppercase tracking-wide leading-none">
-                <span>¿Qué tan feliz serás?</span>
+                <span><%= t('landing.how_happy_will_you_be') %></span>
                 <span id="landing_pred_happiness_val" class="font-extrabold text-primary font-mono">5 / 10</span>
               </div>
               <input type="range" name="letter_form[prediction_happiness]" value="5" min="1" max="10" class="w-full accent-primary cursor-pointer h-3" oninput="document.getElementById('landing_pred_happiness_val').innerText = this.value + ' / 10'">
@@ -179,13 +179,13 @@
 
         <!-- ¿Cómo te sientes hoy? sliders grid -->
         <div class="space-y-3">
-          <label class="text-xs font-bold text-base-content uppercase tracking-wider block">¿Cómo te sientes hoy?</label>
+          <label class="text-xs font-bold text-base-content uppercase tracking-wider block"><%= t('landing.how_do_you_feel_today') %></label>
           
           <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
             <!-- Felicidad -->
             <div class="bg-base-200/30 border border-base-200/50 p-3.5 rounded-2xl space-y-2">
               <div class="flex justify-between items-center text-primary font-semibold">
-                <span class="flex items-center gap-1.5">😃 Felicidad</span>
+                <span class="flex items-center gap-1.5"><%= t('landing.happiness') %></span>
                 <span id="landing_happiness_val" class="font-bold text-primary font-mono">6 / 10</span>
               </div>
               <input type="range" name="letter_form[happiness_level]" value="6" min="1" max="10" class="w-full accent-primary cursor-pointer" oninput="document.getElementById('landing_happiness_val').innerText = this.value + ' / 10'">
@@ -194,7 +194,7 @@
             <!-- Ansiedad -->
             <div class="bg-base-200/30 border border-base-200/50 p-3.5 rounded-2xl space-y-2">
               <div class="flex justify-between items-center text-primary font-semibold">
-                <span class="flex items-center gap-1.5">😩 Ansiedad</span>
+                <span class="flex items-center gap-1.5"><%= t('landing.anxiety') %></span>
                 <span id="landing_anxiety_val" class="font-bold text-primary font-mono">4 / 10</span>
               </div>
               <input type="range" name="letter_form[anxiety_level]" value="4" min="1" max="10" class="w-full accent-primary cursor-pointer" oninput="document.getElementById('landing_anxiety_val').innerText = this.value + ' / 10'">
@@ -203,7 +203,7 @@
             <!-- Motivacion -->
             <div class="bg-base-200/30 border border-base-200/50 p-3.5 rounded-2xl space-y-2">
               <div class="flex justify-between items-center text-primary font-semibold">
-                <span class="flex items-center gap-1.5">⭐️ Motivación</span>
+                <span class="flex items-center gap-1.5"><%= t('landing.motivation') %></span>
                 <span id="landing_motivation_val" class="font-bold text-primary font-mono">7 / 10</span>
               </div>
               <input type="range" name="letter_form[motivation_level]" value="7" min="1" max="10" class="w-full accent-primary cursor-pointer" oninput="document.getElementById('landing_motivation_val').innerText = this.value + ' / 10'">
@@ -213,11 +213,11 @@
 
         <!-- ¿A dónde te enviamos tu carta? email field & purple CTA -->
         <div class="space-y-3 pt-2">
-          <label class="text-xs font-bold text-base-content uppercase tracking-wider block">¿A dónde te enviamos tu carta?</label>
+          <label class="text-xs font-bold text-base-content uppercase tracking-wider block"><%= t('landing.where_do_we_send_letter') %></label>
           <div class="flex flex-col sm:flex-row gap-2.5">
-            <%= f.email_field :email, placeholder: "tu@email.com", class: "input input-bordered w-full rounded-xl bg-base-200/20 text-base-content border-base-200/80 placeholder:text-base-content/30 text-sm hover:border-slate-300 focus:border-primary focus:ring-2 focus:ring-primary/10 focus:outline-none transition-all shadow-2xs h-12 px-4 font-sans", required: true %>
+            <%= f.email_field :email, placeholder: t('landing.email_placeholder'), class: "input input-bordered w-full rounded-xl bg-base-200/20 text-base-content border-base-200/80 placeholder:text-base-content/30 text-sm hover:border-slate-300 focus:border-primary focus:ring-2 focus:ring-primary/10 focus:outline-none transition-all shadow-2xs h-12 px-4 font-sans", required: true %>
             <button type="submit" class="btn btn-primary text-primary-content rounded-2xl px-7 text-xs font-bold tracking-wider uppercase shadow-md transition-all duration-300 cursor-pointer flex items-center justify-center gap-1.5 shrink-0 py-3.5 border-none font-sans">
-              <span>Enviar a mi yo futuro</span>
+              <span><%= t('landing.send_to_future_self') %></span>
               <span>🚀</span>
             </button>
           </div>
@@ -226,7 +226,7 @@
         <!-- Secure Badge footer -->
         <div class="flex items-center justify-center gap-1.5 text-[10px] text-base-content/40 pt-2 border-t border-base-100">
           <span>🔒</span>
-          <span>Tu carta es 100% privada y segura.</span>
+          <span><%= t('landing.private_and_secure_badge') %></span>
         </div>
       <% end %>
     </div>
@@ -235,9 +235,9 @@
   <!-- Así se verá cuando abras tu carta section -->
   <section class="space-y-12">
     <div class="text-center space-y-3">
-      <h2 class="font-serif text-4xl text-base-content font-semibold">Así se verá cuando abras tu carta</h2>
+      <h2 class="font-serif text-4xl text-base-content font-semibold"><%= t('landing.how_it_looks') %></h2>
       <p class="text-xs text-base-content/40 max-w-md mx-auto leading-relaxed">
-        Compara tus predicciones con tu realidad y reflexiona sobre tu evolución.
+        <%= t('landing.compare_reflect_desc') %>
       </p>
     </div>
 
@@ -264,42 +264,42 @@
           <div class="space-y-8">
             <!-- Brand -->
             <div class="space-y-1 text-primary">
-              <span class="flex items-center gap-1 text-lg font-serif-body italic font-semibold text-base-content">
-                TimeEcho
-                <span class="text-primary text-xs font-sans relative -top-1 font-bold">+</span>
-              </span>
+                <span class="flex items-center gap-1 text-lg font-serif-body italic font-semibold text-base-content">
+                  <%= t('brand') %>
+                  <span class="text-primary text-xs font-sans relative -top-1 font-bold">+</span>
+                </span>
             </div>
 
             <!-- Sidebar links -->
             <nav class="space-y-1.5 text-[12px] font-semibold text-base-content/70">
               <div class="flex items-center gap-2.5 px-3.5 py-2.5 rounded-xl bg-white text-primary border border-base-200/70 shadow-3xs font-bold">
                 <span class="text-sm">📝</span>
-                <span>Mis cartas</span>
+                <span><%= t('navigation.vault') %></span>
               </div>
               <div class="flex items-center gap-2.5 px-3.5 py-2.5 rounded-xl hover:bg-base-200/50 cursor-pointer transition-colors">
                 <span class="text-sm">🕒</span>
-                <span>Línea de tiempo</span>
+                <span><%= t('navigation.timeline') %></span>
               </div>
               <div class="flex items-center gap-2.5 px-3.5 py-2.5 rounded-xl hover:bg-base-200/50 cursor-pointer transition-colors">
                 <span class="text-sm">💡</span>
-                <span>Recuerdos</span>
+                <span><%= t('navigation.memories') %></span>
               </div>
               <div class="flex items-center gap-2.5 px-3.5 py-2.5 rounded-xl hover:bg-base-200/50 cursor-pointer transition-colors">
                 <span class="text-sm">📊</span>
-                <span>Estadísticas</span>
+                <span><%= t('navigation.analytics') %></span>
               </div>
               <div class="flex items-center gap-2.5 px-3.5 py-2.5 rounded-xl hover:bg-base-200/50 cursor-pointer transition-colors">
                 <span class="text-sm">⚙️</span>
-                <span>Ajustes</span>
+                <span><%= t('navigation.settings') %></span>
               </div>
             </nav>
           </div>
 
           <!-- Bottom inspirational card -->
           <div class="space-y-3 border-t border-base-200/80 pt-4">
-            <p class="text-[10px] font-serif-body italic text-primary/80 leading-relaxed font-semibold">
-              "El futuro no es algo que llega, es algo que creas. 🪄"
-            </p>
+          <p class="text-[10px] font-serif-body italic text-primary/80 leading-relaxed font-semibold">
+            "<%= t('navigation.quote') %>"
+          </p>
             <div class="text-[10px] text-primary font-bold">✦</div>
           </div>
         </aside>
@@ -311,7 +311,7 @@
           <div class="lg:col-span-7 space-y-4">
             <div class="border-b border-base-100 pb-3">
               <h3 class="text-xs font-bold text-primary uppercase tracking-wider flex items-center gap-1.5">
-                Predicción vs Realidad <span class="text-primary">✨</span>
+                <%= t('landing.prediction_vs_reality').html_safe %>
               </h3>
             </div>
 
@@ -323,16 +323,16 @@
                 <div class="flex items-center gap-3">
                   <span class="text-base text-primary shrink-0">📍</span>
                   <div class="space-y-0.5">
-                    <p class="text-[9px] text-base-content/40 font-bold uppercase">Predicción</p>
+                     <p class="text-[9px] text-base-content/40 font-bold uppercase"><%= t('letters.prediction') %></p>
                     <p class="text-primary font-bold">Viviré en Barcelona</p>
                   </div>
                   <span class="text-base-content/30 hidden sm:inline">&rarr;</span>
                   <div class="space-y-0.5">
-                    <p class="text-[9px] text-base-content/40 font-bold uppercase">Realidad</p>
+                     <p class="text-[9px] text-base-content/40 font-bold uppercase"><%= t('letters.reality') %></p>
                     <p class="text-primary font-bold">Vivo en Medellín</p>
                   </div>
                 </div>
-                <span class="px-2.5 py-0.5 rounded-full bg-warning/15 text-warning border border-warning/30 text-[9px] font-extrabold uppercase tracking-wide self-start sm:self-auto shrink-0">Parcialmente</span>
+                <span class="px-2.5 py-0.5 rounded-full bg-warning/15 text-warning border border-warning/30 text-[9px] font-extrabold uppercase tracking-wide self-start sm:self-auto shrink-0"><%= t('letters.partially') %></span>
               </div>
 
               <!-- Item 2: Career -->
@@ -340,16 +340,16 @@
                 <div class="flex items-center gap-3">
                   <span class="text-base text-primary shrink-0">💼</span>
                   <div class="space-y-0.5">
-                    <p class="text-[9px] text-base-content/40 font-bold uppercase">Predicción</p>
+                     <p class="text-[9px] text-base-content/40 font-bold uppercase"><%= t('letters.prediction') %></p>
                     <p class="text-primary font-bold">Seré diseñadora freelance</p>
                   </div>
                   <span class="text-base-content/30 hidden sm:inline">&rarr;</span>
                   <div class="space-y-0.5">
-                    <p class="text-[9px] text-base-content/40 font-bold uppercase">Realidad</p>
+                     <p class="text-[9px] text-base-content/40 font-bold uppercase"><%= t('letters.reality') %></p>
                     <p class="text-primary font-bold">Soy Product Designer</p>
                   </div>
                 </div>
-                <span class="px-2.5 py-0.5 rounded-full bg-success/15 text-success border border-success/30 text-[9px] font-extrabold uppercase tracking-wide self-start sm:self-auto shrink-0">¡Acertaste!</span>
+                <span class="px-2.5 py-0.5 rounded-full bg-success/15 text-success border border-success/30 text-[9px] font-extrabold uppercase tracking-wide self-start sm:self-auto shrink-0"><%= t('letters.you_did_it') %></span>
               </div>
 
               <!-- Item 3: Salary -->
@@ -357,16 +357,16 @@
                 <div class="flex items-center gap-3">
                   <span class="text-base text-primary shrink-0">💵</span>
                   <div class="space-y-0.5">
-                    <p class="text-[9px] text-base-content/40 font-bold uppercase">Predicción</p>
+                     <p class="text-[9px] text-base-content/40 font-bold uppercase"><%= t('letters.prediction') %></p>
                     <p class="text-primary font-bold">Ganaré $5.000.000 COP</p>
                   </div>
                   <span class="text-base-content/30 hidden sm:inline">&rarr;</span>
                   <div class="space-y-0.5">
-                    <p class="text-[9px] text-base-content/40 font-bold uppercase">Realidad</p>
+                     <p class="text-[9px] text-base-content/40 font-bold uppercase"><%= t('letters.reality') %></p>
                     <p class="text-primary font-bold">Gano $7.200.000 COP</p>
                   </div>
                 </div>
-                <span class="px-2.5 py-0.5 rounded-full bg-success/15 text-success border border-success/30 text-[9px] font-extrabold uppercase tracking-wide self-start sm:self-auto shrink-0">¡Superaste! 🚀</span>
+                <span class="px-2.5 py-0.5 rounded-full bg-success/15 text-success border border-success/30 text-[9px] font-extrabold uppercase tracking-wide self-start sm:self-auto shrink-0"><%= t('letters.superaste') %></span>
               </div>
 
               <!-- Item 4: Relationship -->
@@ -374,16 +374,16 @@
                 <div class="flex items-center gap-3">
                   <span class="text-base text-primary shrink-0">💜</span>
                   <div class="space-y-0.5">
-                    <p class="text-[9px] text-base-content/40 font-bold uppercase">Predicción</p>
+                     <p class="text-[9px] text-base-content/40 font-bold uppercase"><%= t('letters.prediction') %></p>
                     <p class="text-primary font-bold">Estaré soltera</p>
                   </div>
                   <span class="text-base-content/30 hidden sm:inline">&rarr;</span>
                   <div class="space-y-0.5">
-                    <p class="text-[9px] text-base-content/40 font-bold uppercase">Realidad</p>
+                     <p class="text-[9px] text-base-content/40 font-bold uppercase"><%= t('letters.reality') %></p>
                     <p class="text-primary font-bold">Tengo una relación 🥴</p>
                   </div>
                 </div>
-                <span class="px-2.5 py-0.5 rounded-full bg-warning/15 text-warning border border-warning/30 text-[9px] font-extrabold uppercase tracking-wide self-start sm:self-auto shrink-0">Parcialmente</span>
+                <span class="px-2.5 py-0.5 rounded-full bg-warning/15 text-warning border border-warning/30 text-[9px] font-extrabold uppercase tracking-wide self-start sm:self-auto shrink-0"><%= t('letters.partially') %></span>
               </div>
 
               <!-- Item 5: Achievement -->
@@ -391,16 +391,16 @@
                 <div class="flex items-center gap-3">
                   <span class="text-base text-primary shrink-0">⭐️</span>
                   <div class="space-y-0.5">
-                    <p class="text-[9px] text-base-content/40 font-bold uppercase">Predicción</p>
+                     <p class="text-[9px] text-base-content/40 font-bold uppercase"><%= t('letters.prediction') %></p>
                     <p class="text-primary font-bold">Lanzaré mi startup</p>
                   </div>
                   <span class="text-base-content/30 hidden sm:inline">&rarr;</span>
                   <div class="space-y-0.5">
-                    <p class="text-[9px] text-base-content/40 font-bold uppercase">Realidad</p>
+                     <p class="text-[9px] text-base-content/40 font-bold uppercase"><%= t('letters.reality') %></p>
                     <p class="text-primary font-bold">Aún estoy planeándolo</p>
                   </div>
                 </div>
-                <span class="px-2.5 py-0.5 rounded-full bg-error/15 text-error border border-error/30 text-[9px] font-extrabold uppercase tracking-wide self-start sm:self-auto shrink-0">Aún no</span>
+                <span class="px-2.5 py-0.5 rounded-full bg-error/15 text-error border border-error/30 text-[9px] font-extrabold uppercase tracking-wide self-start sm:self-auto shrink-0"><%= t('letters.not_yet') %></span>
               </div>
 
               <!-- Item 6: Happiness -->
@@ -408,16 +408,16 @@
                 <div class="flex items-center gap-3">
                   <span class="text-base text-primary shrink-0">😃</span>
                   <div class="space-y-0.5">
-                    <p class="text-[9px] text-base-content/40 font-bold uppercase">Predicción</p>
+                     <p class="text-[9px] text-base-content/40 font-bold uppercase"><%= t('letters.prediction') %></p>
                     <p class="text-primary font-bold">8 / 10 de felicidad</p>
                   </div>
                   <span class="text-base-content/30 hidden sm:inline">&rarr;</span>
                   <div class="space-y-0.5">
-                    <p class="text-[9px] text-base-content/40 font-bold uppercase">Realidad</p>
+                     <p class="text-[9px] text-base-content/40 font-bold uppercase"><%= t('letters.reality') %></p>
                     <p class="text-primary font-bold">7 / 10 de felicidad</p>
                   </div>
                 </div>
-                <span class="px-2.5 py-0.5 rounded-full bg-info/15 text-info border border-info/30 text-[9px] font-extrabold uppercase tracking-wide self-start sm:self-auto shrink-0">Muy cerca</span>
+                <span class="px-2.5 py-0.5 rounded-full bg-info/15 text-info border border-info/30 text-[9px] font-extrabold uppercase tracking-wide self-start sm:self-auto shrink-0"><%= t('letters.very_close') %></span>
               </div>
 
             </div>
@@ -429,13 +429,13 @@
             <!-- Emotional Chart Panel -->
             <div class="card card-bordered border-base-200 bg-base-100 p-5 rounded-2xl shadow-3xs space-y-4">
               <div>
-                <h4 class="text-[11px] font-bold text-primary uppercase tracking-wider">Evolución emocional</h4>
+                <h4 class="text-[11px] font-bold text-primary uppercase tracking-wider"><%= t('letters.emotional_evolution') %></h4>
                 <div class="flex gap-4 text-[9px] text-base-content/50 mt-1 select-none">
                   <span class="flex items-center gap-1 font-semibold">
-                    <span class="border-b-2 border-dotted border-[#ebdcb9] w-4 inline-block"></span> Hace 1 año
+                    <span class="border-b-2 border-dotted border-[#ebdcb9] w-4 inline-block"></span> <%= t('landing.one_year_ago') %>
                   </span>
                   <span class="flex items-center gap-1 font-semibold">
-                    <span class="border-b-2 border-primary w-4 inline-block"></span> Hoy
+                    <span class="border-b-2 border-primary w-4 inline-block"></span> <%= t('landing.today') %>
                   </span>
                 </div>
               </div>
@@ -467,9 +467,9 @@
                 </svg>
 
                 <div class="absolute bottom-0 left-0 right-0 flex justify-between text-[8px] font-bold text-base-content/40 tracking-wider uppercase px-2 select-none">
-                  <span>Felicidad</span>
-                  <span>Ansiedad</span>
-                  <span>Motivación</span>
+                  <span><%= t('letters.happiness') %></span>
+                  <span><%= t('letters.anxiety') %></span>
+                  <span><%= t('letters.motivation') %></span>
                 </div>
               </div>
             </div>
@@ -488,9 +488,9 @@
               </div>
 
               <div class="space-y-1 font-sans text-xs">
-                <h5 class="font-bold text-primary uppercase tracking-wider text-[10px]">Tu precisión general</h5>
-                <p class="font-semibold text-primary text-[11px]">Acertaste 3 de 4 predicciones</p>
-                <p class="text-[10px] text-base-content/40 font-semibold">¡Vas por buen camino! 🚀</p>
+                <h5 class="font-bold text-primary uppercase tracking-wider text-[10px]"><%= t('landing.your_overall_accuracy') %></h5>
+                <p class="font-semibold text-primary text-[11px]"><%= t('landing.accurate_predictions', count: 3, total: 4) %></p>
+                <p class="text-[10px] text-base-content/40 font-semibold"><%= t('landing.you_are_on_track') %></p>
               </div>
             </div>
 
@@ -504,8 +504,8 @@
   <section id="how-it-works" class="space-y-12 scroll-mt-24">
     <div class="text-center space-y-3">
       <div class="text-primary text-xl font-bold select-none">✦</div>
-      <h2 class="font-serif text-4xl text-base-content font-semibold">Cómo funciona</h2>
-      <p class="text-xs text-base-content/40 max-w-xs mx-auto font-semibold leading-relaxed">Un viaje simple hacia tu mejor yo.</p>
+      <h2 class="font-serif text-4xl text-base-content font-semibold"><%= t('landing.how_it_works') %></h2>
+      <p class="text-xs text-base-content/40 max-w-xs mx-auto font-semibold leading-relaxed"><%= t('landing.journey_desc') %></p>
     </div>
 
     <!-- Timeline Horizontal Steps matching user image exactly -->
@@ -518,9 +518,9 @@
           <span class="absolute -bottom-1.5 bg-accent text-primary border border-accent text-[9px] font-extrabold w-5 h-5 rounded-full flex items-center justify-center shadow-3xs">1</span>
         </div>
         <div class="space-y-1">
-          <h3 class="text-sm font-bold text-primary uppercase tracking-wider">Escribes tu carta</h3>
+          <h3 class="text-sm font-bold text-primary uppercase tracking-wider"><%= t('landing.step1_title') %></h3>
           <p class="text-xs text-base-content/50 leading-relaxed font-medium">
-            Comparte tus pensamientos, sueños y predicciones sobre tu futuro.
+            <%= t('landing.step1_desc') %>
           </p>
         </div>
       </div>
@@ -539,9 +539,9 @@
           <span class="absolute -bottom-1.5 bg-accent text-primary border border-accent text-[9px] font-extrabold w-5 h-5 rounded-full flex items-center justify-center shadow-3xs">2</span>
         </div>
         <div class="space-y-1">
-          <h3 class="text-sm font-bold text-primary uppercase tracking-wider">La guardamos por ti</h3>
+          <h3 class="text-sm font-bold text-primary uppercase tracking-wider"><%= t('landing.step2_title') %></h3>
           <p class="text-xs text-base-content/50 leading-relaxed font-medium">
-            Tu carta será guardada de forma segura hasta la fecha que elijas.
+            <%= t('landing.step2_desc') %>
           </p>
         </div>
       </div>
@@ -560,9 +560,9 @@
           <span class="absolute -bottom-1.5 bg-accent text-primary border border-accent text-[9px] font-extrabold w-5 h-5 rounded-full flex items-center justify-center shadow-3xs">3</span>
         </div>
         <div class="space-y-1">
-          <h3 class="text-sm font-bold text-primary uppercase tracking-wider">La abres en el futuro</h3>
+          <h3 class="text-sm font-bold text-primary uppercase tracking-wider"><%= t('landing.step3_title') %></h3>
           <p class="text-xs text-base-content/50 leading-relaxed font-medium">
-            Recibe tu carta y descubre cómo ha sido tu evolución.
+            <%= t('landing.step3_desc') %>
           </p>
         </div>
       </div>
@@ -573,11 +573,11 @@
   <!-- Footer block centering the brand and copy -->
   <section class="max-w-5xl mx-auto px-4 border-t border-base-200/80 pt-10 text-center space-y-4">
     <div class="flex items-center justify-center gap-0.5 text-2xl font-serif italic text-base-content select-none font-semibold">
-      <span>TimeEcho</span>
+      <span><%= t('brand') %></span>
       <span class="text-primary text-lg font-sans relative -top-2.5 font-bold">+</span>
     </div>
     <p class="text-xs text-base-content/40 font-semibold leading-relaxed font-serif italic">
-      Una carta a tu futuro. Un regalo para tu presente.
+      <%= t('footer_copy') %>
     </p>
   </section>
 </div>

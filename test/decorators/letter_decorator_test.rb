@@ -2,6 +2,7 @@ require "test_helper"
 
 class LetterDecoratorTest < ActiveSupport::TestCase
   setup do
+    I18n.locale = :es
     @letter = Letter.create!(
       title: "Test",
       email: "test@example.com",

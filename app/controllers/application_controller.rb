@@ -4,7 +4,8 @@ class ApplicationController < ActionController::Base
   before_action :set_locale
 
   def set_locale
-    I18n.locale = :es
+    browser_locale = request.env["HTTP_ACCEPT_LANGUAGE"]&.scan(/^[a-z]{2}/)&.first&.to_sym
+    I18n.locale = I18n.available_locales.include?(browser_locale) ? browser_locale : I18n.default_locale
   end
 
   stale_when_importmap_changes

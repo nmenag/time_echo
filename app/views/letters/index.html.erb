@@ -2,11 +2,11 @@
   <div class="space-y-8 max-w-4xl mx-auto py-4 font-sans animate-fade-in text-base-content">
     <div class="border-b border-base-200 pb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-6">
       <div class="space-y-1">
-        <h1 class="font-serif text-3xl font-normal text-base-content tracking-tight">Línea de tiempo</h1>
-        <p class="text-sm text-base-content/60">Tu evolución, momentos emocionales y hitos de predicción ordenados cronológicamente.</p>
+        <h1 class="font-serif text-3xl font-normal text-base-content tracking-tight"><%= t('navigation.timeline') %></h1>
+        <p class="text-sm text-base-content/60"><%= t('timeline.subtitle') %></p>
       </div>
       <a href="<%= new_letter_path %>" class="btn bg-primary text-primary-content hover:bg-primary/95 rounded-2xl py-3 px-6 text-sm font-bold border-none cursor-pointer transition-all hover:scale-[1.02] active:scale-[0.98] shadow-sm shrink-0">
-        ✏️ Escribir carta
+         <%= t('letters.write_letter') %>
       </a>
     </div>
 
@@ -28,20 +28,20 @@
             <div class="bg-base-200/30 border border-base-200 rounded-3xl p-6 sm:p-8 shadow-2xs transition-all duration-300 hover:-translate-y-0.5 hover:border-base-300 space-y-5">
               <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs text-base-content/50 border-b border-base-200 pb-3">
                 <span class="font-bold tracking-wider uppercase text-primary">
-                  <%= letter.delivered? ? (letter.reveal_happiness.nil? ? 'Pendiente por revelación' : 'Revelada & Comparada') : 'Cápsula Sellada' %>
+                  <%= letter.delivered? ? (letter.reveal_happiness.nil? ? t('letters.pending_revelation') : t('letters.revealed_and_compared')) : t('letters.sealed_capsule') %>
                 </span>
-                <span>
-                  Creado: <%= I18n.l(letter.created_at.to_date, format: :long) %>
-                </span>
+                  <span>
+                   <%= t('letters.created_on') %>: <%= I18n.l(letter.created_at.to_date, format: :long) %>
+                 </span>
               </div>
 
               <h3 class="font-serif text-xl font-normal text-base-content">
                 <%= letter.title %>
                 <span class="text-xs font-normal text-base-content/40 block sm:inline sm:ml-2 font-sans">
                   <% if letter.delivered? %>
-                    (Abierta el <%= I18n.l(letter.delivered_at.to_date, format: :long) %>)
+                    (<%= t('letters.opened_on') %> <%= I18n.l(letter.delivered_at.to_date, format: :long) %>)
                   <% else %>
-                    (Se abrirá el <%= I18n.l(letter.deliver_at.to_date, format: :long) %>)
+                    (<%= t('letters.will_open_on') %> <%= I18n.l(letter.deliver_at.to_date, format: :long) %>)
                   <% end %>
                 </span>
               </h3>
@@ -55,11 +55,11 @@
                   <% if letter.emotional_snapshot.present? %>
                     <div class="space-y-1.5">
                       <p class="font-bold text-base-content/80 uppercase tracking-wider text-[10px] flex items-center gap-1.5 font-sans">
-                        <span>🧠</span> Evolución Emocional
+                        <span>🧠</span> <%= t('letters.emotional_evolution') %>
                       </p>
                       <div class="space-y-1 text-base-content/60 font-sans">
-                        <p>Felicidad: <span class="font-bold text-primary"><%= letter.emotional_snapshot.happiness_level %></span> &rarr; <span class="font-bold text-primary/80"><%= letter.reveal_happiness || '?' %></span></p>
-                        <p>Ansiedad: <span class="font-bold text-primary"><%= letter.emotional_snapshot.anxiety_level %></span> &rarr; <span class="font-bold text-primary/80"><%= letter.reveal_anxiety || '?' %></span></p>
+                        <p><%= t('letters.happiness') %>: <span class="font-bold text-base-content/80"><%= letter.emotional_snapshot.happiness_level %></span> &rarr; <span class="font-bold text-base-content/80"><%= letter.reveal_happiness || '?' %></span></p>
+                        <p><%= t('letters.anxiety') %>: <span class="font-bold text-base-content/80"><%= letter.emotional_snapshot.anxiety_level %></span> &rarr; <span class="font-bold text-base-content/80"><%= letter.reveal_anxiety || '?' %></span></p>
                       </div>
                     </div>
                   <% end %>
@@ -67,14 +67,14 @@
                   <% if letter.predictions.any? %>
                     <div class="space-y-1.5">
                       <p class="font-bold text-base-content/80 uppercase tracking-wider text-[10px] flex items-center gap-1.5 font-sans">
-                        <span>🔮</span> Resumen de Predicciones
+                        <span>🔮</span> <%= t('letters.predictions_badge_short') %>
                       </p>
                       <% if letter.reveal_happiness.nil? %>
-                        <p class="text-xs text-primary italic font-medium">Espera revelación de la realidad.</p>
+                        <p class="text-xs text-primary italic font-medium"><%= t('letters.waiting_for_reality') %></p>
                       <% else %>
                         <% matched_count = letter.predictions.matched.count %>
                         <% total_count = letter.predictions.count %>
-                        <p class="text-base-content/60">Acertaste <span class="font-bold text-primary"><%= matched_count %></span> de <span class="font-bold text-base-content/80"><%= total_count %></span> predicciones (<%= (matched_count.to_f / total_count * 100).round %>%).</p>
+                        <p class="text-base-content/60"><%= t('letters.matched_predictions_count', matched: matched_count, total: total_count, pct: (matched_count.to_f / total_count * 100).round) %></p>
                       <% end %>
                     </div>
                   <% end %>
@@ -82,16 +82,16 @@
 
                 <div class="flex justify-end pt-2">
                   <a href="<%= letter_path(letter) %>" class="btn btn-outline border-base-300 text-base-content hover:bg-base-200/50 rounded-2xl px-5 text-xs font-bold uppercase tracking-wider cursor-pointer min-h-[38px]">
-                    <%= letter.reveal_happiness.nil? ? 'Completar comparación' : 'Ver comparación completa' %>
+                    <%= letter.reveal_happiness.nil? ? t('letters.complete_comparison') : t('letters.view_full_comparison') %>
                   </a>
                 </div>
               <% else %>
                 <div class="bg-base-100/60 p-5 rounded-2xl text-xs space-y-2 border border-base-200">
                   <div class="flex items-center gap-2 text-primary font-bold">
                     <span>⏳</span>
-                    <span>Cápsula del tiempo sellada</span>
+                    <span><%= t('letters.time_capsule_sealed') %></span>
                   </div>
-                  <p class="text-base-content/60">Esta carta viaja de forma privada y encriptada hacia el futuro. Quedan aproximadamente <strong><%= (letter.deliver_at.to_date - Date.current).to_i %> días</strong> para su entrega.</p>
+                  <p class="text-base-content/60"><%= t('letters.sealed_desc', days: (letter.deliver_at.to_date - Date.current).to_i) %></p>
                 </div>
               <% end %>
             </div>
@@ -101,9 +101,9 @@
     <% else %>
       <div class="bg-base-200/30 border border-base-200 p-12 rounded-3xl text-center max-w-lg mx-auto space-y-6 shadow-2xs">
         <p class="text-4xl">🕒</p>
-        <h3 class="font-serif text-xl font-normal text-base-content">Tu línea de tiempo está vacía</h3>
-        <p class="text-xs text-base-content/60 leading-relaxed max-w-sm mx-auto">Escribe tu primera carta al futuro para comenzar a graficar tu historia de crecimiento.</p>
-        <a href="<%= new_letter_path %>" class="btn bg-primary text-primary-content hover:bg-primary/95 rounded-2xl py-3 px-6 text-sm font-bold border-none cursor-pointer transition-all hover:scale-[1.02] active:scale-[0.98] shadow-sm">Comenzar a escribir</a>
+        <h3 class="font-serif text-xl font-normal text-base-content"><%= t('letters.timeline_empty_title') %></h3>
+        <p class="text-xs text-base-content/60 leading-relaxed max-w-sm mx-auto"><%= t('letters.timeline_empty_desc') %></p>
+        <a href="<%= new_letter_path %>" class="btn bg-primary text-primary-content hover:bg-primary/95 rounded-2xl py-3 px-6 text-sm font-bold border-none cursor-pointer transition-all hover:scale-[1.02] active:scale-[0.98] shadow-sm"><%= t('letters.btn_start_writing') %></a>
       </div>
     <% end %>
   </div>
@@ -111,42 +111,42 @@
   <div class="space-y-8 max-w-6xl mx-auto py-4 font-sans animate-fade-in text-base-content">
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-6 border-b border-base-200 pb-6">
       <div class="space-y-1">
-        <h1 class="font-serif text-3xl font-normal text-base-content tracking-tight">Mis cartas</h1>
-        <p class="text-sm text-base-content/60">Administra tus cápsulas del tiempo digital, estados emocionales y predicciones.</p>
+        <h1 class="font-serif text-3xl font-normal text-base-content tracking-tight"><%= t('letters.my_letters_title') %></h1>
+        <p class="text-sm text-base-content/60"><%= t('letters.my_letters_subtitle') %></p>
       </div>
       <div class="flex gap-3 shrink-0">
         <a href="<%= dashboard_path(timeline: true) %>" class="btn btn-outline border-base-300 text-base-content hover:bg-base-200/50 rounded-2xl text-xs font-bold uppercase tracking-wider px-5 min-h-[44px]">
-          🕒 Ver línea de tiempo
+          <%= t('letters.btn_view_timeline') %>
         </a>
         <a href="<%= new_letter_path %>" class="btn bg-primary text-primary-content hover:bg-primary/95 rounded-2xl py-3 px-6 text-sm font-bold border-none cursor-pointer transition-all hover:scale-[1.02] active:scale-[0.98] shadow-sm">
-          ✏️ Escribir carta
+        <%= t('letters.write_letter') %>
         </a>
       </div>
     </div>
 
     <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
       <div class="bg-base-200/30 border border-base-200 p-5 rounded-3xl shadow-2xs space-y-1">
-        <span class="text-[10px] font-bold text-base-content/40 uppercase tracking-wider block">Cápsulas totales</span>
-        <span class="font-serif text-3xl font-normal text-base-content block"><%= @letters.count %></span>
-        <span class="text-[10px] text-base-content/40 pt-1 block">Mensajes al futuro</span>
+         <span class="text-[10px] font-bold text-base-content/40 uppercase tracking-wider block"><%= t('letters.stat_total_capsules') %></span>
+         <span class="font-serif text-3xl font-normal text-base-content block"><%= @letters.count %></span>
+         <span class="text-[10px] text-base-content/40 pt-1 block"><%= t('letters.stat_future_messages') %></span>
       </div>
 
       <div class="bg-base-200/30 border border-base-200 p-5 rounded-3xl shadow-2xs space-y-1">
-        <span class="text-[10px] font-bold text-base-content/40 uppercase tracking-wider block">Abiertas</span>
-        <span class="font-serif text-3xl font-normal text-success block"><%= @letters.delivered.count %></span>
-        <span class="text-[10px] text-base-content/40 pt-1 block">Listas para comparar</span>
+         <span class="text-[10px] font-bold text-base-content/40 uppercase tracking-wider block"><%= t('letters.stat_delivered_label') %></span>
+         <span class="font-serif text-3xl font-normal text-success block"><%= @letters.delivered.count %></span>
+         <span class="text-[10px] text-base-content/40 pt-1 block"><%= t('letters.stat_ready_to_compare') %></span>
       </div>
 
       <div class="bg-base-200/30 border border-base-200 p-5 rounded-3xl shadow-2xs space-y-1">
-        <span class="text-[10px] font-bold text-base-content/40 uppercase tracking-wider block">En tránsito</span>
-        <span class="font-serif text-3xl font-normal text-warning block"><%= @letters.pending.count %></span>
-        <span class="text-[10px] text-base-content/40 pt-1 block">Selladas en el tiempo</span>
+         <span class="text-[10px] font-bold text-base-content/40 uppercase tracking-wider block"><%= t('letters.stat_in_transit') %></span>
+         <span class="font-serif text-3xl font-normal text-warning block"><%= @letters.pending.count %></span>
+         <span class="text-[10px] text-base-content/40 pt-1 block"><%= t('letters.stat_sealed_in_time') %></span>
       </div>
 
       <div class="bg-base-200/30 border border-base-200 p-5 rounded-3xl shadow-2xs space-y-1">
-        <span class="text-[10px] font-bold text-base-content/40 uppercase tracking-wider block">Lecturas</span>
-        <span class="font-serif text-3xl font-normal text-primary block"><%= @letters.sum(:open_count) %></span>
-        <span class="text-[10px] text-base-content/40 pt-1 block">Veces consultadas</span>
+         <span class="text-[10px] font-bold text-base-content/40 uppercase tracking-wider block"><%= t('letters.stat_reads') %></span>
+         <span class="font-serif text-3xl font-normal text-primary block"><%= @letters.sum(:open_count) %></span>
+         <span class="text-[10px] text-base-content/40 pt-1 block"><%= t('letters.stat_reads_sub') %></span>
       </div>
     </div>
 
@@ -157,15 +157,15 @@
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-base-200 pb-3">
               <div class="space-y-1">
                 <span class="text-[10px] font-bold uppercase tracking-wider text-primary block">
-                  <%= letter.delivered? ? (letter.reveal_happiness.nil? ? 'Requiere revelación' : 'Entregada & Evaluada') : 'En tránsito al futuro' %>
+                  <%= letter.delivered? ? (letter.reveal_happiness.nil? ? t('letters.pending_revelation') : t('letters.revealed_and_compared')) : t('letters.in_transit_to_future') %>
                 </span>
                 <h3 class="font-serif text-xl font-normal text-base-content">
                   <%= letter.title %>
                   <span class="text-xs font-normal text-base-content/40 ml-1 font-sans">
                     <% if letter.delivered? %>
-                      (Abierta el <%= I18n.l(letter.delivered_at.to_date, format: :long) %>)
+                    (<%= t('letters.opened_on') %> <%= I18n.l(letter.delivered_at.to_date, format: :long) %>)
                     <% else %>
-                      (Se abre el <%= I18n.l(letter.deliver_at.to_date, format: :long) %>)
+                      (<%= t('letters.show_opening_in') %> <%= I18n.l(letter.deliver_at.to_date, format: :long) %>)
                     <% end %>
                   </span>
                 </h3>
@@ -182,46 +182,46 @@
                   <% if letter.emotional_snapshot.present? %>
                     <div class="space-y-1 font-sans">
                       <p class="font-bold text-base-content/70 uppercase tracking-wider text-[10px] flex items-center gap-1.5">
-                        <span>🧠</span> snapshot emocional
+                        <span>🧠</span> <%= t('letters.emotional_snapshot') %>
                       </p>
-                      <p class="text-base-content/60">Felicidad: <span class="font-bold text-base-content/80"><%= letter.emotional_snapshot.happiness_level %></span> | Ansiedad: <span class="font-bold text-base-content/80"><%= letter.emotional_snapshot.anxiety_level %></span> | Motivación: <span class="font-bold text-base-content/80"><%= letter.emotional_snapshot.motivation_level %></span></p>
+                      <p class="text-base-content/60"><%= t('letters.happiness') %>: <span class="font-bold text-base-content/80"><%= letter.emotional_snapshot.happiness_level %></span> | <%= t('letters.anxiety') %>: <span class="font-bold text-base-content/80"><%= letter.emotional_snapshot.anxiety_level %></span> | <%= t('letters.motivation') %>: <span class="font-bold text-base-content/80"><%= letter.emotional_snapshot.motivation_level %></span></p>
                     </div>
                   <% end %>
 
                   <% if letter.predictions.any? %>
                     <div class="space-y-1 font-sans">
                       <p class="font-bold text-base-content/70 uppercase tracking-wider text-[10px] flex items-center gap-1.5">
-                        <span>🔮</span> predicciones hechas
+                        <span>🔮</span> <%= t('letters.predictions_badge_short') %>
                       </p>
-                      <p class="text-base-content/60"><%= letter.predictions.size %> predicciones selladas. <%= letter.reveal_happiness.nil? ? 'Pendiente por comparar' : 'Comparación completada' %>.</p>
+                      <p class="text-base-content/60"><%= letter.reveal_happiness.nil? ? t('letters.predictions_sealed_pending', count: letter.predictions.size) : t('letters.predictions_sealed_completed', count: letter.predictions.size) %></p>
                     </div>
                   <% end %>
                 </div>
 
                 <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-2">
-                  <span class="text-[10px] text-base-content/40 font-mono font-sans">👁️ consultada <%= letter.open_count %> veces</span>
+                  <span class="text-[10px] text-base-content/40 font-mono font-sans">👁️ <%= t('letters.read_count_label', count: letter.open_count) %></span>
                   
                   <% if letter.reveal_happiness.nil? %>
-                    <a href="<%= letter_path(letter) %>" class="btn bg-primary text-primary-content hover:bg-primary/95 rounded-2xl py-2 px-5 text-xs font-bold uppercase tracking-wider cursor-pointer min-h-[38px] shadow-sm">Completar revelación</a>
+                    <a href="<%= letter_path(letter) %>" class="btn bg-primary text-primary-content hover:bg-primary/95 rounded-2xl py-2 px-5 text-xs font-bold uppercase tracking-wider cursor-pointer min-h-[38px] shadow-sm"><%= t('letters.complete_revelation') %></a>
                   <% else %>
-                    <a href="<%= letter_path(letter) %>" class="btn btn-outline border-base-300 text-base-content hover:bg-base-200/50 rounded-2xl py-2 px-5 text-xs font-bold uppercase tracking-wider cursor-pointer min-h-[38px]">Ver predicciones vs realidad</a>
+                    <a href="<%= letter_path(letter) %>" class="btn btn-outline border-base-300 text-base-content hover:bg-base-200/50 rounded-2xl py-2 px-5 text-xs font-bold uppercase tracking-wider cursor-pointer min-h-[38px]"><%= t('letters.btn_view_predictions') %></a>
                   <% end %>
                 </div>
               </div>
             <% else %>
               <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-base-100/60 p-5 rounded-2xl border border-base-200 text-xs">
                 <div class="flex items-center gap-3">
-                  <span class="text-xl">⏳</span>
-                  <div class="space-y-0.5 font-sans">
-                    <p class="font-bold text-base-content/85">Cápsula en tránsito</p>
-                    <p class="text-base-content/50">Se encuentra resguardada de forma privada en tu baúl temporal.</p>
-                  </div>
+                    <span class="text-xl">⏳</span>
+                    <div class="space-y-0.5 font-sans">
+                      <p class="font-bold text-base-content/85"><%= t('letters.time_capsule_sealed') %></p>
+                      <p class="text-base-content/50"><%= t('letters.sealed_desc', days: letter.deliver_at.to_date - Date.current) %></p>
+                    </div>
                 </div>
 
                 <% days_left = (letter.deliver_at.to_date - Date.current).to_i %>
-                <span class="bg-primary/5 text-primary border border-primary/10 py-2.5 px-4 text-[10px] font-bold uppercase tracking-wider rounded-xl shadow-2xs font-sans">
-                  Se abre en <%= days_left %> días
-                </span>
+                  <span class="bg-primary/5 text-primary border border-primary/10 py-2.5 px-4 text-[10px] font-bold uppercase tracking-wider rounded-xl shadow-2xs font-sans">
+                  <%= t('letters.opens_in_days', days: days_left) %>
+                  </span>
               </div>
             <% end %>
           </div>
@@ -230,9 +230,9 @@
     <% else %>
       <div class="bg-base-200/30 border border-base-200 p-12 rounded-3xl text-center max-w-xl mx-auto space-y-6 shadow-2xs">
         <span class="text-4xl block">📭</span>
-        <h3 class="font-serif text-xl font-normal text-base-content font-sans">Tu baúl está vacío</h3>
-        <p class="text-xs text-base-content/60 leading-relaxed max-w-sm mx-auto font-sans">No has escrito ninguna carta todavía. Las cartas al futuro te ayudan a reflexionar y comparar tus predicciones con la realidad.</p>
-        <a href="<%= new_letter_path %>" class="btn bg-primary text-primary-content hover:bg-primary/95 rounded-2xl py-3 px-6 text-sm font-bold border-none cursor-pointer transition-all hover:scale-[1.02] active:scale-[0.98] shadow-sm">Escribir mi primera carta</a>
+        <h3 class="font-serif text-xl font-normal text-base-content font-sans"><%= t('letters.empty_title') %></h3>
+        <p class="text-xs text-base-content/60 leading-relaxed max-w-sm mx-auto font-sans"><%= t('letters.empty_desc') %></p>
+        <a href="<%= new_letter_path %>" class="btn bg-primary text-primary-content hover:bg-primary/95 rounded-2xl py-3 px-6 text-sm font-bold border-none cursor-pointer transition-all hover:scale-[1.02] active:scale-[0.98] shadow-sm"><%= t('letters.write_first_letter') %></a>
       </div>
     <% end %>
   </div>
