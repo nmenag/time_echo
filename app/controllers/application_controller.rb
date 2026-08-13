@@ -5,7 +5,9 @@ class ApplicationController < ActionController::Base
 
   def set_locale
     browser_locale = request.env["HTTP_ACCEPT_LANGUAGE"]&.scan(/^[a-z]{2}/)&.first&.to_sym
-    I18n.locale = I18n.available_locales.include?(browser_locale) ? browser_locale : I18n.default_locale
+    if browser_locale && I18n.available_locales.include?(browser_locale)
+      I18n.locale = browser_locale
+    end
   end
 
   stale_when_importmap_changes

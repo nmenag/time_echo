@@ -45,6 +45,9 @@ Rails.application.configure do
   # Raises error for missing translations.
   # config.i18n.raise_on_missing_translations = true
 
+  # Enable locale fallbacks to the default locale when a translation is missing.
+  config.i18n.fallbacks = true
+
   # Annotate rendered view with file names.
   # config.action_view.annotate_rendered_view_with_filenames = true
 
