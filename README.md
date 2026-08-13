@@ -111,6 +111,34 @@ This starts the application at `http://localhost:3000` and does the following:
 
 ---
 
+## 🌐 Internationalization (i18n)
+
+TimeEcho supports **English (`:en`)** and **Spanish (`:es`)** as the only two available locales. The application's default locale is English, but content is rendered in Spanish when the browser requests it.
+
+### Locale Detection & Fallback Flow
+
+The `set_locale` before_action in `ApplicationController` detects the browser's preferred language via the `Accept-Language` HTTP header. If a supported locale is detected (`es` or `en`), it is applied. If the requested locale is unsupported (e.g. `fr`, `de`), the locale is **not changed**, allowing the Rails default locale (`:en`) to be used. If no `Accept-Language` header is present, the default locale is used.
+
+### Configuration
+
+* **`config/i18n.available_locales`**: `[:es, :en]` — limited to these two.
+* **`config/i18n.default_locale`**: `:en` — English is the fallback default.
+* **`config/i18n.fallbacks`**: `true` — in production and test environments, missing translations in a locale fall back to the default locale rather than showing the key name.
+
+### Test Environment
+
+All tests establish `I18n.locale = :es` globally via `test/test_helper.rb`, so assertions match Spanish text expectations. The `set_locale` method respects this pre-set locale because test requests do not send an `Accept-Language` header.
+
+### File Structure
+
+```
+config/locales/
+├── en.yml  # English translations (no Spanish text)
+└── es.yml  # Spanish translations (full coverage of en.yml keys)
+```
+
+---
+
 ## 🧪 Testing the Suite
 
 To run the automated Rails test suite, run:
