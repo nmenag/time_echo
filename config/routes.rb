@@ -15,6 +15,8 @@ Rails.application.routes.draw do
   post "letters/:letter_id/predictions", to: "letter_predictions#update", as: :update_predictions_letter
   resources :letters, only: [ :new, :create, :show ]
 
+  resources :locales, only: [ :create, :destroy ]
+
   get "dashboard", to: "letters#index", as: :dashboard
 
   get "analytics", to: "analytics#index", as: :analytics

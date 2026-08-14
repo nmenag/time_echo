@@ -2,17 +2,17 @@ class PredictionDecorator < ApplicationDecorator
   def category_label
     case category
     when "city"
-      I18n.t("predictions.category_city")
+      "🏠 #{I18n.t('predictions.category_city')}"
     when "career"
-      I18n.t("predictions.category_career")
+      "💼 #{I18n.t('predictions.category_career')}"
     when "salary"
-      I18n.t("predictions.category_salary")
+      "💵 #{I18n.t('predictions.category_salary')}"
     when "relationship"
-      I18n.t("predictions.category_relationship")
+      "❤️ #{I18n.t('predictions.category_relationship')}"
     when "achievement"
-      I18n.t("predictions.category_achievement")
+      "🏆 #{I18n.t('predictions.category_achievement')}"
     when "happiness"
-      I18n.t("predictions.category_happiness")
+      "😊 #{I18n.t('predictions.category_happiness')}"
     else
       "🔮 #{category.titleize}"
     end
@@ -21,15 +21,15 @@ class PredictionDecorator < ApplicationDecorator
   def result_badge
     if matched?
       if category == "salary" || category == "achievement"
-        I18n.t("predictions.superaste")
+        "#{I18n.t('predictions.superaste')} 🚀"
       else
-        I18n.t("predictions.you_did_it")
+        "#{I18n.t('predictions.you_did_it')} 🎉"
       end
     else
       if category == "city" || category == "relationship"
-        I18n.t("predictions.partially")
+        "#{I18n.t('predictions.partially')} ➖"
       else
-        I18n.t("predictions.you_missed")
+        "#{I18n.t('predictions.you_missed')} ❌"
       end
     end
   end

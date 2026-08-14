@@ -119,6 +119,14 @@
           </a>
 
           <div class="flex items-center gap-2">
+            <%= button_to locales_path(locale: toggle_locale), method: :post, class: "flex items-center gap-1 text-base-content/60 hover:text-brand transition-colors cursor-pointer bg-transparent border-none p-0 hover:scale-[1.02] active:scale-[0.98]", data: { turbo: "false" } do %>
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12a9 9 0 1 0 18 0 9 9 0 0 0-18 0z" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12h18M12 3v18" />
+              </svg>
+              <span class="text-xs"><%= I18n.locale == :en ? "ES" : "EN" %></span>
+            <% end %>
+
             <!-- Mobile Menu Dropdown -->
             <details class="dropdown dropdown-end dropdown-bottom">
               <summary class="btn btn-ghost btn-circle btn-sm list-none cursor-pointer">
@@ -148,7 +156,7 @@
             <% if flash[:notice].present? %>
               <div class="bg-emerald-50 border border-emerald-200 rounded-2xl shadow-xs flex items-center gap-3.5 py-3.5 px-5 mb-6 animate-fade-in max-w-5xl mx-auto text-emerald-950 w-full">
                 <span class="text-base shrink-0">✨</span>
-                <span class="text-xs font-semibold leading-relaxed"><%= flash[:notice] %></span>
+                <span class="text-xs font-semibold leading-relaxed"><%= flash[:notice] %> ✨</span>
               </div>
             <% end %>
             <% if flash[:alert].present? %>
@@ -172,7 +180,18 @@
           </a>
 
           <div class="flex items-center gap-8 text-sm font-medium">
+            <%= button_to locales_path(locale: toggle_locale), method: :post, class: "flex items-center gap-1.5 text-base-content/60 hover:text-brand transition-colors cursor-pointer bg-transparent border-none p-0 hover:scale-[1.02] active:scale-[0.98]", data: { turbo: "false" } do %>
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12a9 9 0 1 0 18 0 9 9 0 0 0-18 0z" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12h18M12 3v18" />
+              </svg>
+              <%= I18n.locale == :en ? "ES" : "EN" %>
+            <% end %>
+
+            <div class="h-6 w-px bg-base-300"></div>
+
             <a href="<%= root_path %>#how-it-works" class="text-base-content/60 hover:text-brand transition-colors"><%= t('landing.how_it_works') %></a>
+
             <% if user_signed_in? %>
               <a href="<%= dashboard_path %>" class="btn text-white rounded-xl px-5 text-xs font-semibold border-none cursor-pointer hover:scale-[1.02] active:scale-[0.98] transition-transform duration-200" style="background-color: oklch(40% 0.22 290); --btn-color: oklch(40% 0.22 290);"><%= t('navigation.vault') %></a>
             <% else %>
@@ -188,7 +207,7 @@
         <% if flash[:notice].present? %>
           <div class="bg-emerald-50 border border-emerald-200 rounded-2xl shadow-xs flex items-center gap-3.5 py-3.5 px-5 mb-6 animate-fade-in text-emerald-950 w-full">
             <span class="text-base shrink-0">✨</span>
-            <span class="text-xs font-semibold leading-relaxed"><%= flash[:notice] %></span>
+            <span class="text-xs font-semibold leading-relaxed"><%= flash[:notice] %> ✨</span>
           </div>
         <% end %>
         <% if flash[:alert].present? %>

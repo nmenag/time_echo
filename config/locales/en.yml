@@ -70,10 +70,12 @@ en:
     sign_out: Sign Out
     anonymous: Anonymous
     memories: Memories
-    quote: "The best way to predict the future is to create it."
+    switch_to_en: English
+    switch_to_es: Español
+    quote: The best way to predict the future is to create it.
   flash:
     errors_title: 'Please correct the following errors:'
-    locked: "\U0001F512 This action cannot be undone once sealed."
+    locked: This action cannot be undone once sealed.
     login_required: Please sign in to access your digital capsule vault.
     welcome_back: Welcome back to your digital time capsule.
     invalid_link: This magic link is invalid or has expired.
@@ -83,7 +85,7 @@ en:
     unauthorized_modify: You are not authorized to modify this letter.
     reality_updated: Reality updated! Reflect on how your life has evolved.
   landing:
-    badge: "⏳ TimeEcho Digital Capsule"
+    badge: TimeEcho Digital Capsule
     title_html: TimeEcho
     subtitle: Compare the future you imagined with the life you actually lived.
     write_first: Write your first letter
@@ -144,9 +146,9 @@ en:
     delivery_desc: Your letter will be saved and sent to you on the date you choose.
     connect_with_yourself: Connect with yourself
     compare_desc: Compare your predictions with your reality and reflect on your evolution.
-    note_for_you: "?? For you, from today"
+    note_for_you: For you, from today
     hero_image_alt: Reflection on the future
-    write_card_title: "?? Write your letter to your future ?"
+    write_card_title: Write your letter to your future
     step_1_of_4: 1 of 4
     your_letter: Your letter
     dear_future_self: Dear future self...
@@ -165,9 +167,9 @@ en:
     what_will_be_your_achievement: What will be your greatest achievement?
     how_happy_will_you_be: How happy will you be?
     how_do_you_feel_today: How do you feel today?
-    happiness: "😊 Happiness"
-    anxiety: "😰 Anxiety"
-    motivation: "⭐ Motivation"
+    happiness: Happiness
+    anxiety: Anxiety
+    motivation: Motivation
     where_do_we_send_letter: Where do we send your letter?
     email_placeholder: you@email.com
     send_to_future_self: Send to my future self
@@ -193,10 +195,8 @@ en:
     label_email_help: We will send a verification link to confirm this letter before
       scheduling it.
     label_content: Your Letter to the Future
-    placeholder_content: |-
-      Dear future self...
-
-      What are you hoping for? What are your current struggles? What do you want to remember about today?
+    placeholder_content: Dear future self... What are you hoping for? What are your
+      current struggles? What do you want to remember about today?
     label_deliver_at: When should this capsule open?
     preset_6m: 6 Months
     preset_1y: 1 Year
@@ -215,7 +215,7 @@ en:
     evolution_tracker: Personal Evolution Tracker
     evolution_tracker_help: Capture your present self and imagine the life you'll
       live. These will become interactive echos once opened.
-    emotional_snapshot: Emotional Snapshot
+    emotional_snapshot: Emotional snapshot
     emotional_snapshot_help: Rate your current levels from 1 to 10. We'll show you
       how much your internal baseline has shifted when this letter is unlocked in
       the future.
@@ -243,13 +243,13 @@ en:
     bridge_past_present: Bridge the Past and Present
     future_integration_help: Your time capsule has arrived. Before we open the full
       comparison dashboard, let's capture your life and state of mind today.
-    feel_today: "\U0001F9E0 How do you feel TODAY?"
+    feel_today: How do you feel TODAY?
     feel_today_help: Rate your today's self to see how your baseline evolved since
       writing this letter.
     happiness: Happiness
     anxiety: Anxiety
     motivation: Motivation
-    what_happened_predictions: "\U0001F52E What happened to your Predictions?"
+    what_happened_predictions: What happened to your Predictions?
     what_happened_predictions_help: Read what you expected, then tell us what actually
       happened.
     placeholder_reality: Describe your reality now...
@@ -259,7 +259,7 @@ en:
     personal_evolution: Your Personal Evolution
     personal_evolution_help: Compare the life you imagined with the life you actually
       lived since %{date}.
-    emotional_snapshot_shifts: "\U0001F9E0 Emotional Snapshot Shifts"
+    emotional_snapshot_shifts: Emotional Snapshot Shifts
     growth: Growth
     shift: Shift
     steady_status: Steady
@@ -268,7 +268,7 @@ en:
     calmer: Calmer
     stress: Stress
     inspired: Inspired
-    predictions_vs_reality_grid: "\U0001F52E Predictions vs Reality Grid"
+    predictions_vs_reality_grid: Predictions vs Reality Grid
     matched: Matched
     evolved: Evolved
     then_you_imagined: 'Then you imagined:'
@@ -293,7 +293,7 @@ en:
     show_btn_dashboard: Return to Dashboard
     show_written: Written
     show_delivered: Delivered
-    show_attachments_title: "\U0001F4CE Attached Memories"
+    show_attachments_title: Attached Memories
     show_download: Download
     show_read_count: Read %{count} time
     show_read_count_plural: Read %{count} times
@@ -346,7 +346,6 @@ en:
       journey more interesting. ??
     no_predictions_registered: You did not register predictions for this letter.
     emotional_evolution: Emotional evolution
-    emotional_snapshot: Emotional snapshot
     internal_wellbeing_change: Change in your internal wellbeing
     no_emotional_data: No emotional data available.
     whats_next: What is next?
@@ -413,102 +412,108 @@ en:
     delivery_date: Opens on
     within: Within
     x_days_count: "%{count} days"
-    days_word: "days"
+    days_word: days
     focus_mode_enter: "? Focus Mode"
     focus_mode_exit: "?? Exit Focus Mode"
     word_count: "%{count} words"
     char_count: "%{count} characters"
     time_travel_duration: "?? This letter will travel through time for %{days} days"
     label_visibility: Visibility Options
-    form_step_title: "1. When you write your letter"
-    form_step_subtitle: "You are creating a letter for your future self."
-    deliver_date_prefix: "It will open on"
-    form_letter_heading: "Your letter"
-    title_label: "Title"
-    title_placeholder: "E.g: For my future self"
-    content_label: "Content"
-    content_placeholder_form: "Write here everything you want to tell your future self..."
-    email_placeholder_form: "you@email.com"
-    prediction_placeholder: "Write your prediction..."
-    predictions_heading: "Your predictions"
-    predictions_subtitle_form: "How do you think your life will be when you open this letter?"
-    prediction_work_label: "What will you work as?"
-    prediction_income_label_form: "How much will you earn per month?"
-    prediction_relationship_label_form: "How will your relationship be?"
-    prediction_achievement_label_form: "What will be your greatest achievement?"
-    prediction_happiness_label_form: "How happy do you think you'll be?"
-    emotional_snapshot_heading: "Emotional state today"
-    feeling_now_short: "How do you feel right now?"
-    emotion_happiness: "😊 Happiness"
-    emotion_anxiety: "😰 Anxiety"
-    emotion_motivation: "⭐ Motivation"
-    summary_heading: "Summary"
-    summary_opening_label: "Opens on"
-    summary_time_label: "Within"
-    summary_privacy_label: "Privacy"
-    summary_loading: "Loading..."
-    summary_na: "N/A"
-    summary_not_configured: "Not configured"
-    summary_tomorrow: "Tomorrow"
-    btn_save_letter: "Save letter"
-    prediction_score_title: "Prediction Score"
-    past_label: "Past:"
-    today_label: "Today:"
-    emotional_snapshot_badge_short: "Emotional Snapshot"
-    predictions_badge_short: "Predictions"
-    prediction_comparison_pending: "Pending comparison"
-    prediction_comparison_completed: "Comparison completed"
-    reality_pending: "Waiting for reality reveal."
-    btn_complete_revelation: "Complete Revelation"
-    btn_view_predictions: "View Predictions vs Reality"
-    timeline_empty_title: "Your timeline is empty"
-    timeline_empty_desc: "Write your first letter to the future to start charting your growth story."
-    btn_start_writing: "Start Writing"
-    empty_title: "Your vault is empty"
-    empty_desc: "You haven't written any letters yet. Future letters help you reflect and compare your predictions with reality."
-    my_letters_title: "My Letters"
-    my_letters_subtitle: "Manage your digital time capsules, emotional states and predictions."
-    btn_write_letter_short: "Write Letter"
-    btn_view_timeline: "View Timeline"
-    stat_total_capsules: "Total Capsules"
-    stat_future_messages: "Future Messages"
-    stat_delivered_label: "Delivered"
-    stat_ready_to_compare: "Ready to Compare"
-    stat_in_transit: "In Transit"
-    stat_sealed_in_time: "Sealed in Time"
-    stat_reads: "Total Reads"
-    stat_reads_sub: "Capsule openings tracked"
-    read_count_label: "Read %{count} time"
-    status_pending_reveal_short: "Pending Revelation"
-    status_revealed_compared: "Revealed & Compared"
-    status_sealed_short: "Sealed Capsule"
-    capsule_in_transit_short: "Capsule in transit"
-    capsule_transit_desc: "Privately stored in your temporary vault."
-    prediction_accuracy: "You got %{matched} out of %{total} predictions right (%{pct}%)."
-    prediction_score_perfect: "Your future compass is extremely sharp! Excellent intuition. 🌟"
-    prediction_score_good: "You are on a great path. Many things changed, but your direction remains clear. 🌱"
-    prediction_score_low: "Life surprised you with unexpected turns! And that makes the journey more interesting. 🚀"
-    no_predictions_text: "You did not register predictions for this letter."
-    whats_next_heading: "What is next?"
-    whats_next_body: "Discover how your story evolves over the years. Keep writing letters and save your memories in the time vault."
-    write_new_letter_text: "Write new letter"
-    emotional_evolution_heading: "Emotional evolution"
-    wellbeing_change: "Change in your internal wellbeing"
-    no_emotional_data_text: "No emotional data available."
-    prediction_score_heading: "Your Prediction Score"
-    past_label_short: "Past:"
-    today_label_short: "Today:"
-    growth_label: "Growth"
-    decline_label: "Decline"
-    calm_label: "More Calm"
-    stress_label: "Stress"
-    inspired_label: "Inspired"
-    steady_label: "Steady"
-    emotional_snapshot_heading_short: "Emotional Snapshot"
+    form_step_title: 1. When you write your letter
+    form_step_subtitle: You are creating a letter for your future self.
+    deliver_date_prefix: It will open on
+    form_letter_heading: Your letter
+    title_label: Title
+    title_placeholder: 'E.g: For my future self'
+    content_label: Content
+    content_placeholder_form: Write here everything you want to tell your future self...
+    email_placeholder_form: you@email.com
+    prediction_placeholder: Write your prediction...
+    predictions_heading: Your predictions
+    predictions_subtitle_form: How do you think your life will be when you open this
+      letter?
+    prediction_work_label: What will you work as?
+    prediction_income_label_form: How much will you earn per month?
+    prediction_relationship_label_form: How will your relationship be?
+    prediction_achievement_label_form: What will be your greatest achievement?
+    prediction_happiness_label_form: How happy do you think you'll be?
+    emotional_snapshot_heading: Emotional state today
+    feeling_now_short: How do you feel right now?
+    emotion_happiness: Happiness
+    emotion_anxiety: Anxiety
+    emotion_motivation: Motivation
+    summary_heading: Summary
+    summary_opening_label: Opens on
+    summary_time_label: Within
+    summary_privacy_label: Privacy
+    summary_loading: Loading...
+    summary_na: N/A
+    summary_not_configured: Not configured
+    summary_tomorrow: Tomorrow
+    btn_save_letter: Save letter
+    prediction_score_title: Prediction Score
+    past_label: 'Past:'
+    today_label: 'Today:'
+    emotional_snapshot_badge_short: Emotional Snapshot
+    predictions_badge_short: Predictions
+    prediction_comparison_pending: Pending comparison
+    prediction_comparison_completed: Comparison completed
+    reality_pending: Waiting for reality reveal.
+    btn_complete_revelation: Complete Revelation
+    btn_view_predictions: View Predictions vs Reality
+    timeline_empty_title: Your timeline is empty
+    timeline_empty_desc: Write your first letter to the future to start charting your
+      growth story.
+    btn_start_writing: Start Writing
+    empty_title: Your vault is empty
+    empty_desc: You haven't written any letters yet. Future letters help you reflect
+      and compare your predictions with reality.
+    my_letters_title: My Letters
+    my_letters_subtitle: Manage your digital time capsules, emotional states and predictions.
+    btn_write_letter_short: Write Letter
+    btn_view_timeline: View Timeline
+    stat_total_capsules: Total Capsules
+    stat_future_messages: Future Messages
+    stat_delivered_label: Delivered
+    stat_ready_to_compare: Ready to Compare
+    stat_in_transit: In Transit
+    stat_sealed_in_time: Sealed in Time
+    stat_reads: Total Reads
+    stat_reads_sub: Capsule openings tracked
+    read_count_label: Read %{count} time
+    status_pending_reveal_short: Pending Revelation
+    status_revealed_compared: Revealed & Compared
+    status_sealed_short: Sealed Capsule
+    capsule_in_transit_short: Capsule in transit
+    capsule_transit_desc: Privately stored in your temporary vault.
+    prediction_accuracy: You got %{matched} out of %{total} predictions right (%{pct}%).
+    prediction_score_perfect: Your future compass is extremely sharp! Excellent intuition.
+    prediction_score_good: You are on a great path. Many things changed, but your
+      direction remains clear.
+    prediction_score_low: Life surprised you with unexpected turns! And that makes
+      the journey more interesting.
+    no_predictions_text: You did not register predictions for this letter.
+    whats_next_heading: What is next?
+    whats_next_body: Discover how your story evolves over the years. Keep writing
+      letters and save your memories in the time vault.
+    write_new_letter_text: Write new letter
+    emotional_evolution_heading: Emotional evolution
+    wellbeing_change: Change in your internal wellbeing
+    no_emotional_data_text: No emotional data available.
+    prediction_score_heading: Your Prediction Score
+    past_label_short: 'Past:'
+    today_label_short: 'Today:'
+    growth_label: Growth
+    decline_label: Decline
+    calm_label: More Calm
+    stress_label: Stress
+    inspired_label: Inspired
+    steady_label: Steady
+    emotional_snapshot_heading_short: Emotional Snapshot
   dashboard:
     title: Your digital vault
     subtitle: Safekeeping your memories, dreams, and check-ins across time.
-    btn_write: "✏️ Write New Letter"
+    btn_write: Write New Letter
     stat_total: Total Capsules
     stat_total_sub: Written letters sealed
     stat_delivered: Delivered
@@ -521,10 +526,10 @@ en:
     sealed_tag: Sealed Vault Item
     opened_on: Opened on %{date}
     opening_on: Opening on %{date}
-    public_badge: "\U0001F30D Publicly Shared"
-    private_badge: "\U0001F512 Private"
-    attachments_badge: "\U0001F4CE %{count} attachment"
-    attachments_badge_plural: "\U0001F4CE %{count} attachments"
+    public_badge: Publicly Shared
+    private_badge: Private
+    attachments_badge: "%{count} attachment"
+    attachments_badge_plural: "%{count} attachments"
     opening_in: Opening in %{count} day
     opening_in_plural: Opening in %{count} days
     sealed_info_title: Sealed away safely
@@ -535,12 +540,12 @@ en:
       a message to your future self.
     empty_btn: Write Your First Letter
     needs_reflection: Needs Reflection / Reality Update
-    predictions_badge: "\U0001F52E %{count} prediction"
-    predictions_badge_plural: "\U0001F52E %{count} predictions"
-    snapshot_badge: "\U0001F9E0 Snapshot"
-    unrevealed_capsule_help: "\U0001F512 Unrevealed - Open to record your reality!"
+    predictions_badge: "%{count} prediction"
+    predictions_badge_plural: "%{count} predictions"
+    snapshot_badge: Snapshot
+    unrevealed_capsule_help: Unrevealed - Open to record your reality!
     predictions_matched_desc: "%{matched} out of %{total} prediction categories matched!"
-    complete_reveal_btn: "⚡ Complete & Reveal Reality"
+    complete_reveal_btn: Complete & Reveal Reality
     sealed_capsule_title: Sealed Capsule in Travel
     sealed_capsule_desc: 'This capsule contains: %{details} (hidden until delivery
       date).'
@@ -548,7 +553,7 @@ en:
     emotional_snapshot_word: Emotional snapshot
     view_timeline: "?? View timeline"
   public_feed:
-    badge: "\U0001F30D Community Vault"
+    badge: Community Vault
     title: Public stories from the past
     subtitle: A collection of letters shared anonymously by users after their digital
       time capsules opened. Read the hopes, growth, and echoes of traveling minds.
@@ -589,8 +594,8 @@ en:
     total_reads: Total Reads
     your_past: Past Self
     your_present: Present Self
-    match_summary: "%{matched} of %{completed} predictions matched. %{total} still in
-      transit."
+    match_summary: "%{matched} of %{completed} predictions matched. %{total} still
+      in transit."
     open_rate_title: Capsule Open Rate
     open_rate_desc: The percentage of delivered letters that have been successfully
       opened and read in your vault.
@@ -656,9 +661,8 @@ en:
       open_btn: Open in Digital Time Capsule
       footer_html: You wrote this letter to yourself via TimeEcho.<br><em>"Sent with
         hope, received with nostalgia."</em>
-      footer_text: |-
-        You received this because you wrote a letter to your future self using TimeEcho.
-        "Sent with hope, received with nostalgia."
+      footer_text: You received this because you wrote a letter to your future self
+        using TimeEcho. "Sent with hope, received with nostalgia."
       text_body_help: 'To view this letter in your secure vault, visit:'
     confirm_email_update:
       subject: Confirm your email address change in TimeEcho
@@ -672,49 +676,49 @@ en:
         change, you can safely ignore this email.
   settings:
     title: Account Settings
-    subtitle: Manage the email address associated with your vault and handle your session.
+    subtitle: Manage the email address associated with your vault and handle your
+      session.
     change_email: Change Email
     new_email_address: New Email Address
     email_placeholder: you@email.com
-    email_change_note: 'Note: When changing your email, all your future letters
-      and saved predictions will be automatically linked to the new address.'
+    email_change_note: 'Note: When changing your email, all your future letters and
+      saved predictions will be automatically linked to the new address.'
     update_email: Update Email Address
     danger_zone: Danger Zone
     delete_account_permanently: Delete account permanently
-    delete_account_desc: This will immediately delete all your sealed letters,
-      predictions and emotional state. This action is completely irreversible.
-    delete_confirm: "Are you absolutely sure you want to permanently delete
-      your vault and all your letters? All your saved memories and predictions
-      will be lost forever."
+    delete_account_desc: This will immediately delete all your sealed letters, predictions
+      and emotional state. This action is completely irreversible.
+    delete_confirm: Are you absolutely sure you want to permanently delete your vault
+      and all your letters? All your saved memories and predictions will be lost forever.
     delete_my_vault: Delete my vault
-    updated_successfully: Settings updated successfully ✨
-    account_deleted: Your vault and all your data have been permanently deleted.
-      Thank you for your time at TimeEcho.
-    email_confirmed: "Email address confirmed and updated successfully! ✨"
+    updated_successfully: Settings updated successfully
+    account_deleted: Your vault and all your data have been permanently deleted. Thank
+      you for your time at TimeEcho.
+    email_confirmed: Email address confirmed and updated successfully!
     confirmation_link_invalid: The confirmation link is invalid or has expired.
-    email_update_requested_message: 'We have sent a confirmation email to your
-      new address: %{email}. Please click the link to confirm and activate the
-      change. ✨'
-    saved_successfully: Settings saved ✨
+    email_update_requested_message: 'We have sent a confirmation email to your new
+      address: %{email}. Please click the link to confirm and activate the change.'
+    saved_successfully: Settings saved
     could_not_save: Could not save settings.
     notifications_title: Email Notifications
     notifications_desc: Receive capsule delivery and milestone notifications.
     global_private_mode_title: Private Mode
     global_private_mode_desc: Keep all your reflections and predictions private.
   predictions:
-    category_city: "\U0001F3E0 Location"
-    category_career: "\U0001F4BC Work / Career"
-    category_salary: "\U0001F4B5 Income"
-    category_relationship: "❤️ Relationship"
-    category_achievement: "\U0001F3C6 Greatest Achievement"
-    category_happiness: "\U0001F60A Happiness"
-    category_other: "\U0001F52E %{category}"
-    superaste: "You surpassed it! \U0001F680"
-    you_did_it: "You did it! \U0001F389"
-    partially: Partially ➖
-    you_missed: You missed it ❌
+    category_city: Location
+    category_career: Work / Career
+    category_salary: Income
+    category_relationship: Relationship
+    category_achievement: Greatest Achievement
+    category_happiness: Happiness
+    category_other: "%{category}"
+    superaste: You surpassed it!
+    you_did_it: You did it!
+    partially: Partially
+    you_missed: You missed it
   timeline:
-    subtitle: Your evolution, emotional moments, and prediction milestones ordered chronologically.
+    subtitle: Your evolution, emotional moments, and prediction milestones ordered
+      chronologically.
   common:
     cancel: Cancel
     save: Save

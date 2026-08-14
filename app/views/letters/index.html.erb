@@ -5,9 +5,9 @@
         <h1 class="font-serif text-3xl font-normal text-base-content tracking-tight"><%= t('navigation.timeline') %></h1>
         <p class="text-sm text-base-content/60"><%= t('timeline.subtitle') %></p>
       </div>
-      <a href="<%= new_letter_path %>" class="btn bg-primary text-primary-content hover:bg-primary/95 rounded-2xl py-3 px-6 text-sm font-bold border-none cursor-pointer transition-all hover:scale-[1.02] active:scale-[0.98] shadow-sm shrink-0">
-         <%= t('letters.write_letter') %>
-      </a>
+<a href="<%= new_letter_path %>" class="btn bg-primary text-primary-content hover:bg-primary/95 rounded-2xl py-3 px-6 text-sm font-bold border-none cursor-pointer transition-all hover:scale-[1.02] active:scale-[0.98] shadow-sm shrink-0">
+          ✏️ <%= t('letters.write_letter') %>
+        </a>
     </div>
 
     <% if @letters.any? %>
@@ -58,8 +58,8 @@
                         <span>🧠</span> <%= t('letters.emotional_evolution') %>
                       </p>
                       <div class="space-y-1 text-base-content/60 font-sans">
-                        <p><%= t('letters.happiness') %>: <span class="font-bold text-base-content/80"><%= letter.emotional_snapshot.happiness_level %></span> &rarr; <span class="font-bold text-base-content/80"><%= letter.reveal_happiness || '?' %></span></p>
-                        <p><%= t('letters.anxiety') %>: <span class="font-bold text-base-content/80"><%= letter.emotional_snapshot.anxiety_level %></span> &rarr; <span class="font-bold text-base-content/80"><%= letter.reveal_anxiety || '?' %></span></p>
+                        <p>😆 <%= t('letters.happiness') %>: <span class="font-bold text-base-content/80"><%= letter.emotional_snapshot.happiness_level %></span> &rarr; <span class="font-bold text-base-content/80"><%= letter.reveal_happiness || '?' %></span></p>
+                        <p>🥺 <%= t('letters.anxiety') %>: <span class="font-bold text-base-content/80"><%= letter.emotional_snapshot.anxiety_level %></span> &rarr; <span class="font-bold text-base-content/80"><%= letter.reveal_anxiety || '?' %></span></p>
                       </div>
                     </div>
                   <% end %>
@@ -119,7 +119,7 @@
           <%= t('letters.btn_view_timeline') %>
         </a>
         <a href="<%= new_letter_path %>" class="btn bg-primary text-primary-content hover:bg-primary/95 rounded-2xl py-3 px-6 text-sm font-bold border-none cursor-pointer transition-all hover:scale-[1.02] active:scale-[0.98] shadow-sm">
-        <%= t('letters.write_letter') %>
+        ✏️ <%= t('letters.write_letter') %>
         </a>
       </div>
     </div>
@@ -184,7 +184,7 @@
                       <p class="font-bold text-base-content/70 uppercase tracking-wider text-[10px] flex items-center gap-1.5">
                         <span>🧠</span> <%= t('letters.emotional_snapshot') %>
                       </p>
-                      <p class="text-base-content/60"><%= t('letters.happiness') %>: <span class="font-bold text-base-content/80"><%= letter.emotional_snapshot.happiness_level %></span> | <%= t('letters.anxiety') %>: <span class="font-bold text-base-content/80"><%= letter.emotional_snapshot.anxiety_level %></span> | <%= t('letters.motivation') %>: <span class="font-bold text-base-content/80"><%= letter.emotional_snapshot.motivation_level %></span></p>
+                      <p class="text-base-content/60">😆 <%= t('letters.happiness') %>: <span class="font-bold text-base-content/80"><%= letter.emotional_snapshot.happiness_level %></span> | 🥺 <%= t('letters.anxiety') %>: <span class="font-bold text-base-content/80"><%= letter.emotional_snapshot.anxiety_level %></span> | ⭐ <%= t('letters.motivation') %>: <span class="font-bold text-base-content/80"><%= letter.emotional_snapshot.motivation_level %></span></p>
                     </div>
                   <% end %>
 

@@ -24,9 +24,9 @@ class LetterDecorator < ApplicationDecorator
 
   def status_badge
     if pending?
-      I18n.t("letters.capsule_in_transit_badge")
+      "#{I18n.t('letters.capsule_in_transit_badge')} ⏳"
     else
-      I18n.t("letters.capsule_unlocked_badge")
+      "#{I18n.t('letters.capsule_unlocked_badge')} ✨"
     end
   end
 

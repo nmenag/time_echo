@@ -111,6 +111,105 @@ This starts the application at `http://localhost:3000` and does the following:
 
 ---
 
+## 🐋 Running with Docker
+
+TimeEcho ships with a multi-stage `Dockerfile` and a `docker-compose.yml` for containerized development and production builds.
+
+### Prerequisites
+
+* **Docker** installed locally (Docker Desktop on Windows/macOS, or Docker Engine on Linux).
+* A C compiled Ruby image is pulled automatically — no local Ruby installation required for container runs.
+
+### 1. Uncomment the `web` and `queue` Services
+
+The `web` and `queue` services in `docker-compose.yml` are commented out by default. Uncomment them to enable the Rails server and GoodJob worker:
+
+```yaml
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: ./bin/rails server -b 0.0.0.0
+    environment:
+      RAILS_ENV: development
+      DATABASE_HOST: db
+      DATABASE_USERNAME: postgres
+      DATABASE_PASSWORD: postgres
+      PORT: 3000
+    volumes:
+      - .:/rails
+      - bundle_cache:/usr/local/bundle
+    ports:
+      - "3000:3000"
+    depends_on:
+      db:
+        condition: service_healthy
+      mailpit:
+        condition: service_started
+
+  queue:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: bundle exec good_job start
+    environment:
+      RAILS_ENV: development
+      DATABASE_HOST: db
+      DATABASE_USERNAME: postgres
+      DATABASE_PASSWORD: postgres
+    volumes:
+      - .:/rails
+      - bundle_cache:/usr/local/bundle
+    depends_on:
+      db:
+        condition: service_healthy
+```
+
+### 2. Build and Start the Stack
+
+```bash
+docker compose up --build
+```
+
+This starts three services:
+
+| Service   | Ports        | Purpose                                                        |
+|-----------|-------------|----------------------------------------------------------------|
+| `db`      | `5432`      | PostgreSQL 14 database (pre-seeded with default credentials)   |
+| `web`     | `3000`      | Rails server (accessible at `http://localhost:3000`)           |
+| `queue`   | (internal)  | GoodJob background worker for scheduled deliveries             |
+| `mailpit` | `8025`/`1025` | Local SMTP catcher for previewing emails sent by the app       |
+
+The `entrypoint.sh` script automatically waits for PostgreSQL to be ready, runs `bundle install` as needed, and executes `rails db:prepare` to set up the schema and seed data before booting.
+
+### 3. Run Migrations (if needed)
+
+If you've added new migrations, run them from the host or inside the container:
+
+```bash
+docker compose exec web bundle exec rails db:migrate
+```
+
+> **Note**: The entrypoint already calls `db:prepare` on container start, which runs pending migrations automatically.
+
+### 4. Stop the Stack
+
+```bash
+docker compose down
+```
+
+To remove all data volumes (database and bundle cache) as well:
+
+```bash
+docker compose down -v
+```
+
+### 5. Production Image (Kamal / Deployment)
+
+For production builds, the same `Dockerfile` is used by Kamal. A lean, multi-stage image is produced. See [Production & Deployment](#-production--deployment-kamal) below for details.
+
+---
+
 ## 🌐 Internationalization (i18n)
 
 TimeEcho supports **English (`:en`)** and **Spanish (`:es`)** as the only two available locales. The application's default locale is English, but content is rendered in Spanish when the browser requests it.
