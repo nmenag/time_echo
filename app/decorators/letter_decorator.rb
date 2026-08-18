@@ -19,14 +19,14 @@ class LetterDecorator < ApplicationDecorator
 
   def days_left_text
     left = days_left
-    left == 1 ? "1 día" : "#{left} días"
+    left == 1 ? I18n.t("letters.one_day") : I18n.t("letters.x_days", count: left)
   end
 
   def status_badge
     if pending?
-      "Cápsula en tránsito ⏳"
+      "#{I18n.t('letters.capsule_in_transit_badge')} ⏳"
     else
-      "Cápsula desbloqueada ✨"
+      "#{I18n.t('letters.capsule_unlocked_badge')} ✨"
     end
   end
 

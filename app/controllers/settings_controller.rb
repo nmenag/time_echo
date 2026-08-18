@@ -15,7 +15,7 @@ class SettingsController < ApplicationController
       else
         respond_to do |format|
           format.turbo_stream do
-            flash.now[:notice] = "Ajustes actualizados correctamente ✨"
+            flash.now[:notice] = t("settings.updated_successfully")
             render turbo_stream: [
               turbo_stream.replace("flash-container", partial: "shared/flash")
             ]
@@ -32,7 +32,7 @@ class SettingsController < ApplicationController
   def destroy
     Settings::DestroyAccountService.call(current_user_email, @user_preference)
     session[:current_user_email] = nil
-    redirect_to root_path, notice: "Tu baúl y todos tus datos han sido borrados de forma permanente. Gracias por tu tiempo en TimeEcho."
+    redirect_to root_path, notice: t("settings.account_deleted")
   end
 
   private

@@ -2,17 +2,17 @@ class PredictionDecorator < ApplicationDecorator
   def category_label
     case category
     when "city"
-      "🏠 Ubicación"
+      "🏠 #{I18n.t('predictions.category_city')}"
     when "career"
-      "💼 Trabajo / Carrera"
+      "💼 #{I18n.t('predictions.category_career')}"
     when "salary"
-      "💵 Ingresos"
+      "💵 #{I18n.t('predictions.category_salary')}"
     when "relationship"
-      "❤️ Relación sentimental"
+      "❤️ #{I18n.t('predictions.category_relationship')}"
     when "achievement"
-      "🏆 Mayor logro"
+      "🏆 #{I18n.t('predictions.category_achievement')}"
     when "happiness"
-      "😊 Felicidad"
+      "😊 #{I18n.t('predictions.category_happiness')}"
     else
       "🔮 #{category.titleize}"
     end
@@ -21,15 +21,15 @@ class PredictionDecorator < ApplicationDecorator
   def result_badge
     if matched?
       if category == "salary" || category == "achievement"
-        "Superaste 🚀"
+        "#{I18n.t('predictions.superaste')} 🚀"
       else
-        "Lo lograste! 🎉"
+        "#{I18n.t('predictions.you_did_it')} 🎉"
       end
     else
       if category == "city" || category == "relationship"
-        "Parcialmente ➖"
+        "#{I18n.t('predictions.partially')} ➖"
       else
-        "No acertaste ❌"
+        "#{I18n.t('predictions.you_missed')} ❌"
       end
     end
   end

@@ -26,6 +26,25 @@ class Letters::DeliverServiceTest < ActiveSupport::TestCase
     assert_equal "delivered", @letter.delivery_status
   end
 
+  test "delivers letter using stored language" do
+    @letter.update!(language: "es")
+    delivered_locale = nil
+
+    original_future_letter = TimeCapsuleMailer.method(:future_letter)
+    TimeCapsuleMailer.define_singleton_method(:future_letter) do |letter|
+      delivered_locale = I18n.locale.to_s
+      original_future_letter.call(letter)
+    end
+
+    I18n.with_locale(:en) do
+      Letters::DeliverService.call(@letter)
+    end
+
+    assert_equal "es", delivered_locale
+  ensure
+    TimeCapsuleMailer.define_singleton_method(:future_letter, original_future_letter.to_proc)
+  end
+
   test "handles mailer error and updates delivery status to failed" do
     original_future_letter = TimeCapsuleMailer.method(:future_letter)
     TimeCapsuleMailer.define_singleton_method(:future_letter) do |*args|

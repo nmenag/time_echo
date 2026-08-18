@@ -22,18 +22,18 @@
         </div>
 
         <div class="space-y-2">
-          <span class="text-xs font-bold text-base-content/40 uppercase tracking-wider block">Tiempo restante</span>
+          <span class="text-xs font-bold text-base-content/40 uppercase tracking-wider block"><%= t('letters.show_time_remaining') %></span>
           <div class="inline-block px-8 py-3.5 bg-primary/5 border border-primary/10 text-primary rounded-2xl font-extrabold text-3xl tracking-wide shadow-2xs">
             <%= @letter.days_left_text %>
           </div>
           <p class="text-[11px] text-base-content/40 pt-1 font-mono">
-            Se entregará el <%= @letter.formatted_deliver_at %>
+            <%= t('letters.deliver_date_prefix') %> <%= @letter.formatted_deliver_at %>
           </p>
         </div>
 
         <div class="pt-6 border-t border-base-200">
           <a href="<%= dashboard_path %>" class="btn btn-outline border-base-300 text-base-content hover:bg-base-200/50 rounded-2xl px-6 text-xs font-bold uppercase tracking-wider shadow-2xs cursor-pointer min-h-[40px]">
-            Volver a mis cartas
+            <span>&larr;</span> <%= t('letters.back_to_vault') %>
           </a>
         </div>
       </div>
@@ -48,12 +48,12 @@
           <div class="lg:col-span-4 flex">
             <div class="bg-base-200/30 border border-base-200 p-8 rounded-3xl shadow-2xs text-center flex flex-col justify-between items-center w-full relative overflow-hidden">
               <div class="space-y-4">
-                <span class="bg-primary/5 text-primary border border-primary/10 text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-lg">Cápsula Desbloqueada</span>
+                <span class="bg-primary/5 text-primary border border-primary/10 text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-lg"><%= t('letters.unlocked_badge') %></span>
                 <h2 class="font-serif text-2xl font-normal text-base-content leading-snug">
-                  Tu carta del pasado te está esperando.
+                  <%= t('letters.show_unlocked_title') %>
                 </h2>
                 <p class="text-xs text-base-content/60 max-w-xs mx-auto leading-relaxed">
-                  Antes de leerla, cuéntanos qué pasó realmente. Esto nos permitirá calcular el score de predicciones y shifts emocionales.
+                  <%= t('letters.show_unlocked_desc') %>
                 </p>
               </div>
 
@@ -69,9 +69,9 @@
 
               <div class="w-full space-y-2">
                 <button type="button" onclick="scrollToQuestions()" class="btn w-full bg-primary text-primary-content hover:bg-primary/95 rounded-2xl py-3.5 text-sm font-bold shadow-sm border-none cursor-pointer min-h-[44px]">
-                  Comenzar
+                  <%= t('letters.start_comparison') %>
                 </button>
-                <p class="text-[10px] text-base-content/40 font-bold">Tomará solo 2 minutos</p>
+                <p class="text-[10px] text-base-content/40 font-bold"><%= t('letters.takes_two_minutes') %></p>
               </div>
             </div>
           </div>
@@ -79,8 +79,8 @@
           <div id="questions_section" class="lg:col-span-5 flex">
             <div class="bg-base-200/30 border border-base-200 p-6 sm:p-8 rounded-3xl shadow-2xs w-full space-y-6">
               <div class="border-b border-base-200 pb-3.5">
-                <h3 class="font-serif text-xl font-normal text-base-content">Cuéntanos tu realidad actual</h3>
-                <p class="text-xs text-base-content/60 mt-1">Responde estas preguntas para comparar tu pasado con tu yo actual.</p>
+                <h3 class="font-serif text-xl font-normal text-base-content"><%= t('letters.tell_reality_title') %></h3>
+                <p class="text-xs text-base-content/60 mt-1"><%= t('letters.tell_reality_desc') %></p>
               </div>
  
               <div class="space-y-5">
@@ -89,30 +89,30 @@
                     <label class="text-xs font-bold text-base-content/85 flex items-center gap-2">
                       <% case pred.category %>
                       <% when 'city' %>
-                        <span class="text-base">🏠</span> <span>¿Dónde vives hoy en día?</span>
+                        <span class="text-base">🏠</span> <span><%= t('letters.question_where_do_you_live') %></span>
                       <% when 'career' %>
-                        <span class="text-base">💼</span> <span>¿En qué trabajas hoy en día?</span>
+                        <span class="text-base">💼</span> <span><%= t('letters.question_what_do_you_do') %></span>
                       <% when 'salary' %>
-                        <span class="text-base">💵</span> <span>¿Cuánto ganas hoy al mes?</span>
+                        <span class="text-base">💵</span> <span><%= t('letters.question_how_much_do_you_earn') %></span>
                       <% when 'relationship' %>
-                        <span class="text-base">❤️</span> <span>¿Cómo está tu relación sentimental hoy?</span>
+                        <span class="text-base">❤️</span> <span><%= t('letters.question_how_is_your_relationship') %></span>
                       <% when 'achievement' %>
-                        <span class="text-base">🏆</span> <span>¿Cuál terminó siendo tu mayor logro?</span>
+                        <span class="text-base">🏆</span> <span><%= t('letters.question_what_was_your_achievement') %></span>
                       <% when 'happiness' %>
-                        <span class="text-base">😊</span> <span>¿Qué tan feliz te sientes en general hoy?</span>
+                        <span class="text-base">😊</span> <span><%= t('letters.question_how_happy_are_you') %></span>
                       <% else %>
-                        <span class="text-base">🔮</span> <span>¿Qué ocurrió con: <%= pred.category.titleize %>?</span>
+                        <span class="text-base">🔮</span> <span><%= t('letters.question_what_happened_with', category: pred.category.titleize) %></span>
                       <% end %>
                     </label>
  
                     <div class="text-[10px] text-base-content/50 italic font-mono bg-base-200/30 px-2.5 py-1.5 rounded-lg border border-base-200 mb-2">
-                      Tu predicción del pasado: "<%= pred.prediction %>"
+                      <%= t('letters.your_past_prediction', text: pred.prediction) %>
                     </div>
  
                     <% if pred.category == 'happiness' %>
                       <div class="space-y-2 pt-1">
                         <div class="flex justify-between text-xs font-bold text-primary">
-                          <span>Tu nivel actual:</span>
+                          <span><%= t('letters.your_current_level') %></span>
                           <span id="reality_happiness_pred_lbl">7 / 10</span>
                         </div>
                         <%= range_field_tag "predictions[#{pred.id}][reality]", 7, min: 1, max: 10, class: "range range-xs cursor-pointer w-full accent-primary", oninput: "document.getElementById('reality_happiness_pred_lbl').innerText = this.value + ' / 10'" %>
@@ -120,21 +120,21 @@
                       </div>
                     <% else %>
                       <div class="space-y-3">
-                        <%= text_field_tag "predictions[#{pred.id}][reality]", nil, placeholder: "Describe qué pasó en la realidad...", class: "input input-bordered w-full rounded-2xl bg-base-200/30 text-base-content border-base-300 placeholder:text-base-content/30 text-sm focus:border-primary focus:ring-2 focus:ring-primary/10 transition-all px-4 min-h-[44px]", required: true %>
+                        <%= text_field_tag "predictions[#{pred.id}][reality]", nil, placeholder: t('letters.placeholder_reality'), class: "input input-bordered w-full rounded-2xl bg-base-200/30 text-base-content border-base-300 placeholder:text-base-content/30 text-sm focus:border-primary focus:ring-2 focus:ring-primary/10 transition-all px-4 min-h-[44px]", required: true %>
                         
                         <div class="space-y-2">
-                          <label class="text-[10px] text-base-content/40 uppercase tracking-wider font-bold block">¿Se cumplió tu predicción?</label>
+                          <label class="text-[10px] text-base-content/40 uppercase tracking-wider font-bold block"><%= t('letters.did_prediction_come_true') %></label>
                           <div class="grid grid-cols-2 gap-3">
                             <label class="cursor-pointer group flex">
                               <%= radio_button_tag "predictions[#{pred.id}][matched]", "1", true, class: "peer sr-only" %>
                               <div class="w-full text-center py-2.5 px-4 rounded-xl border border-base-300 bg-base-200/30 text-xs font-bold text-base-content/70 peer-checked:bg-success peer-checked:text-success-content peer-checked:border-success transition-all">
-                                🎉 Sí, lo logré
+                                🎉 <%= t('letters.yes_i_did_it') %>
                               </div>
                             </label>
                             <label class="cursor-pointer group flex">
                               <%= radio_button_tag "predictions[#{pred.id}][matched]", "0", false, class: "peer sr-only" %>
                               <div class="w-full text-center py-2.5 px-4 rounded-xl border border-base-300 bg-base-200/30 text-xs font-bold text-base-content/70 peer-checked:bg-primary peer-checked:text-primary-content peer-checked:border-primary transition-all">
-                                ❌ No exactamente
+                                ❌ <%= t('letters.not_exactly') %>
                               </div>
                             </label>
                           </div>
@@ -150,14 +150,14 @@
           <div class="lg:col-span-3 flex flex-col gap-6">
             <div class="bg-base-200/30 border border-base-200 p-6 rounded-3xl shadow-2xs w-full space-y-6">
               <div class="border-b border-base-200 pb-3.5">
-                <h3 class="font-serif text-lg font-normal text-base-content">Estado emocional hoy</h3>
-                <p class="text-xs text-base-content/60 mt-1">¿Cómo te sientes en este preciso instante?</p>
+                <h3 class="font-serif text-lg font-normal text-base-content"><%= t('letters.emotional_snapshot_heading') %></h3>
+                <p class="text-xs text-base-content/60 mt-1"><%= t('letters.feeling_now_short') %></p>
               </div>
  
               <div class="space-y-5">
                 <div class="space-y-2">
                   <div class="flex justify-between items-center text-xs font-bold text-base-content/85">
-                    <span>😆 Felicidad</span>
+                     <span>😆 <%= t('letters.emotion_happiness') %></span>
                     <span id="reveal_happiness_lbl" class="text-base-content/40 font-mono">5 / 10</span>
                   </div>
                   <%= f.range_field :reveal_happiness, min: 1, max: 10, value: 5, class: "range range-xs cursor-pointer w-full accent-primary", oninput: "document.getElementById('reveal_happiness_lbl').innerText = this.value + ' / 10'" %>
@@ -165,7 +165,7 @@
  
                 <div class="space-y-2">
                   <div class="flex justify-between items-center text-xs font-bold text-base-content/85">
-                    <span>🥺 Ansiedad</span>
+                     <span>🥺 <%= t('letters.emotion_anxiety') %></span>
                     <span id="reveal_anxiety_lbl" class="text-base-content/40 font-mono">5 / 10</span>
                   </div>
                   <%= f.range_field :reveal_anxiety, min: 1, max: 10, value: 5, class: "range range-xs cursor-pointer w-full accent-primary", oninput: "document.getElementById('reveal_anxiety_lbl').innerText = this.value + ' / 10'" %>
@@ -173,7 +173,7 @@
  
                 <div class="space-y-2">
                   <div class="flex justify-between items-center text-xs font-bold text-base-content/85">
-                    <span>⭐ Motivación</span>
+                     <span>⭐ <%= t('letters.emotion_motivation') %></span>
                     <span id="reveal_motivation_lbl" class="text-base-content/40 font-mono">5 / 10</span>
                   </div>
                   <%= f.range_field :reveal_motivation, min: 1, max: 10, value: 5, class: "range range-xs cursor-pointer w-full accent-primary", oninput: "document.getElementById('reveal_motivation_lbl').innerText = this.value + ' / 10'" %>
@@ -182,11 +182,11 @@
             </div>
  
             <div class="bg-primary/5 border border-primary/10 p-5 rounded-3xl space-y-2.5 text-xs text-base-content/80">
-              <p class="font-bold flex items-center gap-1.5 text-primary">💡 Consejo de reflexión:</p>
-              <p class="leading-relaxed opacity-90">Sé honesto contigo mismo. No hay respuestas correctas o incorrectas. Esta experiencia es 100% tuya y te ayuda a ver lo mucho que has crecido en este tiempo. 🌱</p>
+              <p class="font-bold flex items-center gap-1.5 text-primary">💡 <%= t('letters.reflection_tip') %></p>
+              <p class="leading-relaxed opacity-90"><%= t('letters.reflection_tip_text') %> 🌱</p>
             </div>
  
-            <%= f.submit "Guardar y ver mi carta", class: "btn w-full bg-primary text-primary-content hover:bg-primary/95 rounded-2xl py-3.5 px-6 text-xs font-bold tracking-wider uppercase border-none cursor-pointer mt-auto min-h-[44px] shadow-sm" %>
+            <%= f.submit t('letters.save_and_view'), class: "btn w-full bg-primary text-primary-content hover:bg-primary/95 rounded-2xl py-3.5 px-6 text-xs font-bold tracking-wider uppercase border-none cursor-pointer mt-auto min-h-[44px] shadow-sm" %>
           </div>
 
         </div>
@@ -208,14 +208,14 @@
           <div class="bg-base-200/30 border border-base-200 p-6 sm:p-10 rounded-3xl shadow-2xs space-y-6 relative overflow-hidden">
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-base-200 pb-5 text-xs text-base-content/50">
               <div>
-                <p class="uppercase tracking-wider font-bold text-[10px]">Escrita el</p>
+                <p class="uppercase tracking-wider font-bold text-[10px]"><%= t('letters.show_written') %></p>
                 <p class="font-bold text-base-content text-sm font-mono"><%= @letter.formatted_created_at %></p>
               </div>
               <div class="text-center">
-                <span class="text-xs font-bold text-primary uppercase tracking-wider block">Carta del pasado</span>
+                <span class="text-xs font-bold text-primary uppercase tracking-wider block"><%= t('letters.past_letter') %></span>
               </div>
               <div class="sm:text-right">
-                <p class="uppercase tracking-wider font-bold text-[10px]">Entregada el</p>
+                <p class="uppercase tracking-wider font-bold text-[10px]"><%= t('letters.show_delivered') %></p>
                 <p class="font-bold text-base-content text-sm font-mono"><%= @letter.formatted_delivered_at %></p>
               </div>
             </div>
@@ -225,9 +225,9 @@
             </article>
 
             <div class="pt-6 border-t border-base-200 flex justify-between items-center text-[10px] text-base-content/40 font-sans">
-              <span>👁️ Consultada <%= @letter.open_count %> veces</span>
+                <span>👁️ <%= t('letters.show_read_count', count: @letter.open_count) %></span>
               <a href="<%= dashboard_path %>" class="hover:text-primary transition-colors flex items-center gap-1 font-bold uppercase tracking-wider">
-                &larr; Volver a mis cartas
+                <span>&larr;</span> <%= t('letters.back_to_vault') %>
               </a>
             </div>
           </div>
@@ -235,8 +235,8 @@
           <% if @letter.predictions.any? %>
             <div class="bg-base-200/30 border border-base-200 p-6 sm:p-8 rounded-3xl shadow-2xs space-y-6">
               <div class="border-b border-base-200 pb-3.5">
-                <h2 class="font-serif text-xl font-normal text-base-content">Predicciones vs Realidad</h2>
-                <p class="text-xs text-base-content/60 mt-1">Compara lo que imaginabas hace un tiempo con la vida que estás viviendo hoy.</p>
+                <h2 class="font-serif text-xl font-normal text-base-content"><%= t('letters.predictions_vs_reality') %></h2>
+                <p class="text-xs text-base-content/60 mt-1"><%= t('letters.predictions_vs_reality_desc') %></p>
               </div>
 
               <div class="space-y-4">
@@ -255,14 +255,14 @@
 
                     <div class="grid md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-base-300 bg-base-100">
                       <div class="p-5 space-y-1.5">
-                        <span class="text-xs font-bold text-base-content/40 uppercase tracking-wider block">Predicción del pasado:</span>
+                        <span class="text-xs font-bold text-base-content/40 uppercase tracking-wider block"><%= t('letters.past_prediction_label') %></span>
                         <p class="text-sm text-base-content/80 leading-relaxed font-sans">
                           "<%= pred.prediction %>"
                         </p>
                       </div>
                       
                       <div class="p-5 space-y-1.5 bg-base-200/10">
-                        <span class="text-xs font-bold text-base-content/40 uppercase tracking-wider block">Realidad hoy en día:</span>
+                        <span class="text-xs font-bold text-base-content/40 uppercase tracking-wider block"><%= t('letters.reality_today_label') %></span>
                         <p class="text-sm text-base-content/85 leading-relaxed font-sans font-medium">
                           "<%= pred.reality %>"
                         </p>
@@ -280,7 +280,7 @@
           
           <div class="bg-base-200/30 border border-base-200 p-6 rounded-3xl shadow-2xs space-y-5 text-center">
             <div class="border-b border-base-200 pb-3">
-              <h3 class="font-serif text-lg font-normal text-base-content">Tu Score de Predicciones</h3>
+              <h3 class="font-serif text-lg font-normal text-base-content"><%= t('letters.prediction_score_title') %></h3>
             </div>
 
             <% if @letter.predictions.any? %>
@@ -295,106 +295,106 @@
                      aria-valuenow="<%= pct %>"
                      aria-valuemin="0"
                      aria-valuemax="100"
-                     aria-label="Score de predicciones: <%= pct %>%">
+                     aria-label="<%= t('letters.prediction_score_title') %>: <%= pct %>%">
                   <%= pct %>%
                 </div>
               </div>
 
               <div class="space-y-1 text-xs">
-                <p class="font-bold text-base-content/85 font-sans">Acertaste <%= matched %> de <%= total %> predicciones</p>
+                <p class="font-bold text-base-content/85 font-sans"><%= t('letters.matched_predictions_count', matched: matched, total: total, pct: pct) %></p>
                 <p class="text-base-content/60 leading-relaxed max-w-xs mx-auto font-sans">
                   <% if pct >= 70 %>
-                    ¡Tu brújula del futuro está sumamente afilada! Excelente intuición. 🌟
+                    <%= t('letters.score_message_high') %> 🌟
                   <% elsif pct >= 40 %>
-                    Vas por un gran camino. Muchas cosas cambiaron, pero tu rumbo sigue claro. 🌱
+                    <%= t('letters.score_message_medium') %> 🌱
                   <% else %>
-                    ¡La vida te sorprendió con giros inesperados! Y eso hace el camino más interesante. 🚀
+                    <%= t('letters.score_message_low') %> 🚀
                   <% end %>
                 </p>
               </div>
             <% else %>
-              <p class="text-xs text-base-content/40 py-4 font-sans">No registraste predicciones para esta carta.</p>
+              <p class="text-xs text-base-content/40 py-4 font-sans"><%= t('letters.no_predictions_registered') %></p>
             <% end %>
           </div>
 
           <div class="bg-base-200/30 border border-base-200 p-6 rounded-3xl shadow-2xs space-y-6">
             <div class="border-b border-base-200 pb-3">
-              <h3 class="font-serif text-lg font-normal text-base-content">Evolución emocional</h3>
-              <p class="text-[10px] text-base-content/40 mt-0.5 uppercase tracking-wider font-bold">Cambio en tu bienestar interno</p>
+              <h3 class="font-serif text-lg font-normal text-base-content"><%= t('letters.emotional_evolution') %></h3>
+              <p class="text-[10px] text-base-content/40 mt-0.5 uppercase tracking-wider font-bold"><%= t('letters.internal_wellbeing_change') %></p>
             </div>
 
             <% if @letter.emotional_snapshot.present? %>
               <div class="space-y-5">
                 <div class="space-y-2 bg-base-100 p-3.5 rounded-2xl border border-base-300">
                   <div class="flex justify-between items-center text-xs">
-                    <span class="font-bold text-base-content/85 flex items-center gap-1 font-sans">😆 Felicidad</span>
+                    <span class="font-bold text-base-content/85 flex items-center gap-1 font-sans"><%= t('letters.emotion_happiness') %></span>
                     <% hap_shift = @letter.reveal_happiness.to_i - @letter.emotional_snapshot.happiness_level.to_i %>
                     <% if hap_shift > 0 %>
-                      <span class="bg-success text-success-content text-[10px] font-bold py-1 px-2.5 rounded-lg font-sans">+<%= hap_shift %> Crecimiento</span>
+                      <span class="bg-success text-success-content text-[10px] font-bold py-1 px-2.5 rounded-lg font-sans">+<%= hap_shift %> <%= t('letters.growth') %></span>
                     <% elsif hap_shift < 0 %>
-                      <span class="bg-primary text-primary-content text-[10px] font-bold py-1 px-2.5 rounded-lg font-sans"><%= hap_shift %> Descenso</span>
+                      <span class="bg-primary text-primary-content text-[10px] font-bold py-1 px-2.5 rounded-lg font-sans"><%= hap_shift %> <%= t('letters.decline_label') %></span>
                     <% else %>
-                      <span class="bg-base-200 text-base-content/60 border border-base-300 text-[10px] font-bold py-1 px-2.5 rounded-lg font-sans">Estable</span>
+                      <span class="bg-base-200 text-base-content/60 border border-base-300 text-[10px] font-bold py-1 px-2.5 rounded-lg font-sans"><%= t('letters.steady_status') %></span>
                     <% end %>
                   </div>
                   
                   <div class="flex justify-between items-center text-[11px] text-base-content/40 font-mono">
-                    <span>Pasado: <strong><%= @letter.emotional_snapshot.happiness_level %></strong></span>
+                    <span><%= t('letters.past_label') %> <strong><%= @letter.emotional_snapshot.happiness_level %></strong></span>
                     <span class="text-xs">&rarr;</span>
-                    <span>Hoy: <strong><%= @letter.reveal_happiness %></strong></span>
+                    <span><%= t('letters.today_label') %> <strong><%= @letter.reveal_happiness %></strong></span>
                   </div>
                 </div>
 
                 <div class="space-y-2 bg-base-100 p-3.5 rounded-2xl border border-base-300">
                   <div class="flex justify-between items-center text-xs font-sans">
-                    <span class="font-bold text-base-content/85 flex items-center gap-1">🥺 Ansiedad</span>
+                    <span class="font-bold text-base-content/85 flex items-center gap-1">🥺 <%= t('letters.emotion_anxiety') %></span>
                     <% anx_shift = @letter.reveal_anxiety.to_i - @letter.emotional_snapshot.anxiety_level.to_i %>
                     <% if anx_shift < 0 %>
-                      <span class="bg-success text-success-content text-[10px] font-bold py-1 px-2.5 rounded-lg font-sans"><%= anx_shift %> Más calma</span>
+                      <span class="bg-success text-success-content text-[10px] font-bold py-1 px-2.5 rounded-lg font-sans"><%= anx_shift %> <%= t('letters.calm_label') %></span>
                     <% elsif anx_shift > 0 %>
-                      <span class="bg-warning text-warning-content text-[10px] font-bold py-1 px-2.5 rounded-lg font-sans">+<%= anx_shift %> Estrés</span>
+                      <span class="bg-warning text-warning-content text-[10px] font-bold py-1 px-2.5 rounded-lg font-sans">+<%= anx_shift %> <%= t('letters.stress_label') %></span>
                     <% else %>
-                      <span class="bg-base-200 text-base-content/60 border border-base-300 text-[10px] font-bold py-1 px-2.5 rounded-lg font-sans">Estable</span>
+                      <span class="bg-base-200 text-base-content/60 border border-base-300 text-[10px] font-bold py-1 px-2.5 rounded-lg font-sans"><%= t('letters.steady_label') %></span>
                     <% end %>
                   </div>
                   
                   <div class="flex justify-between items-center text-[11px] text-base-content/40 font-mono">
-                    <span>Pasado: <strong><%= @letter.emotional_snapshot.anxiety_level %></strong></span>
+                    <span><%= t('letters.past_label') %> <strong><%= @letter.emotional_snapshot.anxiety_level %></strong></span>
                     <span class="text-xs">&rarr;</span>
-                    <span>Hoy: <strong><%= @letter.reveal_anxiety %></strong></span>
+                    <span><%= t('letters.today_label') %> <strong><%= @letter.reveal_anxiety %></strong></span>
                   </div>
                 </div>
 
                 <div class="space-y-2 bg-base-100 p-3.5 rounded-2xl border border-base-300">
                   <div class="flex justify-between items-center text-xs font-sans font-bold">
-                    <span class="text-base-content/85 flex items-center gap-1">⭐ Motivación</span>
+                    <span class="text-base-content/85 flex items-center gap-1"><%= t('letters.emotion_motivation') %></span>
                     <% mot_shift = @letter.reveal_motivation.to_i - @letter.emotional_snapshot.motivation_level.to_i %>
                     <% if mot_shift > 0 %>
-                      <span class="bg-success text-success-content text-[10px] font-bold py-1 px-2.5 rounded-lg font-sans font-bold">+<%= mot_shift %> Inspirado</span>
+                      <span class="bg-success text-success-content text-[10px] font-bold py-1 px-2.5 rounded-lg font-sans font-bold">+<%= mot_shift %> <%= t('letters.inspired_label') %></span>
                     <% elsif mot_shift < 0 %>
-                      <span class="bg-primary text-primary-content text-[10px] font-bold py-1 px-2.5 rounded-lg font-sans font-bold"><%= mot_shift %> Descenso</span>
+                      <span class="bg-primary text-primary-content text-[10px] font-bold py-1 px-2.5 rounded-lg font-sans font-bold"><%= mot_shift %> <%= t('letters.decline_label') %></span>
                     <% else %>
-                      <span class="bg-base-200 text-base-content/60 border border-base-300 text-[10px] font-bold py-1 px-2.5 rounded-lg font-sans font-bold">Estable</span>
+                      <span class="bg-base-200 text-base-content/60 border border-base-300 text-[10px] font-bold py-1 px-2.5 rounded-lg font-sans font-bold"><%= t('letters.steady_label') %></span>
                     <% end %>
                   </div>
                   
                   <div class="flex justify-between items-center text-[11px] text-base-content/40 font-mono">
-                    <span>Pasado: <strong><%= @letter.emotional_snapshot.motivation_level %></strong></span>
+                    <span><%= t('letters.past_label') %> <strong><%= @letter.emotional_snapshot.motivation_level %></strong></span>
                     <span class="text-xs">&rarr;</span>
-                    <span>Hoy: <strong><%= @letter.reveal_motivation %></strong></span>
+                    <span><%= t('letters.today_label') %> <strong><%= @letter.reveal_motivation %></strong></span>
                   </div>
                 </div>
               </div>
             <% else %>
-              <p class="text-xs text-base-content/40 font-sans">No hay datos emocionales disponibles.</p>
+                <span class="text-base-content/60"><%= t('letters.no_emotional_data') %></span>
             <% end %>
           </div>
 
           <div class="bg-base-200/30 border border-base-200 p-6 rounded-3xl shadow-2xs space-y-4 mt-auto">
-            <h4 class="font-serif text-base font-normal text-base-content">¿Qué sigue?</h4>
-            <p class="text-xs text-base-content/60 leading-relaxed font-sans">Descubre cómo evoluciona tu historia a través de los años. Sigue escribiendo cartas y guarda tus memorias en el baúl del tiempo.</p>
+            <h4 class="font-serif text-base font-normal text-base-content"><%= t('letters.whats_next') %></h4>
+            <p class="text-xs text-base-content/60 leading-relaxed font-sans"><%= t('letters.whats_next_desc') %></p>
             <a href="<%= new_letter_path %>" class="btn w-full bg-primary text-primary-content hover:bg-primary/95 rounded-2xl py-3 text-xs font-bold tracking-wider uppercase border-none cursor-pointer min-h-[40px] flex items-center justify-center font-sans">
-              Escribir nueva carta
+              <%= t('letters.write_new_letter') %>
             </a>
           </div>
 

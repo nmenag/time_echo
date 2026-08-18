@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html data-theme="<%= current_user_theme %>" class="scroll-smooth">
+<html lang="<%= I18n.locale %>" data-theme="<%= current_user_theme %>" class="scroll-smooth">
   <head>
     <title><%= content_for(:title) || "TimeEcho — #{t('slogan')}" %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="application-name" content="TimeEcho">
     <meta name="mobile-web-app-capable" content="yes">
-    <meta name="description" content="TimeEcho es una cápsula del tiempo digital segura para escribir cartas al futuro. Sella mensajes, fotos y notas de voz para tu yo del futuro.">
+    <meta name="description" content="<%= t('landing.subtitle') %>">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
@@ -18,6 +18,7 @@
 
     <%= stylesheet_link_tag "tailwind", "data-turbo-track": "reload" %>
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= stylesheet_link_tag "flatpickr", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
   </head>
 
@@ -45,39 +46,39 @@
 
             <!-- Navigation Links -->
             <nav class="space-y-2">
-              <!-- Escribir Carta -->
+              <!-- Write Letter -->
               <% write_active = current_page?(new_letter_path) %>
               <a href="<%= new_letter_path %>" class="flex items-center gap-3.5 px-4 py-3 rounded-lg text-sm font-medium transition-colors duration-150 <%= write_active ? 'bg-primary text-primary-content' : 'text-base-content/70 hover:bg-base-200 hover:text-primary' %>">
                 <span class="text-base" aria-hidden="true">✏️</span>
                 <span><%= t('navigation.write') %></span>
               </a>
 
-              <!-- Mis Cartas -->
+              <!-- My Letters -->
               <% vault_active = current_page?(dashboard_path) && !params[:timeline] %>
               <a href="<%= dashboard_path %>" class="flex items-center gap-3.5 px-4 py-3 rounded-lg text-sm font-medium transition-colors duration-150 <%= vault_active ? 'bg-primary text-primary-content' : 'text-base-content/70 hover:bg-base-200 hover:text-primary' %>">
                 <span class="text-base" aria-hidden="true">✉️</span>
                 <span><%= t('navigation.vault') %></span>
               </a>
 
-              <!-- Línea de tiempo -->
+              <!-- Timeline -->
               <% timeline_active = current_page?(dashboard_path) && params[:timeline] %>
               <a href="<%= dashboard_path(timeline: true) %>" class="flex items-center gap-3.5 px-4 py-3 rounded-lg text-sm font-medium transition-colors duration-150 <%= timeline_active ? 'bg-primary text-primary-content' : 'text-base-content/70 hover:bg-base-200 hover:text-primary' %>">
                 <span class="text-base" aria-hidden="true">🕒</span>
-                <span><%= t('navigation.timeline') || "Línea de tiempo" %></span>
+                <span><%= t('navigation.timeline') %></span>
               </a>
 
-              <!-- Estadísticas -->
+              <!-- Analytics -->
               <% analytics_active = current_page?(analytics_path) %>
               <a href="<%= analytics_path %>" class="flex items-center gap-3.5 px-4 py-3 rounded-xl text-sm font-medium transition-colors duration-150 <%= analytics_active ? 'bg-primary text-primary-content' : 'text-base-content/70 hover:bg-base-200 hover:text-primary' %>">
                 <span class="text-base" aria-hidden="true">📊</span>
                 <span><%= t('navigation.analytics') %></span>
               </a>
 
-              <!-- Ajustes -->
+              <!-- Settings -->
               <% settings_active = current_page?(settings_path) %>
               <a href="<%= settings_path %>" class="flex items-center gap-3.5 px-4 py-3 rounded-xl text-sm font-medium transition-colors duration-150 <%= settings_active ? 'bg-primary text-primary-content' : 'text-base-content/70 hover:bg-base-200 hover:text-primary' %>">
                 <span class="text-base" aria-hidden="true">⚙️</span>
-                <span><%= t('navigation.settings') || "Ajustes" %></span>
+                <span><%= t('navigation.settings') %></span>
               </a>
             </nav>
           </div>
@@ -87,7 +88,7 @@
             <!-- Inspirational Quote -->
             <div class="border border-base-200 bg-base-200/40 p-4 rounded-xl space-y-2 select-none">
               <p class="text-xs font-serif italic text-base-content/70 leading-relaxed font-normal">
-                "<%= t('navigation.quote') { "El futuro no es algo que llega, es algo que creas." } %>"
+                 "<%= t('navigation.quote') %>"
               </p>
             </div>
 
@@ -119,6 +120,14 @@
           </a>
 
           <div class="flex items-center gap-2">
+            <%= button_to locales_path(locale: toggle_locale), method: :post, class: "flex items-center gap-1 text-base-content/60 hover:text-brand transition-colors cursor-pointer bg-transparent border-none p-0 hover:scale-[1.02] active:scale-[0.98]", data: { turbo: "false" } do %>
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12a9 9 0 1 0 18 0 9 9 0 0 0-18 0z" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12h18M12 3v18" />
+              </svg>
+              <span class="text-xs"><%= I18n.locale == :en ? "EN" : "ES" %></span>
+            <% end %>
+
             <!-- Mobile Menu Dropdown -->
             <details class="dropdown dropdown-end dropdown-bottom">
               <summary class="btn btn-ghost btn-circle btn-sm list-none cursor-pointer">
@@ -127,9 +136,9 @@
               <ul class="menu dropdown-content bg-base-100 border border-base-200 rounded-box w-52 p-2 shadow-md gap-1 z-50">
                 <li><a href="<%= new_letter_path %>" class="py-2">✏️ <%= t('navigation.write') %></a></li>
                 <li><a href="<%= dashboard_path %>" class="py-2">✉️ <%= t('navigation.vault') %></a></li>
-                <li><a href="<%= dashboard_path(timeline: true) %>" class="py-2">🕒 <%= t('navigation.timeline') || "Línea de tiempo" %></a></li>
+                <li><a href="<%= dashboard_path(timeline: true) %>" class="py-2">🕒 <%= t('navigation.timeline') %></a></li>
                 <li><a href="<%= analytics_path %>" class="py-2">📊 <%= t('navigation.analytics') %></a></li>
-                <li><a href="<%= settings_path %>" class="py-2">⚙️ <%= t('navigation.settings') || "Ajustes" %></a></li>
+                <li><a href="<%= settings_path %>" class="py-2">⚙️ <%= t('navigation.settings') %></a></li>
                 <% if user_signed_in? %>
                   <div class="divider my-1"></div>
                   <li class="px-3 py-1.5 text-[10px] text-base-content/40 truncate"><%= current_user_email %></li>
@@ -148,7 +157,7 @@
             <% if flash[:notice].present? %>
               <div class="bg-emerald-50 border border-emerald-200 rounded-2xl shadow-xs flex items-center gap-3.5 py-3.5 px-5 mb-6 animate-fade-in max-w-5xl mx-auto text-emerald-950 w-full">
                 <span class="text-base shrink-0">✨</span>
-                <span class="text-xs font-semibold leading-relaxed"><%= flash[:notice] %></span>
+                <span class="text-xs font-semibold leading-relaxed"><%= flash[:notice] %> ✨</span>
               </div>
             <% end %>
             <% if flash[:alert].present? %>
@@ -172,11 +181,22 @@
           </a>
 
           <div class="flex items-center gap-8 text-sm font-medium">
-            <a href="<%= root_path %>#how-it-works" class="text-base-content/60 hover:text-brand transition-colors">¿Cómo funciona?</a>
+            <%= button_to locales_path(locale: toggle_locale), method: :post, class: "flex items-center gap-1.5 text-base-content/60 hover:text-brand transition-colors cursor-pointer bg-transparent border-none p-0 hover:scale-[1.02] active:scale-[0.98]", data: { turbo: "false" } do %>
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12a9 9 0 1 0 18 0 9 9 0 0 0-18 0z" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12h18M12 3v18" />
+              </svg>
+              <%= I18n.locale == :en ? "EN" : "ES" %>
+            <% end %>
+
+            <div class="h-6 w-px bg-base-300"></div>
+
+            <a href="<%= root_path %>#how-it-works" class="text-base-content/60 hover:text-brand transition-colors"><%= t('landing.how_it_works') %></a>
+
             <% if user_signed_in? %>
               <a href="<%= dashboard_path %>" class="btn text-white rounded-xl px-5 text-xs font-semibold border-none cursor-pointer hover:scale-[1.02] active:scale-[0.98] transition-transform duration-200" style="background-color: oklch(40% 0.22 290); --btn-color: oklch(40% 0.22 290);"><%= t('navigation.vault') %></a>
             <% else %>
-              <a href="<%= login_path %>" class="btn text-white rounded-xl px-5 text-sm font-semibold border-none cursor-pointer hover:scale-[1.02] active:scale-[0.98] transition-transform duration-200" style="background-color: oklch(40% 0.22 290); --btn-color: oklch(40% 0.22 290);">Iniciar sesión</a>
+               <a href="<%= login_path %>" class="btn text-white rounded-xl px-5 text-sm font-semibold border-none cursor-pointer hover:scale-[1.02] active:scale-[0.98] transition-transform duration-200" style="background-color: oklch(40% 0.22 290); --btn-color: oklch(40% 0.22 290);"><%= t('navigation.sign_in') %></a>
             <% end %>
           </div>
         </div>
@@ -188,7 +208,7 @@
         <% if flash[:notice].present? %>
           <div class="bg-emerald-50 border border-emerald-200 rounded-2xl shadow-xs flex items-center gap-3.5 py-3.5 px-5 mb-6 animate-fade-in text-emerald-950 w-full">
             <span class="text-base shrink-0">✨</span>
-            <span class="text-xs font-semibold leading-relaxed"><%= flash[:notice] %></span>
+            <span class="text-xs font-semibold leading-relaxed"><%= flash[:notice] %> ✨</span>
           </div>
         <% end %>
         <% if flash[:alert].present? %>
@@ -217,11 +237,11 @@
     <!-- Reusable Premium Settings Modal -->
     <dialog id="settings_modal" class="modal modal-bottom sm:modal-middle font-sans">
       <div class="modal-box bg-base-100 border border-base-200 rounded-box p-8 space-y-6">
-        <h3 class="font-serif italic text-2xl text-primary font-normal flex items-center gap-2">
-          <span>⚙️</span> <%= t('navigation.settings') || "Ajustes de la cápsula" %>
-        </h3>
+          <h3 class="font-serif italic text-2xl text-primary font-normal flex items-center gap-2">
+            <span>⚙️</span> <%= t('navigation.settings') %>
+          </h3>
         <p class="text-xs text-base-content/50 leading-relaxed">
-          Configura las preferencias de privacidad, notificaciones y tema de tus cartas del tiempo digital.
+          <%= t('settings.subtitle') %>
         </p>
 
         <div class="divider my-1"></div>
@@ -229,16 +249,16 @@
         <div class="space-y-4">
           <div class="flex items-center justify-between bg-base-200/30 p-3 rounded-xl border border-base-200/50">
             <div>
-              <p class="text-xs font-semibold text-primary">Notificaciones por Correo</p>
-              <p class="text-[10px] text-base-content/40">Recibe recordatorios cuando tu carta esté lista para abrirse.</p>
+              <p class="text-xs font-semibold text-primary"><%= t('settings.notifications_title') %></p>
+              <p class="text-[10px] text-base-content/40"><%= t('settings.notifications_desc') %></p>
             </div>
             <input type="checkbox" class="toggle toggle-primary toggle-sm" checked />
           </div>
 
           <div class="flex items-center justify-between bg-base-200/30 p-3 rounded-xl border border-base-200/50">
             <div>
-              <p class="text-xs font-semibold text-primary">Modo Privado Global</p>
-              <p class="text-[10px] text-base-content/40">Todas tus cartas serán 100% privadas de forma predeterminada.</p>
+              <p class="text-xs font-semibold text-primary"><%= t('settings.global_private_mode_title') %></p>
+              <p class="text-[10px] text-base-content/40"><%= t('settings.global_private_mode_desc') %></p>
             </div>
             <input type="checkbox" class="toggle toggle-primary toggle-sm" checked />
           </div>
@@ -246,8 +266,8 @@
 
         <div class="modal-action">
           <form method="dialog" class="w-full flex gap-3">
-            <button class="btn btn-outline border-base-300 hover:bg-base-200 rounded-xl text-sm font-semibold flex-1 cursor-pointer">Cancelar</button>
-            <button class="btn btn-primary rounded-xl text-sm font-semibold flex-1 cursor-pointer">Guardar</button>
+            <button class="btn btn-outline border-base-300 hover:bg-base-200 rounded-xl text-sm font-semibold flex-1 cursor-pointer"><%= t('common.cancel') %></button>
+            <button class="btn btn-primary rounded-xl text-sm font-semibold flex-1 cursor-pointer"><%= t('common.save') %></button>
           </form>
         </div>
       </div>

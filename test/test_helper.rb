@@ -17,6 +17,8 @@ module ActiveSupport
       SimpleCov.result
     end
 
+    setup { I18n.locale = :es }
+
     fixtures :all
   end
 end

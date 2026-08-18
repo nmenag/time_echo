@@ -355,3 +355,67 @@ TimeEcho operates on a tailored design system powered by Tailwind CSS v4 and Dai
 To provide a native-app sensation on mobile devices (Android/iOS), TimeEcho is built with native Progressive Web Application capabilities integrated into the Rails layout:
 * **`manifest.json.erb`**: Declares app metadata, launcher icons, retro background splash colors, and displays the app in standard `standalone` orientation.
 * **`service-worker.js`**: Caches basic static files (fonts, icons, and shell layouts) offline, enabling offline caching and instant boot speeds.
+
+---
+
+## 🌐 8. Internationalization (i18n) Architecture
+
+TimeEcho implements a lightweight, two-locale internationalization system using Rails' built-in `I18n` framework. The architecture prioritizes explicit locale control, graceful fallbacks, and clean separation between view templates and translated strings.
+
+### 8.1 Locale Configuration
+
+The application's locale settings are configured in `config/application.rb`:
+
+```ruby
+config.i18n.available_locales = [ :es, :en ]
+config.i18n.default_locale = :en
+```
+
+* **Allowed locales**: Only `:es` (Spanish) and `:en` (English) are permitted. Any other locale requested by the browser is rejected and falls back to the default.
+* **Default locale**: `:en` (English) serves as both the default UI language and the ultimate fallback for unsupported locales or missing translations.
+* **Fallbacks**: Enabled in `config/environments/production.rb` and `config/environments/test.rb` via `config.i18n.fallbacks = true`. When `fallbacks = true`, any missing key in a locale falls back to the `default_locale` rather than rendering the raw key name.
+
+### 8.2 Locale Detection (`set_locale`)
+
+Locale resolution is handled by the `set_locale` before_action in `ApplicationController`. The method is designed to **only override** the current locale when the browser explicitly requests a supported language — it never forcibly resets to the default, which allows tests and other pre-configured contexts to control the locale.
+
+```mermaid
+flowchart TD
+    A[Request received] --> B{HTTP_ACCEPT_LANGUAGE present?}
+    B -- No --> C[Locale unchanged, uses default]
+    B -- Yes --> D[Extract 2-letter browser locale]
+    D --> E{Locale in [:es, :en]?}
+    E -- Yes --> F[Set I18n.locale to browser locale]
+    E -- No --> G[Locale unchanged, uses default]
+```
+
+| Browser `Accept-Language` | Extracted | Supported? | Resulting Locale |
+|---|---|---|---|
+| `es` | `:es` | Yes | `es` |
+| `en-US,en;q=0.9` | `:en` | Yes | `en` |
+| `fr-FR,fr;q=0.9` | `:fr` | No | `:en` (default, unchanged) |
+| (none) | `nil` | No | `:en` (default, unchanged) |
+
+### 8.3 Test Locale Strategy
+
+The test suite establishes `I18n.locale = :es` globally in `test/test_helper.rb` via a `setup` block on `ActiveSupport::TestCase`. Because test requests do not send an `Accept-Language` header, the `set_locale` before_action does not override this pre-set Spanish locale, ensuring all assertions match Spanish text expectations.
+
+```ruby
+# test/test_helper.rb
+class TestCase
+  setup { I18n.locale = :es }
+end
+```
+
+The `ApplicationControllerTest` covers locale detection for both supported (`es`, `en`) and unsupported (`fr`) headers, as well as the no-header scenario.
+
+### 8.4 Decorator Integration
+
+All locale-dependent formatting (dates, status badges, category labels, countdown strings) is encapsulated in decorators within `app/decorators/`. These decorators use `I18n.t()` and `I18n.l()` directly, ensuring zero hardcoded locale strings appear in ERB templates.
+
+* **LetterDecorator**: `formatted_created_at`, `formatted_delivered_at`, `days_left_text`, `status_badge`
+* **PredictionDecorator**: `category_label`, `result_badge`
+
+### 8.5 View Text Policy
+
+All user-facing strings in ERB views must use `t()` calls — no hardcoded Spanish or English text is permitted. HTML comments in views should be in English for consistency.

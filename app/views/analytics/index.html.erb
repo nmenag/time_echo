@@ -1,12 +1,12 @@
 <div class="space-y-8 max-w-6xl mx-auto py-4 font-sans animate-fade-in">
   <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-6 pb-6 border-b border-base-200">
     <div class="space-y-1">
-      <h1 class="font-serif text-3xl font-normal text-base-content tracking-tight">Estadísticas</h1>
-      <p class="text-sm text-base-content/50">Monitorea tus tasas de apertura, precisión de predicciones y shifts emocionales en el tiempo.</p>
+      <h1 class="font-serif text-3xl font-normal text-base-content tracking-tight"><%= t('analytics.title') %></h1>
+      <p class="text-sm text-base-content/50"><%= t('analytics.subtitle') %></p>
     </div>
     <div class="shrink-0">
       <a href="<%= dashboard_path %>" class="btn btn-outline border-base-200 text-base-content/85 hover:bg-base-200/50 rounded-2xl px-5 text-xs font-bold uppercase tracking-wider cursor-pointer min-h-[44px]">
-        &larr; Volver a mis cartas
+        &larr; <%= t('analytics.back_to_vault') %>
       </a>
     </div>
   </div>
@@ -14,71 +14,71 @@
   <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
     <div class="bg-base-100 border border-base-200 p-6 rounded-3xl shadow-2xs space-y-4">
       <div class="flex items-center justify-between border-b border-base-200 pb-2">
-        <h3 class="text-[10px] font-bold text-base-content/40 uppercase tracking-wider">Tasa de apertura</h3>
+        <h3 class="text-[10px] font-bold text-base-content/40 uppercase tracking-wider"><%= t('analytics.open_rate_title') %></h3>
         <span class="text-base text-primary">👁️</span>
       </div>
       <div class="flex items-baseline gap-1.5">
         <span class="text-3xl font-extrabold text-base-content"><%= @open_rate %>%</span>
-        <span class="text-xs text-base-content/40">abiertas</span>
+        <span class="text-xs text-base-content/40"><%= t('analytics.opened_word') %></span>
       </div>
       <div class="w-full bg-base-200 rounded-full h-1.5 overflow-hidden">
         <div class="bg-success h-1.5 rounded-full transition-all duration-500" style="width: <%= @open_rate %>%"></div>
       </div>
       <p class="text-xs text-base-content/50 leading-relaxed">
-        El porcentaje de cartas entregadas que has abierto y leído hasta hoy.
+        <%= t('analytics.open_rate_desc') %>
       </p>
     </div>
 
     <div class="bg-base-100 border border-base-200 p-6 rounded-3xl shadow-2xs space-y-4">
       <div class="flex items-center justify-between border-b border-base-200 pb-2">
-        <h3 class="text-[10px] font-bold text-base-content/40 uppercase tracking-wider">Tasa de click</h3>
+        <h3 class="text-[10px] font-bold text-base-content/40 uppercase tracking-wider"><%= t('analytics.click_rate_title') %></h3>
         <span class="text-base text-primary">🔗</span>
       </div>
       <div class="flex items-baseline gap-1.5">
         <span class="text-3xl font-extrabold text-base-content"><%= @click_rate %>%</span>
-        <span class="text-xs text-base-content/40">accedidas</span>
+        <span class="text-xs text-base-content/40"><%= t('analytics.clicked_word') %></span>
       </div>
       <div class="w-full bg-base-200 rounded-full h-1.5 overflow-hidden">
         <div class="bg-primary h-1.5 rounded-full transition-all duration-500" style="width: <%= @click_rate %>%"></div>
       </div>
       <p class="text-xs text-base-content/50 leading-relaxed">
-        Proporción de enlaces de acceso único que han sido activados desde tus notificaciones.
+        <%= t('analytics.click_rate_desc') %>
       </p>
     </div>
 
     <div class="bg-base-100 border border-base-200 p-6 rounded-3xl shadow-2xs space-y-4">
       <div class="flex items-center justify-between border-b border-base-200 pb-2">
-        <h3 class="text-[10px] font-bold text-base-content/40 uppercase tracking-wider">Tasa de rebote</h3>
+        <h3 class="text-[10px] font-bold text-base-content/40 uppercase tracking-wider"><%= t('analytics.bounce_rate_title') %></h3>
         <span class="text-base text-primary">⚠️</span>
       </div>
       <div class="flex items-baseline gap-1.5">
         <span class="text-3xl font-extrabold text-base-content"><%= @bounce_rate %>%</span>
-        <span class="text-xs text-base-content/40">rebotadas</span>
+        <span class="text-xs text-base-content/40"><%= t('analytics.bounced_word') %></span>
       </div>
       <div class="w-full bg-base-200 rounded-full h-1.5 overflow-hidden">
         <div class="bg-error h-1.5 rounded-full transition-all duration-500" style="width: <%= @bounce_rate %>%"></div>
       </div>
       <p class="text-xs text-base-content/50 leading-relaxed">
-        El porcentaje de correos que no pudieron entregarse correctamente a tu buzón.
+        <%= t('analytics.bounce_rate_desc') %>
       </p>
     </div>
   </div>
 
   <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
     <div class="bg-base-100 border border-base-200 p-5 rounded-3xl text-center shadow-2xs">
-      <p class="text-[10px] font-bold text-base-content/40 uppercase tracking-wider">Cápsulas creadas</p>
+      <p class="text-[10px] font-bold text-base-content/40 uppercase tracking-wider"><%= t('analytics.total_capsules') %></p>
       <p class="text-2xl font-extrabold text-base-content mt-1"><%= @total_letters %></p>
     </div>
     <div class="bg-base-100 border border-base-200 p-5 rounded-3xl text-center shadow-2xs">
-      <p class="text-[10px] font-bold text-base-content/40 uppercase tracking-wider">Entregadas</p>
+      <p class="text-[10px] font-bold text-base-content/40 uppercase tracking-wider"><%= t('analytics.delivered') %></p>
       <p class="text-2xl font-extrabold text-success mt-1"><%= @delivered_letters %></p>
     </div>
     <div class="bg-base-100 border border-base-200 p-5 rounded-3xl text-center shadow-2xs">
-      <p class="text-[10px] font-bold text-base-content/40 uppercase tracking-wider">En tránsito</p>
+      <p class="text-[10px] font-bold text-base-content/40 uppercase tracking-wider"><%= t('analytics.in_transit') %></p>
       <p class="text-2xl font-extrabold text-warning mt-1"><%= @scheduled_letters %></p>
     </div>
     <div class="bg-base-100 border border-base-200 p-5 rounded-3xl text-center shadow-2xs">
-      <p class="text-[10px] font-bold text-base-content/40 uppercase tracking-wider">Lecturas totales</p>
+      <p class="text-[10px] font-bold text-base-content/40 uppercase tracking-wider"><%= t('analytics.total_reads') %></p>
       <p class="text-2xl font-extrabold text-base-content mt-1"><%= @total_opens %></p>
     </div>
   </div>
@@ -87,16 +87,16 @@
     <div class="bg-base-100 border border-base-200 p-6 sm:p-8 rounded-3xl shadow-2xs space-y-6">
       <div class="flex items-center gap-2.5 border-b border-base-200 pb-3.5">
         <span class="text-xl">🧠</span>
-        <h2 class="font-serif text-xl font-normal text-base-content">Tu evolución emocional</h2>
+        <h2 class="font-serif text-xl font-normal text-base-content"><%= t('analytics.emotional_evolution_title') %></h2>
       </div>
       <p class="text-xs text-base-content/50 leading-relaxed">
-        El promedio de cambio en tus estados internos comparando el día que sellaste tus cartas con el día que las abriste.
+        <%= t('analytics.emotional_evolution_desc') %>
       </p>
 
       <div class="space-y-6 pt-2">
         <div class="space-y-2">
           <div class="flex justify-between items-center text-xs">
-            <span class="font-bold text-base-content/85 uppercase text-[10px] tracking-wider">Índice de Felicidad</span>
+            <span class="font-bold text-base-content/85 uppercase text-[10px] tracking-wider"><%= t('analytics.happiness_index') %></span>
             <span class="text-base-content/50 font-mono">
               <%= @avg_initial_happiness %> &rarr; <%= @avg_reveal_happiness %>
             </span>
@@ -106,14 +106,14 @@
             <div class="bg-primary absolute top-0 left-0 h-full rounded-full opacity-80" style="width: <%= @avg_reveal_happiness * 10 %>%"></div>
           </div>
           <div class="flex justify-between text-[9px] font-bold text-base-content/30 uppercase">
-            <span>Tu pasado</span>
-            <span>Tu presente</span>
+            <span><%= t('analytics.your_past') %></span>
+            <span><%= t('analytics.your_present') %></span>
           </div>
         </div>
 
         <div class="space-y-2">
           <div class="flex justify-between items-center text-xs">
-            <span class="font-bold text-base-content/85 uppercase text-[10px] tracking-wider">Índice de Ansiedad</span>
+            <span class="font-bold text-base-content/85 uppercase text-[10px] tracking-wider"><%= t('analytics.anxiety_index') %></span>
             <span class="text-base-content/50 font-mono">
               <%= @avg_initial_anxiety %> &rarr; <%= @avg_reveal_anxiety %>
             </span>
@@ -123,14 +123,14 @@
             <div class="bg-primary absolute top-0 left-0 h-full rounded-full opacity-80" style="width: <%= @avg_reveal_anxiety * 10 %>%"></div>
           </div>
           <div class="flex justify-between text-[9px] font-bold text-base-content/30 uppercase">
-            <span>Tu pasado</span>
-            <span>Tu presente</span>
+            <span><%= t('analytics.your_past') %></span>
+            <span><%= t('analytics.your_present') %></span>
           </div>
         </div>
 
         <div class="space-y-2">
           <div class="flex justify-between items-center text-xs">
-            <span class="font-bold text-base-content/85 uppercase text-[10px] tracking-wider">Índice de Motivación</span>
+            <span class="font-bold text-base-content/85 uppercase text-[10px] tracking-wider"><%= t('analytics.motivation_index') %></span>
             <span class="text-base-content/50 font-mono">
               <%= @avg_initial_motivation %> &rarr; <%= @avg_reveal_motivation %>
             </span>
@@ -140,8 +140,8 @@
             <div class="bg-primary absolute top-0 left-0 h-full rounded-full opacity-80" style="width: <%= @avg_reveal_motivation * 10 %>%"></div>
           </div>
           <div class="flex justify-between text-[9px] font-bold text-base-content/30 uppercase">
-            <span>Tu pasado</span>
-            <span>Tu presente</span>
+            <span><%= t('analytics.your_past') %></span>
+            <span><%= t('analytics.your_present') %></span>
           </div>
         </div>
       </div>
@@ -150,10 +150,10 @@
     <div class="bg-base-100 border border-base-200 p-6 sm:p-8 rounded-3xl shadow-2xs space-y-6">
       <div class="flex items-center gap-2.5 border-b border-base-200 pb-3.5">
         <span class="text-xl">🔮</span>
-        <h2 class="font-serif text-xl font-normal text-base-content">Precisión de predicciones</h2>
+        <h2 class="font-serif text-xl font-normal text-base-content"><%= t('analytics.predictions_reality_title') %></h2>
       </div>
       <p class="text-xs text-base-content/50 leading-relaxed">
-        El porcentaje de aciertos en tus predicciones del futuro (sobre las cartas que ya han sido abiertas y reveladas).
+        <%= t('analytics.predictions_reality_desc') %>
       </p>
 
       <div class="flex flex-col items-center justify-center py-4 space-y-5">
@@ -163,14 +163,14 @@
              aria-valuenow="<%= @prediction_match_rate %>"
              aria-valuemin="0"
              aria-valuemax="100"
-             aria-label="Tasa de acierto en predicciones: <%= @prediction_match_rate %>%">
+              aria-label="<%= t('analytics.match_rate_label') %>: <%= @prediction_match_rate %>%">
           <%= @prediction_match_rate %>%
         </div>
 
         <div class="text-center space-y-1">
-          <p class="text-[10px] font-bold text-primary uppercase tracking-wider">Porcentaje de aciertos</p>
+          <p class="text-[10px] font-bold text-primary uppercase tracking-wider"><%= t('analytics.match_rate_label') %></p>
           <p class="text-xs text-base-content/50 leading-relaxed max-w-xs">
-            Has acertado en <strong><%= @matched_predictions %></strong> de tus <strong><%= @completed_predictions %></strong> predicciones completadas. Actualmente posees <strong><%= @total_predictions - @completed_predictions %></strong> predicciones adicionales selladas en tránsito hacia el futuro.
+            <%= t('analytics.match_summary', matched: @matched_predictions, completed: @completed_predictions, total: @total_predictions - @completed_predictions) %>
           </p>
         </div>
       </div>

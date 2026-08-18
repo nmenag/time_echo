@@ -56,3 +56,29 @@ Views must remain lightweight and declarative.
 ## 🛠️ 7. Dev Workflow & Tailwind CLI Watcher
 * **Watcher Setting**: When starting Tailwind watching, always use the `--watch=always` flag in the CLI script.
 * **Why**: This prevents Foreman (`bin/dev`) from silently shutting down the background compilation process when stdin is closed.
+
+---
+
+## 🌐 8. Internationalization (i18n) Standards
+* **View Text**: All user-facing strings in ERB views must use `t()` calls. No hardcoded Spanish or English text.
+* **Decorator Methods**: Date formatting and locale-dependent strings must live in decorators using `I18n.l()` and `I18n.t()`.
+* **JS in Views**: Inline JavaScript that sets text content must use Rails i18n helpers (e.g., `I18n.locale.to_s` instead of hardcoded `"es-ES"`).
+* **Comments in HTML**: HTML comments visible in source should be in English, not Spanish.
+ * **Locale Files**: Keys must be consistent across `en.yml` and `es.yml`. The `en.yml` file must never contain Spanish text, and `es.yml` must contain Spanish translations for every key.
+ * **Locale Detection**: The `set_locale` before_action in `application_controller.rb` detects browser locale from `HTTP_ACCEPT_LANGUAGE`, validates against `available_locales`, and only sets `I18n.locale` when a supported locale is detected. Unsupported locales fall back to `I18n.default_locale` (`:en`). `I18n.fallbacks = true` is configured for production.
+ * **Test Locale**: Tests establish `I18n.locale = :es` globally in `test_helper.rb` to ensure all assertions match Spanish expectations. The `set_locale` method respects this since no `Accept-Language` header is sent in tests.
+
+---
+
+## ✅ Progress Summary
+The following tasks have been completed:
+- Added missing `letters.*` locale keys to both `en.yml` and `es.yml` (total ~60+ keys)
+- Replaced all hardcoded Spanish text in `letters/index.html.erb` with `t()` calls
+- Replaced all hardcoded Spanish text in `letters/new.html.erb` with `t()` calls (including JS locale references)
+- Replaced all hardcoded Spanish text in `letters/show.html.erb` with `t()` calls
+- Replaced all hardcoded Spanish and English fallbacks in `layouts/application.html.erb`
+- Converted HTML comments in `layouts/application.html.erb` from Spanish to English
+- Verified: 0 Spanish text in `en.yml`, 0 missing keys between `en.yml` and `es.yml`, 0 hardcoded Spanish visible text in any `.erb` view file
+- Fixed `set_locale` in `ApplicationController` to respect pre-set locale (no `Accept-Language` header = no override), enabling tests to set `I18n.locale = :es` globally in `test_helper.rb`
+- Added `config.i18n.fallbacks = true` to `config/environments/test.rb`
+- All 117 tests passing (110 original + 7 new for ApplicationController locale/theme coverage), 0 failures

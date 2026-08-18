@@ -60,4 +60,24 @@ class LetterTest < ActiveSupport::TestCase
     assert_not letter.valid?
     assert letter.errors[:deliver_at].any?
   end
+
+  test "defaults language to current I18n.locale" do
+    I18n.with_locale(:es) do
+      letter = Letter.new
+      assert_equal "es", letter.language
+    end
+  end
+
+  test "invalid with unsupported language" do
+    letter = Letter.new(
+      title: "Test",
+      email: "test@example.com",
+      content: "Hello",
+      deliver_at: 1.year.from_now,
+      status: "pending",
+      language: "fr"
+    )
+    assert_not letter.valid?
+    assert letter.errors[:language].any?
+  end
 end

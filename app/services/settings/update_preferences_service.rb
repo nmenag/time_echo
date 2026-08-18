@@ -19,7 +19,7 @@ module Settings
           Result.new(
             success: true,
             action: :email_update_requested,
-            message: "Hemos enviado un correo de confirmación a tu nueva dirección: #{new_email.strip.downcase}. Por favor, haz clic en el enlace para confirmar y activar el cambio. ✨"
+            message: I18n.t("settings.email_update_requested_message", email: new_email.strip.downcase)
           )
         else
           Result.new(success: false, error: result.error)
@@ -34,10 +34,10 @@ module Settings
           Result.new(
             success: true,
             action: :preferences_updated,
-            message: "Ajustes guardados ✨"
+            message: I18n.t("settings.saved_successfully")
           )
         else
-          Result.new(success: false, error: "No se pudieron guardar los ajustes.")
+          Result.new(success: false, error: I18n.t("settings.could_not_save"))
         end
       end
     end
