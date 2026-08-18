@@ -7,17 +7,23 @@ class TimeCapsuleMailerTest < ActionMailer::TestCase
     assert_equal I18n.t("mailers.magic_link.subject"), mail.subject
   end
 
-  test "future_letter" do
+  test "future_letter uses letter locale" do
     letter = Letter.new(
       title: "Test",
       email: "user@example.com",
       content: "Hello",
       deliver_at: 1.day.ago,
-      status: "delivered"
+      status: "delivered",
+      language: "es"
     )
     letter.save!(validate: false)
-    mail = TimeCapsuleMailer.future_letter(letter)
-    assert_equal [ "user@example.com" ], mail.to
+
+    I18n.with_locale(:en) do
+      mail = TimeCapsuleMailer.future_letter(letter)
+      assert_equal [ "user@example.com" ], mail.to
+      spanish_subject = I18n.with_locale(:es) { I18n.t("mailers.future_letter.subject", date: I18n.l(letter.created_at.to_date, format: :long)) }
+      assert_equal spanish_subject, mail.subject
+    end
   end
 
   test "confirm_email_update" do

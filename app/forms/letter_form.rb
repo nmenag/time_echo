@@ -6,6 +6,7 @@ class LetterForm
   attribute :email, :string
   attribute :content, :string
   attribute :deliver_at, :datetime
+  attribute :language, :string, default: -> { I18n.locale.to_s }
 
   attribute :prediction_city, :string
   attribute :prediction_salary, :string
@@ -39,6 +40,7 @@ class LetterForm
         email: email,
         content: content,
         deliver_at: deliver_at,
+        language: language.presence || I18n.locale.to_s,
         status: "pending"
       )
 

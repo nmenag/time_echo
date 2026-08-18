@@ -18,7 +18,9 @@ module Letters
           delivery_status: "delivered"
         )
 
-        TimeCapsuleMailer.future_letter(@letter).deliver_now
+        I18n.with_locale(@letter.language.presence || I18n.default_locale) do
+          TimeCapsuleMailer.future_letter(@letter).deliver_now
+        end
 
         Analytics::TrackEventService.call("email_delivered", {
           letter_id: @letter.id,

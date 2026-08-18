@@ -18,20 +18,23 @@ class TimeCapsuleMailer < ApplicationMailer
 
   def future_letter(letter)
     @letter = letter
+    locale = @letter.language.presence || I18n.default_locale
 
-    mail(
-      to: @letter.email,
-      subject: t("mailers.future_letter.subject", date: I18n.l(@letter.created_at.to_date, format: :long)),
-      headers: {
-        "X-Letter-ID" => @letter.id.to_s
-      },
-      resend_data: {
-        tags: [
-          { name: "letter_id", value: @letter.id.to_s },
-          { name: "email_type", value: "future_letter" }
-        ]
-      }
-    )
+    I18n.with_locale(locale) do
+      mail(
+        to: @letter.email,
+        subject: t("mailers.future_letter.subject", date: I18n.l((@letter.created_at || Time.current).to_date, format: :long)),
+        headers: {
+          "X-Letter-ID" => @letter.id.to_s
+        },
+        resend_data: {
+          tags: [
+            { name: "letter_id", value: @letter.id.to_s },
+            { name: "email_type", value: "future_letter" }
+          ]
+        }
+      )
+    end
   end
 
   def confirm_email_update(old_email, new_email, token)

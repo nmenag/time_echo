@@ -48,7 +48,7 @@ class LettersController < ApplicationController
 
   def letter_params
     params.require(:letter_form).permit(
-      :title, :email, :content, :deliver_at, :public,
+      :title, :email, :content, :deliver_at, :public, :language,
       :prediction_city, :prediction_salary, :prediction_relationship, :prediction_career, :prediction_achievement, :prediction_happiness,
       :happiness_level, :anxiety_level, :motivation_level
     )

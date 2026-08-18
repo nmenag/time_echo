@@ -277,6 +277,8 @@ en:
     success_sub: We have safely stored your letter in the digital vault.<br>It will
       remain locked until
     success_date_fallback: its delivery date
+    success_seal: Seal
+    success_opening: Scheduled opening
     success_next_title: What happens next?
     success_next_desc: We have sent a verification email to %{email}. Once verified,
       your capsule will be permanently scheduled. On that special day, it will arrive
@@ -284,7 +286,7 @@ en:
     success_btn_dashboard: Go to Your Vault Dashboard
     success_btn_signin: Sign In to Track Your Vault
     success_signin_help: Sign in with magic link to view all your scheduled capsules.
-    success_btn_home: "&larr; Return to Home"
+    success_btn_home: "Return to Home"
     show_locked_title: This capsule is sealed
     show_locked_desc: This message was sealed by %{email} and is currently traveling
       through time.
@@ -297,10 +299,10 @@ en:
     show_download: Download
     show_read_count: Read %{count} time
     show_read_count_plural: Read %{count} times
-    show_back_timeline: "&larr; Back to Timeline"
-    show_back_public: "&larr; View Public Stories"
+    show_back_timeline: "Back to Timeline"
+    show_back_public: "View Public Stories"
     show_time_remaining: Time remaining
-    back_to_vault: "&larr; Back to my letters"
+    back_to_vault: "Back to my letters"
     unlocked_badge: Capsule Unlocked
     show_unlocked_title: Your letter from the past is waiting for you.
     show_unlocked_desc: Before reading it, tell us what really happened. This will
@@ -575,7 +577,7 @@ en:
     error_header: 'Could not send link:'
     label_email: Your Email Address
     btn_submit: Send Magic Link
-    back_to_landing: "&larr; Back to Landing Page"
+    back_to_landing: "Back to Landing Page"
     check_email_title: Check your inbox
     check_email_subtitle: We have dispatched a magic login link to
     check_email_spam_notice: Please check your spam or promotions folder if the email
@@ -585,8 +587,8 @@ en:
     title: Vault Reflection & Analytics
     subtitle: A peaceful retrospective of your emotional evolution, predictions, and
       capsule delivery metrics.
-    btn_back: "&larr; Back to Timeline"
-    back_to_vault: "&larr; Back to Vault"
+    btn_back: "Back to Timeline"
+    back_to_vault: "Back to Vault"
     match_rate_label: Prediction Match Rate
     total_capsules: Total Capsules
     delivered: Delivered

@@ -190,7 +190,7 @@ es:
     motivation: Motivación
   letters:
     show_time_remaining: Tiempo restante
-    back_to_vault: "&larr; Volver a mis cartas"
+    back_to_vault: "Volver a mis cartas"
     unlocked_badge: Cápsula Desbloqueada
     show_unlocked_title: Tu carta del pasado te está esperando.
     show_unlocked_desc: Antes de leerla, cuéntanos qué pasó realmente. Esto nos permitirá
@@ -397,6 +397,8 @@ es:
     success_sub: Hemos guardado tu carta de forma segura en nuestro baúl digital.<br>Permanecerá
       bajo llave hasta el
     success_date_fallback: su fecha de entrega
+    success_seal: Sello
+    success_opening: Apertura programada
     success_next_title: "¿Qué pasa después?"
     success_next_desc: Hemos enviado un correo de verificación a %{email}. Una vez
       verificado, tu cápsula se programará permanentemente. En ese día tan especial,
@@ -405,7 +407,7 @@ es:
     success_btn_signin: Iniciar Sesión para ver mis Cápsulas
     success_signin_help: Inicia sesión con un enlace mágico para gestionar todas tus
       cápsulas programadas.
-    success_btn_home: "&larr; Volver al Inicio"
+    success_btn_home: "Volver al Inicio"
     show_locked_title: Esta cápsula está sellada
     show_locked_desc: Este mensaje fue sellado por %{email} y actualmente está viajando
       a través del tiempo.
@@ -418,8 +420,8 @@ es:
     show_download: Descargar
     show_read_count: Leído %{count} vez
     show_read_count_plural: Leído %{count} veces
-    show_back_timeline: "&larr; Volver a la Línea de Tiempo"
-    show_back_public: "&larr; Ver Historias Públicas"
+    show_back_timeline: "Volver a la Línea de Tiempo"
+    show_back_public: "Ver Historias Públicas"
     form_step_title: 1. Cuando escribes tu carta
     form_step_subtitle: Estás creando una carta para tu yo del futuro.
     deliver_date_prefix: Se entregará el
@@ -579,7 +581,7 @@ es:
     error_header: 'No se pudo enviar el enlace:'
     label_email: Tu Dirección de Correo
     btn_submit: Enviar enlace mágico
-    back_to_landing: "&larr; Volver a la página de inicio"
+    back_to_landing: "Volver a la página de inicio"
     check_email_title: Revisa tu bandeja de entrada
     check_email_subtitle: Hemos enviado un enlace de inicio de sesión mágico a
     check_email_spam_notice: Por favor, revisa tu carpeta de correo no deseado o promociones
@@ -589,8 +591,8 @@ es:
     title: Reflexión y Estadísticas del Baúl
     subtitle: Una retrospectiva pacífica de tu evolución emocional, predicciones y
       métricas de entrega de tus cápsulas.
-    btn_back: "&larr; Volver a la Línea de Tiempo"
-    back_to_vault: "&larr; Volver al Baúl"
+    btn_back: "Volver a la Línea de Tiempo"
+    back_to_vault: "Volver al Baúl"
     match_rate_label: Tasa de Acierto de Predicciones
     total_capsules: Total Cápsulas
     delivered: Entregadas
