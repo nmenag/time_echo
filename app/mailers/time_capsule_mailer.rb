@@ -1,5 +1,5 @@
 class TimeCapsuleMailer < ApplicationMailer
-  default from: "TimeEcho <no-reply@timeecho.com>"
+  default from: "TimeEcho <onboarding@resend.dev>"
 
   def magic_link(email, token)
     @email = email
@@ -8,11 +8,9 @@ class TimeCapsuleMailer < ApplicationMailer
     mail(
       to: @email,
       subject: t("mailers.magic_link.subject"),
-      resend_data: {
-        tags: [
-          { name: "email_type", value: "magic_link" }
-        ]
-      }
+      tags: [
+        { name: "email_type", value: "magic_link" }
+      ]
     )
   end
 
@@ -27,12 +25,10 @@ class TimeCapsuleMailer < ApplicationMailer
         headers: {
           "X-Letter-ID" => @letter.id.to_s
         },
-        resend_data: {
-          tags: [
-            { name: "letter_id", value: @letter.id.to_s },
-            { name: "email_type", value: "future_letter" }
-          ]
-        }
+        tags: [
+          { name: "letter_id", value: @letter.id.to_s },
+          { name: "email_type", value: "future_letter" }
+        ]
       )
     end
   end
@@ -45,11 +41,9 @@ class TimeCapsuleMailer < ApplicationMailer
     mail(
       to: @new_email,
       subject: t("mailers.confirm_email_update.subject"),
-      resend_data: {
-        tags: [
-          { name: "email_type", value: "confirm_email_update" }
-        ]
-      }
+      tags: [
+        { name: "email_type", value: "confirm_email_update" }
+      ]
     )
   end
 
