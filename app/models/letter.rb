@@ -31,6 +31,14 @@ class Letter < ApplicationRecord
     status == "delivered"
   end
 
+  def failed?
+    status == "failed"
+  end
+
+  def bounced?
+    status == "bounced"
+  end
+
   def countdown_seconds
     return 0 if delivered?
     [ (deliver_at - Time.current).to_i, 0 ].max
