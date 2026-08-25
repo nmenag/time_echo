@@ -14,6 +14,7 @@ class CreateLetters < ActiveRecord::Migration[8.1]
       t.integer :reveal_happiness
       t.integer :reveal_anxiety
       t.integer :reveal_motivation
+      t.string :language, default: "en", null: false
 
       t.timestamps
     end
@@ -21,6 +22,5 @@ class CreateLetters < ActiveRecord::Migration[8.1]
     add_index :letters, :email
     add_index :letters, :status
     add_index :letters, :deliver_at
-    add_index :letters, :public
   end
 end
