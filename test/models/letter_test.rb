@@ -24,10 +24,7 @@ class LetterTest < ActiveSupport::TestCase
     assert letter.errors[:email].any?
   end
 
-  test "draft? returns true for draft status" do
-    letter = Letter.new(status: "draft")
-    assert letter.draft?
-  end
+
 
   test "pending? returns true for pending status" do
     letter = Letter.new(status: "pending")
