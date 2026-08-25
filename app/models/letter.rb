@@ -4,7 +4,7 @@ class Letter < ApplicationRecord
   has_many :predictions, dependent: :destroy
   has_one :emotional_snapshot, dependent: :destroy
 
-  STATUSES = %w[draft pending delivered].freeze
+  STATUSES = %w[draft pending delivered failed bounced].freeze
 
   attribute :language, :string, default: -> { I18n.locale.to_s }
 
@@ -33,6 +33,14 @@ class Letter < ApplicationRecord
 
   def delivered?
     status == "delivered"
+  end
+
+  def failed?
+    status == "failed"
+  end
+
+  def bounced?
+    status == "bounced"
   end
 
   def countdown_seconds

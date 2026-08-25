@@ -4,6 +4,8 @@ class PendingLettersQuery
   end
 
   def call
-    Letter.pending.lock("FOR UPDATE SKIP LOCKED")
+    Letter.where(status: ["pending", "failed"])
+          .where("deliver_at <= ?", Time.current)
+          .lock("FOR UPDATE SKIP LOCKED")
   end
 end

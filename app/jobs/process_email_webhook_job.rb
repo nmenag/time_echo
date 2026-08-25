@@ -12,7 +12,7 @@ class ProcessEmailWebhookJob < ApplicationJob
 
     case event_type
     when "email.delivered"
-      letter&.update(delivery_status: "delivered")
+      letter&.update(status: "delivered")
       Analytics::TrackEventService.call("email_delivered", { letter_id: letter_id, resend_id: data["email_id"] })
     when "email.opened"
       if letter
@@ -24,10 +24,16 @@ class ProcessEmailWebhookJob < ApplicationJob
       letter&.update(clicked_at: Time.current)
       Analytics::TrackEventService.call("link_clicked", { letter_id: letter_id, resend_id: data["email_id"] })
     when "email.bounced"
-      letter&.update(delivery_status: "bounced")
+      letter&.update(status: "bounced")
       Analytics::TrackEventService.call("bounce_status", { letter_id: letter_id, resend_id: data["email_id"] })
     else
       Analytics::TrackEventService.call("webhook_received", { event_type: event_type, data: data })
+    end
+
+    if letter
+      Rails.logger.info("Processed Resend webhook event=#{event_type} letter_id=#{letter_id}")
+    else
+      Rails.logger.warn("Processed Resend webhook event=#{event_type} letter_id=#{letter_id} letter_not_found=true")
     end
   end
 end

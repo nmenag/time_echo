@@ -5,7 +5,7 @@ class LetterForm
   attribute :title, :string
   attribute :email, :string
   attribute :content, :string
-  attribute :deliver_at, :datetime
+  attribute :deliver_at, :datetime, default: -> { 1.year.from_now }
   attribute :language, :string, default: -> { I18n.locale.to_s }
 
   attribute :prediction_city, :string

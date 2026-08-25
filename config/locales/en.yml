@@ -4,6 +4,151 @@ en:
   brand: TimeEcho
   slogan: A digital time capsule for the soul.
   footer_copy: Sent with hope, received with nostalgia.
+  pages:
+    footer:
+      about: About
+      privacy: Privacy
+      terms: Terms
+    privacy:
+      title: Privacy Policy
+      last_updated: Last updated August 2026
+      sections:
+        intro:
+          title: Introduction
+          description: TimeEcho ("we", "us", or "our") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, and safeguard your information when you use our service.
+        collect:
+          title: Information We Collect
+          description: "We collect the following types of information to provide and improve our service:"
+          item_email: Email address (used for authentication and service communications)
+          item_letters: Letter content and titles (encrypted at rest)
+          item_predictions: Predictions and reflections you create
+          item_emotional: Emotional snapshot ratings (happiness, anxiety, motivation)
+          item_preferences: User preferences (theme, language, notification settings)
+          item_technical: Technical information necessary for service operation
+        how_use:
+          title: How We Use Information
+          description: "We use the information we collect to:"
+          item_accounts: Create and manage your account
+          item_store: Store your letters until the scheduled delivery date
+          item_deliver: Deliver emails to you and your designated recipients
+          item_communicate: Communicate with you about your account and letters
+          item_improve: Improve and maintain our service
+          item_security: Prevent abuse and troubleshoot technical issues
+        encryption:
+          title: Data Security
+          description: Letter titles and content are encrypted at rest using Rails Active Record Encryption. While we implement reasonable security measures, no method of transmission over the internet is 100% secure.
+        retention:
+          title: Data Retention
+          description: We retain your letters and associated data for as long as your account exists. When you delete your account, all associated data including letters, predictions, emotional snapshots, and analytics events are permanently removed.
+        third_parties:
+          title: Third-Party Services
+          description: "We use the following third-party services to operate TimeEcho:"
+          item_email: Resend (email delivery service)
+          item_hosting: Infrastructure providers for hosting and database services
+        rights:
+          title: Your Rights
+          description: "You have the right to:"
+          item_access: Access your personal data
+          item_delete: Delete your account and all associated data
+          item_questions: Contact us with questions about your data
+        changes:
+          title: Changes to This Policy
+          description: We may update this Privacy Policy from time to time. We will notify you of any material changes by posting the new policy on this page.
+        contact:
+          title: Contact Us
+          description: If you have questions about this Privacy Policy, please contact us through the channels available on our website.
+    terms:
+      title: Terms of Service
+      last_updated: Last updated August 2026
+      sections:
+        acceptance:
+          title: Acceptance of Terms
+          description: By accessing or using TimeEcho, you agree to be bound by these Terms of Service. If you do not agree, please do not use our service.
+        about:
+          title: About TimeEcho
+          description: TimeEcho is a digital time capsule platform that allows you to write letters to your future self and schedule their delivery for a future date.
+        accounts:
+          title: Accounts
+          description: You access TimeEcho using passwordless authentication via magic links sent to your email. You are responsible for maintaining the security of your email account.
+        creating:
+          title: Creating and Scheduling Letters
+          description: You can create letters and schedule them for future delivery. You must provide accurate email addresses for delivery. You are responsible for the content you create.
+        delivery:
+          title: Scheduled Delivery
+          description: TimeEcho processes scheduled letters and attempts to deliver them on or near the selected date. Delivery is handled through third-party email services.
+          disclaimer: While we make reasonable efforts to deliver letters on time, we cannot guarantee exact delivery times. Delays may occur due to technical issues, email provider problems, spam filters, network issues, or circumstances beyond our reasonable control.
+        responsibilities:
+          title: User Responsibilities
+          description: You are responsible for maintaining the confidentiality of your account and for all activities that occur under your account. You must provide accurate information.
+        content:
+          title: User Content
+          description: You retain ownership of the letters and content you create on TimeEcho. By using our service, you grant us the license to store, process, and transmit your content as necessary to provide the service.
+          license: This license includes the right to store your letters until the scheduled delivery date, prepare them for delivery, and transmit them to the designated recipient.
+        prohibited:
+          title: Prohibited Uses
+          description: "You agree not to use TimeEcho to:"
+          item_spam: Send spam or unsolicited communications
+          item_harassment: Harass, bully, or intimidate others
+          item_threats: Make threats of violence or harm
+          item_fraud: Engage in fraudulent or deceptive activities
+          item_impersonation: Impersonate others or misrepresent your identity
+          item_illegal: Violate any applicable laws or regulations
+          item_malware: Distribute malware or harmful code
+          item_abuse: Abuse or compromise the service infrastructure
+          item_unauthorized: Attempt to gain unauthorized access to our systems
+          item_infringement: Infringe upon the intellectual property rights of others
+        recipient:
+          title: Recipient Email
+          description: When you provide a recipient email address, you represent that you have the necessary consent to share that information. You are responsible for providing accurate email addresses.
+        intellectual:
+          title: Intellectual Property
+          description: The TimeEcho service, including its design, features, and code, is owned by us. Your content remains yours. These terms do not transfer any intellectual property rights to you.
+        availability:
+          title: Service Availability
+          description: We strive to provide a reliable service but do not guarantee uninterrupted access. The service may be temporarily unavailable due to maintenance, updates, or circumstances beyond our control.
+        termination:
+          title: Suspension and Termination
+          description: We reserve the right to suspend or terminate accounts that violate these terms. You may delete your account at any time through the settings page.
+        liability:
+          title: Limitation of Liability
+          description: TimeEcho is provided "as is" without warranties of any kind. To the maximum extent permitted by law, we shall not be liable for any indirect, incidental, or consequential damages arising from your use of the service.
+        changes:
+          title: Changes to These Terms
+          description: We may modify these terms at any time. Continued use of the service after changes constitutes acceptance of the new terms.
+        contact:
+          title: Contact
+          description: For questions about these Terms of Service, please contact us through the channels available on our website.
+    about:
+      title: About TimeEcho
+      subtitle: A digital time capsule for the soul
+      sections:
+        what_is:
+          title: What is TimeEcho?
+          description: TimeEcho is a platform that lets you write messages to your future self. Capture your thoughts, hopes, fears, and predictions today, then receive them months or years later. It's a digital time capsule that bridges who you are with who you're becoming.
+        how_works:
+          title: How It Works
+          step_write_title: Write
+          step_write_desc: Pour your thoughts onto the page. Share your current reality, future predictions, and emotional state.
+          step_seal_title: Seal
+          step_seal_desc: Choose when your letter should be delivered. We'll keep it safe until that day arrives.
+          step_wait_title: Wait
+          step_wait_desc: Time does its work. Live your life, grow, and change while your letter waits patiently.
+          step_receive_title: Receive
+          step_receive_desc: On the chosen day, your letter arrives. Reflect on how far you've come.
+        why_exists:
+          title: Why TimeEcho Exists
+          description: We believe in the power of reflection. In a world that moves so fast, TimeEcho creates a space to pause, write, and connect with your past and future self. It's a tool for personal growth, memory preservation, and honest self-conversation.
+        technical:
+          title: Built with Care
+          description: "TimeEcho is built using modern, reliable technologies:"
+          item_rails: Ruby on Rails (web framework)
+          item_postgresql: PostgreSQL (database)
+          item_tailwind: Tailwind CSS & DaisyUI (design system)
+          item_jobs: GoodJob (background job processing)
+          item_encryption: Active Record Encryption (data protection)
+        philosophy:
+          title: Our Philosophy
+          description: Your words matter. Your memories deserve to be preserved. TimeEcho is designed with privacy and simplicity at heart—a quiet corner of the internet where you can be honest with yourself, without algorithms or ads.
   date:
     formats:
       default: "%m/%d/%Y"
@@ -177,14 +322,14 @@ en:
     how_it_looks: This is how it will look when you open your letter
     compare_reflect_desc: Compare your predictions with your reality and reflect on
       your evolution.
-    prediction_vs_reality: Prediction vs Reality ?
+    prediction_vs_reality: Prediction vs Reality
     prediction: Prediction
     reality: Reality
     one_year_ago: 1 year ago
     today: Today
     your_overall_accuracy: Your overall accuracy
     accurate_predictions: You got %{count} out of %{total} predictions right
-    you_are_on_track: You are on the right track! ??
+    you_are_on_track: You are on the right track!
     journey_desc: A simple journey toward your best self.
     your_past: Your past
     your_present: Your present
@@ -322,30 +467,30 @@ en:
     your_past_prediction: 'Your past prediction: %{text}'
     your_current_level: 'Your current level:'
     did_prediction_come_true: Did your prediction come true?
-    yes_i_did_it: "?? Yes, I did it"
-    not_exactly: "? Not exactly"
+    yes_i_did_it: "Yes, I did it"
+    not_exactly: Not exactly
     emotional_state_today: Emotional state today
     how_do_you_feel_now: How do you feel right now?
-    reflection_tip: "?? Reflection tip:"
+    reflection_tip: "Reflection tip:"
     reflection_tip_text: Be honest with yourself. There are no right or wrong answers.
       This experience is 100% yours and helps you see how much you have grown in this
-      time. ??
+      time.
     save_and_view: Save and view my letter
     past_letter: Letter from the past
     delivered_on: Delivered on
     will_open_on: Will open on
-    viewed_times: "??? Viewed %{count} times"
+    viewed_times: "Viewed %{count} times"
     predictions_vs_reality_desc: Compare what you imagined some time ago with the
       life you are living today.
     past_prediction_label: 'Past prediction:'
     reality_today_label: 'Reality today:'
     your_prediction_score: Your Prediction Score
     score_message_high: Your future compass is extremely sharp! Excellent intuition.
-      ??
+      
     score_message_medium: You are on a great path. Many things changed, but your direction
-      remains clear. ??
+      remains clear.
     score_message_low: Life surprised you with unexpected turns! And that makes the
-      journey more interesting. ??
+      journey more interesting.
     no_predictions_registered: You did not register predictions for this letter.
     emotional_evolution: Emotional evolution
     internal_wellbeing_change: Change in your internal wellbeing
@@ -359,7 +504,7 @@ en:
     sealed_capsule: Sealed Capsule
     created_on: Created on
     opened_on: Opened on
-    emotional_evolution_badge: "?? Emotional Evolution"
+    emotional_evolution_badge: "Emotional Evolution"
     happiness_to_anxiety: 'Happiness: %{happiness} &rarr; Anxiety: %{anxiety}'
     waiting_for_reality: Waiting for reality reveal.
     matched_predictions_count: You got %{matched} out of %{total} predictions right
@@ -373,10 +518,10 @@ en:
     delivered_and_evaluated: Delivered & Evaluated
     in_transit_to_future: In transit to the future
     opens_on: Opens on
-    emotional_snapshot_badge: "?? emotional snapshot"
+    emotional_snapshot_badge: "emotional snapshot"
     emotional_snapshot_summary: 'Happiness: %{happiness} | Anxiety: %{anxiety} | Motivation:
       %{motivation}'
-    predictions_made_badge: "?? predictions made"
+    predictions_made_badge: "predictions made"
     predictions_sealed_pending: "%{count} predictions sealed. Pending comparison."
     predictions_sealed_completed: "%{count} predictions sealed. Comparison completed."
     complete_revelation: Complete and reveal reality
@@ -384,7 +529,7 @@ en:
     capsule_in_transit: Capsule in transit
     transit_desc: It is privately stored in your temporary vault.
     opens_in_days: Opens in %{days} days
-    write_letter: "?? Write letter"
+    write_letter: "Write letter"
     write_first_letter: Write my first letter
     one_day: 1 day
     x_days: "%{count} days"
@@ -394,20 +539,20 @@ en:
     prediction: Prediction
     reality: Reality
     partially: Partially
-    you_did_it: You did it! ??
-    superaste: You surpassed it! ??
-    you_missed: You missed it ?
+    you_did_it: You did it!
+    superaste: You surpassed it!
+    you_missed: You missed it
     not_yet: Not Yet
     very_close: Very Close
-    category_city: "?? Location"
-    category_career: "?? Work / Career"
-    category_salary: "?? Income"
-    category_relationship: "?? Relationship"
-    category_achievement: "?? Greatest achievement"
-    category_happiness: "?? Happiness"
-    category_other: "?? %{category}"
-    capsule_in_transit_badge: Capsule in transit ?
-    capsule_unlocked_badge: Capsule unlocked ?
+    category_city: "Location"
+    category_career: "Work / Career"
+    category_salary: "Income"
+    category_relationship: "Relationship"
+    category_achievement: "Greatest achievement"
+    category_happiness: "Happiness"
+    category_other: "%{category}"
+    capsule_in_transit_badge: Capsule in transit
+    capsule_unlocked_badge: Capsule unlocked
     error_saving: Error saving changes.
     privacy: Privacy
     only_you_can_see: Only you can see it
@@ -415,11 +560,11 @@ en:
     within: Within
     x_days_count: "%{count} days"
     days_word: days
-    focus_mode_enter: "? Focus Mode"
-    focus_mode_exit: "?? Exit Focus Mode"
+    focus_mode_enter: Focus Mode
+    focus_mode_exit: "Exit Focus Mode"
     word_count: "%{count} words"
     char_count: "%{count} characters"
-    time_travel_duration: "?? This letter will travel through time for %{days} days"
+    time_travel_duration: "⏳ This letter will travel through time for %{days} days"
     label_visibility: Visibility Options
     form_step_title: 1. When you write your letter
     form_step_subtitle: You are creating a letter for your future self.
@@ -553,7 +698,7 @@ en:
       date).'
     predictions_word: Predictions
     emotional_snapshot_word: Emotional snapshot
-    view_timeline: "?? View timeline"
+    view_timeline: "View timeline"
   public_feed:
     badge: Community Vault
     title: Public stories from the past

@@ -23,7 +23,6 @@ class Letters::DeliverServiceTest < ActiveSupport::TestCase
     Letters::DeliverService.call(@letter)
     @letter.reload
     assert_equal "delivered", @letter.status
-    assert_equal "delivered", @letter.delivery_status
   end
 
   test "delivers letter using stored language" do
@@ -45,7 +44,7 @@ class Letters::DeliverServiceTest < ActiveSupport::TestCase
     TimeCapsuleMailer.define_singleton_method(:future_letter, original_future_letter.to_proc)
   end
 
-  test "handles mailer error and updates delivery status to failed" do
+  test "handles mailer error and updates status to failed" do
     original_future_letter = TimeCapsuleMailer.method(:future_letter)
     TimeCapsuleMailer.define_singleton_method(:future_letter) do |*args|
       raise StandardError, "SMTP failure"
@@ -56,7 +55,7 @@ class Letters::DeliverServiceTest < ActiveSupport::TestCase
     end
 
     @letter.reload
-    assert_equal "failed", @letter.delivery_status
+    assert_equal "failed", @letter.status
   ensure
     TimeCapsuleMailer.define_singleton_method(:future_letter, original_future_letter.to_proc)
   end

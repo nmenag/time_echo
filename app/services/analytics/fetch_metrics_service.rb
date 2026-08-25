@@ -20,7 +20,7 @@ module Analytics
         "COUNT(CASE WHEN status = 'pending' THEN 1 END) as pending",
         "COUNT(CASE WHEN status = 'delivered' AND opened_at IS NOT NULL THEN 1 END) as opened",
         "COUNT(CASE WHEN status = 'delivered' AND clicked_at IS NOT NULL THEN 1 END) as clicked",
-        "COUNT(CASE WHEN delivery_status = 'bounced' THEN 1 END) as bounced",
+        "COUNT(CASE WHEN status = 'bounced' THEN 1 END) as bounced",
         "SUM(COALESCE(open_count, 0)) as total_opens"
       ).take
 

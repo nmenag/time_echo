@@ -66,13 +66,6 @@
                   ✨
                 </div>
               </div>
-
-              <div class="w-full space-y-2">
-                <button type="button" onclick="scrollToQuestions()" class="btn w-full bg-primary text-primary-content hover:bg-primary/95 rounded-2xl py-3.5 text-sm font-bold shadow-sm border-none cursor-pointer min-h-[44px]">
-                  <%= t('letters.start_comparison') %>
-                </button>
-                <p class="text-[10px] text-base-content/40 font-bold"><%= t('letters.takes_two_minutes') %></p>
-              </div>
             </div>
           </div>
  
@@ -191,16 +184,7 @@
 
         </div>
       <% end %>
- 
-      <script>
-        function scrollToQuestions() {
-          const target = document.getElementById('questions_section');
-          if (target) {
-            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-          }
-        }
-      </script>
- 
+
     <% else %>
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
         

@@ -15,7 +15,7 @@ class ProcessEmailWebhookJobTest < ActiveSupport::TestCase
   test "processes email.delivered event" do
     ProcessEmailWebhookJob.new.perform("type" => "email.delivered", "data" => { "email_id" => "123", "tags" => { "letter_id" => @letter.id.to_s } })
     @letter.reload
-    assert_equal "delivered", @letter.delivery_status
+    assert_equal "delivered", @letter.status
   end
 
   test "processes email.opened event" do
@@ -34,7 +34,7 @@ class ProcessEmailWebhookJobTest < ActiveSupport::TestCase
   test "processes email.bounced event" do
     ProcessEmailWebhookJob.new.perform("type" => "email.bounced", "data" => { "email_id" => "123", "tags" => { "letter_id" => @letter.id.to_s } })
     @letter.reload
-    assert_equal "bounced", @letter.delivery_status
+    assert_equal "bounced", @letter.status
   end
 
   test "processes unknown event type and tracks it" do

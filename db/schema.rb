@@ -168,7 +168,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_17_111000) do
     t.datetime "created_at", null: false
     t.datetime "deliver_at", null: false
     t.datetime "delivered_at"
-    t.string "delivery_status", default: "pending", null: false
     t.string "email", null: false
     t.string "language", default: "en", null: false
     t.integer "open_count", default: 0, null: false

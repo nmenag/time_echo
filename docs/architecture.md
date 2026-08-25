@@ -184,8 +184,7 @@ erDiagram
         string email FK
         string title
         text content
-        string status "draft/pending/delivered"
-        string delivery_status "pending/delivered/failed/bounced"
+        string status "draft/pending/delivered/failed/bounced"
         datetime deliver_at
         datetime delivered_at
         datetime opened_at
