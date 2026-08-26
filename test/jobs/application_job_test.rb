@@ -13,10 +13,20 @@ class ApplicationJobTest < ActiveJob::TestCase
     end
   end
 
+  setup do
+    @original_logger = Rails.logger
+    @stubbed_logger = Logger.new(File::NULL)
+    Rails.logger = @stubbed_logger
+  end
+
+  teardown do
+    Rails.logger = @original_logger
+  end
+
   test "logs start, finish with duration, and yields on success" do
     logs = []
-    Rails.logger.define_singleton_method(:info) { |msg| logs << msg }
-    Rails.logger.define_singleton_method(:tagged) { |*tags, &block| block&.call }
+    @stubbed_logger.define_singleton_method(:info) { |msg| logs << msg }
+    @stubbed_logger.define_singleton_method(:tagged) { |*_args, &block| block&.call }
 
     result = SuccessfulJob.perform_now
 
@@ -27,17 +37,17 @@ class ApplicationJobTest < ActiveJob::TestCase
 
   test "includes cron_key in tags when present" do
     tags = []
-    Rails.logger.define_singleton_method(:tagged) do |*args, &block|
+    @stubbed_logger.define_singleton_method(:tagged) do |*args, &block|
       tags.concat(args)
       block&.call
     end
-    Rails.logger.define_singleton_method(:info) { }
-    Rails.logger.define_singleton_method(:error) { }
+    @stubbed_logger.define_singleton_method(:info) { |*_args| }
+    @stubbed_logger.define_singleton_method(:error) { |*_args| }
 
     GoodJob::CurrentThread.cron_key = "daily_cleanup"
     SuccessfulJob.perform_now
 
-    assert_includes tags, "job:SuccessfulJob"
+    assert_includes tags, "job:ApplicationJobTest::SuccessfulJob"
     assert_includes tags, "cron:daily_cleanup"
   ensure
     GoodJob::CurrentThread.cron_key = nil
@@ -45,23 +55,23 @@ class ApplicationJobTest < ActiveJob::TestCase
 
   test "omits cron_key tag when not present" do
     tags = []
-    Rails.logger.define_singleton_method(:tagged) do |*args, &block|
+    @stubbed_logger.define_singleton_method(:tagged) do |*args, &block|
       tags.concat(args)
       block&.call
     end
-    Rails.logger.define_singleton_method(:info) { }
-    Rails.logger.define_singleton_method(:error) { }
+    @stubbed_logger.define_singleton_method(:info) { |*_args| }
+    @stubbed_logger.define_singleton_method(:error) { |*_args| }
 
     SuccessfulJob.perform_now
 
-    assert_includes tags, "job:SuccessfulJob"
+    assert_includes tags, "job:ApplicationJobTest::SuccessfulJob"
     assert tags.none? { |tag| tag.start_with?("cron:") }
   end
 
   test "logs error and re-raises exception on failure" do
     errors = []
-    Rails.logger.define_singleton_method(:error) { |msg| errors << msg }
-    Rails.logger.define_singleton_method(:tagged) { |*tags, &block| block&.call }
+    @stubbed_logger.define_singleton_method(:error) { |msg| errors << msg }
+    @stubbed_logger.define_singleton_method(:tagged) { |*_args, &block| block&.call }
 
     assert_raises(StandardError) do
       FailingJob.perform_now

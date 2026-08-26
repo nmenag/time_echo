@@ -1,5 +1,6 @@
 class DeliverPendingLettersJob < ApplicationJob
   queue_as :default
+  retry_on StandardError, attempts: 3, wait: 5.minutes
 
   def perform
     pending_letters = PendingLettersQuery.call.to_a
