@@ -47,7 +47,6 @@ app/
 ### Background Jobs (GoodJob Cron)
 - `DeliverPendingLettersJob` — runs **every minute**, delivers capsules whose `deliver_at` has passed
 - `CleanupExpiredTokensJob` — runs **every hour**, purges stale magic-link tokens
-- `ProcessEmailWebhookJob` — async processor for Resend webhook callbacks
 
 ### Routes Structure
 - **Auth**: `GET/POST /login`, `GET /login/:token`, `DELETE /logout`
@@ -55,7 +54,6 @@ app/
 - **Predictions**: `POST /letters/:letter_id/predictions`
 - **Analytics**: `GET /analytics`
 - **Settings**: `GET/PATCH/DELETE /settings`, email confirmation at `settings/confirm_email`
-- **Webhooks**: `POST /webhooks/resend`
 
 ## Directory Map
 

@@ -11,60 +11,7 @@
     </div>
   </div>
 
-  <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-    <div class="bg-base-100 border border-base-200 p-6 rounded-3xl shadow-2xs space-y-4">
-      <div class="flex items-center justify-between border-b border-base-200 pb-2">
-        <h3 class="text-[10px] font-bold text-base-content/40 uppercase tracking-wider"><%= t('analytics.open_rate_title') %></h3>
-        <span class="text-base text-primary">👁️</span>
-      </div>
-      <div class="flex items-baseline gap-1.5">
-        <span class="text-3xl font-extrabold text-base-content"><%= @open_rate %>%</span>
-        <span class="text-xs text-base-content/40"><%= t('analytics.opened_word') %></span>
-      </div>
-      <div class="w-full bg-base-200 rounded-full h-1.5 overflow-hidden">
-        <div class="bg-success h-1.5 rounded-full transition-all duration-500" style="width: <%= @open_rate %>%"></div>
-      </div>
-      <p class="text-xs text-base-content/50 leading-relaxed">
-        <%= t('analytics.open_rate_desc') %>
-      </p>
-    </div>
-
-    <div class="bg-base-100 border border-base-200 p-6 rounded-3xl shadow-2xs space-y-4">
-      <div class="flex items-center justify-between border-b border-base-200 pb-2">
-        <h3 class="text-[10px] font-bold text-base-content/40 uppercase tracking-wider"><%= t('analytics.click_rate_title') %></h3>
-        <span class="text-base text-primary">🔗</span>
-      </div>
-      <div class="flex items-baseline gap-1.5">
-        <span class="text-3xl font-extrabold text-base-content"><%= @click_rate %>%</span>
-        <span class="text-xs text-base-content/40"><%= t('analytics.clicked_word') %></span>
-      </div>
-      <div class="w-full bg-base-200 rounded-full h-1.5 overflow-hidden">
-        <div class="bg-primary h-1.5 rounded-full transition-all duration-500" style="width: <%= @click_rate %>%"></div>
-      </div>
-      <p class="text-xs text-base-content/50 leading-relaxed">
-        <%= t('analytics.click_rate_desc') %>
-      </p>
-    </div>
-
-    <div class="bg-base-100 border border-base-200 p-6 rounded-3xl shadow-2xs space-y-4">
-      <div class="flex items-center justify-between border-b border-base-200 pb-2">
-        <h3 class="text-[10px] font-bold text-base-content/40 uppercase tracking-wider"><%= t('analytics.bounce_rate_title') %></h3>
-        <span class="text-base text-primary">⚠️</span>
-      </div>
-      <div class="flex items-baseline gap-1.5">
-        <span class="text-3xl font-extrabold text-base-content"><%= @bounce_rate %>%</span>
-        <span class="text-xs text-base-content/40"><%= t('analytics.bounced_word') %></span>
-      </div>
-      <div class="w-full bg-base-200 rounded-full h-1.5 overflow-hidden">
-        <div class="bg-error h-1.5 rounded-full transition-all duration-500" style="width: <%= @bounce_rate %>%"></div>
-      </div>
-      <p class="text-xs text-base-content/50 leading-relaxed">
-        <%= t('analytics.bounce_rate_desc') %>
-      </p>
-    </div>
-  </div>
-
-  <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+  <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
     <div class="bg-base-100 border border-base-200 p-5 rounded-3xl text-center shadow-2xs">
       <p class="text-[10px] font-bold text-base-content/40 uppercase tracking-wider"><%= t('analytics.total_capsules') %></p>
       <p class="text-2xl font-extrabold text-base-content mt-1"><%= @total_letters %></p>
@@ -76,10 +23,6 @@
     <div class="bg-base-100 border border-base-200 p-5 rounded-3xl text-center shadow-2xs">
       <p class="text-[10px] font-bold text-base-content/40 uppercase tracking-wider"><%= t('analytics.in_transit') %></p>
       <p class="text-2xl font-extrabold text-warning mt-1"><%= @scheduled_letters %></p>
-    </div>
-    <div class="bg-base-100 border border-base-200 p-5 rounded-3xl text-center shadow-2xs">
-      <p class="text-[10px] font-bold text-base-content/40 uppercase tracking-wider"><%= t('analytics.total_reads') %></p>
-      <p class="text-2xl font-extrabold text-base-content mt-1"><%= @total_opens %></p>
     </div>
   </div>
 

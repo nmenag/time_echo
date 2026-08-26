@@ -99,7 +99,7 @@
         <!-- Tu carta textarea block -->
         <div class="space-y-3">
           <label class="text-xs font-bold text-base-content uppercase tracking-wider block"><%= t('landing.your_letter') %></label>
-          <%= f.text_area :content, id: "landing_content_area", placeholder: t('landing.dear_future_self'), rows: 8, class: "textarea w-full p-4 border border-base-200 focus:border-primary/40 focus:outline-none rounded-2xl font-serif-body text-sm sm:text-base leading-relaxed placeholder:font-sans placeholder:text-xs placeholder:text-base-content/30 resize-y bg-base-200/20 shadow-3xs", required: true %>
+          <%= f.text_area :content, id: "landing_content_area", placeholder: t('landing.dear_future_self'), rows: 8, maxlength: 2000, class: "textarea w-full p-4 border border-base-200 focus:border-primary/40 focus:outline-none rounded-2xl font-serif-body text-sm sm:text-base leading-relaxed placeholder:font-sans placeholder:text-xs placeholder:text-base-content/30 resize-y bg-base-200/20 shadow-3xs", required: true %>
           <!-- Character count indicator -->
           <div class="flex justify-end text-[10px] text-base-content/30 font-mono">
             <span id="landing_char_counter">0 / 2000</span>
@@ -583,7 +583,7 @@
 </div>
 
 <script>
-  document.addEventListener("DOMContentLoaded", () => {
+  function initLandingCharCounter() {
     const textarea = document.getElementById("landing_content_area");
     const counter = document.getElementById("landing_char_counter");
     if (textarea && counter) {
@@ -591,15 +591,30 @@
         const length = textarea.value.length;
         counter.innerText = `${length} / 2000`;
       };
+      textarea.removeEventListener("input", updateCounter);
       textarea.addEventListener("input", updateCounter);
       updateCounter();
     }
+  }
 
-    // Set default preset on load (1 year)
+  function initLandingDefaultDate() {
     const defaultBtn = document.getElementById('default-date-btn');
     if (defaultBtn) {
       setPresetDate(defaultBtn, 365);
     }
+  }
+
+  document.addEventListener("turbo:load", () => {
+    initLandingCharCounter();
+    initLandingDefaultDate();
+  });
+  window.addEventListener("pageshow", () => {
+    initLandingCharCounter();
+    initLandingDefaultDate();
+  });
+  document.addEventListener("DOMContentLoaded", () => {
+    initLandingCharCounter();
+    initLandingDefaultDate();
   });
 
   // Calculate & Set hidden delivery date

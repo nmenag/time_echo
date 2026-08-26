@@ -15,12 +15,10 @@ class Analytics::FetchMetricsServiceTest < ActiveSupport::TestCase
   test "returns correct metrics with letters" do
     letter = Letter.new(title: "Test", email: @user, content: "Hello", deliver_at: 1.day.ago, status: "delivered")
     letter.save!(validate: false)
-    letter.update!(open_count: 1, opened_at: Time.current)
 
     metrics = Analytics::FetchMetricsService.call(@user)
     assert_equal 1, metrics.total_letters
     assert_equal 1, metrics.delivered_letters
     assert_equal 0, metrics.scheduled_letters
-    assert_equal 1, metrics.total_opens
   end
 end

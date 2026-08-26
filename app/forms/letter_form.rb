@@ -21,7 +21,7 @@ class LetterForm
 
   validates :title, presence: true
   validates :email, presence: true, format: { with: URI::MailTo::EMAIL_REGEXP }
-  validates :content, presence: true
+  validates :content, presence: true, length: { maximum: 2000 }
   validates :deliver_at, presence: true
   validate :deliver_at_must_be_in_future
 

@@ -39,7 +39,7 @@
                 <%= letter.title %>
                 <span class="text-xs font-normal text-base-content/40 block sm:inline sm:ml-2 font-sans">
                   <% if letter.delivered? %>
-                    (<%= t('letters.opened_on') %> <%= I18n.l(letter.delivered_at.to_date, format: :long) %>)
+                     (<%= t('letters.delivered_on') %> <%= I18n.l(letter.delivered_at.to_date, format: :long) %>)
                   <% else %>
                     (<%= t('letters.will_open_on') %> <%= I18n.l(letter.deliver_at.to_date, format: :long) %>)
                   <% end %>
@@ -138,16 +138,10 @@
       </div>
 
       <div class="bg-base-200/30 border border-base-200 p-5 rounded-3xl shadow-2xs space-y-1">
-         <span class="text-[10px] font-bold text-base-content/40 uppercase tracking-wider block"><%= t('letters.stat_in_transit') %></span>
-         <span class="font-serif text-3xl font-normal text-warning block"><%= @letters.pending.count %></span>
-         <span class="text-[10px] text-base-content/40 pt-1 block"><%= t('letters.stat_sealed_in_time') %></span>
-      </div>
-
-      <div class="bg-base-200/30 border border-base-200 p-5 rounded-3xl shadow-2xs space-y-1">
-         <span class="text-[10px] font-bold text-base-content/40 uppercase tracking-wider block"><%= t('letters.stat_reads') %></span>
-         <span class="font-serif text-3xl font-normal text-primary block"><%= @letters.sum(:open_count) %></span>
-         <span class="text-[10px] text-base-content/40 pt-1 block"><%= t('letters.stat_reads_sub') %></span>
-      </div>
+         <span class="text-[10px] font-bold text-base-content/40 uppercase tracking-wider block"><%= t('letters.stat_sealed_in_time') %></span>
+         <span class="font-serif text-3xl font-normal text-warning block"><%= @letters.scheduled.count %></span>
+         <span class="text-[10px] text-base-content/40 pt-1 block"><%= t('letters.stat_in_transit') %></span>
+       </div>
     </div>
 
     <% if @letters.any? %>
@@ -163,7 +157,7 @@
                   <%= letter.title %>
                   <span class="text-xs font-normal text-base-content/40 ml-1 font-sans">
                     <% if letter.delivered? %>
-                    (<%= t('letters.opened_on') %> <%= I18n.l(letter.delivered_at.to_date, format: :long) %>)
+                     (<%= t('letters.delivered_on') %> <%= I18n.l(letter.delivered_at.to_date, format: :long) %>)
                     <% else %>
                       (<%= t('letters.show_opening_in') %> <%= I18n.l(letter.deliver_at.to_date, format: :long) %>)
                     <% end %>
@@ -199,9 +193,7 @@
                 </div>
 
                 <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-2">
-                  <span class="text-[10px] text-base-content/40 font-mono font-sans">👁️ <%= t('letters.read_count_label', count: letter.open_count) %></span>
-                  
-                  <% if letter.reveal_happiness.nil? %>
+                   <% if letter.reveal_happiness.nil? %>
                     <a href="<%= letter_path(letter) %>" class="btn bg-primary text-primary-content hover:bg-primary/95 rounded-2xl py-2 px-5 text-xs font-bold uppercase tracking-wider cursor-pointer min-h-[38px] shadow-sm"><%= t('letters.complete_revelation') %></a>
                   <% else %>
                     <a href="<%= letter_path(letter) %>" class="btn btn-outline border-base-300 text-base-content hover:bg-base-200/50 rounded-2xl py-2 px-5 text-xs font-bold uppercase tracking-wider cursor-pointer min-h-[38px]"><%= t('letters.btn_view_predictions') %></a>

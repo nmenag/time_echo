@@ -442,8 +442,6 @@ en:
     show_delivered: Delivered
     show_attachments_title: Attached Memories
     show_download: Download
-    show_read_count: Read %{count} time
-    show_read_count_plural: Read %{count} times
     show_back_timeline: "Back to Timeline"
     show_back_public: "View Public Stories"
     show_time_remaining: Time remaining
@@ -503,7 +501,7 @@ en:
     revealed_and_compared: Revealed & Compared
     sealed_capsule: Sealed Capsule
     created_on: Created on
-    opened_on: Opened on
+    delivered_on: Delivered on
     emotional_evolution_badge: "Emotional Evolution"
     happiness_to_anxiety: 'Happiness: %{happiness} &rarr; Anxiety: %{anxiety}'
     waiting_for_reality: Waiting for reality reveal.
@@ -625,9 +623,6 @@ en:
     stat_ready_to_compare: Ready to Compare
     stat_in_transit: In Transit
     stat_sealed_in_time: Sealed in Time
-    stat_reads: Total Reads
-    stat_reads_sub: Capsule openings tracked
-    read_count_label: Read %{count} time
     status_pending_reveal_short: Pending Revelation
     status_revealed_compared: Revealed & Compared
     status_sealed_short: Sealed Capsule
@@ -667,11 +662,8 @@ en:
     stat_delivered_sub: Successfully opened
     stat_sealed: Sealed
     stat_sealed_sub: Awaiting delivery date
-    stat_reads: Total Reads
-    stat_reads_sub: Capsule openings tracked
     delivered_tag: Delivered Capsule
     sealed_tag: Sealed Vault Item
-    opened_on: Opened on %{date}
     opening_on: Opening on %{date}
     public_badge: Publicly Shared
     private_badge: Private
@@ -738,27 +730,13 @@ en:
     total_capsules: Total Capsules
     delivered: Delivered
     in_transit: In Transit
-    total_reads: Total Reads
     your_past: Past Self
     your_present: Present Self
     match_summary: "%{matched} of %{completed} predictions matched. %{total} still
       in transit."
-    open_rate_title: Capsule Open Rate
-    open_rate_desc: The percentage of delivered letters that have been successfully
-      opened and read in your vault.
-    opened_word: opened
-    click_rate_title: Link Click Rate
-    click_rate_desc: The percentage of letter notifications where the secure time-capsule
-      link was clicked.
-    clicked_word: clicked
-    bounce_rate_title: Email Bounce Rate
-    bounce_rate_desc: Delivery bounces reported by Resend. A lower percentage indicates
-      highly reliable inbox deliverability.
-    bounced_word: bounced
     stat_total: Total Capsules
     stat_delivered: Delivered
     stat_sealed: Scheduled Sealed
-    stat_reads: Total Reads
     emotional_evolution_title: Emotional Evolution Averages
     emotional_evolution_desc: Observe the average shifts in your baseline emotional
       metrics over time. Values represent a comparison of your initial states at writing

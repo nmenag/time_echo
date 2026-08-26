@@ -17,24 +17,12 @@ module Analytics
       letter_stats = letters.unscope(:order).select(
         "COUNT(*) as total",
         "COUNT(CASE WHEN status = 'delivered' THEN 1 END) as delivered",
-        "COUNT(CASE WHEN status = 'pending' THEN 1 END) as pending",
-        "COUNT(CASE WHEN status = 'delivered' AND opened_at IS NOT NULL THEN 1 END) as opened",
-        "COUNT(CASE WHEN status = 'delivered' AND clicked_at IS NOT NULL THEN 1 END) as clicked",
-        "COUNT(CASE WHEN status = 'bounced' THEN 1 END) as bounced",
-        "SUM(COALESCE(open_count, 0)) as total_opens"
+        "COUNT(CASE WHEN status = 'pending' THEN 1 END) as pending"
       ).take
 
       total_letters = letter_stats&.total.to_i
       delivered_letters = letter_stats&.delivered.to_i
       scheduled_letters = letter_stats&.pending.to_i
-      delivered_and_opened = letter_stats&.opened.to_i
-      delivered_and_clicked = letter_stats&.clicked.to_i
-      bounced_letters = letter_stats&.bounced.to_i
-      total_opens = letter_stats&.total_opens.to_i
-
-      open_rate = delivered_letters > 0 ? (delivered_and_opened.to_f / delivered_letters * 100).round(1) : 0
-      click_rate = delivered_letters > 0 ? (delivered_and_clicked.to_f / delivered_letters * 100).round(1) : 0
-      bounce_rate = total_letters > 0 ? (bounced_letters.to_f / total_letters * 100).round(1) : 0
 
       if letter_ids.any?
         pred_stats = Prediction.where(letter_id: letter_ids).select(
@@ -94,10 +82,6 @@ module Analytics
         total_letters: total_letters,
         delivered_letters: delivered_letters,
         scheduled_letters: scheduled_letters,
-        open_rate: open_rate,
-        click_rate: click_rate,
-        bounce_rate: bounce_rate,
-        total_opens: total_opens,
         total_predictions: total_predictions,
         completed_predictions: completed_predictions,
         matched_predictions: matched_predictions,

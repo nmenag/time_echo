@@ -43,8 +43,7 @@ Avoid the **SQL Query Flooding** anti-pattern.
   # Correct Pattern: Collapses multiple counts and sums into 1 database round-trip
   stats = letters.select(
     "COUNT(*) as total",
-    "COUNT(CASE WHEN status = 'delivered' THEN 1 END) as delivered",
-    "SUM(COALESCE(open_count, 0)) as total_opens"
+    "COUNT(CASE WHEN status = 'delivered' THEN 1 END) as delivered"
   ).take
   ```
 * **Pluck Caching**: Avoid plucking IDs multiple times. Pluck the array once and pass the local variable to downstream queries.

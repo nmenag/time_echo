@@ -393,7 +393,7 @@ es:
     revealed_and_compared: Revelada & Comparada
     sealed_capsule: Cápsula Sellada
     created_on: Creado el
-    opened_on: Abierta el
+    delivered_on: Entregada el
     emotional_evolution_badge: Evolución Emocional
     happiness_to_anxiety: 'Felicidad: %{happiness} &rarr; Ansiedad: %{anxiety}'
     waiting_for_reality: Espera revelación de la realidad.
@@ -563,8 +563,6 @@ es:
     show_delivered: Entregado
     show_attachments_title: Recuerdos Adjuntos
     show_download: Descargar
-    show_read_count: Leído %{count} vez
-    show_read_count_plural: Leído %{count} veces
     show_back_timeline: "Volver a la Línea de Tiempo"
     show_back_public: "Ver Historias Públicas"
     form_step_title: 1. Cuando escribes tu carta
@@ -627,9 +625,6 @@ es:
     stat_ready_to_compare: Listas para comparar
     stat_in_transit: En tránsito
     stat_sealed_in_time: Selladas en el tiempo
-    stat_reads: Lecturas Totales
-    stat_reads_sub: Aperturas de cápsulas registradas
-    read_count_label: Leído %{count} vez
     status_pending_reveal_short: Pendiente por revelación
     status_revealed_compared: Revelada & Comparada
     status_sealed_short: Cápsula Sellada
@@ -670,11 +665,8 @@ es:
     stat_delivered_sub: Abiertas con éxito
     stat_sealed: Selladas
     stat_sealed_sub: A la espera de la fecha de entrega
-    stat_reads: Lecturas Totales
-    stat_reads_sub: Aperturas de cápsulas registradas
     delivered_tag: Cápsula Entregada
     sealed_tag: Elemento Sellado del Baúl
-    opened_on: Abierta el %{date}
     opening_on: Se abre el %{date}
     public_badge: Compartido Públicamente
     private_badge: Privado
@@ -742,27 +734,13 @@ es:
     total_capsules: Total Cápsulas
     delivered: Entregadas
     in_transit: En Tránsito
-    total_reads: Lecturas Totales
     your_past: Yo del Pasado
     your_present: Yo del Presente
     match_summary: "%{matched} de %{completed} predicciones coincidieron. %{total}
       aún en tránsito."
-    open_rate_title: Tasa de Apertura de Cápsulas
-    open_rate_desc: El porcentaje de cartas entregadas que han sido abiertas y leídas
-      con éxito en tu baúl.
-    opened_word: abiertas
-    click_rate_title: Tasa de Clics en Enlaces
-    click_rate_desc: El porcentaje de notificaciones de cartas donde se hizo clic
-      en el enlace seguro de la cápsula del tiempo.
-    clicked_word: clic
-    bounce_rate_title: Tasa de Rebote de Correo
-    bounce_rate_desc: Rebotes de entrega reportados por Resend. Un porcentaje más
-      bajo indica una alta confiabilidad de entrega.
-    bounced_word: rebotados
     stat_total: Total Cápsulas
     stat_delivered: Entregadas
     stat_sealed: Programadas Selladas
-    stat_reads: Lecturas Totales
     emotional_evolution_title: Promedios de Evolución Emocional
     emotional_evolution_desc: Observa los cambios promedio en tus métricas emocionales
       básicas a lo largo del tiempo. Los valores representan una comparación entre
