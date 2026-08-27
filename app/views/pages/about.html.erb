@@ -1,0 +1,73 @@
+<div class="max-w-3xl mx-auto px-4 py-12 sm:py-16">
+  <div class="text-center mb-12">
+    <h1 class="font-serif italic text-4xl sm:text-5xl text-primary font-normal mb-4">
+      <%= t('pages.about.title') %>
+    </h1>
+    <p class="text-lg text-base-content/60 font-serif italic">
+      <%= t('pages.about.subtitle') %>
+    </p>
+  </div>
+
+  <div class="prose prose-base max-w-none space-y-8">
+    <section class="space-y-4">
+      <h2 class="font-serif text-2xl text-base-content font-normal"><%= t('pages.about.sections.what_is.title') %></h2>
+      <p class="text-sm text-base-content/80 leading-relaxed">
+        <%= t('pages.about.sections.what_is.description') %>
+      </p>
+    </section>
+
+    <section class="space-y-6">
+      <h2 class="font-serif text-2xl text-base-content font-normal"><%= t('pages.about.sections.how_works.title') %></h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div class="bg-base-200/40 border border-base-200 rounded-xl p-5 space-y-2">
+          <div class="text-2xl">✏️</div>
+          <h3 class="font-semibold text-sm text-base-content"><%= t('pages.about.sections.how_works.step_write_title') %></h3>
+          <p class="text-xs text-base-content/70 leading-relaxed"><%= t('pages.about.sections.how_works.step_write_desc') %></p>
+        </div>
+        <div class="bg-base-200/40 border border-base-200 rounded-xl p-5 space-y-2">
+          <div class="text-2xl">🔒</div>
+          <h3 class="font-semibold text-sm text-base-content"><%= t('pages.about.sections.how_works.step_seal_title') %></h3>
+          <p class="text-xs text-base-content/70 leading-relaxed"><%= t('pages.about.sections.how_works.step_seal_desc') %></p>
+        </div>
+        <div class="bg-base-200/40 border border-base-200 rounded-xl p-5 space-y-2">
+          <div class="text-2xl">⏳</div>
+          <h3 class="font-semibold text-sm text-base-content"><%= t('pages.about.sections.how_works.step_wait_title') %></h3>
+          <p class="text-xs text-base-content/70 leading-relaxed"><%= t('pages.about.sections.how_works.step_wait_desc') %></p>
+        </div>
+        <div class="bg-base-200/40 border border-base-200 rounded-xl p-5 space-y-2">
+          <div class="text-2xl">📬</div>
+          <h3 class="font-semibold text-sm text-base-content"><%= t('pages.about.sections.how_works.step_receive_title') %></h3>
+          <p class="text-xs text-base-content/70 leading-relaxed"><%= t('pages.about.sections.how_works.step_receive_desc') %></p>
+        </div>
+      </div>
+    </section>
+
+    <section class="space-y-4">
+      <h2 class="font-serif text-2xl text-base-content font-normal"><%= t('pages.about.sections.why_exists.title') %></h2>
+      <p class="text-sm text-base-content/80 leading-relaxed">
+        <%= t('pages.about.sections.why_exists.description') %>
+      </p>
+    </section>
+
+    <section class="space-y-4">
+      <h2 class="font-serif text-2xl text-base-content font-normal"><%= t('pages.about.sections.technical.title') %></h2>
+      <p class="text-sm text-base-content/80 leading-relaxed">
+        <%= t('pages.about.sections.technical.description') %>
+      </p>
+      <ul class="list-disc list-inside text-sm text-base-content/80 space-y-2 ml-4">
+        <li><%= t('pages.about.sections.technical.item_rails') %></li>
+        <li><%= t('pages.about.sections.technical.item_postgresql') %></li>
+        <li><%= t('pages.about.sections.technical.item_tailwind') %></li>
+        <li><%= t('pages.about.sections.technical.item_jobs') %></li>
+        <li><%= t('pages.about.sections.technical.item_encryption') %></li>
+      </ul>
+    </section>
+
+    <section class="space-y-4">
+      <h2 class="font-serif text-2xl text-base-content font-normal"><%= t('pages.about.sections.philosophy.title') %></h2>
+      <p class="text-sm text-base-content/80 leading-relaxed">
+        <%= t('pages.about.sections.philosophy.description') %>
+      </p>
+    </section>
+  </div>
+</div>

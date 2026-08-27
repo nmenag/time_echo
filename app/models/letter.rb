@@ -4,7 +4,7 @@ class Letter < ApplicationRecord
   has_many :predictions, dependent: :destroy
   has_one :emotional_snapshot, dependent: :destroy
 
-  STATUSES = %w[pending delivered].freeze
+  STATUSES = %w[pending delivered failed].freeze
 
   attribute :language, :string, default: -> { I18n.locale.to_s }
 
@@ -23,13 +23,16 @@ class Letter < ApplicationRecord
   scope :delivered, -> { where(status: "delivered").order(delivered_at: :desc) }
   scope :for_email, ->(email) { where(email: email) }
 
-
   def pending?
     status == "pending"
   end
 
   def delivered?
     status == "delivered"
+  end
+
+  def failed?
+    status == "failed"
   end
 
   def countdown_seconds

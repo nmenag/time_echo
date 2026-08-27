@@ -3,6 +3,9 @@ class Prediction < ApplicationRecord
 
   CATEGORIES = %w[city salary relationship career achievement happiness].freeze
 
+  encrypts :prediction
+  encrypts :reality
+
   validates :category, presence: true, inclusion: { in: CATEGORIES }
   validates :prediction, presence: true
 

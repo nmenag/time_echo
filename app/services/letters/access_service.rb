@@ -28,7 +28,6 @@ module Letters
           letter.update!(opened_at: Time.current)
           Analytics::TrackEventService.call("letter_opened", { letter_id: letter.id, email: letter.email })
         end
-        letter.increment!(:open_count)
       end
 
       Result.new(success: true, letter: letter, countdown: countdown)

@@ -7,15 +7,7 @@ require "rails/test_help"
 
 module ActiveSupport
   class TestCase
-    parallelize(workers: :number_of_processors)
-
-    parallelize_setup do |worker|
-      SimpleCov.command_name "#{SimpleCov.command_name}-#{worker}"
-    end
-
-    parallelize_teardown do |_worker|
-      SimpleCov.result
-    end
+    parallelize(workers: 1) unless Gem.win_platform?
 
     setup { I18n.locale = :es }
 

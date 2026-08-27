@@ -227,7 +227,10 @@
           <aside class="flex items-center gap-2">
             <span>&copy; <%= Time.current.year %> TimeEcho. <%= t('footer_copy') %></span>
           </aside>
-          <nav class="flex gap-4">
+          <nav class="flex gap-4 items-center">
+            <a href="<%= about_path %>" class="hover:text-primary transition-colors"><%= t('pages.footer.about') %></a>
+            <a href="<%= privacy_path %>" class="hover:text-primary transition-colors"><%= t('pages.footer.privacy') %></a>
+            <a href="<%= terms_path %>" class="hover:text-primary transition-colors"><%= t('pages.footer.terms') %></a>
             <span class="font-serif italic text-base-content/40"><%= t('slogan') %></span>
           </nav>
         </div>

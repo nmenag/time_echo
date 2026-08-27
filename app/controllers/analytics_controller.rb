@@ -7,10 +7,6 @@ class AnalyticsController < ApplicationController
     @total_letters          = metrics.total_letters
     @delivered_letters      = metrics.delivered_letters
     @scheduled_letters      = metrics.scheduled_letters
-    @open_rate              = metrics.open_rate
-    @click_rate             = metrics.click_rate
-    @bounce_rate            = metrics.bounce_rate
-    @total_opens            = metrics.total_opens
     @total_predictions      = metrics.total_predictions
     @completed_predictions  = metrics.completed_predictions
     @matched_predictions    = metrics.matched_predictions

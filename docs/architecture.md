@@ -23,7 +23,6 @@ graph TD
         LSC[LetterSuccessesController]
         PLC[PublicLettersController]
         CEC[CheckEmailsController]
-        WRC[Webhooks::ResendsController]
         SEC[Settings::EmailConfirmationsController]
     end
 
@@ -184,13 +183,10 @@ erDiagram
         string email FK
         string title
         text content
-        string status "draft/pending/delivered"
-        string delivery_status "pending/delivered/failed/bounced"
+        string status "pending/delivered/failed"
         datetime deliver_at
         datetime delivered_at
         datetime opened_at
-        datetime clicked_at
-        integer open_count
         boolean public
         integer reveal_happiness
         integer reveal_anxiety
@@ -306,7 +302,6 @@ graph LR
     subgraph Workers [Worker Threads]
         DelJob[DeliverPendingLettersJob]
         ClClean[CleanupExpiredTokensJob]
-        WebHook[ProcessEmailWebhookJob]
     end
 
     subgraph Execution [Service Actions]
@@ -329,9 +324,6 @@ graph LR
    * **`CleanupExpiredTokensJob`** runs **every hour** to clean up expired magic-link sessions and spent tokens.
 2. **High-Concurrency Locking (`SKIP LOCKED`)**:
    * In `PendingLettersQuery`, letters due for unlock are queried with `.lock("FOR UPDATE SKIP LOCKED")`. This allows multiple active GoodJob worker threads to run concurrently without duplicate mailing attempts or deadlocking the letters table.
-3. **Webhook Ingest Async Pipeline**:
-   * When emails are sent via mailer providers (like Resend), delivery events are pushed back to the app via `Webhooks::ResendsController#create`.
-   * This payload is immediately offloaded to the background via **`ProcessEmailWebhookJob`** so that the HTTP controller can return a `200 OK` instantaneously, ensuring high-throughput webhook response times.
 
 ---
 

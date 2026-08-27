@@ -4,4 +4,13 @@ class PagesController < ApplicationController
       redirect_to dashboard_path
     end
   end
+
+  def privacy
+  end
+
+  def terms
+  end
+
+  def about
+  end
 end

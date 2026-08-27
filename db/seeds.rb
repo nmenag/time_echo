@@ -14,8 +14,6 @@ delivered_letter = Letter.new(
   status: "delivered",
   deliver_at: 1.year.ago,
   delivered_at: 1.year.ago,
-  opened_at: 11.months.ago,
-  open_count: 5,
   reveal_happiness: 8,
   reveal_anxiety: 3,
   reveal_motivation: 9
@@ -58,8 +56,6 @@ pending_reflection_letter = Letter.new(
   status: "delivered",
   deliver_at: 1.day.ago,
   delivered_at: 1.day.ago,
-  opened_at: 1.day.ago,
-  open_count: 1
 )
 pending_reflection_letter.save!(validate: false)
 

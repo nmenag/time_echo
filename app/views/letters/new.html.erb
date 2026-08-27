@@ -59,6 +59,7 @@
               id: "letter_content_area",
               placeholder: t('letters.content_placeholder_form'),
               rows: 14,
+              maxlength: 2000,
               class: "textarea textarea-bordered w-full p-6 focus:border-primary focus:ring-2 focus:ring-primary/10 focus:outline-none rounded-2xl bg-white text-base-content/85 border-slate-200 placeholder:text-base-content/30 text-sm hover:border-base-300 transition-all shadow-inner",
               required: true,
               "aria-required": "true",
@@ -261,28 +262,22 @@
 </div>
 
 <script>
-  document.addEventListener("DOMContentLoaded", () => {
-    // Character counter
+  function initCharCounter() {
     const textarea = document.getElementById("letter_content_area");
     const counter  = document.getElementById("char_counter");
     if (textarea && counter) {
       const updateCounter = () => {
         counter.innerText = `${textarea.value.length}/2000`;
       };
+      textarea.removeEventListener("input", updateCounter);
       textarea.addEventListener("input", updateCounter);
       updateCounter();
     }
+  }
 
-    // Set default target to 365 days from now
-    const dateInput = document.getElementById("deliver_at_new_form");
-    if (dateInput && !dateInput.value) {
-      const d = new Date();
-      d.setDate(d.getDate() + 365);
-      dateInput.value = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
-    }
-
-    updateSummaryInfo();
-  });
+  document.addEventListener("turbo:load", initCharCounter);
+  window.addEventListener("pageshow", initCharCounter);
+  document.addEventListener("DOMContentLoaded", initCharCounter);
 
   function updateSummaryInfo() {
     const dateInput       = document.getElementById("deliver_at_new_form");

@@ -5,7 +5,7 @@ class LetterForm
   attribute :title, :string
   attribute :email, :string
   attribute :content, :string
-  attribute :deliver_at, :datetime
+  attribute :deliver_at, :datetime, default: -> { 1.year.from_now }
   attribute :language, :string, default: -> { I18n.locale.to_s }
 
   attribute :prediction_city, :string
@@ -21,7 +21,7 @@ class LetterForm
 
   validates :title, presence: true
   validates :email, presence: true, format: { with: URI::MailTo::EMAIL_REGEXP }
-  validates :content, presence: true
+  validates :content, presence: true, length: { maximum: 2000 }
   validates :deliver_at, presence: true
   validate :deliver_at_must_be_in_future
 

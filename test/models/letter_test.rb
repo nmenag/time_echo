@@ -36,6 +36,11 @@ class LetterTest < ActiveSupport::TestCase
     assert letter.delivered?
   end
 
+  test "failed? returns true for failed status" do
+    letter = Letter.new(status: "failed")
+    assert letter.failed?
+  end
+
   test "countdown_seconds returns 0 for delivered letter" do
     letter = Letter.new(status: "delivered", deliver_at: 1.year.from_now)
     assert_equal 0, letter.countdown_seconds

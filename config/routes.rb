@@ -27,5 +27,9 @@ Rails.application.routes.draw do
 
   get "settings/confirm_email", to: "settings/email_confirmations#show", as: :confirm_email_update_settings
 
-  post "webhooks/resend", to: "webhooks/resends#create", as: :resend_webhook
+  get "privacy", to: "pages#privacy", as: :privacy
+  get "terms", to: "pages#terms", as: :terms
+  get "about", to: "pages#about", as: :about
+
+  mount GoodJob::Engine => "/good_job", constraints: ->(request) { request.session[:current_user_email].present? }
 end
