@@ -99,7 +99,7 @@ graph TD
 3. **Service Objects Layer (`app/services/`)**:
    * Encapsulate single-responsibility business operations.
    * **`Letters::CreateService`**: Receives params, validates them via `LetterForm`, and persists the future capsule.
-   * **`Letters::DeliverService`**: Transition capsule status, sends the email via `TimeCapsuleMailer`, tracks success/failure analytics, and rollback if errors arise.
+   * **`Letters::DeliverService`**: Transition capsule status, sends the email via `LetterMailer`, tracks success/failure analytics, and rollback if errors arise.
    * **`Auth::MagicLinkService`**: Generates, signs, sends, and authenticates cryptographically secure passwordless tokens.
    * **`Analytics::TrackEventService`**: Logs granular user actions to `analytics_events` for retrospection.
 
@@ -306,7 +306,7 @@ graph LR
 
     subgraph Execution [Service Actions]
         DS[Letters::DeliverService]
-        SMTP[TimeCapsuleMailer]
+        SMTP[LetterMailer / AuthMailer]
     end
 
     Cron -->|Every Minute| Ready

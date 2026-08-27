@@ -253,5 +253,5 @@ TimeEcho is completely containerized and deployment-ready via **Kamal**:
 
 * **Kamal Deployment**: Configuration is stored in `config/deploy.yml`. Deploy to your cloud servers with `kamal deploy`.
 * **Docker Support**: Uses the multi-stage standard Rails `Dockerfile` for super-lean image builds.
-* **Mail Delivery**: Configured to run through **Resend** using `TimeCapsuleMailer`. To enable delivery in production, set the `RESEND_API_KEY` environment variable.
+* **Mail Delivery**: Configured to run through **Resend** using `AuthMailer` and `LetterMailer`. To enable delivery in production, set the `RESEND_API_KEY` environment variable.
 * **APP_HOST**: Ensure `APP_HOST` is configured to your production domain (e.g. `vault.timeecho.com`) so magic login links render correct URLs.

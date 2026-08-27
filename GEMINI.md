@@ -13,7 +13,7 @@ TimeEcho is a premium digital time-capsule platform built with **Ruby on Rails 8
 | Asset Pipeline | Propshaft · Importmap-Rails |
 | Frontend | Hotwire (Turbo + Stimulus) |
 | Background Jobs | GoodJob (database-backed Active Job) |
-| Email | Resend API via `TimeCapsuleMailer` |
+| Email | Resend API via `AuthMailer` and `LetterMailer` |
 | Auth | Passwordless magic-link tokens |
 | Deployment | Kamal · Docker |
 | Locale | Spanish (`es`) — single locale |

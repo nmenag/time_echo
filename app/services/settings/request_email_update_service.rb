@@ -18,7 +18,7 @@ module Settings
       token_record = SessionToken.create!(email: @new_email)
       @user_preference.update!(unconfirmed_email: @new_email)
 
-      TimeCapsuleMailer.confirm_email_update(@old_email, @new_email, token_record.token).deliver_later
+      AuthMailer.confirm_email_update(@old_email, @new_email, token_record.token).deliver_later
       Analytics::TrackEventService.call("email_update_requested", { old_email: @old_email, new_email: @new_email }) rescue nil
 
       OpenStruct.new(success?: true)

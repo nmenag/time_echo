@@ -4,7 +4,7 @@ class Letter < ApplicationRecord
   has_many :predictions, dependent: :destroy
   has_one :emotional_snapshot, dependent: :destroy
 
-  STATUSES = %w[pending delivered failed].freeze
+  STATUSES = %w[pending queued delivered failed].freeze
 
   attribute :language, :string, default: -> { I18n.locale.to_s }
 
@@ -25,6 +25,10 @@ class Letter < ApplicationRecord
 
   def pending?
     status == "pending"
+  end
+
+  def queued?
+    status == "queued"
   end
 
   def delivered?
