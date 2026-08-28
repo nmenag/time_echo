@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_08_28_000001) do
+ActiveRecord::Schema[8.1].define(version: 2026_08_28_000002) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -165,7 +165,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_28_000001) do
   create_table "letters", force: :cascade do |t|
     t.text "content", null: false
     t.datetime "created_at", null: false
-    t.datetime "deliver_at", null: false
     t.datetime "delivered_at"
     t.string "email", null: false
     t.string "language", default: "en", null: false
@@ -174,11 +173,13 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_28_000001) do
     t.integer "reveal_anxiety"
     t.integer "reveal_happiness"
     t.integer "reveal_motivation"
+    t.datetime "scheduled_at", null: false
     t.string "status", default: "pending", null: false
+    t.string "timezone", default: "UTC", null: false
     t.string "title"
     t.datetime "updated_at", null: false
-    t.index ["deliver_at"], name: "index_letters_on_deliver_at"
     t.index ["email"], name: "index_letters_on_email"
+    t.index ["scheduled_at"], name: "index_letters_on_scheduled_at"
     t.index ["status"], name: "index_letters_on_status"
   end
 

@@ -5,7 +5,8 @@ class LetterForm
   attribute :title, :string
   attribute :email, :string
   attribute :content, :string
-  attribute :deliver_at, :datetime, default: -> { 1.year.from_now }
+  attribute :scheduled_at
+  attribute :timezone, :string, default: "UTC"
   attribute :language, :string, default: -> { I18n.locale.to_s }
 
   attribute :prediction_city, :string
@@ -22,8 +23,10 @@ class LetterForm
   validates :title, presence: true
   validates :email, presence: true, format: { with: URI::MailTo::EMAIL_REGEXP }
   validates :content, presence: true, length: { maximum: 2000 }
-  validates :deliver_at, presence: true
-  validate :deliver_at_must_be_in_future
+  validates :scheduled_at, presence: true
+  validates :timezone, presence: true
+  validate :scheduled_at_must_be_in_future
+  validate :valid_iana_timezone
 
   validates :happiness_level, presence: true, numericality: { only_integer: true, in: 1..10 }
   validates :anxiety_level, presence: true, numericality: { only_integer: true, in: 1..10 }
@@ -31,15 +34,42 @@ class LetterForm
 
   attr_reader :letter
 
+  def deliver_at
+    parsed_utc_scheduled_at
+  end
+
+  def deliver_at=(val)
+    self.scheduled_at = val
+  end
+
+  def parsed_utc_scheduled_at
+    val = scheduled_at
+    return nil if val.blank?
+    return val.utc if val.is_a?(Time) || val.is_a?(ActiveSupport::TimeWithZone)
+
+    tz = Time.find_zone(timezone) || Time.find_zone("UTC")
+    if val.is_a?(Date)
+      tz.local(val.year, val.month, val.day).utc
+    elsif val.is_a?(String)
+      parsed = tz.parse(val) rescue nil
+      parsed&.utc
+    else
+      nil
+    end
+  end
+
   def save
     return false unless valid?
+
+    utc_time = parsed_utc_scheduled_at
 
     Letter.transaction do
       @letter = Letter.new(
         title: title,
         email: email,
         content: content,
-        deliver_at: deliver_at,
+        scheduled_at: utc_time,
+        timezone: timezone.presence || "UTC",
         language: language.presence || I18n.locale.to_s,
         status: "pending"
       )
@@ -83,9 +113,20 @@ class LetterForm
     [ prediction_city, prediction_salary, prediction_relationship, prediction_career, prediction_achievement ].any?(&:present?)
   end
 
-  def deliver_at_must_be_in_future
-    if deliver_at.present? && deliver_at <= Time.current
+  def scheduled_at_must_be_in_future
+    utc_val = parsed_utc_scheduled_at
+    if utc_val.blank?
+      errors.add(:scheduled_at, "is invalid")
+    elsif utc_val <= Time.current
+      errors.add(:scheduled_at, "must be in the future")
       errors.add(:deliver_at, "must be in the future")
+    end
+  end
+
+  def valid_iana_timezone
+    return if timezone.blank?
+    unless Time.find_zone(timezone)
+      errors.add(:timezone, "is not a valid IANA timezone")
     end
   end
 end
