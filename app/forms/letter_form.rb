@@ -6,7 +6,7 @@ class LetterForm
   attribute :email, :string
   attribute :content, :string
   attribute :scheduled_at
-  attribute :timezone, :string, default: "UTC"
+  attribute :timezone, :string, default: -> { Time.zone&.name || "America/Bogota" }
   attribute :language, :string, default: -> { I18n.locale.to_s }
 
   attribute :prediction_city, :string

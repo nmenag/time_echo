@@ -10,145 +10,139 @@ en:
       privacy: Privacy
       terms: Terms
     privacy:
-      title: Privacy Policy
+      title: Privacy Policy & Security Promise
       last_updated: Last updated August 2026
+      subtitle: Your future letters are private and sacred. We encrypt your content, never sell your data, and run zero advertisements.
       sections:
         intro:
-          title: Introduction
-          description: TimeEcho ("we", "us", or "our") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, and safeguard your information when you use our service.
+          title: Our Commitment to Your Privacy
+          description: TimeEcho ("we", "us", or "our") exists to protect your personal evolution and private thoughts. This Privacy Policy outlines how we safeguard your information, handle data encryption, and ensure your time capsules remain private.
         collect:
-          title: Information We Collect
-          description: "We collect the following types of information to provide and improve our service:"
-          item_email: Email address (used for authentication and service communications)
-          item_letters: Letter content and titles (encrypted at rest)
-          item_predictions: Predictions and reflections you create
-          item_emotional: Emotional snapshot ratings (happiness, anxiety, motivation)
-          item_preferences: User preferences (theme, language, notification settings)
-          item_technical: Technical information necessary for service operation
+          title: What Information We Collect
+          description: "We collect only what is essential to store and deliver your time capsules securely:"
+          item_email: Your email address (used strictly for passwordless magic-link sign-ins and letter delivery)
+          item_letters: Encrypted letter content and titles (protected at rest using Rails Active Record Encryption)
+          item_predictions: Future predictions and retrospective reflections you choose to write
+          item_emotional: Emotional snapshot ratings (happiness, anxiety, and motivation levels)
+          item_preferences: Interface settings (color theme, language, and notification choices)
+          item_technical: Essential technical logs necessary for account security and service performance
         how_use:
-          title: How We Use Information
-          description: "We use the information we collect to:"
-          item_accounts: Create and manage your account
-          item_store: Store your letters until the scheduled delivery date
-          item_deliver: Deliver emails to you and your designated recipients
-          item_communicate: Communicate with you about your account and letters
-          item_improve: Improve and maintain our service
-          item_security: Prevent abuse and troubleshoot technical issues
+          title: How We Use Your Information
+          description: "We use your data solely to fulfill your time capsule experience:"
+          item_accounts: Authenticate your account via single-use magic links
+          item_store: Safely store your encrypted letters until your chosen delivery date
+          item_deliver: Send your unsealed capsules to your verified email address on schedule
+          item_communicate: Send critical account confirmations and delivery notifications
+          item_improve: Maintain security, optimize page load speed, and enhance reliability
+          item_security: Block automated abuse, prevent spam, and protect user data
         encryption:
-          title: Data Security
-          description: Letter titles and content are encrypted at rest using Rails Active Record Encryption. While we implement reasonable security measures, no method of transmission over the internet is 100% secure.
+          title: Military-Grade Field-Level Encryption
+          description: Letter titles and body content are encrypted at rest in PostgreSQL using Rails Active Record Encryption. Keys are derived securely, meaning unsealed letter content is protected against unauthorized database access.
         retention:
-          title: Data Retention
-          description: We retain your letters and associated data for as long as your account exists. When you delete your account, all associated data including letters, predictions, emotional snapshots, and analytics events are permanently removed.
+          title: Data Retention & Instant Deletion
+          description: We retain your time capsules for as long as your account remains active. If you choose to delete your account in Settings, all associated letters, emotional snapshots, predictions, and analytics events are permanently and irreversibly purged from our database.
         third_parties:
-          title: Third-Party Services
-          description: "We use the following third-party services to operate TimeEcho:"
-          item_email: Resend (email delivery service)
-          item_hosting: Infrastructure providers for hosting and database services
+          title: Trusted Infrastructure Partners
+          description: "We work with trusted industry providers to process and deliver your capsules:"
+          item_email: Resend API for transactional email delivery
+          item_hosting: Secure cloud infrastructure running containerized Rails 8 & PostgreSQL 14
         rights:
-          title: Your Rights
-          description: "You have the right to:"
-          item_access: Access your personal data
-          item_delete: Delete your account and all associated data
-          item_questions: Contact us with questions about your data
+          title: Your Data Rights & Control
+          description: "You retain total ownership of your words. You have the right to:"
+          item_access: Inspect and export your letter timeline at any time
+          item_delete: Delete individual letters or purge your entire account in one click
+          item_questions: Reach out to our team with privacy or technical data inquiries
         changes:
-          title: Changes to This Policy
-          description: We may update this Privacy Policy from time to time. We will notify you of any material changes by posting the new policy on this page.
+          title: Policy Updates
+          description: If we make material updates to this Privacy Policy, we will post the changes here and notify active users via email.
         contact:
-          title: Contact Us
-          description: If you have questions about this Privacy Policy, please contact us through the channels available on our website.
+          title: Contact & Support
+          description: Have questions about how your letters are stored or encrypted? Reach out via our settings support page.
     terms:
       title: Terms of Service
       last_updated: Last updated August 2026
+      subtitle: Clear, human-readable terms outlining service commitments, letter scheduling integrity, and data ownership.
       sections:
         acceptance:
-          title: Acceptance of Terms
-          description: By accessing or using TimeEcho, you agree to be bound by these Terms of Service. If you do not agree, please do not use our service.
+          title: Agreement to Terms
+          description: By creating a capsule or using TimeEcho, you agree to these Terms of Service. If you do not agree, please do not access or use the platform.
         about:
           title: About TimeEcho
-          description: TimeEcho is a digital time capsule platform that allows you to write letters to your future self and schedule their delivery for a future date.
+          description: TimeEcho is a digital time capsule platform where you can write letters to your future self, record emotional baseline snapshots, make life predictions, and schedule delivery for future dates.
         accounts:
-          title: Accounts
-          description: You access TimeEcho using passwordless authentication via magic links sent to your email. You are responsible for maintaining the security of your email account.
+          title: Passwordless Account Access
+          description: TimeEcho uses secure magic-link authentication sent directly to your email inbox. You are responsible for keeping your email account secure.
         creating:
-          title: Creating and Scheduling Letters
-          description: You can create letters and schedule them for future delivery. You must provide accurate email addresses for delivery. You are responsible for the content you create.
+          title: Writing and Scheduling Capsules
+          description: You can schedule letters to unlock on any future date. You are responsible for ensuring the recipient email address is valid and that your content complies with applicable laws.
         delivery:
-          title: Scheduled Delivery
-          description: TimeEcho processes scheduled letters and attempts to deliver them on or near the selected date. Delivery is handled through third-party email services.
-          disclaimer: While we make reasonable efforts to deliver letters on time, we cannot guarantee exact delivery times. Delays may occur due to technical issues, email provider problems, spam filters, network issues, or circumstances beyond our reasonable control.
+          title: Scheduled Delivery Commitment
+          description: TimeEcho processes scheduled capsules daily and sends them on or near your requested local unlock date using transactional mailers.
+          disclaimer: While we make every technical effort to ensure prompt delivery, delivery dates depend on email provider acceptance, network availability, and spam filter settings.
         responsibilities:
-          title: User Responsibilities
-          description: You are responsible for maintaining the confidentiality of your account and for all activities that occur under your account. You must provide accurate information.
+          title: User Conduct
+          description: You are responsible for maintaining account confidentiality and using TimeEcho respectfully.
         content:
-          title: User Content
-          description: You retain ownership of the letters and content you create on TimeEcho. By using our service, you grant us the license to store, process, and transmit your content as necessary to provide the service.
-          license: This license includes the right to store your letters until the scheduled delivery date, prepare them for delivery, and transmit them to the designated recipient.
+          title: You Own 100% of Your Content
+          description: You retain full ownership of all letters, predictions, and reflections you create on TimeEcho. You grant us a limited license solely to store, encrypt, and deliver your content as requested.
+          license: This limited license permits us to hold your encrypted letters until their scheduled release date and transmit them to your email address upon unlock.
         prohibited:
-          title: Prohibited Uses
-          description: "You agree not to use TimeEcho to:"
-          item_spam: Send spam or unsolicited communications
-          item_harassment: Harass, bully, or intimidate others
-          item_threats: Make threats of violence or harm
-          item_fraud: Engage in fraudulent or deceptive activities
-          item_impersonation: Impersonate others or misrepresent your identity
-          item_illegal: Violate any applicable laws or regulations
-          item_malware: Distribute malware or harmful code
-          item_abuse: Abuse or compromise the service infrastructure
-          item_unauthorized: Attempt to gain unauthorized access to our systems
-          item_infringement: Infringe upon the intellectual property rights of others
+          title: Prohibited Activities
+          description: "To maintain platform safety, you agree not to use TimeEcho to:"
+          item_spam: Send unsolicited emails or spam
+          item_harassment: Harass, intimidate, or harm others
+          item_threats: Issue threats of violence or illegal action
+          item_fraud: Engage in deceptive, fraudulent, or malicious practices
+          item_impersonation: Impersonate other individuals or entities
+          item_illegal: Violate local or international laws
+          item_malware: Distribute viruses, trojans, or harmful code
+          item_abuse: Abuse infrastructure, perform denial-of-service, or scrape system data
+          item_unauthorized: Attempt unauthorized database or server access
+          item_infringement: Infringe upon third-party copyrights or intellectual property
         recipient:
-          title: Recipient Email
-          description: When you provide a recipient email address, you represent that you have the necessary consent to share that information. You are responsible for providing accurate email addresses.
+          title: Recipient Email Consent
+          description: When scheduling a capsule to a recipient email address, you confirm that you have permission to send messages to that address.
         intellectual:
-          title: Intellectual Property
-          description: The TimeEcho service, including its design, features, and code, is owned by us. Your content remains yours. These terms do not transfer any intellectual property rights to you.
+          title: Platform Intellectual Property
+          description: TimeEcho software, branding, UI components, and logos are protected intellectual property. Your personal letters remain entirely yours.
         availability:
           title: Service Availability
-          description: We strive to provide a reliable service but do not guarantee uninterrupted access. The service may be temporarily unavailable due to maintenance, updates, or circumstances beyond our control.
+          description: We strive for 99.9% uptime, but access may occasionally be interrupted for scheduled maintenance, system updates, or emergency server repairs.
         termination:
-          title: Suspension and Termination
-          description: We reserve the right to suspend or terminate accounts that violate these terms. You may delete your account at any time through the settings page.
+          title: Account Cancellation
+          description: You may delete your account at any time via Settings. We reserve the right to suspend accounts that violate these prohibited conduct rules.
         liability:
           title: Limitation of Liability
-          description: TimeEcho is provided "as is" without warranties of any kind. To the maximum extent permitted by law, we shall not be liable for any indirect, incidental, or consequential damages arising from your use of the service.
+          description: TimeEcho is provided "as is". To the maximum extent permitted by law, TimeEcho shall not be liable for indirect or consequential damages arising from service usage or delivery delays.
         changes:
-          title: Changes to These Terms
-          description: We may modify these terms at any time. Continued use of the service after changes constitutes acceptance of the new terms.
+          title: Updates to Terms
+          description: We may update these Terms from time to time. Continued use of TimeEcho after updates constitutes acceptance of the new terms.
         contact:
-          title: Contact
-          description: For questions about these Terms of Service, please contact us through the channels available on our website.
+          title: Contact Us
+          description: For questions regarding these Terms, contact us through our website support channels.
     about:
-      title: About TimeEcho
-      subtitle: A digital time capsule for the soul
+      title: Bridge who you are today with who you become tomorrow.
+      subtitle: TimeEcho is a secure digital time capsule platform. Write deeply private letters, track your emotional baseline, make bold life predictions, and unlock them years later to compare outcomes.
       sections:
         what_is:
-          title: What is TimeEcho?
-          description: TimeEcho is a platform that lets you write messages to your future self. Capture your thoughts, hopes, fears, and predictions today, then receive them months or years later. It's a digital time capsule that bridges who you are with who you're becoming.
+          title: Why Write to Your Future Self?
+          description: In a fast-moving world, it’s easy to forget how much you’ve grown, what you cared about, or what you predicted for your life. TimeEcho lets you capture your present reality — your hopes, fears, relationships, and emotional baseline — and lock them in a digital vault until your chosen future date.
         how_works:
-          title: How It Works
-          step_write_title: Write
-          step_write_desc: Pour your thoughts onto the page. Share your current reality, future predictions, and emotional state.
-          step_seal_title: Seal
-          step_seal_desc: Choose when your letter should be delivered. We'll keep it safe until that day arrives.
-          step_wait_title: Wait
-          step_wait_desc: Time does its work. Live your life, grow, and change while your letter waits patiently.
-          step_receive_title: Receive
-          step_receive_desc: On the chosen day, your letter arrives. Reflect on how far you've come.
+          title: How TimeEcho Works
+          step_write_title: 1. Write & Log
+          step_write_desc: Pour your thoughts into a private letter. Rate your happiness, anxiety, and motivation, and record predictions for career, salary, or relationships.
+          step_seal_title: 2. Encrypt & Seal
+          step_seal_desc: Select your unlock date and timezone. Your letter is encrypted at rest using Rails Active Record Encryption and sealed in the vault.
+          step_wait_title: 3. Live & Evolve
+          step_wait_desc: Focus on your life. As months or years pass, your past thoughts stay protected while you grow and reach new milestones.
+          step_receive_title: 4. Unlock & Reflect
+          step_receive_desc: On your chosen date, your capsule unlocks. Read your past words, compare your prediction outcomes, and trace your emotional growth.
         why_exists:
-          title: Why TimeEcho Exists
-          description: We believe in the power of reflection. In a world that moves so fast, TimeEcho creates a space to pause, write, and connect with your past and future self. It's a tool for personal growth, memory preservation, and honest self-conversation.
-        technical:
-          title: Built with Care
-          description: "TimeEcho is built using modern, reliable technologies:"
-          item_rails: Ruby on Rails (web framework)
-          item_postgresql: PostgreSQL (database)
-          item_tailwind: Tailwind CSS & DaisyUI (design system)
-          item_jobs: GoodJob (background job processing)
-          item_encryption: Active Record Encryption (data protection)
+          title: Built for Honest Self-Conversation
+          description: Social media forces us to perform for others. TimeEcho is designed for the opposite — a quiet, distraction-free space to be completely honest with yourself. No public feeds, no vanity metrics, no ads. Just a direct link between past you and future you.
         philosophy:
-          title: Our Philosophy
-          description: Your words matter. Your memories deserve to be preserved. TimeEcho is designed with privacy and simplicity at heart—a quiet corner of the internet where you can be honest with yourself, without algorithms or ads.
+          title: Our Privacy Philosophy
+          description: Your memories belong to you. We never sell user data, track you with advertising cookies, or analyze your letter contents. When you delete your account, your data is permanently purged from our database forever.
   date:
     formats:
       default: "%m/%d/%Y"

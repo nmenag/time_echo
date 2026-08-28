@@ -183,8 +183,10 @@ erDiagram
         string email FK
         string title
         text content
-        string status "pending/delivered/failed"
-        datetime deliver_at
+        string status "pending/queued/delivered/failed"
+        datetime scheduled_at
+        string timezone "IANA timezone string"
+        datetime queued_at
         datetime delivered_at
         datetime opened_at
         boolean public
@@ -293,41 +295,47 @@ If a user triggers "Eliminar mi baúl" in their settings, a direct SQLite/Postgr
 Rails 8 uses **GoodJob** as the database-backed Active Job queue adapter. TimeEcho is configured to leverage GoodJob for all asynchronous services in both development and production.
 
 ```mermaid
-graph LR
-    subgraph Trigger [Scheduling Layer]
-        Cron[GoodJob Cron Scheduler]
+graph TD
+    subgraph Trigger [Scheduled Execution]
+        RakeTask[rake letters:deliver]
+    end
+
+    subgraph Dispatcher [Service Layer]
+        DS[Letters::DispatchPendingService]
     end
 
     subgraph GoodJob [Queue Manager]
-        Ready[GoodJob Executions]
+        Ready[GoodJob Executions - queue: mailers]
     end
 
     subgraph Workers [Worker Threads]
-        DelJob[DeliverPendingLettersJob]
+        DelJob[Letters::DeliverLetterJob]
         ClClean[CleanupExpiredTokensJob]
     end
 
-    subgraph Execution [Service Actions]
-        DS[Letters::DeliverService]
+    subgraph Execution [Service & Mailers]
+        DelService[Letters::DeliverService]
         SMTP[LetterMailer / AuthMailer]
     end
 
-    Cron -->|Every Minute| Ready
+    RakeTask -->|Daily Execution| DS
+    DS -->|Finds Due & Sets queued| Ready
     Ready -->|Pulls Job| DelJob
-    DelJob -->|Runs Transactionally| DS
-    DS -->|Sends Capsule| SMTP
+    DelJob -->|Runs Worker| DelService
+    DelService -->|Sends Capsule| SMTP
 
-    Cron -->|Every Hour| ClClean
+    Cron[GoodJob Cron] -->|Every Hour| ClClean
     ClClean -->|Purges DB| PG[(PostgreSQL)]
 ```
 
 ### Background System Components:
 
-1. **Recurring Scheduler (`config/application.rb` GoodJob Cron)**:
-   - **`DeliverPendingLettersJob`** runs **every minute** to check if any pending capsule is due for delivery.
-   - **`CleanupExpiredTokensJob`** runs **every hour** to clean up expired magic-link sessions and spent tokens.
-2. **High-Concurrency Locking (`SKIP LOCKED`)**:
-   - In `PendingLettersQuery`, letters due for unlock are queried with `.lock("FOR UPDATE SKIP LOCKED")`. This allows multiple active GoodJob worker threads to run concurrently without duplicate mailing attempts or deadlocking the letters table.
+1. **Daily Delivery Rake Task (`rake letters:deliver`)**:
+   - Triggers `Letters::DispatchPendingService` daily to query due pending capsules (`scheduled_at <= Time.current`), update status to `"queued"`, and enqueue `Letters::DeliverLetterJob` worker jobs into GoodJob.
+2. **Hourly Cron (`CleanupExpiredTokensJob`)**:
+   - Runs **every hour** via GoodJob cron to clean up expired magic-link sessions and spent tokens.
+3. **High-Concurrency Locking (`SKIP LOCKED`)**:
+   - In `PendingLettersQuery`, letters due for unlock are queried with `.lock("FOR UPDATE SKIP LOCKED")`. This allows concurrent workers to process without duplicate mailing attempts or deadlocking the letters table.
 
 ---
 

@@ -9,7 +9,7 @@ class Letter < ApplicationRecord
   STATUSES = %w[pending queued delivered failed].freeze
 
   attribute :language, :string, default: -> { I18n.locale.to_s }
-  attribute :timezone, :string, default: "UTC"
+  attribute :timezone, :string, default: -> { Time.zone&.name || "America/Bogota" }
 
   validates :title, presence: true
   validates :email, presence: true, format: { with: URI::MailTo::EMAIL_REGEXP }

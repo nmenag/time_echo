@@ -26,10 +26,10 @@ TimeEcho adopts a layered, highly decoupled design pattern that keeps models foc
 1. **RESTful Controller Design**: All controllers are strictly focused on the seven standard RESTful actions (`index`, `show`, `new`, `create`, `update`, `destroy`). Non-RESTful custom actions are extracted into dedicated single-responsibility sub-resources (e.g. `LetterPredictionsController`, `Settings::EmailConfirmationsController`).
 2. **Decorator / Presenter Pattern (`app/decorators/`)**: Removes all visual formatting, countdown calculations, and i18n label selectors from view templates. Built around a base `ApplicationDecorator` using Ruby's native `SimpleDelegator` standard library.
 3. **Form Objects (`app/forms/`)**: Enforce complex multi-model validation. `LetterForm` validates and saves `Letter`, `EmotionalSnapshot`, and several nested `Prediction` records within a single database transaction.
-4. **Service Objects (`app/services/`)**: Isolate single business actions (e.g. `Letters::DeliverService`, `Auth::MagicLinkService`, `Analytics::TrackEventService`).
+4. **Service Objects (`app/services/`)**: Isolate single business actions (e.g. `Letters::DispatchPendingService`, `Letters::DeliverService`, `Auth::MagicLinkService`, `Analytics::TrackEventService`).
 5. **Query Objects (`app/queries/`)**: Decouple database querying. `UserTimelineQuery` uses eager-loading to avoid $N+1$ query overheads, and `PendingLettersQuery` runs highly concurrent row locks (`FOR UPDATE SKIP LOCKED`).
 6. **Policy Layer (`app/policies/`)**: Manages access controls (e.g. public letters are open to everyone, but pending/private letters are locked strictly to their creator).
-7. **Background Jobs (GoodJob)**: Standard Active Job queuing in Rails 8. Uses `config/application.rb` cron configuration to trigger capsule delivery scripts every minute and cleanup expired tokens every hour.
+7. **Background Jobs & Rake Tasks (GoodJob)**: Standard Active Job queuing in Rails 8. Uses `rake letters:deliver` to dispatch pending capsules daily, and GoodJob cron to purge expired tokens hourly.
 
 For detailed system sequence diagrams, database schemas, and transactional boundary details, read the:
 👉 **[System Architecture & Design Document (docs/architecture.md)](docs/architecture.md)**

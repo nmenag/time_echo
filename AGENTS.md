@@ -91,7 +91,9 @@ The following tasks have been completed:
 - Replaced all hardcoded Spanish text in `letters/show.html.erb` with `t()` calls
 - Replaced all hardcoded Spanish and English fallbacks in `layouts/application.html.erb`
 - Converted HTML comments in `layouts/application.html.erb` from Spanish to English
-- Verified: 0 Spanish text in `en.yml`, 0 missing keys between `en.yml` and `es.yml`, 0 hardcoded Spanish visible text in any `.erb` view file
-- Fixed `set_locale` in `ApplicationController` to respect pre-set locale (no `Accept-Language` header = no override), enabling tests to set `I18n.locale = :es` globally in `test_helper.rb`
-- Added `config.i18n.fallbacks = true` to `config/environments/test.rb`
-- All 117 tests passing (110 original + 7 new for ApplicationController locale/theme coverage), 0 failures
+- Implemented timezone-aware letter scheduling (`scheduled_at` in UTC + `timezone` IANA column) with automatic browser timezone detection.
+- Separated `TimeCapsuleMailer` into `AuthMailer` and `LetterMailer`.
+- Added `Letters::DeliverLetterJob` worker with polynomial backoff retries (`retry_on`) for transient connection errors and status transition tracking (`pending` ➔ `queued` ➔ `delivered`/`failed`).
+- Converted letter dispatch architecture from every-minute GoodJob cron to daily `rake letters:deliver` task backed by `Letters::DispatchPendingService`.
+- Consolidated schema attributes into `db/migrate/20260520000001_create_letters.rb`.
+- All 132 tests passing with 0 failures, 0 errors, and 98.98% line coverage.

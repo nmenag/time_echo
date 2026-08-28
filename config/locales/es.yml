@@ -65,142 +65,136 @@ es:
       privacy: Privacidad
       terms: Términos
     privacy:
-      title: Política de Privacidad
-      last_updated: Actualizada en agosto de 2026
+      title: Política de Privacidad y Compromiso de Seguridad
+      last_updated: "Última actualización: agosto de 2026"
+      subtitle: Tus cartas del futuro son privadas y sagradas. Ciframos tu contenido, nunca vendemos tus datos y no mostramos publicidad.
       sections:
         intro:
-          title: Introducción
-          description: TimeEcho ("nosotros" o "nuestro") está comprometida con proteger tu privacidad. Esta Política de Privacidad explica cómo recopilamos, usamos y protegemos tu información cuando usas nuestro servicio.
+          title: Nuestro Compromiso con tu Privacidad
+          description: TimeEcho ("nosotros", "nuestro") existe para proteger tu evolución personal y tus pensamientos más íntimos. Esta Política de Privacidad describe cómo resguardamos tu información, gestionamos el cifrado de datos y aseguramos que tus cápsulas permanezcan privadas.
         collect:
           title: Información que Recopilamos
-          description: "Recopilamos los siguientes tipos de información para proporcionar y mejorar nuestro servicio:"
-          item_email: Dirección de correo electrónico (usada para autenticación y comunicaciones del servicio)
-          item_letters: Contenido y títulos de cartas (cifrados en reposo)
-          item_predictions: Predicciones y reflexiones que creas
-          item_emotional: Calificaciones de estado emocional (felicidad, ansiedad, motivación)
-          item_preferences: Preferencias de usuario (tema, idioma, configuración de notificaciones)
-          item_technical: Información técnica necesaria para la operación del servicio
+          description: "Recopilamos únicamente lo esencial para almacenar y entregar tus cápsulas de forma segura:"
+          item_email: Tu correo electrónico (usado exclusivamente para inicio de sesión sin contraseña mediante enlaces mágicos y entrega de cartas)
+          item_letters: Título y contenido cifrado de tus cartas (protegidos en reposo usando Rails Active Record Encryption)
+          item_predictions: Predicciones futuras y reflexiones retrospectivas que decidas escribir
+          item_emotional: Evaluaciones de estado emocional (niveles de felicidad, ansiedad y motivación)
+          item_preferences: Preferencias de interfaz (tema de color, idioma y opciones de notificación)
+          item_technical: Registros técnicos esenciales para la seguridad de la cuenta y el rendimiento del servicio
         how_use:
-          title: Cómo Usamos la Información
-          description: "Usamos la información que recopilamos para:"
-          item_accounts: Crear y administrar tu cuenta
-          item_store: Almacenar tus cartas hasta la fecha de entrega programada
-          item_deliver: Enviar correos electrónicos a ti y a tus destinatarios designados
-          item_communicate: Comunicarnos contigo sobre tu cuenta y cartas
-          item_improve: Mejorar y mantener nuestro servicio
-          item_security: Prevenir abusos y solucionar problemas técnicos
+          title: Cómo Utilizamos tu Información
+          description: "Utilizamos tus datos únicamente para hacer posible tu experiencia en la cápsula del tiempo:"
+          item_accounts: Autenticar tu cuenta mediante enlaces mágicos de un solo uso
+          item_store: Almacenar de forma segura tus cartas cifradas hasta su fecha de entrega programada
+          item_deliver: Enviar tus cápsulas desbloqueadas a tu correo verificado según el calendario
+          item_communicate: Enviar confirmaciones críticas de cuenta y notificaciones de entrega
+          item_improve: Mantener la seguridad, optimizar la velocidad y mejorar la confiabilidad del servicio
+          item_security: Bloquear abusos automatizados, prevenir spam y proteger los datos del usuario
         encryption:
-          title: Seguridad de Datos
-          description: Los títulos y contenido de las cartas están cifrados en reposo usando Rails Active Record Encryption. Aunque implementamos medidas de seguridad razonables, ningún método de transmisión por internet es 100% seguro.
+          title: Cifrado a Nivel de Campo de Grado Militar
+          description: Los títulos y contenidos de las cartas están cifrados en reposo en PostgreSQL mediante Rails Active Record Encryption. Las claves se derivan de forma segura, garantizando que el contenido permanezca protegido contra accesos no autorizados a la base de datos.
         retention:
-          title: Retención de Datos
-          description: Conservamos tus cartas y datos asociados mientras tu cuenta exista. Cuando eliminas tu cuenta, todos los datos asociados incluyendo cartas, predicciones, estados emocionales y eventos de analytics son eliminados permanentemente.
+          title: Retención de Datos y Eliminación Instantánea
+          description: Conservamos tus cápsulas del tiempo mientras tu cuenta permanezca activa. Si decides eliminar tu cuenta en Configuración, todas tus cartas, estados emocionales, predicciones y eventos analíticos asociados se borran de manera permanente e irreversible de nuestra base de datos.
         third_parties:
-          title: Servicios de Terceros
-          description: "Usamos los siguientes servicios de terceros para operar TimeEcho:"
-          item_email: Resend (servicio de envío de correos electrónicos)
-          item_hosting: Proveedores de infraestructura para servicios de alojamiento y base de datos
+          title: Aliados de Infraestructura Confiables
+          description: "Trabajamos con proveedores líderes de la industria para procesar y entregar tus cápsulas:"
+          item_email: Resend API para la entrega transaccional de correos electrónicos
+          item_hosting: Infraestructura en la nube altamente segura ejecutando Rails 8 y PostgreSQL 14 en contenedores
         rights:
-          title: Tus Derechos
-          description: "Tienes derecho a:"
-          item_access: Acceder a tus datos personales
-          item_delete: Eliminar tu cuenta y todos los datos asociados
-          item_questions: Contactarnos con preguntas sobre tus datos
+          title: Tus Derechos y Control sobre tus Datos
+          description: "Mantienes la propiedad total de tus palabras. Tienes derecho a:"
+          item_access: Inspeccionar y exportar la cronología de tus cartas en cualquier momento
+          item_delete: Eliminar cartas individuales o borrar tu cuenta completa en un solo clic
+          item_questions: Contactar a nuestro equipo ante cualquier duda técnica o de privacidad
         changes:
-          title: Cambios en Esta Política
-          description: Podemos actualizar esta Política de Privacidad de vez en cuando. Te notificaremos de cualquier cambio material publicando la nueva política en esta página.
+          title: Actualizaciones de la Política
+          description: Si realizamos cambios significativos en esta Política de Privacidad, los publicaremos aquí y notificaremos a los usuarios activos vía correo electrónico.
         contact:
-          title: Contáctanos
-          description: Si tienes preguntas sobre esta Política de Privacidad, por favor contáctanos a través de los canales disponibles en nuestro sitio web.
+          title: Contacto y Soporte
+          description: ¿Tienes preguntas sobre cómo se almacenan o cifran tus cartas? Escríbenos a través de la página de soporte en configuración.
     terms:
       title: Términos de Servicio
-      last_updated: Actualizados en agosto de 2026
+      last_updated: "Última actualización: agosto de 2026"
+      subtitle: Términos claros y humanos que definen nuestros compromisos de servicio, integridad en la entrega y propiedad de tus datos.
       sections:
         acceptance:
           title: Aceptación de los Términos
-          description: Al acceder o usar TimeEcho, aceptas estar sujeto a estos Términos de Servicio. Si no estás de acuerdo, por favor no uses nuestro servicio.
+          description: Al crear una cápsula o utilizar TimeEcho, aceptas estos Términos de Servicio. Si no estás de acuerdo, por favor no uses la plataforma.
         about:
           title: Acerca de TimeEcho
-          description: TimeEcho es una plataforma de cápsulas del tiempo digitales que te permite escribir cartas a tu yo futuro y programar su entrega para una fecha futura.
+          description: TimeEcho es una plataforma de cápsulas del tiempo digitales que te permite escribir cartas a tu yo futuro, registrar evaluaciones emocionales, hacer predicciones de vida y programar entregas futuras.
         accounts:
-          title: Cuentas
-          description: Accedes a TimeEcho usando autenticación sin contraseña a través de enlaces mágicos enviados a tu correo. Eres responsable de mantener la seguridad de tu cuenta de correo electrónico.
+          title: Acceso a Cuenta Sin Contraseña
+          description: TimeEcho utiliza autenticación segura mediante enlaces mágicos enviados directamente a tu bandeja de entrada. Eres responsable de mantener la seguridad de tu correo electrónico.
         creating:
-          title: Creación y Programación de Cartas
-          description: Puedes crear cartas y programarlas para entrega futura. Debes proporcionar direcciones de correo electrónico precisas para la entrega. Eres responsable del contenido que creas.
+          title: Escritura y Programación de Cápsulas
+          description: Puedes programar cartas para abrirse en cualquier fecha futura. Eres responsable de asegurar que las direcciones de correo sean válidas y que el contenido cumpla con las leyes aplicables.
         delivery:
-          title: Entrega Programada
-          description: TimeEcho procesa las cartas programadas e intenta entregarlas en o cerca de la fecha seleccionada. La entrega se maneja a través de servicios de correo electrónico de terceros.
-          disclaimer: Aunque hacemos esfuerzos razonables para entregar las cartas a tiempo, no podemos garantizar horarios de entrega exactos. Pueden ocurrir retrasos debido a problemas técnicos, problemas con el proveedores de correo, filtros de spam, problemas de red, o circunstancias fuera de nuestro control razonable.
+          title: Compromiso de Entrega Programada
+          description: TimeEcho procesa las cápsulas programadas diariamente y las envía en o cerca de tu fecha de desbloqueo local mediante correos transaccionales.
+          disclaimer: Aunque aplicamos los máximos esfuerzos técnicos para garantizar entregas puntuales, los horarios exactos dependen de los proveedores de correo, disponibilidad de red y filtros de spam.
         responsibilities:
-          title: Responsabilidades del Usuario
-          description: Eres responsable de mantener la confidencialidad de tu cuenta y de todas las actividades que ocurran bajo tu cuenta. Debes proporcionar información precisa.
+          title: Conducta del Usuario
+          description: Eres responsable de mantener la confidencialidad de tu cuenta y de utilizar TimeEcho de manera respetuosa.
         content:
-          title: Contenido del Usuario
-          description: Conservas la propiedad de las cartas y el contenido que creas en TimeEcho. Al usar nuestro servicio, nos conces la licencia para almacenar, procesar y transmitir tu contenido según sea necesario para proporcionar el servicio.
-          license: Esta licencia incluye el derecho a almacenar tus cartas hasta la fecha de entrega programada, prepararlas para la entrega y transmitirlas al destinatario designado.
+          title: Eres Dueño del 100% de tu Contenido
+          description: Conservas la propiedad absoluta de todas las cartas, predicciones y reflexiones que creas en TimeEcho. Nos otorgas una licencia limitada únicamente para almacenar, cifrar y entregar tu contenido según lo solicites.
+          license: Esta licencia limitada nos permite guardar tus cartas cifradas hasta su fecha de apertura programada y transmitirlas a tu correo al desbloquearse.
         prohibited:
-          title: Usos Prohibidos
-          description: "Aceptas no usar TimeEcho para:"
-          item_spam: Enviar spam o comunicaciones no solicitadas
-          item_harassment: Acosar, intimidar o bullying a otros
-          item_threats: Hacer amenazas de violencia o daño
-          item_fraud: Participar en actividades fraudulentas o engañosas
-          item_impersonation: Suplantar la identidad de otros o tergiversar tu identidad
-          item_illegal: Violar cualquier ley o regulación aplicable
-          item_malware: Distribuir malware o código dañino
-          item_abuse: Abusar o comprometer la infraestructura del servicio
-          item_unauthorized: Intentar obtener acceso no autorizado a nuestros sistemas
-          item_infringement: Infringir los derechos de propiedad intelectual de otros
+          title: Actividades Prohibidas
+          description: "Para mantener la seguridad de la plataforma, aceptas no utilizar TimeEcho para:"
+          item_spam: Enviar correos no solicitados o spam
+          item_harassment: Acosar, intimidar o dañar a otros
+          item_threats: Realizar amenazas de violencia o acciones ilegales
+          item_fraud: Participar en prácticas engañosas, fraudulentas o maliciosas
+          item_impersonation: Suplantar la identidad de otras personas o entidades
+          item_illegal: Violar leyes locales o internacionales
+          item_malware: Distribuir virus, troyanos o código dañino
+          item_abuse: Abusar de la infraestructura, realizar ataques de denegación de servicio o extraer datos del sistema
+          item_unauthorized: Intentar accesos no autorizados a servidores o bases de datos
+          item_infringement: Infringir derechos de autor o propiedad intelectual de terceros
         recipient:
-          title: Correo del Destinatario
-          description: Cuando proporcionas una dirección de correo electrónico de un destinatario, declaras que tienes el consentimiento necesario para compartir esa información. Eres responsable de proporcionar direcciones de correo electrónico precisas.
+          title: Consentimiento del Destinatario
+          description: Al programar una cápsula para una dirección de correo de un tercero, confirmas que tienes permiso para enviar mensajes a dicha dirección.
         intellectual:
-          title: Propiedad Intelectual
-          description: El servicio TimeEcho, incluyendo su diseño, características y código, es de nuestra propiedad. Tu contenido sigue siendo tuyo. Estos términos no te transfieren ningún derecho de propiedad intelectual.
+          title: Propiedad Intelectual de la Plataforma
+          description: El software, diseño, componentes de interfaz y marcas de TimeEcho son propiedad intelectual protegida. Tus cartas personales siguen siendo totalmente tuyas.
         availability:
           title: Disponibilidad del Servicio
-          description: Nos esforzamos por proporcionar un servicio confiable, pero no garantizamos acceso ininterrumpido. El servicio puede estar temporalmente disponible debido a mantenimiento, actualizaciones o circunstancias fuera de nuestro control.
+          description: Nos esforzamos por mantener una disponibilidad del 99.9%, pero el acceso puede interrumpirse ocasionalmente por mantenimiento programado o reparaciones de emergencia.
         termination:
-          title: Suspensión y Terminación
-          description: Nos reservamos el derecho de suspender o terminar cuentas que violen estos términos. Puedes eliminar tu cuenta en cualquier momento a través de la página de configuración.
+          title: Cancelación de Cuenta
+          description: Puedes eliminar tu cuenta en cualquier momento desde Configuración. Nos reservamos el derecho de suspender cuentas que violen estas reglas de conducta.
         liability:
           title: Limitación de Responsabilidad
-          description: TimeEcho se proporciona "tal cual" sin garantías de ningún tipo. En la máxima medida permitida por la ley, no seremos responsables por daños indirectos, incidentales o consecuentes derivados del uso del servicio.
+          description: TimeEcho se proporciona "tal cual". En la máxima medida permitida por la ley, TimeEcho no será responsable por daños indirectos o consecuentes derivados del uso del servicio o retrasos de entrega.
         changes:
-          title: Cambios en Estos Términos
-          description: Podemos modificar estos términos en cualquier momento. El uso continuado del servicio después de los cambios constituye la aceptación de los nuevos términos.
+          title: Actualizaciones de los Términos
+          description: Podemos actualizar estos Términos periódicamente. El uso continuado de TimeEcho tras las actualizaciones constituye la aceptación de los nuevos términos.
         contact:
           title: Contacto
-          description: Para preguntas sobre estos Términos de Servicio, por favor contáctanos a través de los canales disponibles en nuestro sitio web.
+          description: Para preguntas sobre estos Términos, contáctanos a través de nuestros canales de soporte en el sitio web.
     about:
-      title: Acerca de TimeEcho
-      subtitle: Una cápsula del tiempo digital para el alma
+      title: Conecta a quien eres hoy con la persona en la que te convertirás mañana.
+      subtitle: TimeEcho es una plataforma de cápsulas del tiempo digitales segura. Escribe cartas íntimas, registra tu estado emocional, realiza predicciones de vida y desbloquéalas años después para comparar los resultados.
       sections:
         what_is:
-          title: ¿Qué es TimeEcho?
-          description: TimeEcho es una plataforma que te permite escribir mensajes a tu yo futuro. Captura tus pensamientos, esperanzas, miedos y predicciones hoy, y recíbelos meses o años después. Es una cápsula del tiempo digital que conecta quien eres con quien estás becoming.
+          title: ¿Por qué escribirle a tu yo del futuro?
+          description: En un mundo acelerado, es fácil olvidar cuánto has crecido, qué te preocupaba o qué soñabas para tu vida. TimeEcho te permite capturar tu realidad actual (tus esperanzas, miedos, relaciones y estado emocional) y guardarla en una bóveda digital hasta la fecha futura que elijas.
         how_works:
-          title: Cómo Funciona
-          step_write_title: Escribe
-          step_write_desc: Vierte tus pensamientos en la página. Comparte tu realidad actual, predicciones futuras y estado emocional.
-          step_seal_title: Sella
-          step_seal_desc: Elige cuánde debe entregarse tu carta. La mantendremos segura hasta ese día.
-          step_wait_title: Espera
-          step_wait_desc: El tiempo hace su trabajo. Vive tu vida, crece y cambia mientras tu carta espera pacientemente.
-          step_receive_title: Recibe
-          step_receive_desc: En el día elegido, tu carta llega. Reflexiona sobre cuánto has avanzado.
+          title: Cómo Funciona TimeEcho
+          step_write_title: 1. Escribe y Registra
+          step_write_desc: Vierte tus pensamientos en una carta privada. Evalúa tu felicidad, ansiedad y motivación, y registra predicciones de carrera, salario o relaciones.
+          step_seal_title: 2. Cifra y Sella
+          step_seal_desc: Selecciona tu fecha de apertura y zona horaria. Tu carta se cifra en reposo con Rails Active Record Encryption y se sella en la bóveda.
+          step_wait_title: 3. Vive y Evoluciona
+          step_wait_desc: Concéntrate en tu vida. A medida que pasan los meses o años, tus palabras permanecen protegidas mientras creces y alcanzas nuevas metas.
+          step_receive_title: 4. Desbloquea y Reflexiona
+          step_receive_desc: En la fecha elegida, tu cápsula se abre. Lee tus palabras pasadas, compara tus predicciones y traza tu crecimiento emocional.
         why_exists:
-          title: Por Qué Existe TimeEcho
-          description: Creemos en el poder de la reflexión. En un mundo que se mueve tan rápido, TimeEcho crea un espacio para pausar, escribir y conectar con tu yo pasado y futuro. Es una herramienta para el crecimiento personal, preservación de memorias y auto-conversación honesta.
-        technical:
-          title: Construido con Cuidado
-          description: "TimeEcho está construido usando tecnologías modernas y confiables:"
-          item_rails: Ruby on Rails (framework web)
-          item_postgresql: PostgreSQL (base de datos)
-          item_tailwind: Tailwind CSS & DaisyUI (sistema de diseño)
-          item_jobs: GoodJob (procesamiento de trabajos en segundo plano)
-          item_encryption: Active Record Encryption (protección de datos)
+          title: Diseñado para una Conversación Honesta Contigo Mismo
+          description: "Las redes sociales nos obligan a actuar para otros. TimeEcho está diseñado para lo opuesto: un espacio tranquilo y libre de distracciones para ser completamente honesto contigo mismo. Sin muros públicos, sin métricas de vanidad, sin anuncios. Solo un puente directo entre tu yo pasado y tu yo futuro."
         philosophy:
           title: Nuestra Filosofía
           description: Tus palabras importan. Tus memorias merecen ser preservadas. TimeEcho está diseñada con privacidad y simplicidad en su corazón—un rincón tranquilo de internet donde puedes ser honesto contigo mismo, sin algoritmos ni anuncios.

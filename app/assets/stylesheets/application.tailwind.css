@@ -241,6 +241,12 @@
   .animate-pulse-glow {
     animation: pulse-glow 2s ease-in-out infinite;
   }
+
+  /* Fix DaisyUI modal container overlay when not open */
+  dialog.modal:not([open]):not(.modal-open) {
+    display: none !important;
+    pointer-events: none !important;
+  }
 }
 
 /* ─── Reduced motion — global override ──────────────────────── */

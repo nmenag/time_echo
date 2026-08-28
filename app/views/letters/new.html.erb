@@ -286,6 +286,7 @@
   document.addEventListener("turbo:load", () => { initCharCounter(); initTimezone(); });
   window.addEventListener("pageshow", () => { initCharCounter(); initTimezone(); });
   document.addEventListener("DOMContentLoaded", () => { initCharCounter(); initTimezone(); });
+  initTimezone();
 
   function updateSummaryInfo() {
     const dateInput       = document.getElementById("deliver_at_new_form");
