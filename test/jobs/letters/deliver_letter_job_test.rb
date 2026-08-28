@@ -8,7 +8,8 @@ class Letters::DeliverLetterJobTest < ActiveJob::TestCase
       title: "Queued Letter",
       email: "queued@example.com",
       content: "Hello future me!",
-      deliver_at: 1.day.ago,
+      scheduled_at: 1.day.ago,
+      timezone: "America/Bogota",
       status: "queued",
       queued_at: 1.minute.ago
     }.merge(overrides))
@@ -76,12 +77,12 @@ class Letters::DeliverLetterJobTest < ActiveJob::TestCase
     LetterMailer.define_singleton_method(:future_letter, original.to_proc)
   end
 
-  test "re-enqueues on Net::ReadTimeout without marking letter failed" do
+  test "re-enqueues on SocketError without marking letter failed" do
     letter = build_queued_letter
     original = LetterMailer.method(:future_letter)
 
     LetterMailer.define_singleton_method(:future_letter) do |*|
-      raise Net::ReadTimeout
+      raise SocketError, "Failed to open TCP connection to smtp.example.com"
     end
 
     assert_enqueued_with(job: Letters::DeliverLetterJob) do

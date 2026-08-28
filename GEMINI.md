@@ -44,9 +44,9 @@ app/
 - `AnalyticsEvent` — event tracking for opens, clicks, deliveries
 - `UserPreference` — per-user settings
 
-### Background Jobs (GoodJob Cron)
-- `DeliverPendingLettersJob` — runs **every minute**, delivers capsules whose `deliver_at` has passed
-- `CleanupExpiredTokensJob` — runs **every hour**, purges stale magic-link tokens
+### Background Jobs & Rake Tasks
+- `rake letters:deliver` — daily task (triggers `DeliverPendingLettersJob`) that queues capsules due for delivery
+- `CleanupExpiredTokensJob` — runs **every hour** via GoodJob cron, purges stale magic-link tokens
 
 ### Routes Structure
 - **Auth**: `GET/POST /login`, `GET /login/:token`, `DELETE /logout`
