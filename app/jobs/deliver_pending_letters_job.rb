@@ -1,23 +1,17 @@
 class DeliverPendingLettersJob < ApplicationJob
   queue_as :default
-  retry_on StandardError, attempts: 3, wait: 5.minutes
 
   def perform
-    pending_letters = PendingLettersQuery.call.to_a
-    Rails.logger.info("Delivering #{pending_letters.size} pending letters")
+    letters = PendingLettersQuery.call.to_a
+    Rails.logger.info("Queuing #{letters.size} pending letters for delivery")
 
-    delivered = 0
-    failed = 0
-    Letter.transaction do
-      pending_letters.each do |letter|
-        Letters::DeliverService.call(letter)
-        delivered += 1
-      rescue => e
-        failed += 1
-        Rails.logger.error("Failed to deliver Letter #{letter.id}: #{e.message}")
-      end
+    queued = 0
+    letters.each do |letter|
+      letter.update!(status: "queued", queued_at: Time.current)
+      Letters::DeliverLetterJob.perform_later(letter.id)
+      queued += 1
     end
 
-    Rails.logger.info("Delivery complete delivered=#{delivered} failed=#{failed}")
+    Rails.logger.info("Delivery dispatch complete queued=#{queued}")
   end
 end

@@ -1,62 +1,87 @@
 require "test_helper"
 
 class Letters::DeliverServiceTest < ActiveSupport::TestCase
-  setup do
-    @letter = Letter.new(
+  include ActionMailer::TestHelper
+
+  def build_queued_letter(overrides = {})
+    letter = Letter.new({
       title: "Deliver Service Test",
       email: "deliver@example.com",
       content: "Testing delivery",
       deliver_at: 1.day.ago,
-      status: "pending"
-    )
-    @letter.save!(validate: false)
+      status: "queued"
+    }.merge(overrides))
+    letter.save!(validate: false)
+    letter
   end
 
-  test "returns early if already delivered" do
-    @letter.update!(status: "delivered")
-    assert_nothing_raised do
-      Letters::DeliverService.call(@letter)
+  test "delivers letter synchronously and marks it delivered" do
+    letter = build_queued_letter
+
+    assert_emails 1 do
+      Letters::DeliverService.call(letter)
     end
+
+    letter.reload
+    assert_equal "delivered", letter.status
+    assert_not_nil letter.delivered_at
   end
 
-  test "delivers letter successfully" do
-    Letters::DeliverService.call(@letter)
-    @letter.reload
-    assert_equal "delivered", @letter.status
+  test "is idempotent — returns early if already delivered" do
+    letter = build_queued_letter(status: "delivered", delivered_at: 5.minutes.ago)
+
+    assert_emails 0 do
+      Letters::DeliverService.call(letter)
+    end
+
+    letter.reload
+    assert_equal "delivered", letter.status
   end
 
-  test "delivers letter using stored language" do
-    @letter.update!(language: "es")
-    delivered_locale = nil
+  test "delivers using the letter's stored language locale" do
+    letter = build_queued_letter(language: "es")
+    captured_locale = nil
 
-    original_future_letter = TimeCapsuleMailer.method(:future_letter)
-    TimeCapsuleMailer.define_singleton_method(:future_letter) do |letter|
-      delivered_locale = I18n.locale.to_s
-      original_future_letter.call(letter)
+    original = LetterMailer.method(:future_letter)
+    LetterMailer.define_singleton_method(:future_letter) do |ltr|
+      captured_locale = I18n.locale.to_s
+      original.call(ltr)
     end
 
-    I18n.with_locale(:en) do
-      Letters::DeliverService.call(@letter)
-    end
+    I18n.with_locale(:en) { Letters::DeliverService.call(letter) }
 
-    assert_equal "es", delivered_locale
+    assert_equal "es", captured_locale
   ensure
-    TimeCapsuleMailer.define_singleton_method(:future_letter, original_future_letter.to_proc)
+    LetterMailer.define_singleton_method(:future_letter, original.to_proc)
   end
 
-  test "handles mailer error and updates status to failed" do
-    original_future_letter = TimeCapsuleMailer.method(:future_letter)
-    TimeCapsuleMailer.define_singleton_method(:future_letter) do |*args|
+  test "re-raises mailer errors without swallowing them" do
+    letter = build_queued_letter
+    original = LetterMailer.method(:future_letter)
+
+    LetterMailer.define_singleton_method(:future_letter) do |*|
       raise StandardError, "SMTP failure"
     end
 
-    assert_raises StandardError do
-      Letters::DeliverService.call(@letter)
+    assert_raises(StandardError) { Letters::DeliverService.call(letter) }
+  ensure
+    LetterMailer.define_singleton_method(:future_letter, original.to_proc)
+  end
+
+  test "does not mark letter failed on error — that is the job's responsibility" do
+    letter = build_queued_letter
+    original = LetterMailer.method(:future_letter)
+
+    LetterMailer.define_singleton_method(:future_letter) do |*|
+      raise StandardError, "SMTP failure"
     end
 
-    @letter.reload
-    assert_equal "failed", @letter.status
+    assert_raises(StandardError) { Letters::DeliverService.call(letter) }
+
+    letter.reload
+    assert_not_equal "failed", letter.status,
+      "DeliverService must not set failed — DeliverLetterJob owns that transition"
   ensure
-    TimeCapsuleMailer.define_singleton_method(:future_letter, original_future_letter.to_proc)
+    LetterMailer.define_singleton_method(:future_letter, original.to_proc)
   end
 end

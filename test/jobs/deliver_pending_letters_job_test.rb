@@ -1,65 +1,79 @@
 require "test_helper"
 
 class DeliverPendingLettersJobTest < ActiveJob::TestCase
-  include ActionMailer::TestHelper
-
-  test "performs delivery only for due pending letters" do
-    # 1. Past due pending letter
-    due_letter = Letter.new(
-      title: "Due Letter",
-      email: "due@example.com",
-      content: "Hello from 2025!",
+  def build_letter(overrides = {})
+    letter = Letter.new({
+      title: "Test Letter",
+      email: "test@example.com",
+      content: "Hello from the past!",
       deliver_at: 1.day.ago,
       status: "pending"
-    )
-    due_letter.save!(validate: false)
+    }.merge(overrides))
+    letter.save!(validate: false)
+    letter
+  end
 
-    # 2. Future pending letter (not due yet)
-    future_letter = Letter.new(
-      title: "Future Letter",
-      email: "future@example.com",
-      content: "Wait for me!",
-      deliver_at: 1.month.from_now,
-      status: "pending"
-    )
-    future_letter.save!(validate: false)
+  test "marks due pending letters as queued and enqueues DeliverLetterJob" do
+    due_letter = build_letter
 
-    # Verify that DeliverPendingLettersJob runs and delivers the due letter
-    assert_emails 1 do
+    assert_enqueued_with(job: Letters::DeliverLetterJob, args: [ due_letter.id ]) do
       DeliverPendingLettersJob.perform_now
     end
 
     due_letter.reload
-    future_letter.reload
-
-    # Due letter should be delivered
-    assert_equal "delivered", due_letter.status
-    assert_not_nil due_letter.delivered_at
-
-    # Future letter should still be pending
-    assert_equal "pending", future_letter.status
-    assert_nil future_letter.delivered_at
+    assert_equal "queued", due_letter.status
+    assert_not_nil due_letter.queued_at
   end
 
-  test "logs error when letter delivery fails" do
-    due_letter = Letter.new(
-      title: "Failing Letter",
-      email: "fail@example.com",
-      content: "Fail content",
-      deliver_at: 1.day.ago,
-      status: "pending"
-    )
-    due_letter.save!(validate: false)
+  test "does not enqueue jobs for future letters" do
+    future_letter = build_letter(deliver_at: 1.month.from_now, status: "pending")
 
-    original_call = Letters::DeliverService.method(:call)
-    Letters::DeliverService.define_singleton_method(:call) do |*args|
-      raise StandardError, "Delivery error"
-    end
-
-    assert_nothing_raised do
+    assert_no_enqueued_jobs(only: Letters::DeliverLetterJob) do
       DeliverPendingLettersJob.perform_now
     end
-  ensure
-    Letters::DeliverService.define_singleton_method(:call, original_call.to_proc)
+
+    future_letter.reload
+    assert_equal "pending", future_letter.status
+  end
+
+  test "does not re-process already queued letters" do
+    queued_letter = build_letter(status: "queued")
+
+    assert_no_enqueued_jobs(only: Letters::DeliverLetterJob) do
+      DeliverPendingLettersJob.perform_now
+    end
+
+    queued_letter.reload
+    assert_equal "queued", queued_letter.status
+  end
+
+  test "does not re-process already delivered letters" do
+    delivered_letter = build_letter(status: "delivered")
+
+    assert_no_enqueued_jobs(only: Letters::DeliverLetterJob) do
+      DeliverPendingLettersJob.perform_now
+    end
+
+    delivered_letter.reload
+    assert_equal "delivered", delivered_letter.status
+  end
+
+  test "does not re-process already failed letters" do
+    failed_letter = build_letter(status: "failed")
+
+    assert_no_enqueued_jobs(only: Letters::DeliverLetterJob) do
+      DeliverPendingLettersJob.perform_now
+    end
+
+    failed_letter.reload
+    assert_equal "failed", failed_letter.status
+  end
+
+  test "enqueues one job per due pending letter" do
+    3.times { |i| build_letter(email: "user#{i}@example.com") }
+
+    assert_enqueued_jobs 3, only: Letters::DeliverLetterJob do
+      DeliverPendingLettersJob.perform_now
+    end
   end
 end
