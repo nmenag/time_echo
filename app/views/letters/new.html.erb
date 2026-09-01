@@ -23,6 +23,7 @@
       </div>
 
       <div class="flex items-center gap-3 shrink-0">
+        <%= f.hidden_field :timezone, id: "user_timezone_input", value: @letter_form.timezone %>
         <span class="text-xs font-semibold text-base-content/50"><%= t('letters.deliver_date_prefix') %></span>
         <div class="flex items-center gap-2 bg-base-200/20 border border-base-200 px-4 py-2.5 rounded-xl shadow-2xs hover:border-base-300 transition-colors">
           <%= f.text_field :deliver_at,
@@ -275,9 +276,17 @@
     }
   }
 
-  document.addEventListener("turbo:load", initCharCounter);
-  window.addEventListener("pageshow", initCharCounter);
-  document.addEventListener("DOMContentLoaded", initCharCounter);
+  function initTimezone() {
+    const tzInput = document.getElementById("user_timezone_input");
+    if (tzInput) {
+      const userTz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+      if (userTz) tzInput.value = userTz;
+    }
+  }
+  document.addEventListener("turbo:load", () => { initCharCounter(); initTimezone(); });
+  window.addEventListener("pageshow", () => { initCharCounter(); initTimezone(); });
+  document.addEventListener("DOMContentLoaded", () => { initCharCounter(); initTimezone(); });
+  initTimezone();
 
   function updateSummaryInfo() {
     const dateInput       = document.getElementById("deliver_at_new_form");

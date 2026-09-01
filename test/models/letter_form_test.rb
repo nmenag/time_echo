@@ -1,12 +1,13 @@
 require "test_helper"
 
 class LetterFormTest < ActiveSupport::TestCase
-  test "valid letter form creates letter, emotional snapshot, and predictions" do
+  test "valid letter form creates letter, emotional snapshot, and predictions with timezone" do
     params = {
       title: "My Future self",
       email: "test@example.com",
       content: "Hello from the past!",
-      deliver_at: 1.year.from_now,
+      deliver_at: "2027-05-20",
+      timezone: "America/Bogota",
       happiness_level: 7,
       anxiety_level: 3,
       motivation_level: 8,
@@ -29,6 +30,10 @@ class LetterFormTest < ActiveSupport::TestCase
     assert_equal "test@example.com", letter.email
     assert_equal "Hello from the past!", letter.content
     assert_equal "pending", letter.status
+    assert_equal "America/Bogota", letter.timezone
+
+    # 2027-05-20 00:00:00 -05:00 in Bogota is 2027-05-20 05:00:00 UTC
+    assert_equal 5, letter.scheduled_at.utc.hour
 
     # Verify emotional snapshot
     snapshot = letter.emotional_snapshot
@@ -84,6 +89,17 @@ class LetterFormTest < ActiveSupport::TestCase
     )
     assert_not form.valid?
     assert form.errors[:happiness_level].any?
+
+    # 5. Invalid timezone
+    form = LetterForm.new(
+      title: "Title",
+      email: "user@example.com",
+      content: "Content",
+      deliver_at: 1.year.from_now,
+      timezone: "Mars/Olympus"
+    )
+    assert_not form.valid?
+    assert form.errors[:timezone].any?
   end
 
   test "handles ActiveRecord::RecordInvalid on save" do

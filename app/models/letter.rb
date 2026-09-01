@@ -4,22 +4,27 @@ class Letter < ApplicationRecord
   has_many :predictions, dependent: :destroy
   has_one :emotional_snapshot, dependent: :destroy
 
+  alias_attribute :deliver_at, :scheduled_at
+
   STATUSES = %w[pending queued delivered failed].freeze
 
   attribute :language, :string, default: -> { I18n.locale.to_s }
+  attribute :timezone, :string, default: -> { Time.zone&.name || "America/Bogota" }
 
   validates :title, presence: true
   validates :email, presence: true, format: { with: URI::MailTo::EMAIL_REGEXP }
   validates :content, presence: true
-  validates :deliver_at, presence: true
+  validates :scheduled_at, presence: true
+  validates :timezone, presence: true
   validates :status, inclusion: { in: STATUSES }
   validates :language, presence: true, inclusion: { in: I18n.available_locales.map(&:to_s) }
   validates :reveal_happiness, :reveal_anxiety, :reveal_motivation, numericality: { only_integer: true, in: 1..10 }, allow_nil: true
 
-  validate :deliver_at_must_be_in_future, on: :create
+  validate :scheduled_at_must_be_in_future, on: :create
+  validate :valid_iana_timezone
 
-  scope :pending, -> { where(status: "pending").where("deliver_at <= ?", Time.current) }
-  scope :scheduled, -> { where(status: "pending").where("deliver_at > ?", Time.current) }
+  scope :pending, -> { where(status: "pending").where("scheduled_at <= ?", Time.current) }
+  scope :scheduled, -> { where(status: "pending").where("scheduled_at > ?", Time.current) }
   scope :delivered, -> { where(status: "delivered").order(delivered_at: :desc) }
   scope :for_email, ->(email) { where(email: email) }
 
@@ -39,16 +44,30 @@ class Letter < ApplicationRecord
     status == "failed"
   end
 
+  def local_scheduled_at
+    return nil unless scheduled_at
+    tz = Time.find_zone(timezone) || Time.find_zone("UTC")
+    scheduled_at.in_time_zone(tz)
+  end
+
   def countdown_seconds
     return 0 if delivered?
-    [ (deliver_at - Time.current).to_i, 0 ].max
+    [ (scheduled_at - Time.current).to_i, 0 ].max
   end
 
   private
 
-  def deliver_at_must_be_in_future
-    if deliver_at.present? && deliver_at <= Time.current
-      errors.add(:deliver_at, "must be in the future")
+  def scheduled_at_must_be_in_future
+    if scheduled_at.present? && scheduled_at <= Time.current
+      errors.add(:scheduled_at, "must be in the future")
+      errors.add(:deliver_at, "must be in the future") if errors[:deliver_at].empty?
+    end
+  end
+
+  def valid_iana_timezone
+    return if timezone.blank?
+    unless Time.find_zone(timezone)
+      errors.add(:timezone, "is not a valid IANA timezone")
     end
   end
 end

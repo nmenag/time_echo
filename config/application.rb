@@ -10,13 +10,10 @@ module TimeEcho
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 8.1
+    config.time_zone = "America/Bogota"
     config.active_job.queue_adapter = :good_job
     config.good_job.enable_cron = true
     config.good_job.cron = {
-      deliver_pending_letters: {
-        cron: "* * * * *",
-        class: "DeliverPendingLettersJob"
-      },
       cleanup_expired_tokens: {
         cron: "0 * * * *",
         class: "CleanupExpiredTokensJob"

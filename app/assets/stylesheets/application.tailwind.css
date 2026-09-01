@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&display=swap");
 @import "tailwindcss";
 
 @source "../../views/**/*.html.erb";
@@ -6,23 +6,27 @@
 @source "../../javascript/**/*.js";
 
 @theme {
-  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  --font-serif: 'Instrument Serif', Georgia, Cambria, "Times New Roman", Times, serif;
-  --font-serif-body: 'EB Garamond', Georgia, Cambria, "Times New Roman", Times, serif;
-  --font-handwritten: 'Caveat', cursive;
+  --font-sans:
+    "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
+    Arial, sans-serif;
+  --font-serif:
+    "Instrument Serif", Georgia, Cambria, "Times New Roman", Times, serif;
+  --font-serif-body:
+    "EB Garamond", Georgia, Cambria, "Times New Roman", Times, serif;
+  --font-handwritten: "Caveat", cursive;
 
   /* Semantic easing tokens */
   --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
   --ease-out-quint: cubic-bezier(0.22, 1, 0.36, 1);
-  --ease-out-expo:  cubic-bezier(0.16, 1, 0.3,  1);
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
 
   /* Semantic z-index scale */
-  --z-dropdown:       100;
-  --z-sticky:         200;
+  --z-dropdown: 100;
+  --z-sticky: 200;
   --z-modal-backdrop: 300;
-  --z-modal:          400;
-  --z-toast:          500;
-  --z-tooltip:        600;
+  --z-modal: 400;
+  --z-toast: 500;
+  --z-tooltip: 600;
 
   /* Brand color tokens */
   --color-brand: oklch(40% 0.22 290);
@@ -38,32 +42,32 @@
   default: true;
 
   /* Color palette — OKLCH, tinted toward brand violet (hue 290) */
-  --color-primary:          oklch(24% 0.02 290);
-  --color-primary-content:  oklch(97% 0.005 290);
-  --color-secondary:        oklch(93% 0.03 90);
+  --color-primary: oklch(24% 0.02 290);
+  --color-primary-content: oklch(97% 0.005 290);
+  --color-secondary: oklch(93% 0.03 90);
   --color-secondary-content: oklch(24% 0.02 290);
-  --color-accent:           oklch(88% 0.06 90);
-  --color-accent-content:   oklch(24% 0.02 290);
-  --color-neutral:          oklch(15% 0.02 290);
-  --color-neutral-content:  oklch(97% 0.005 290);
-  --color-base-100:         oklch(97.5% 0.008 290);
-  --color-base-200:         oklch(94% 0.012 290);
-  --color-base-300:         oklch(88% 0.018 290);
-  --color-base-content:     oklch(22% 0.025 290);
-  --color-success:          oklch(66% 0.12 145);
-  --color-success-content:  oklch(97% 0 0);
-  --color-error:            oklch(60% 0.12 20);
-  --color-error-content:    oklch(97% 0 0);
-  --color-warning:          oklch(72% 0.14 60);
-  --color-warning-content:  oklch(15% 0 0);
-  --color-info:             oklch(60% 0.14 230);
+  --color-accent: oklch(88% 0.06 90);
+  --color-accent-content: oklch(24% 0.02 290);
+  --color-neutral: oklch(15% 0.02 290);
+  --color-neutral-content: oklch(97% 0.005 290);
+  --color-base-100: oklch(97.5% 0.008 290);
+  --color-base-200: oklch(94% 0.012 290);
+  --color-base-300: oklch(88% 0.018 290);
+  --color-base-content: oklch(22% 0.025 290);
+  --color-success: oklch(66% 0.12 145);
+  --color-success-content: oklch(97% 0 0);
+  --color-error: oklch(60% 0.12 20);
+  --color-error-content: oklch(97% 0 0);
+  --color-warning: oklch(72% 0.14 60);
+  --color-warning-content: oklch(15% 0 0);
+  --color-info: oklch(60% 0.14 230);
 
   /* Normalized radii */
-  --rounded-box:   0.75rem;
-  --rounded-btn:   0.5rem;
+  --rounded-box: 0.75rem;
+  --rounded-btn: 0.5rem;
   --rounded-badge: 9999px;
 
-  --animation-btn:   0.15s;
+  --animation-btn: 0.15s;
   --animation-input: 0.2s;
 }
 
@@ -71,28 +75,28 @@
 @plugin "daisyui/theme" {
   name: "timeecho-dark";
 
-  --color-primary:          oklch(86% 0.018 290);
-  --color-primary-content:  oklch(14% 0.02 290);
-  --color-secondary:        oklch(22% 0.04 290);
+  --color-primary: oklch(86% 0.018 290);
+  --color-primary-content: oklch(14% 0.02 290);
+  --color-secondary: oklch(22% 0.04 290);
   --color-secondary-content: oklch(86% 0.018 290);
-  --color-accent:           oklch(75% 0.10 80);
-  --color-accent-content:   oklch(14% 0.02 290);
-  --color-neutral:          oklch(10% 0.02 290);
-  --color-neutral-content:  oklch(86% 0.018 290);
-  --color-base-100:         oklch(14% 0.025 290);
-  --color-base-200:         oklch(18% 0.025 290);
-  --color-base-300:         oklch(24% 0.025 290);
-  --color-base-content:     oklch(88% 0.015 290);
-  --color-success:          oklch(72% 0.14 145);
-  --color-success-content:  oklch(14% 0 0);
-  --color-error:            oklch(65% 0.14 20);
-  --color-error-content:    oklch(14% 0 0);
-  --color-warning:          oklch(78% 0.16 60);
-  --color-warning-content:  oklch(14% 0 0);
-  --color-info:             oklch(66% 0.16 230);
+  --color-accent: oklch(75% 0.1 80);
+  --color-accent-content: oklch(14% 0.02 290);
+  --color-neutral: oklch(10% 0.02 290);
+  --color-neutral-content: oklch(86% 0.018 290);
+  --color-base-100: oklch(14% 0.025 290);
+  --color-base-200: oklch(18% 0.025 290);
+  --color-base-300: oklch(24% 0.025 290);
+  --color-base-content: oklch(88% 0.015 290);
+  --color-success: oklch(72% 0.14 145);
+  --color-success-content: oklch(14% 0 0);
+  --color-error: oklch(65% 0.14 20);
+  --color-error-content: oklch(14% 0 0);
+  --color-warning: oklch(78% 0.16 60);
+  --color-warning-content: oklch(14% 0 0);
+  --color-info: oklch(66% 0.16 230);
 
-  --rounded-box:   0.75rem;
-  --rounded-btn:   0.5rem;
+  --rounded-box: 0.75rem;
+  --rounded-btn: 0.5rem;
   --rounded-badge: 9999px;
 }
 
@@ -106,16 +110,22 @@
   }
 
   /* Typographic defaults */
-  h1, h2, h3 {
+  h1,
+  h2,
+  h3 {
     text-wrap: balance;
     font-family: var(--font-serif);
     font-kerning: normal;
     letter-spacing: -0.02em;
   }
-  h4, h5, h6 {
+  h4,
+  h5,
+  h6 {
     text-wrap: balance;
   }
-  p, li, blockquote {
+  p,
+  li,
+  blockquote {
     text-wrap: pretty;
     max-width: 72ch;
   }
@@ -161,7 +171,10 @@
 
   /* Lined paper background for letter textarea */
   .lined-paper-canvas {
-    background-image: linear-gradient(oklch(40% 0.22 290 / 6%) 1px, transparent 1px);
+    background-image: linear-gradient(
+      oklch(40% 0.22 290 / 6%) 1px,
+      transparent 1px
+    );
     background-size: 100% 2.25rem;
     background-attachment: local;
     border-color: oklch(40% 0.22 290 / 10%);
@@ -183,7 +196,9 @@
   /* Theme card selector (settings page) */
   .theme-radio-card {
     cursor: pointer;
-    transition: transform 0.2s var(--ease-out-quart), border-color 0.15s ease;
+    transition:
+      transform 0.2s var(--ease-out-quart),
+      border-color 0.15s ease;
   }
   .theme-radio-card:hover {
     transform: translateY(-2px);
@@ -198,11 +213,16 @@
     @apply transition-all duration-300 hover:-translate-y-0.5 hover:border-base-300;
   }
 
-
   /* Fade-in entrance — entrance only, not decorative */
   @keyframes fade-in {
-    from { opacity: 0; transform: translateY(4px); }
-    to   { opacity: 1; transform: translateY(0); }
+    from {
+      opacity: 0;
+      transform: translateY(4px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
   .animate-fade-in {
     animation: fade-in 300ms var(--ease-out-quart) both;
@@ -210,20 +230,33 @@
 
   /* Pulse glow — state indicator only, not decorative bounce */
   @keyframes pulse-glow {
-    0%, 100% { opacity: 1; }
-    50%       { opacity: 0.6; }
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.6;
+    }
   }
   .animate-pulse-glow {
     animation: pulse-glow 2s ease-in-out infinite;
+  }
+
+  /* Fix DaisyUI modal container overlay when not open */
+  dialog.modal:not([open]):not(.modal-open) {
+    display: none !important;
+    pointer-events: none !important;
   }
 }
 
 /* ─── Reduced motion — global override ──────────────────────── */
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
-    animation-duration:        0.01ms !important;
-    animation-iteration-count: 1      !important;
-    transition-duration:       0.01ms !important;
-    scroll-behavior:           auto   !important;
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }

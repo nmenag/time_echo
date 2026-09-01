@@ -1,20 +1,32 @@
 class LetterDecorator < ApplicationDecorator
+  def local_scheduled_at
+    return nil unless scheduled_at
+    tz = Time.find_zone(timezone) || Time.find_zone("UTC")
+    scheduled_at.in_time_zone(tz)
+  end
+
   def formatted_created_at
-    I18n.l(created_at.to_date, format: :long)
+    tz = Time.find_zone(timezone) || Time.find_zone("UTC")
+    I18n.l(created_at.in_time_zone(tz).to_date, format: :long)
   end
 
   def formatted_delivered_at
     return nil unless delivered_at
-    I18n.l(delivered_at.to_date, format: :long)
+    tz = Time.find_zone(timezone) || Time.find_zone("UTC")
+    I18n.l(delivered_at.in_time_zone(tz).to_date, format: :long)
   end
 
   def formatted_deliver_at
-    return nil unless deliver_at
-    I18n.l(deliver_at.to_date, format: :long)
+    return nil unless local_scheduled_at
+    I18n.l(local_scheduled_at.to_date, format: :long)
   end
+  alias_method :formatted_scheduled_at, :formatted_deliver_at
 
   def days_left
-    (deliver_at.to_date - Date.current).to_i
+    return 0 unless local_scheduled_at
+    tz = Time.find_zone(timezone) || Time.find_zone("UTC")
+    current_local_date = Time.current.in_time_zone(tz).to_date
+    (local_scheduled_at.to_date - current_local_date).to_i
   end
 
   def days_left_text
@@ -23,7 +35,7 @@ class LetterDecorator < ApplicationDecorator
   end
 
   def status_badge
-    if pending?
+    if pending? || queued?
       "#{I18n.t('letters.capsule_in_transit_badge')} ⏳"
     else
       "#{I18n.t('letters.capsule_unlocked_badge')} ✨"

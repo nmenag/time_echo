@@ -2,8 +2,24 @@ module Letters
   class DeliverLetterJob < ApplicationJob
     queue_as :mailers
 
-    retry_on Net::OpenTimeout, Net::ReadTimeout, Timeout::Error,
-             wait: :polynomially_longer, attempts: 5
+    TRANSIENT_ERRORS = [
+      Net::OpenTimeout,
+      Net::ReadTimeout,
+      Timeout::Error,
+      Errno::ECONNRESET,
+      Errno::ECONNREFUSED,
+      Errno::ETIMEDOUT,
+      SocketError
+    ].freeze
+
+    retry_on(*TRANSIENT_ERRORS, wait: :polynomially_longer, attempts: 5) do |job, error|
+      letter_id = job.arguments.first
+      Letter.find_by(id: letter_id)&.update(status: "failed")
+      Analytics::TrackEventService.call("delivery_failed", {
+        letter_id: letter_id,
+        error: "Exhausted retries (#{error.class}): #{error.message}"
+      })
+    end
 
     discard_on ActiveJob::DeserializationError do |job, error|
       Rails.logger.error("#{job.class} discarded — letter record missing: #{error.message}")
@@ -14,7 +30,9 @@ module Letters
       return if letter.delivered?
 
       Letters::DeliverService.call(letter)
-    rescue Net::OpenTimeout, Net::ReadTimeout, Timeout::Error
+    rescue ActiveRecord::RecordNotFound
+      Rails.logger.warn("DeliverLetterJob skipped — Letter ##{letter_id} not found")
+    rescue *TRANSIENT_ERRORS
       raise
     rescue => e
       Letter.find_by(id: letter_id)&.update(status: "failed")
