@@ -6,39 +6,24 @@ on:
 
 jobs:
   size:
-    name: Check PR size
+    name: Label PR size
     runs-on: ubuntu-latest
-
     permissions:
-      pull-requests: read
+      pull-requests: write
 
     steps:
-      - name: Check PR size
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          PR_NUMBER: ${{ github.event.pull_request.number }}
-          REPOSITORY: ${{ github.repository }}
-        run: |
-          TOTAL=$(
-            gh api "repos/$REPOSITORY/pulls/$PR_NUMBER/files" \
-              --paginate \
-              --jq '
-                [
-                  .[]
-                  | select(.filename | startswith("test/") | not)
-                  | (.additions + .deletions)
-                ]
-                | add // 0
-              '
-          )
-
-          echo "Total changed lines excluding test/: $TOTAL"
-          echo "Maximum allowed: 500"
-
-          if [ "$TOTAL" -gt 500 ]; then
-            echo "❌ PR is too large: $TOTAL changed lines."
-            echo "Maximum allowed is 500 lines (test/ is excluded)."
-            exit 1
-          fi
-
-          echo "✅ PR size is within the 500-line limit."
+      - name: Label PR size
+        uses: codelytv/pr-size-labeler@v1
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          xs_label: 'size/XS'
+          xs_max_size: 10
+          s_label: 'size/S'
+          s_max_size: 50
+          m_label: 'size/M'
+          m_max_size: 250
+          l_label: 'size/L'
+          l_max_size: 500
+          xl_label: 'size/XL'
+          fail_if_xl: true
+          ignored_files: 'test/**'

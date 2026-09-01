@@ -61,4 +61,10 @@ Views must remain lightweight and declarative.
 
 ## 🔀 9. Pull Request Formatting Rule
 * **Template Standard**: When the user requests a "pull request", AI agents must structure the pull request description strictly adhering to the sections in `.github/pull_request_template.md`.
+* **PR Size Labeling**: AI agents must calculate the total changed lines (additions + deletions, excluding `test/`) and check the appropriate size label:
+  - `size/XS`: <10 lines
+  - `size/S`: 10–49 lines
+  - `size/M`: 50–249 lines
+  - `size/L`: 250–499 lines
+  - `size/XL`: 500+ lines
 * **Direct Output Only**: AI agents must return the formatted pull request markdown directly in the chat response inside a single markdown code block for easy copying, without creating temporary markdown files (such as `.pr_body.md`).

@@ -21,6 +21,17 @@
 - [ ] Yes (Explain: )
 - [ ] No
 
+## Size Label
+
+<!-- PR size based on non-test lines changed -->
+<!-- XS (<10) | S (10-49) | M (50-249) | L (250-499) | XL (500+) -->
+
+- [ ] `size/XS`
+- [ ] `size/S`
+- [ ] `size/M`
+- [ ] `size/L`
+- [ ] `size/XL`
+
 ## Commits
 
 <!-- List all commits contained in this branch. -->
