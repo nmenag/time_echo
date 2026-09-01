@@ -6,17 +6,18 @@ module Letters
 
     def call
       letters = PendingLettersQuery.call.to_a
-      Rails.logger.info("Queuing #{letters.size} pending letters for delivery")
+      return 0 if letters.empty?
 
-      queued = 0
-      letters.each do |letter|
-        letter.update!(status: "queued", queued_at: Time.current)
-        Letters::DeliverLetterJob.perform_later(letter.id)
-        queued += 1
-      end
+      letter_ids = letters.map(&:id)
+      Rails.logger.info("Queuing #{letter_ids.size} pending letters for delivery")
 
-      Rails.logger.info("Delivery dispatch complete queued=#{queued}")
-      queued
+      Letter.where(id: letter_ids).update_all(status: "queued", queued_at: Time.current)
+
+      jobs = letter_ids.map { |id| Letters::DeliverLetterJob.new(id) }
+      ActiveJob.perform_all_later(jobs)
+
+      Rails.logger.info("Delivery dispatch complete queued=#{letter_ids.size}")
+      letter_ids.size
     end
   end
 end

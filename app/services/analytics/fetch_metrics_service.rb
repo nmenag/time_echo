@@ -17,12 +17,19 @@ module Analytics
       letter_stats = letters.unscope(:order).select(
         "COUNT(*) as total",
         "COUNT(CASE WHEN status = 'delivered' THEN 1 END) as delivered",
-        "COUNT(CASE WHEN status = 'pending' THEN 1 END) as pending"
+        "COUNT(CASE WHEN status = 'pending' THEN 1 END) as pending",
+        "AVG(CASE WHEN reveal_happiness IS NOT NULL THEN reveal_happiness END) as avg_reveal_happiness",
+        "AVG(CASE WHEN reveal_anxiety IS NOT NULL THEN reveal_anxiety END) as avg_reveal_anxiety",
+        "AVG(CASE WHEN reveal_motivation IS NOT NULL THEN reveal_motivation END) as avg_reveal_motivation"
       ).take
 
       total_letters = letter_stats&.total.to_i
       delivered_letters = letter_stats&.delivered.to_i
       scheduled_letters = letter_stats&.pending.to_i
+
+      avg_reveal_happiness = letter_stats&.avg_reveal_happiness&.to_f&.round(1) || 0
+      avg_reveal_anxiety = letter_stats&.avg_reveal_anxiety&.to_f&.round(1) || 0
+      avg_reveal_motivation = letter_stats&.avg_reveal_motivation&.to_f&.round(1) || 0
 
       if letter_ids.any?
         pred_stats = Prediction.where(letter_id: letter_ids).select(
@@ -56,16 +63,6 @@ module Analytics
         avg_initial_anxiety = 0
         avg_initial_motivation = 0
       end
-
-      revealed_letters = letters.unscope(:order).where.not(reveal_happiness: nil).select(
-        "AVG(reveal_happiness) as happiness",
-        "AVG(reveal_anxiety) as anxiety",
-        "AVG(reveal_motivation) as motivation"
-      ).take
-
-      avg_reveal_happiness = revealed_letters&.happiness&.to_f&.round(1) || 0
-      avg_reveal_anxiety = revealed_letters&.anxiety&.to_f&.round(1) || 0
-      avg_reveal_motivation = revealed_letters&.motivation&.to_f&.round(1) || 0
 
       if letter_ids.any?
         recent_events = AnalyticsEvent.where("metadata->>'email' = ?", @email)
