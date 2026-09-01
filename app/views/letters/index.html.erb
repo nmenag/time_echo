@@ -5,16 +5,19 @@
         <h1 class="font-serif text-3xl font-normal text-base-content tracking-tight"><%= t('navigation.timeline') %></h1>
         <p class="text-sm text-base-content/60"><%= t('timeline.subtitle') %></p>
       </div>
-<a href="<%= new_letter_path %>" class="btn bg-primary text-primary-content hover:bg-primary/95 rounded-2xl py-3 px-6 text-sm font-bold border-none cursor-pointer transition-all hover:scale-[1.02] active:scale-[0.98] shadow-sm shrink-0">
+      <div class="flex gap-3 shrink-0 items-center">
+        <a href="<%= new_letter_path %>" class="btn bg-primary text-primary-content hover:bg-primary/95 rounded-2xl py-3 px-6 text-sm font-bold border-none cursor-pointer transition-all hover:scale-[1.02] active:scale-[0.98] shadow-sm shrink-0">
           ✏️ <%= t('letters.write_letter') %>
         </a>
+      </div>
     </div>
 
     <% if @letters.any? %>
       <% # Elegant Vertical Line %>
       <div class="relative border-l-2 border-primary/10 pl-8 ml-4 sm:ml-6 space-y-10 select-none">
         <% @letters.order(deliver_at: :desc).each do |letter| %>
-          <div class="relative group">
+          <% letter = LetterDecorator.new(letter) %>
+            <div class="relative group">
             <% if letter.delivered? %>
               <% if letter.reveal_happiness.nil? %>
                 <div class="absolute -left-[41px] sm:-left-[43px] top-2 w-5 h-5 bg-warning border-4 border-base-100 rounded-full shadow-md animate-pulse"></div>
@@ -36,7 +39,7 @@
               </div>
 
               <h3 class="font-serif text-xl font-normal text-base-content">
-                <%= letter.title %>
+                <%= letter.display_title %>
                 <span class="text-xs font-normal text-base-content/40 block sm:inline sm:ml-2 font-sans">
                   <% if letter.delivered? %>
                      (<%= t('letters.delivered_on') %> <%= I18n.l(letter.delivered_at.to_date, format: :long) %>)
@@ -114,7 +117,7 @@
         <h1 class="font-serif text-3xl font-normal text-base-content tracking-tight"><%= t('letters.my_letters_title') %></h1>
         <p class="text-sm text-base-content/60"><%= t('letters.my_letters_subtitle') %></p>
       </div>
-      <div class="flex gap-3 shrink-0">
+      <div class="flex gap-3 shrink-0 items-center">
         <a href="<%= dashboard_path(timeline: true) %>" class="btn btn-outline border-base-300 text-base-content hover:bg-base-200/50 rounded-2xl text-xs font-bold uppercase tracking-wider px-5 min-h-[44px]">
           📅 <%= t('letters.btn_view_timeline') %>
         </a>
@@ -147,14 +150,15 @@
     <% if @letters.any? %>
       <div class="space-y-6">
         <% @letters.each do |letter| %>
-          <div class="bg-base-200/30 border border-base-200 rounded-3xl p-6 sm:p-8 shadow-2xs transition-all duration-300 hover:-translate-y-0.5 hover:border-base-300 space-y-4">
+          <% letter = LetterDecorator.new(letter) %>
+            <div class="bg-base-200/30 border border-base-200 rounded-3xl p-6 sm:p-8 shadow-2xs transition-all duration-300 hover:-translate-y-0.5 hover:border-base-300 space-y-4">
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-base-200 pb-3">
               <div class="space-y-1">
                 <span class="text-[10px] font-bold uppercase tracking-wider text-primary block">
                   <%= letter.delivered? ? (letter.reveal_happiness.nil? ? t('letters.pending_revelation') : t('letters.revealed_and_compared')) : t('letters.in_transit_to_future') %>
                 </span>
                 <h3 class="font-serif text-xl font-normal text-base-content">
-                  <%= letter.title %>
+                  <%= letter.display_title %>
                   <span class="text-xs font-normal text-base-content/40 ml-1 font-sans">
                     <% if letter.delivered? %>
                      (<%= t('letters.delivered_on') %> <%= I18n.l(letter.delivered_at.to_date, format: :long) %>)

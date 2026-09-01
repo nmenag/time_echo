@@ -36,13 +36,21 @@
         <!-- Sidebar Navigation (Desktop only, sticky) -->
         <aside class="hidden md:flex w-72 h-screen sticky top-0 bg-base-200/50 border-r border-base-200 p-8 flex-col justify-between shrink-0 font-sans">
           <div class="space-y-10">
-            <!-- Brand Logo / Sparkle -->
-            <div class="space-y-1.5">
-              <a href="<%= root_path %>" class="flex items-center gap-2 text-2xl font-serif italic text-primary tracking-tight font-normal group">
-                <span class="text-brand transition-transform group-hover:rotate-12 duration-300">✨</span>
-                <%= t('brand') %>
-              </a>
-            </div>
+          <!-- Brand Logo / Sparkle -->
+          <div class="flex items-center justify-between">
+            <a href="<%= root_path %>" class="flex items-center gap-2 text-2xl font-serif italic text-primary tracking-tight font-normal group">
+              <span class="text-brand transition-transform group-hover:rotate-12 duration-300">✨</span>
+              <%= t('brand') %>
+            </a>
+
+            <%= button_to locales_path(locale: toggle_locale), method: :post, class: "flex items-center gap-1.5 text-base-content/60 hover:text-brand transition-colors cursor-pointer bg-transparent border-none p-0", data: { turbo: "false" } do %>
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12a9 9 0 1 0 18 0 9 9 0 0 0-18 0z" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12h18M12 3v18" />
+              </svg>
+              <span class="text-xs font-bold"><%= I18n.locale == :en ? "EN" : "ES" %></span>
+            <% end %>
+          </div>
 
             <!-- Navigation Links -->
             <nav class="space-y-2">

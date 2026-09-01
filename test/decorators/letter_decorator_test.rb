@@ -77,4 +77,37 @@ class LetterDecoratorTest < ActiveSupport::TestCase
     assert_equal 1, decorated.size
     assert_kind_of PredictionDecorator, decorated.first
   end
+
+  test "display_title translates sentinel key to current locale" do
+    letter = Letter.new(
+      title: "your_letter",
+      email: "test@example.com",
+      content: "Content",
+      scheduled_at: 1.year.from_now,
+      timezone: "America/Bogota",
+      status: "pending"
+    )
+    letter.save!(validate: false)
+    decorator = LetterDecorator.new(letter)
+    assert_equal "Tu carta", decorator.display_title
+  end
+
+  test "display_title returns custom title as-is" do
+    decorator = LetterDecorator.new(@letter)
+    assert_equal "Test", decorator.display_title
+  end
+
+  test "display_title translates legacy English title" do
+    letter = Letter.new(
+      title: "Your letter",
+      email: "test@example.com",
+      content: "Content",
+      scheduled_at: 1.year.from_now,
+      timezone: "America/Bogota",
+      status: "pending"
+    )
+    letter.save!(validate: false)
+    decorator = LetterDecorator.new(letter)
+    assert_equal "Tu carta", decorator.display_title
+  end
 end
