@@ -56,3 +56,9 @@ Views must remain lightweight and declarative.
 ## 🛠️ 7. Dev Workflow & Tailwind CLI Watcher
 * **Watcher Setting**: When starting Tailwind watching, always use the `--watch=always` flag in the CLI script.
 * **Why**: This prevents Foreman (`bin/dev`) from silently shutting down the background compilation process when stdin is closed.
+
+---
+
+## 🔀 9. Pull Request Formatting Rule
+* **Template Standard**: When the user requests a "pull request", AI agents must structure the pull request description strictly adhering to the sections in `.github/pull_request_template.md`.
+* **Direct Output Only**: AI agents must return the formatted pull request markdown directly in the chat response inside a single markdown code block for easy copying, without creating temporary markdown files (such as `.pr_body.md`).
