@@ -112,4 +112,48 @@ class Letters::DeliverLetterJobTest < ActiveJob::TestCase
   ensure
     LetterMailer.define_singleton_method(:future_letter, original.to_proc)
   end
+
+  test "skips execution gracefully when letter record is not found" do
+    assert_nothing_raised do
+      assert_emails 0 do
+        Letters::DeliverLetterJob.perform_now(-1)
+      end
+    end
+  end
+
+  test "discards job when ActiveJob::DeserializationError is raised" do
+    letter = build_queued_letter
+    original = Letter.method(:find)
+    Letter.define_singleton_method(:find) do |*|
+      begin
+        raise StandardError, "missing record"
+      rescue StandardError
+        raise ActiveJob::DeserializationError
+      end
+    end
+
+    assert_nothing_raised do
+      Letters::DeliverLetterJob.perform_now(letter.id)
+    end
+  ensure
+    Letter.define_singleton_method(:find, original.to_proc)
+  end
+
+  test "marks letter failed and tracks event when retries are exhausted on transient error" do
+    letter = build_queued_letter
+    job = Letters::DeliverLetterJob.new(letter.id)
+    job.exception_executions[Letters::DeliverLetterJob::TRANSIENT_ERRORS.to_s] = 5
+
+    original = LetterMailer.method(:future_letter)
+    LetterMailer.define_singleton_method(:future_letter) do |*|
+      raise Net::OpenTimeout, "execution timed out"
+    end
+
+    job.perform_now
+
+    letter.reload
+    assert_equal "failed", letter.status
+  ensure
+    LetterMailer.define_singleton_method(:future_letter, original.to_proc)
+  end
 end

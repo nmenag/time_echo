@@ -18,14 +18,15 @@ class LetterSuccessesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should render success page in English when locale is en" do
-    I18n.locale = :en
-    post letters_path, params: { letter_form: { title: "Test", email: "test@example.com", content: "Hello", deliver_at: 1.year.from_now.to_s } }
-    assert_redirected_to success_letters_path
-    follow_redirect!
-    assert_response :success
-    refute_includes response.body, "&amp;larr;"
-    assert_select "span", text: /Seal:/
-    assert_select "span", text: /Scheduled opening/
-    assert_select "span", text: /August/
+    I18n.with_locale(:en) do
+      post letters_path, params: { letter_form: { title: "Test", email: "test@example.com", content: "Hello", deliver_at: 1.year.from_now.to_s } }
+      assert_redirected_to success_letters_path
+      follow_redirect!
+      assert_response :success
+      refute_includes response.body, "&amp;larr;"
+      assert_select "span", text: /Seal:/
+      assert_select "span", text: /Scheduled opening/
+      assert_select "span", text: /#{1.year.from_now.strftime("%B")}/
+    end
   end
 end
