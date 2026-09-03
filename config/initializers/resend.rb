@@ -3,10 +3,9 @@
 
 
   begin
-    resend_api_key = Rails.application.credentials.dig(:resend_api_key)
-
+    resend_api_key = ENV["RESEND_API_KEY"].presence || Rails.application.credentials.dig(:resend_api_key)
   rescue ActiveSupport::EncryptedFile::MissingKeyError
-    nil
+    resend_api_key = ENV["RESEND_API_KEY"].presence
   end
 
 if resend_api_key.present?

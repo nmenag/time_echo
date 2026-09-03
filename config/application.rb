@@ -17,6 +17,10 @@ module TimeEcho
       cleanup_expired_tokens: {
         cron: "0 * * * *",
         class: "CleanupExpiredTokensJob"
+      },
+      dispatch_pending_letters: {
+        cron: "0 0 * * *",
+        class: "Letters::DispatchPendingJob"
       }
     }
 
