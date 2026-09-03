@@ -17,4 +17,5 @@ test:
 
 production:
   <<: *default
-  database: time_echo_production
+  url: <%= ENV["DATABASE_URL"] %>
+  prepared_statements: <%= ENV.fetch("DATABASE_PREPARED_STATEMENTS", "true") %>
