@@ -100,6 +100,66 @@ class LetterFormTest < ActiveSupport::TestCase
     )
     assert_not form.valid?
     assert form.errors[:timezone].any?
+
+    # 6. Unparseable string date format
+    form = LetterForm.new(
+      title: "Title",
+      email: "user@example.com",
+      content: "Content",
+      deliver_at: "not-a-valid-date-string"
+    )
+    assert_not form.valid?
+    assert_includes form.errors[:scheduled_at], "is invalid"
+
+    # 7. Blank timezone returns early in valid_iana_timezone
+    form = LetterForm.new(
+      title: "Title",
+      email: "user@example.com",
+      content: "Content",
+      deliver_at: 1.year.from_now,
+      timezone: ""
+    )
+    assert_not form.valid?
+    assert form.errors[:timezone].any?
+  end
+
+  test "parsed_utc_scheduled_at handles Date, Time, and non-parseable types" do
+    # Date object
+    form_date = LetterForm.new(deliver_at: Date.new(2028, 6, 15), timezone: "America/Bogota")
+    assert_equal Time.find_zone("America/Bogota").local(2028, 6, 15).utc, form_date.parsed_utc_scheduled_at
+
+    # Standard Time object
+    time_now = Time.utc(2030, 1, 1, 10, 0, 0)
+    form_time = LetterForm.new(deliver_at: time_now)
+    assert_equal time_now, form_time.parsed_utc_scheduled_at
+
+    # Fallback to UTC when timezone is unknown
+    form_unknown_tz = LetterForm.new(deliver_at: "2030-01-01 12:00:00", timezone: "Unknown/Zone")
+    assert_equal Time.find_zone("UTC").parse("2030-01-01 12:00:00").utc, form_unknown_tz.parsed_utc_scheduled_at
+
+    # Unrecognized type returns nil
+    form_int = LetterForm.new(deliver_at: 12345)
+    assert_nil form_int.parsed_utc_scheduled_at
+  end
+
+  test "saving letter without predictions skips predictions and predictions_completed event" do
+    form = LetterForm.new(
+      title: "No predictions",
+      email: "nopredictions@example.com",
+      content: "Just a plain note to future me.",
+      deliver_at: 1.year.from_now,
+      prediction_city: "",
+      prediction_salary: "",
+      prediction_relationship: "",
+      prediction_career: "",
+      prediction_achievement: "",
+      prediction_happiness: ""
+    )
+
+    assert form.valid?
+    assert_difference -> { Letter.count } => 1, -> { Prediction.count } => 0 do
+      assert form.save
+    end
   end
 
   test "handles ActiveRecord::RecordInvalid on save" do

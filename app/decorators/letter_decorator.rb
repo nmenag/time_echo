@@ -1,4 +1,12 @@
 class LetterDecorator < ApplicationDecorator
+  def display_title
+    if title == "your_letter" || title == I18n.t("landing.your_letter", locale: :en) || title == I18n.t("landing.your_letter", locale: :es)
+      I18n.t("landing.your_letter")
+    else
+      title
+    end
+  end
+
   def local_scheduled_at
     return nil unless scheduled_at
     tz = Time.find_zone(timezone) || Time.find_zone("UTC")

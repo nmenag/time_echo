@@ -96,4 +96,4 @@ The following tasks have been completed:
 - Added `Letters::DeliverLetterJob` worker with polynomial backoff retries (`retry_on`) for transient connection errors and status transition tracking (`pending` ➔ `queued` ➔ `delivered`/`failed`).
 - Converted letter dispatch architecture from every-minute GoodJob cron to daily `rake letters:deliver` task backed by `Letters::DispatchPendingService`.
 - Consolidated schema attributes into `db/migrate/20260520000001_create_letters.rb`.
-- All 132 tests passing with 0 failures, 0 errors, and 98.98% line coverage.
+- All 140 tests passing with 0 failures, 0 errors, and 100.00% line coverage (789/789 lines).
