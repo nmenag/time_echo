@@ -23,3 +23,5 @@ services:
         value: "0"
       - key: RAILS_MAX_THREADS
         value: "3"
+      - key: RAILS_SERVE_STATIC_FILES
+        value: "true"
