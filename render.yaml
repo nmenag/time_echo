@@ -3,6 +3,8 @@ services:
     name: time-echo
     runtime: ruby
     plan: free
+    branch: main
+    autoDeploy: true
     buildCommand: "./bin/render-build.sh"
     startCommand: "bundle exec puma -C config/puma.rb"
     healthCheckPath: /up
@@ -17,5 +19,7 @@ services:
         sync: false
       - key: GOOD_JOB_EXECUTION_MODE
         value: async
+      - key: WEB_CONCURRENCY
+        value: "0"
       - key: RAILS_MAX_THREADS
-        value: 5
+        value: "3"
