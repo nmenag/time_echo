@@ -25,3 +25,5 @@ services:
         value: "3"
       - key: RAILS_SERVE_STATIC_FILES
         value: "true"
+      - key: GOOGLE_ANALYTICS_ID
+        sync: false

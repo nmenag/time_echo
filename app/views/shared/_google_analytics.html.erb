@@ -1,0 +1,21 @@
+<% if ENV["GOOGLE_ANALYTICS_ID"].present? %>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=<%= ENV["GOOGLE_ANALYTICS_ID"] %>" data-turbo-eval="false"></script>
+  <script data-turbo-eval="false">
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', '<%= ENV["GOOGLE_ANALYTICS_ID"] %>', {
+      send_page_view: false
+    });
+
+    document.addEventListener('turbo:load', function() {
+      if (typeof gtag === 'function') {
+        gtag('event', 'page_view', {
+          page_location: window.location.href,
+          page_path: window.location.pathname + window.location.search,
+          page_title: document.title
+        });
+      }
+    });
+  </script>
+<% end %>
