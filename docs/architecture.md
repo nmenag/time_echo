@@ -21,9 +21,10 @@ graph TD
         AC[AnalyticsController]
         LPC[LetterPredictionsController]
         LSC[LetterSuccessesController]
-        PLC[PublicLettersController]
         CEC[CheckEmailsController]
         SEC[Settings::EmailConfirmationsController]
+        LocC[LocalesController]
+        PC[PagesController]
     end
 
     subgraph Decorators [Decorator Layer]
@@ -43,19 +44,26 @@ graph TD
     subgraph Services [Service Layer]
         CS[Letters::CreateService]
         DS[Letters::DeliverService]
+        DPS[Letters::DispatchPendingService]
+        AS[Letters::AccessService]
+        UPS[Letters::UpdatePredictionsService]
         MLS[Auth::MagicLinkService]
         TES[Analytics::TrackEventService]
+        FMS[Analytics::FetchMetricsService]
+        REUS[Settings::RequestEmailUpdateService]
+        CEUS[Settings::ConfirmEmailUpdateService]
+        UPS2[Settings::UpdatePreferencesService]
+        DAS[Settings::DestroyAccountService]
     end
 
     subgraph Queries [Query Objects Layer]
         UTQ[UserTimelineQuery]
-        PLQ[PublicLettersQuery]
-        PLQ2[PendingLettersQuery]
+        PLQ[PendingLettersQuery]
     end
 
     subgraph Models [Active Record Models]
         Let[Letter]
-        Pref[UserPreferences]
+        Pref[UserPreference]
         Evt[AnalyticsEvent]
         Snap[EmotionalSnapshot]
         Pred[Prediction]
@@ -82,38 +90,44 @@ graph TD
 ### Key Structural Layers:
 
 1. **Model-View-Controller (MVC) & RESTful Controller Design**:
-   - **Controllers**: Extremely thin layers strictly focused on the seven standard RESTful actions (`index`, `show`, `new`, `create`, `update`, `destroy`). Any custom collection or member flows are extracted into dedicated, single-responsibility controllers (e.g., `LetterPredictionsController` to update reality states, `Settings::EmailConfirmationsController` to process confirmation links).
+   - **Controllers**: Extremely thin layers strictly focused on the seven standard RESTful actions (`index`, `show`, `new`, `create`, `update`, `destroy`). Any custom collection or member flows are extracted into dedicated, single-responsibility controllers (e.g., `LocalesController` for session-persisted locale selection, `LetterPredictionsController` to update reality states, `Settings::EmailConfirmationsController` to process confirmation links, `PagesController` for landing and static info pages).
    - **Views**: Rendered in English/Spanish (using Rails i18n localization). Powered by Tailwind CSS v4 and DaisyUI v5, using semantic component layout rules.
    - **Models**: Encapsulate basic relationships, validations, and scopes. Heavy business actions are offloaded to Services.
 
 2. **Decorator / Presenter Layer (`app/decorators/`)**:
    - Completely decouples visual presentation logic, custom date formatting, dynamic icons, status pills, and localized conditional class tags from views and database models.
-   - **`LetterDecorator`**: Handles letters relative date strings, delivery states, and countdown days left metrics.
+   - **`LetterDecorator`**: Handles letters relative date strings, delivery states, countdown days left metrics, and localized title resolution.
    - **`PredictionDecorator`**: Manages prediction category labels, achievement victory badges, and status colors.
 
 3. **Form Objects Layer (`app/forms/`)**:
    - Encapsulate form validation and multi-model record synchronization.
-   - **`LetterForm`**: Collects and validates inputs for `Letter`, `EmotionalSnapshot`, and several potential `Prediction` fields in a single schema. It executes the creation inside a single ActiveRecord database transaction.
+   - **`LetterForm`**: Collects and validates inputs for `Letter`, `EmotionalSnapshot`, and several potential `Prediction` fields in a single schema. It executes the creation inside a single ActiveRecord database transaction with IANA timezone conversion.
    - **`MagicLinkForm`**: Validates the email submitted during login.
 
 4. **Service Objects Layer (`app/services/`)**:
-   - Encapsulate single-responsibility business operations.
+   - Encapsulate single-responsibility business operations across domain namespaces:
    - **`Letters::CreateService`**: Receives params, validates them via `LetterForm`, and persists the future capsule.
-   - **`Letters::DeliverService`**: Transition capsule status, sends the email via `LetterMailer`, tracks success/failure analytics, and rollback if errors arise.
+   - **`Letters::DeliverService`**: Transitions capsule status (`pending` -> `queued` -> `delivered`/`failed`), sends the email via `LetterMailer`, tracks success/failure analytics, and rolls back if errors arise.
+   - **`Letters::DispatchPendingService`**: Finds due pending capsules and enqueues deliver jobs into GoodJob.
+   - **`Letters::AccessService`**: Handles authorization access logic for private letter retrieval.
+   - **`Letters::UpdatePredictionsService`**: Updates reality reflections and match states for delivered predictions.
    - **`Auth::MagicLinkService`**: Generates, signs, sends, and authenticates cryptographically secure passwordless tokens.
    - **`Analytics::TrackEventService`**: Logs granular user actions to `analytics_events` for retrospection.
+   - **`Analytics::FetchMetricsService`**: Aggregates retrospective dashboard metrics (capsule counts, emotional baselines, prediction match ratios).
+   - **`Settings::RequestEmailUpdateService`**: Dispatches email address update confirmation magic links.
+   - **`Settings::ConfirmEmailUpdateService`**: Atomically updates user email address across preferences, letters, and events.
+   - **`Settings::UpdatePreferencesService`**: Updates user appearance mode, theme, reflection style, and notification preferences.
+   - **`Settings::DestroyAccountService`**: Atomically purges all user records ("Danger Zone" account deletion).
 
 5. **Query Objects Layer (`app/queries/`)**:
    - Isolate complex ActiveRecord operations from controllers and models to maintain clean separation of concerns.
    - **`UserTimelineQuery`**: Loads all capsules owned by a user, utilizing eager-loading (`includes(:predictions, :emotional_snapshot)`) to avoid $N+1$ query issues.
-   - **`PublicLettersQuery`**: Returns delivered, public letters sorted chronologically.
    - **`PendingLettersQuery`**: Finds letters ready for release, employing high-concurrency database row locking (`FOR UPDATE SKIP LOCKED`).
 
 6. **Policy Layer (`app/policies/`)**:
    - Decouples authorization rules.
    - **`LetterPolicy`**: Implements fine-grained access control rules:
-     - Anyone can read a letter if it is marked public and its release date has passed (`delivered`).
-     - Only the letter's owner (matching `email`) can view or modify private/pending letters.
+     - Letters are strictly private digital capsules locked to their creator (`user_email.present? && letter.email == user_email`).
 
 ---
 
@@ -181,22 +195,18 @@ erDiagram
     Letter {
         bigint id PK
         string email FK
-        string title
-        text content
+        string title "Active Record Encrypted"
+        text content "Active Record Encrypted"
         string status "pending/queued/delivered/failed"
-        datetime scheduled_at
+        datetime scheduled_at "UTC timestamp"
         string timezone "IANA timezone string"
+        string language "es/en locale"
         datetime queued_at
         datetime delivered_at
         datetime opened_at
-        boolean public
         integer reveal_happiness
         integer reveal_anxiety
         integer reveal_motivation
-        string recipient_email
-        string recipient_name
-        boolean recipient_delivery_permission
-        string relationship
         datetime created_at
         datetime updated_at
     }
@@ -247,6 +257,9 @@ erDiagram
     UserPreference ||--o{ SessionToken : "requests"
 ```
 
+> [!SECURITY]
+> **Active Record Encryption**: Letter titles (`encrypts :title`) and letter body content (`encrypts :content`) are encrypted at rest using Rails Active Record Encryption. Keys are configured via environment variables (`ACTIVE_RECORD_ENCRYPTION_PRIMARY_KEY`, `ACTIVE_RECORD_ENCRYPTION_DETERMINISTIC_KEY`, `ACTIVE_RECORD_ENCRYPTION_KEY_DERIVATION_SALT`).
+
 ---
 
 ## 🔄 4. Atomic Transactional Email Migrations & Data Wipeouts
@@ -280,9 +293,9 @@ flowchart TD
 
 ### Complete Account Deletion ("Danger Zone" Wipeout)
 
-If a user triggers "Eliminar mi baúl" in their settings, a direct SQLite/PostgreSQL transactional block triggers. This wipes out:
+If a user triggers "Eliminar mi baúl" in their settings, a direct PostgreSQL transactional block (`Settings::DestroyAccountService`) triggers. This wipes out:
 
-1. All foreign keys (`goals`, `predictions`, `emotional_snapshots`) matching the user's `Letter` IDs.
+1. All foreign keys (`predictions`, `emotional_snapshots`) matching the user's `Letter` IDs.
 2. The `Letter` records themselves.
 3. The `UserPreference` records.
 4. Historical `AnalyticsEvent` records matching the user's email inside metadata.
@@ -296,16 +309,19 @@ Rails 8 uses **GoodJob** as the database-backed Active Job queue adapter. TimeEc
 
 ```mermaid
 graph TD
-    subgraph Trigger [Scheduled Execution]
-        RakeTask[rake letters:deliver]
+    subgraph Schedulers [Cron & Manual Triggers]
+        CronDispatch["GoodJob Cron: 0 0 * * *"]
+        RakeTask["rake letters:deliver"]
+        CronClean["GoodJob Cron: 0 * * * *"]
     end
 
     subgraph Dispatcher [Service Layer]
+        DPJ[Letters::DispatchPendingJob]
         DS[Letters::DispatchPendingService]
     end
 
     subgraph GoodJob [Queue Manager]
-        Ready[GoodJob Executions - queue: mailers]
+        Ready["GoodJob Executions (default / mailers)"]
     end
 
     subgraph Workers [Worker Threads]
@@ -318,23 +334,29 @@ graph TD
         SMTP[LetterMailer / AuthMailer]
     end
 
-    RakeTask -->|Daily Execution| DS
+    CronDispatch -->|Daily Midnight Trigger| DPJ
+    DPJ -->|Invokes| DS
+    RakeTask -->|Manual / CLI Execution| DS
     DS -->|Finds Due & Sets queued| Ready
     Ready -->|Pulls Job| DelJob
     DelJob -->|Runs Worker| DelService
     DelService -->|Sends Capsule| SMTP
 
-    Cron[GoodJob Cron] -->|Every Hour| ClClean
-    ClClean -->|Purges DB| PG[(PostgreSQL)]
+    CronClean -->|Hourly Execution| ClClean
+    ClClean -->|Purges Stale Tokens| PG[(PostgreSQL)]
 ```
 
 ### Background System Components:
 
-1. **Daily Delivery Rake Task (`rake letters:deliver`)**:
-   - Triggers `Letters::DispatchPendingService` daily to query due pending capsules (`scheduled_at <= Time.current`), update status to `"queued"`, and enqueue `Letters::DeliverLetterJob` worker jobs into GoodJob.
-2. **Hourly Cron (`CleanupExpiredTokensJob`)**:
-   - Runs **every hour** via GoodJob cron to clean up expired magic-link sessions and spent tokens.
-3. **High-Concurrency Locking (`SKIP LOCKED`)**:
+1. **Daily Automated Dispatch Job (`Letters::DispatchPendingJob`)**:
+   - Runs **daily at midnight (`0 0 * * *`)** via GoodJob cron. Triggers `Letters::DispatchPendingService` to query due pending capsules (`scheduled_at <= Time.current`), update status to `"queued"`, and enqueue `Letters::DeliverLetterJob` worker jobs into GoodJob.
+2. **Manual/CLI Rake Task (`rake letters:deliver`)**:
+   - Provides a standalone CLI entry point that invokes `Letters::DispatchPendingService` directly, useful for on-demand execution or external scheduler triggers.
+3. **Resilient Delivery Worker (`Letters::DeliverLetterJob`)**:
+   - Processes individual letter deliveries via `Letters::DeliverService`. Configured with `retry_on` using polynomial backoff to handle transient network timeouts or third-party email API hiccups without data loss, updating status to `delivered` or `failed`.
+4. **Hourly Cron (`CleanupExpiredTokensJob`)**:
+   - Runs **every hour (`0 * * * *`)** via GoodJob cron to clean up expired magic-link sessions and spent tokens.
+5. **High-Concurrency Locking (`SKIP LOCKED`)**:
    - In `PendingLettersQuery`, letters due for unlock are queried with `.lock("FOR UPDATE SKIP LOCKED")`. This allows concurrent workers to process without duplicate mailing attempts or deadlocking the letters table.
 
 ---
@@ -381,30 +403,41 @@ config.i18n.default_locale = :en
 - **Default locale**: `:en` (English) serves as both the default UI language and the ultimate fallback for unsupported locales or missing translations.
 - **Fallbacks**: Enabled in `config/environments/production.rb` and `config/environments/test.rb` via `config.i18n.fallbacks = true`. When `fallbacks = true`, any missing key in a locale falls back to the `default_locale` rather than rendering the raw key name.
 
-### 8.2 Locale Detection (`set_locale`)
+### 8.2 Locale Resolution & Session Toggling (`set_locale`)
 
-Locale resolution is handled by the `set_locale` before_action in `ApplicationController`. The method is designed to **only override** the current locale when the browser explicitly requests a supported language — it never forcibly resets to the default, which allows tests and other pre-configured contexts to control the locale.
+Locale resolution is handled by the `set_locale` before_action in `ApplicationController`. It supports both explicit user selection (persisted across sessions via `LocalesController`) and automatic browser header detection:
 
 ```mermaid
 flowchart TD
-    A[Request received] --> B{HTTP_ACCEPT_LANGUAGE present?}
-    B -- No --> C[Locale unchanged, uses default]
-    B -- Yes --> D[Extract 2-letter browser locale]
-    D --> E{Locale in [:es, :en]?}
-    E -- Yes --> F[Set I18n.locale to browser locale]
-    E -- No --> G[Locale unchanged, uses default]
+    A[Request received] --> B{session[:locale] present & valid?}
+    B -- Yes --> C[Set I18n.locale to session locale]
+    B -- No --> D{HTTP_ACCEPT_LANGUAGE present?}
+    D -- No --> E[Locale unchanged, uses default]
+    D -- Yes --> F[Extract 2-letter browser locale]
+    F --> G{Locale in [:es, :en]?}
+    G -- Yes --> H[Set I18n.locale to browser locale]
+    G -- No --> E
 ```
 
-| Browser `Accept-Language` | Extracted | Supported? | Resulting Locale           |
-| ------------------------- | --------- | ---------- | -------------------------- |
-| `es`                      | `:es`     | Yes        | `es`                       |
-| `en-US,en;q=0.9`          | `:en`     | Yes        | `en`                       |
-| `fr-FR,fr;q=0.9`          | `:fr`     | No         | `:en` (default, unchanged) |
-| (none)                    | `nil`     | No         | `:en` (default, unchanged) |
+| Source | Input Value | Supported? | Resulting Locale |
+| ------ | ----------- | ---------- | ---------------- |
+| Session | `session[:locale] = "es"` | Yes | `:es` |
+| Session | `session[:locale] = "en"` | Yes | `:en` |
+| Browser Header | `HTTP_ACCEPT_LANGUAGE: "es-ES,es;q=0.9"` | Yes | `:es` |
+| Browser Header | `HTTP_ACCEPT_LANGUAGE: "en-US,en;q=0.9"` | Yes | `:en` |
+| Browser Header | `HTTP_ACCEPT_LANGUAGE: "fr-FR,fr;q=0.9"` | No | `:en` (default, unchanged) |
+| None | (no session, no header) | No | `:en` (default, unchanged) |
 
-### 8.3 Test Locale Strategy
+### 8.3 LocalesController & Navigation Toggle
 
-The test suite establishes `I18n.locale = :es` globally in `test/test_helper.rb` via a `setup` block on `ActiveSupport::TestCase`. Because test requests do not send an `Accept-Language` header, the `set_locale` before_action does not override this pre-set Spanish locale, ensuring all assertions match Spanish text expectations.
+Users can switch languages on the fly from the navigation bar. The toggle button uses the `toggle_locale` helper to submit to `LocalesController`:
+
+- `POST /locales?locale=es` / `POST /locales?locale=en`: Writes `params[:locale]` to `session[:locale]` and redirects back to the previous page.
+- `DELETE /locales/:id`: Clears `session[:locale]` to return to browser auto-detection.
+
+### 8.4 Test Locale Strategy
+
+The test suite establishes `I18n.locale = :es` globally in `test/test_helper.rb` via a `setup` block on `ActiveSupport::TestCase`. Because test requests do not send an `Accept-Language` header or a preset session locale by default, the `set_locale` before_action does not override this pre-set Spanish locale, ensuring all assertions match Spanish text expectations.
 
 ```ruby
 # test/test_helper.rb
@@ -413,15 +446,37 @@ class TestCase
 end
 ```
 
-The `ApplicationControllerTest` covers locale detection for both supported (`es`, `en`) and unsupported (`fr`) headers, as well as the no-header scenario.
+The `ApplicationControllerTest` and `LocalesControllerTest` cover session persistence, language toggling, and fallback behavior across supported (`es`, `en`) and unsupported (`fr`) headers.
 
-### 8.4 Decorator Integration
+### 8.5 Decorator Integration & Title Localization
 
-All locale-dependent formatting (dates, status badges, category labels, countdown strings) is encapsulated in decorators within `app/decorators/`. These decorators use `I18n.t()` and `I18n.l()` directly, ensuring zero hardcoded locale strings appear in ERB templates.
+All locale-dependent formatting (dates, status badges, category labels, countdown strings) is encapsulated in decorators within `app/decorators/`:
 
-- **LetterDecorator**: `formatted_created_at`, `formatted_delivered_at`, `days_left_text`, `status_badge`
-- **PredictionDecorator**: `category_label`, `result_badge`
+- **LetterDecorator**: `display_title` (translates default `"your_letter"` / localized title placeholders dynamically based on `I18n.locale`), `formatted_created_at`, `formatted_delivered_at`, `days_left_text`, `status_badge`.
+- **PredictionDecorator**: `category_label`, `result_badge`.
 
-### 8.5 View Text Policy
+### 8.6 View Text Policy
 
 All user-facing strings in ERB views must use `t()` calls — no hardcoded Spanish or English text is permitted. HTML comments in views should be in English for consistency.
+
+---
+
+## 🚀 9. Production Deployment Architectures
+
+TimeEcho supports two modern production deployment workflows designed for reliability and low resource overhead:
+
+### 9.1 Render Web Service (PaaS)
+
+Automated deployment configured through `render.yaml` and `bin/render-build.sh`:
+
+- **Build Pipeline**: Installs gems, installs npm packages, compiles Tailwind CSS (`npm run build:css`), precompiles assets (`assets:precompile`), and applies database migrations.
+- **Single-Mode Puma**: Optimized for entry-level container RAM (512MB) by enforcing `WEB_CONCURRENCY=0` and `RAILS_MAX_THREADS=3`.
+- **In-Process GoodJob**: Operates with `GOOD_JOB_EXECUTION_MODE=async`, allowing background delivery workers and cron schedules (`Letters::DispatchPendingJob`, `CleanupExpiredTokensJob`) to execute reliably inside the web process without incurring the cost of a standalone worker instance.
+
+### 9.2 Kamal Container Deployment (IaaS / Bare Metal)
+
+Turnkey container deployment configured in `config/deploy.yml`:
+
+- Leverages the multi-stage Docker build (`Dockerfile`) to create a minimal, hardened production image.
+- Supports rolling zero-downtime updates, asset volume management, and direct integration with managed PostgreSQL and Resend transactional email.
+

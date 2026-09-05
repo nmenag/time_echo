@@ -8,7 +8,8 @@ Built with **Ruby on Rails 8**, **Tailwind CSS v4 / DaisyUI v5**, and a PostgreS
 
 ## ✨ Features
 
-- **Future Letters (Digital Capsules)**: Write deeply private letters to your future self, scheduled for precise future delivery dates.
+- **Future Letters (Digital Capsules)**: Write deeply private letters to your future self, scheduled for precise future delivery dates with timezone-aware release scheduling.
+- **Active Record Encryption**: Protect sensitive letter titles and content at rest using Rails Active Record Encryption (`encrypts :title`, `encrypts :content`).
 - **Personal Evolution Tracker**:
   - **Emotional Snapshot**: Rate Happiness, Anxiety, and Motivation (1-10) when writing. TimeEcho calculates baseline shifts and traces emotional growth upon delivery.
   - **Predictions vs. Reality**: Predict future milestones (city, salary, relationships, career, achievements). Once the capsule unlocks, rate whether they matched and add retrospective reflections.
@@ -23,13 +24,13 @@ Built with **Ruby on Rails 8**, **Tailwind CSS v4 / DaisyUI v5**, and a PostgreS
 
 TimeEcho adopts a layered, highly decoupled design pattern that keeps models focused, controllers strictly RESTful, and templates thinned:
 
-1. **RESTful Controller Design**: All controllers are strictly focused on the seven standard RESTful actions (`index`, `show`, `new`, `create`, `update`, `destroy`). Non-RESTful custom actions are extracted into dedicated single-responsibility sub-resources (e.g. `LetterPredictionsController`, `Settings::EmailConfirmationsController`).
+1. **RESTful Controller Design**: All controllers are strictly focused on the seven standard RESTful actions (`index`, `show`, `new`, `create`, `update`, `destroy`). Non-RESTful custom actions are extracted into dedicated single-responsibility sub-resources (e.g. `LocalesController`, `LetterPredictionsController`, `Settings::EmailConfirmationsController`, `PagesController`).
 2. **Decorator / Presenter Pattern (`app/decorators/`)**: Removes all visual formatting, countdown calculations, and i18n label selectors from view templates. Built around a base `ApplicationDecorator` using Ruby's native `SimpleDelegator` standard library.
-3. **Form Objects (`app/forms/`)**: Enforce complex multi-model validation. `LetterForm` validates and saves `Letter`, `EmotionalSnapshot`, and several nested `Prediction` records within a single database transaction.
-4. **Service Objects (`app/services/`)**: Isolate single business actions (e.g. `Letters::DispatchPendingService`, `Letters::DeliverService`, `Auth::MagicLinkService`, `Analytics::TrackEventService`).
-5. **Query Objects (`app/queries/`)**: Decouple database querying. `UserTimelineQuery` uses eager-loading to avoid $N+1$ query overheads, and `PendingLettersQuery` runs highly concurrent row locks (`FOR UPDATE SKIP LOCKED`).
-6. **Policy Layer (`app/policies/`)**: Manages access controls (e.g. public letters are open to everyone, but pending/private letters are locked strictly to their creator).
-7. **Background Jobs & Rake Tasks (GoodJob)**: Standard Active Job queuing in Rails 8. Uses `rake letters:deliver` to dispatch pending capsules daily, and GoodJob cron to purge expired tokens hourly.
+3. **Form Objects (`app/forms/`)**: Enforce complex multi-model validation. `LetterForm` validates and saves `Letter`, `EmotionalSnapshot`, and several nested `Prediction` records within a single database transaction with IANA timezone conversion.
+4. **Service Objects (`app/services/`)**: Isolate single business actions across domain namespaces (`Letters::*`, `Auth::*`, `Analytics::*`, `Settings::*`).
+5. **Query Objects (`app/queries/`)**: Decouple database querying. `UserTimelineQuery` uses eager-loading (`includes(:predictions, :emotional_snapshot)`) to avoid $N+1$ query overheads, and `PendingLettersQuery` runs highly concurrent row locks (`FOR UPDATE SKIP LOCKED`).
+6. **Policy Layer (`app/policies/`)**: Manages access controls (`LetterPolicy` strictly locks private digital capsules to their creator's authenticated email).
+7. **Background Jobs & Rake Tasks (GoodJob)**: Database-backed Active Job queuing via GoodJob. Automated cron runs `CleanupExpiredTokensJob` hourly (`0 * * * *`) and `Letters::DispatchPendingJob` daily (`0 0 * * *`), which dispatches `Letters::DeliverLetterJob` workers with polynomial retry backoff. `rake letters:deliver` is available for manual or CLI dispatch.
 
 For detailed system sequence diagrams, database schemas, and transactional boundary details, read the:
 👉 **[System Architecture & Design Document (docs/architecture.md)](docs/architecture.md)**
@@ -212,21 +213,23 @@ For production builds, the same `Dockerfile` is used by Kamal. A lean, multi-sta
 
 ## 🌐 Internationalization (i18n)
 
-TimeEcho supports **English (`:en`)** and **Spanish (`:es`)** as the only two available locales. The application's default locale is English, but content is rendered in Spanish when the browser requests it.
+TimeEcho supports **English (`:en`)** and **Spanish (`:es`)** as the two available locales. The application's default locale is English, and content seamlessly toggles or auto-adapts to Spanish.
 
 ### Locale Detection & Fallback Flow
 
-The `set_locale` before_action in `ApplicationController` detects the browser's preferred language via the `Accept-Language` HTTP header. If a supported locale is detected (`es` or `en`), it is applied. If the requested locale is unsupported (e.g. `fr`, `de`), the locale is **not changed**, allowing the Rails default locale (`:en`) to be used. If no `Accept-Language` header is present, the default locale is used.
+1. **Session Preference**: If the user explicitly switches language via the toggle button in the navigation header, the choice is saved to `session[:locale]` via `LocalesController` (`POST /locales`).
+2. **Browser Preference**: If no session preference exists or an invalid locale is stored, `ApplicationController#set_locale` inspects the browser's `Accept-Language` HTTP header for a supported two-letter code (`es` or `en`).
+3. **Application Default**: If neither matches a supported locale (e.g. `fr`, `de`), the application falls back to `config.i18n.default_locale` (`:en`).
 
 ### Configuration
 
-- **`config/i18n.available_locales`**: `[:es, :en]` — limited to these two.
+- **`config/i18n.available_locales`**: `[:es, :en]` — strictly scoped to English and Spanish.
 - **`config/i18n.default_locale`**: `:en` — English is the fallback default.
-- **`config/i18n.fallbacks`**: `true` — in production and test environments, missing translations in a locale fall back to the default locale rather than showing the key name.
+- **`config/i18n.fallbacks`**: `true` — in production and test environments, missing keys in one locale fall back to the default locale rather than displaying raw key paths.
 
 ### Test Environment
 
-All tests establish `I18n.locale = :es` globally via `test/test_helper.rb`, so assertions match Spanish text expectations. The `set_locale` method respects this pre-set locale because test requests do not send an `Accept-Language` header.
+All tests establish `I18n.locale = :es` globally via `test/test_helper.rb`, ensuring assertions match Spanish text expectations. The `set_locale` method respects this pre-set locale because test requests do not send an `Accept-Language` header or preset session locale by default.
 
 ### File Structure
 
@@ -240,19 +243,32 @@ config/locales/
 
 ## 🧪 Testing the Suite
 
-To run the automated Rails test suite, run:
+TimeEcho has a comprehensive Minitest test suite covering controllers, decorators, services, forms, models, jobs, and mailers with **100% line coverage**:
 
 ```bash
 bundle exec rails test
 ```
 
+Coverage reports are generated automatically via SimpleCov and stored in the `coverage/` directory.
+
 ---
 
-## 🚀 Production & Deployment (Kamal)
+## 🚀 Production & Deployment
 
-TimeEcho is completely containerized and deployment-ready via **Kamal**:
+TimeEcho supports modern containerized and cloud platform deployments:
 
-- **Kamal Deployment**: Configuration is stored in `config/deploy.yml`. Deploy to your cloud servers with `kamal deploy`.
-- **Docker Support**: Uses the multi-stage standard Rails `Dockerfile` for super-lean image builds.
-- **Mail Delivery**: Configured to run through **Resend** using `AuthMailer` and `LetterMailer`. To enable delivery in production, set the `RESEND_API_KEY` environment variable.
-- **APP_HOST**: Ensure `APP_HOST` is configured to your production domain (e.g. `vault.timeecho.com`) so magic login links render correct URLs.
+### 1. Render Web Service Deployment
+
+A turnkey blueprint is configured in `render.yaml` with build automation in `bin/render-build.sh`:
+
+- **Build Pipeline**: Runs `bundle install`, `npm install`, compiles Tailwind CSS via `npm run build:css`, precompiles Rails assets, and applies database migrations.
+- **Puma Configuration**: Set to single-mode (`WEB_CONCURRENCY=0`, `RAILS_MAX_THREADS=3`) to ensure optimal memory consumption on free or low-memory tiers (512MB RAM).
+- **GoodJob Asynchronous Execution**: Set via `GOOD_JOB_EXECUTION_MODE=async` to execute background delivery workers and cron jobs in-process within the web dyno without requiring an additional paid worker dyno.
+
+
+### 2. Production Environment Checklist
+
+- **APP_HOST**: Set to your production domain (e.g. `timeecho.onrender.com` or `vault.timeecho.com`) so magic login links render valid URLs.
+- **RESEND_API_KEY**: Required to deliver magic login links (`AuthMailer`) and unlocked capsules (`LetterMailer`) in production.
+- **Active Record Encryption**: Set `ACTIVE_RECORD_ENCRYPTION_PRIMARY_KEY`, `ACTIVE_RECORD_ENCRYPTION_DETERMINISTIC_KEY`, and `ACTIVE_RECORD_ENCRYPTION_KEY_DERIVATION_SALT` via environment variables or Rails credentials.
+

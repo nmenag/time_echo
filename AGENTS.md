@@ -72,12 +72,25 @@ Views must remain lightweight and declarative.
 ## 🌐 8. Internationalization (i18n) Standards
 
 - **View Text**: All user-facing strings in ERB views must use `t()` calls. No hardcoded Spanish or English text.
-- **Decorator Methods**: Date formatting and locale-dependent strings must live in decorators using `I18n.l()` and `I18n.t()`.
+- **Decorator Methods**: Date formatting and locale-dependent strings must live in decorators using `I18n.l()` and `I18n.t()`. `LetterDecorator#display_title` dynamically resolves default/placeholder letter titles according to the active locale.
 - **JS in Views**: Inline JavaScript that sets text content must use Rails i18n helpers (e.g., `I18n.locale.to_s` instead of hardcoded `"es-ES"`).
 - **Comments in HTML**: HTML comments visible in source should be in English, not Spanish.
 - **Locale Files**: Keys must be consistent across `en.yml` and `es.yml`. The `en.yml` file must never contain Spanish text, and `es.yml` must contain Spanish translations for every key.
-- **Locale Detection**: The `set_locale` before_action in `application_controller.rb` detects browser locale from `HTTP_ACCEPT_LANGUAGE`, validates against `available_locales`, and only sets `I18n.locale` when a supported locale is detected. Unsupported locales fall back to `I18n.default_locale` (`:en`). `I18n.fallbacks = true` is configured for production.
-- **Test Locale**: Tests establish `I18n.locale = :es` globally in `test_helper.rb` to ensure all assertions match Spanish expectations. The `set_locale` method respects this since no `Accept-Language` header is sent in tests.
+- **Locale Resolution**: The `set_locale` before_action in `application_controller.rb` checks `session[:locale]` first (set via `LocalesController`), falling back to `HTTP_ACCEPT_LANGUAGE` browser detection, and defaulting to `I18n.default_locale` (`:en`). `I18n.fallbacks = true` is configured for production and testing.
+- **Test Locale**: Tests establish `I18n.locale = :es` globally in `test_helper.rb` to ensure all assertions match Spanish expectations. The `set_locale` method respects this since no `Accept-Language` header or preset session locale is sent in tests by default.
+
+---
+
+## 🔀 9. Pull Request Formatting Rule
+
+- **Template Standard**: When the user requests a "pull request", AI agents must structure the pull request description strictly adhering to the sections in `.github/pull_request_template.md`.
+- **PR Size Labeling**: AI agents must calculate the total changed lines (additions + deletions, excluding `test/`) and check the appropriate size label:
+  - `size/XS`: <10 lines
+  - `size/S`: 10–49 lines
+  - `size/M`: 50–249 lines
+  - `size/L`: 250–499 lines
+  - `size/XL`: 500+ lines
+- **Direct Output Only**: AI agents must return the formatted pull request markdown directly in the chat response inside a single markdown code block for easy copying, without creating temporary markdown files (such as `.pr_body.md`).
 
 ---
 
@@ -91,9 +104,12 @@ The following tasks have been completed:
 - Replaced all hardcoded Spanish text in `letters/show.html.erb` with `t()` calls
 - Replaced all hardcoded Spanish and English fallbacks in `layouts/application.html.erb`
 - Converted HTML comments in `layouts/application.html.erb` from Spanish to English
+- Implemented interactive language switch button in the navigation header with session persistence via `LocalesController` (`POST /locales`, `DELETE /locales/:id`).
 - Implemented timezone-aware letter scheduling (`scheduled_at` in UTC + `timezone` IANA column) with automatic browser timezone detection.
 - Separated `TimeCapsuleMailer` into `AuthMailer` and `LetterMailer`.
 - Added `Letters::DeliverLetterJob` worker with polynomial backoff retries (`retry_on`) for transient connection errors and status transition tracking (`pending` ➔ `queued` ➔ `delivered`/`failed`).
-- Converted letter dispatch architecture from every-minute GoodJob cron to daily `rake letters:deliver` task backed by `Letters::DispatchPendingService`.
+- Added `Letters::DispatchPendingJob` scheduled daily at midnight (`0 0 * * *`) via GoodJob cron, with `rake letters:deliver` available for manual/CLI dispatch.
+- Added turnkey Render deployment configuration (`render.yaml`, `bin/render-build.sh`, single-mode Puma with `WEB_CONCURRENCY=0`, GoodJob async mode).
 - Consolidated schema attributes into `db/migrate/20260520000001_create_letters.rb`.
-- All 140 tests passing with 0 failures, 0 errors, and 100.00% line coverage (789/789 lines).
+- Comprehensive documentation update across `docs/architecture.md`, `README.md`, `GEMINI.md`, and `AGENTS.md` aligning system architecture, Active Record Encryption, full service object catalog, and database schemas.
+- All 142 tests passing with 0 failures, 0 errors, and 100.00% line coverage.
