@@ -4,11 +4,15 @@
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
-    gtag('config', '<%= ENV["GOOGLE_ANALYTICS_ID"] %>', {
-      send_page_view: false
-    });
+    gtag('config', '<%= ENV["GOOGLE_ANALYTICS_ID"] %>');
 
+    let isInitialAnalyticsLoad = true;
     document.addEventListener('turbo:load', function() {
+      if (isInitialAnalyticsLoad) {
+        isInitialAnalyticsLoad = false;
+        return;
+      }
+
       if (typeof gtag === 'function') {
         gtag('event', 'page_view', {
           page_location: window.location.href,
