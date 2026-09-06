@@ -74,4 +74,10 @@ When a controller starts accumulating actions that do not fit the standard RESTf
 * **No Docker Control**: AI agents must **NEVER** execute Docker or docker-compose commands (such as `docker ps`, `docker compose up`, or docker start/stop/prune actions).
 
 ---
+
+## 💎 9. Automated Code Formatting & Linting (RuboCop)
+* **Mandatory Auto-correction**: Whenever any code changes are made to Ruby files, apply `bundle exec rubocop -a` automatically to ensure strict adherence to style guidelines.
+* **Zero Offenses Policy**: Ensure zero RuboCop offenses remain before completing tasks.
+
+---
 *Follow these rules closely to keep TimeEcho premium, performant, and maintainable!* ✨
