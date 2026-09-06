@@ -94,6 +94,13 @@ Views must remain lightweight and declarative.
 
 ---
 
+## 💎 10. Automated Code Formatting & Linting (RuboCop)
+
+- **Mandatory RuboCop Auto-correction**: Whenever any changes or additions are made to Ruby files (`app/`, `config/`, `lib/`, `test/`, etc.), AI agents must automatically run `bundle exec rubocop -a` (safe autocorrect) on the affected files or project.
+- **Zero Offenses Policy**: Ensure zero RuboCop offenses remain uncorrected before completing any task.
+
+---
+
 ## ✅ Progress Summary
 
 The following tasks have been completed:

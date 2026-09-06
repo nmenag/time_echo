@@ -164,6 +164,11 @@ npm run build:css   # production minified build
 - Format dates and badges in decorators (`LetterDecorator`, `PredictionDecorator`).
 - Locale resolution priority: `session[:locale]` (from UI language switcher) ➔ `HTTP_ACCEPT_LANGUAGE` header ➔ default locale (`:en`).
 
+### Code Quality & Formatting (RuboCop)
+
+- **Mandatory Auto-correction**: For any code change or modification to Ruby files (`app/`, `config/`, `lib/`, `test/`, etc.), always run `bundle exec rubocop -a` (safe autocorrect) to maintain consistent styling and clean code.
+- **Zero Offenses**: Ensure zero RuboCop offenses remain before completing tasks.
+
 ## Pull Request Formatting Rule
 
 - **Template Standard**: When the user requests a "pull request", AI agents must structure the pull request description strictly adhering to the sections in `.github/pull_request_template.md`.
