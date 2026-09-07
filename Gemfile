@@ -27,6 +27,10 @@ gem "tzinfo-data", platforms: %i[ windows jruby ]
 # Use the database-backed adapter for Active Job
 gem "good_job"
 
+# Error tracking with Sentry SDK (compatible with GlitchTip & Sentry)
+gem "sentry-ruby"
+gem "sentry-rails"
+
 # Reduces boot times through caching; required in config/boot.rb
 gem "bootsnap", require: false
 
