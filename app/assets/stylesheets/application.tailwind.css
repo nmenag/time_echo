@@ -42,9 +42,9 @@
   --z-toast: 500;
   --z-tooltip: 600;
 
-  /* Brand color tokens */
-  --color-brand: oklch(40% 0.22 290);
-  --color-brand-dark: oklch(34% 0.22 290);
+  /* Brand color tokens — Physical Wax Seal Red */
+  --color-brand: #8E2818;
+  --color-brand-dark: #6A1E12;
 }
 
 /* Install DaisyUI 5 Plugin */
@@ -55,26 +55,26 @@
   name: "timeecho";
   default: true;
 
-  /* Color palette — OKLCH, tinted toward brand violet (hue 290) */
-  --color-primary: oklch(24% 0.02 290);
-  --color-primary-content: oklch(97% 0.005 290);
-  --color-secondary: oklch(93% 0.03 90);
-  --color-secondary-content: oklch(24% 0.02 290);
-  --color-accent: oklch(88% 0.06 90);
-  --color-accent-content: oklch(24% 0.02 290);
-  --color-neutral: oklch(15% 0.02 290);
-  --color-neutral-content: oklch(97% 0.005 290);
-  --color-base-100: oklch(97.5% 0.008 290);
-  --color-base-200: oklch(94% 0.012 290);
-  --color-base-300: oklch(88% 0.018 290);
-  --color-base-content: oklch(22% 0.025 290);
+  /* Color palette — Physical postal & archival system */
+  --color-primary: #8E2818;
+  --color-primary-content: #FAF9F5;
+  --color-secondary: #2C485E;
+  --color-secondary-content: #FAF9F5;
+  --color-accent: #C2922E;
+  --color-accent-content: #FAF9F5;
+  --color-neutral: #1C1F26;
+  --color-neutral-content: #FAF9F5;
+  --color-base-100: #FAF9F5;
+  --color-base-200: #EFECE3;
+  --color-base-300: #D8D2C2;
+  --color-base-content: #1C1F26;
   --color-success: oklch(66% 0.12 145);
-  --color-success-content: oklch(97% 0 0);
+  --color-success-content: #FAF9F5;
   --color-error: oklch(60% 0.12 20);
-  --color-error-content: oklch(97% 0 0);
+  --color-error-content: #FAF9F5;
   --color-warning: oklch(72% 0.14 60);
-  --color-warning-content: oklch(15% 0 0);
-  --color-info: oklch(60% 0.14 230);
+  --color-warning-content: #1C1F26;
+  --color-info: #2C485E;
 
   /* Normalized radii */
   --rounded-box: 0.75rem;
@@ -89,25 +89,25 @@
 @plugin "daisyui/theme" {
   name: "timeecho-dark";
 
-  --color-primary: oklch(86% 0.018 290);
-  --color-primary-content: oklch(14% 0.02 290);
-  --color-secondary: oklch(22% 0.04 290);
-  --color-secondary-content: oklch(86% 0.018 290);
-  --color-accent: oklch(75% 0.1 80);
-  --color-accent-content: oklch(14% 0.02 290);
-  --color-neutral: oklch(10% 0.02 290);
-  --color-neutral-content: oklch(86% 0.018 290);
-  --color-base-100: oklch(14% 0.025 290);
-  --color-base-200: oklch(18% 0.025 290);
-  --color-base-300: oklch(24% 0.025 290);
-  --color-base-content: oklch(88% 0.015 290);
+  --color-primary: #D14930;
+  --color-primary-content: #FAF9F5;
+  --color-secondary: #77A3C4;
+  --color-secondary-content: #16181D;
+  --color-accent: #E5B85C;
+  --color-accent-content: #16181D;
+  --color-neutral: #1C2028;
+  --color-neutral-content: #E8E6DF;
+  --color-base-100: #16181D;
+  --color-base-200: #1C2028;
+  --color-base-300: #2D3340;
+  --color-base-content: #E8E6DF;
   --color-success: oklch(72% 0.14 145);
-  --color-success-content: oklch(14% 0 0);
+  --color-success-content: #16181D;
   --color-error: oklch(65% 0.14 20);
-  --color-error-content: oklch(14% 0 0);
+  --color-error-content: #FAF9F5;
   --color-warning: oklch(78% 0.16 60);
-  --color-warning-content: oklch(14% 0 0);
-  --color-info: oklch(66% 0.16 230);
+  --color-warning-content: #16181D;
+  --color-info: #77A3C4;
 
   --rounded-box: 0.75rem;
   --rounded-btn: 0.5rem;
@@ -146,13 +146,13 @@
 
   /* Placeholder contrast — WCAG AA 4.5:1 on light surfaces */
   ::placeholder {
-    color: oklch(48% 0.015 290);
+    color: #8C827A;
     opacity: 1;
   }
 
-  /* Focus ring — visible and brand-consistent */
+  /* Focus ring — visible and brand-consistent (wax seal red) */
   :focus-visible {
-    outline: 2px solid oklch(40% 0.22 290);
+    outline: 2px solid #8E2818;
     outline-offset: 2px;
     border-radius: 4px;
   }
@@ -170,7 +170,7 @@
     transition: background-color 150ms ease;
   }
   ::-webkit-scrollbar-thumb:hover {
-    background-color: oklch(40% 0.22 290 / 30%);
+    background-color: rgba(142, 40, 24, 0.4);
   }
 }
 
@@ -187,17 +187,17 @@
   /* Lined paper background for letter textarea */
   .lined-paper-canvas {
     background-image: linear-gradient(
-      oklch(40% 0.22 290 / 6%) 1px,
+      rgba(142, 40, 24, 0.06) 1px,
       transparent 1px
     );
     background-size: 100% 2.0125rem;
     background-attachment: local;
-    border-color: oklch(40% 0.22 290 / 10%);
+    border-color: rgba(142, 40, 24, 0.15);
   }
   .lined-paper-canvas:focus {
     outline: none;
-    border-color: oklch(40% 0.22 290);
-    box-shadow: 0 4px 20px oklch(40% 0.22 290 / 5%);
+    border-color: #8E2818;
+    box-shadow: 0 4px 20px rgba(142, 40, 24, 0.08);
   }
 
   /* Range slider thumb */
@@ -219,8 +219,8 @@
     transform: translateY(-2px);
   }
   .theme-radio-input:checked + .theme-radio-card {
-    border-color: oklch(40% 0.22 290);
-    background-color: oklch(40% 0.22 290 / 5%);
+    border-color: #8E2818;
+    background-color: rgba(142, 40, 24, 0.06);
   }
 
   /* Card hover lift — no shadow doubling */

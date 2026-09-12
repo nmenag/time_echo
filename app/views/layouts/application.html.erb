@@ -12,9 +12,11 @@
 
     <%= yield :head %>
 
-    <link rel="icon" href="/icon.png" type="image/png">
     <link rel="icon" href="/icon.svg" type="image/svg+xml">
-    <link rel="apple-touch-icon" href="/icon.png">
+    <link rel="icon" href="/favicon-32x32.png" type="image/png" sizes="32x32">
+    <link rel="icon" href="/favicon-16x16.png" type="image/png" sizes="16x16">
+    <link rel="icon" href="/favicon.ico" sizes="any">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css">
     <%= stylesheet_link_tag "tailwind", "data-turbo-track": "reload" %>
@@ -193,13 +195,13 @@
             <a href="<%= root_path %>#how-it-works" class="text-base-content/60 hover:text-brand transition-colors"><%= t('landing.how_it_works') %></a>
 
             <% if user_signed_in? %>
-              <a href="<%= dashboard_path %>" class="btn text-white rounded-xl px-5 text-xs font-medium border-none cursor-pointer hover:scale-[1.02] active:scale-[0.98] transition-transform duration-200 inline-flex items-center gap-1.5 font-sans-ui" style="background-color: oklch(40% 0.22 290); --btn-color: oklch(40% 0.22 290);">
+              <a href="<%= dashboard_path %>" class="btn bg-[#8E2818] hover:bg-[#6A1E12] text-[#FAF9F5] rounded-xs px-4 py-2 text-xs font-semibold tracking-wider uppercase border-none cursor-pointer inline-flex items-center gap-1.5 font-letter shadow-xs">
                 <%= tabler_icon("mail", size: 14) %>
                 <span><%= t('navigation.vault') %></span>
               </a>
             <% else %>
-               <a href="<%= login_path %>" class="btn text-white rounded-xl px-5 text-sm font-medium border-none cursor-pointer hover:scale-[1.02] active:scale-[0.98] transition-transform duration-200 inline-flex items-center gap-1.5 font-sans-ui" style="background-color: oklch(40% 0.22 290); --btn-color: oklch(40% 0.22 290);">
-                 <%= tabler_icon("login", size: 16) %>
+               <a href="<%= login_path %>" class="btn bg-[#8E2818] hover:bg-[#6A1E12] text-[#FAF9F5] rounded-xs px-4 py-2 text-xs font-semibold tracking-wider uppercase border-none cursor-pointer inline-flex items-center gap-1.5 font-letter shadow-xs">
+                 <%= tabler_icon("login", size: 15) %>
                  <span><%= t('navigation.sign_in') %></span>
                </a>
             <% end %>

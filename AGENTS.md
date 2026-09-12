@@ -12,20 +12,36 @@ Welcome to **TimeEcho**! As an AI coding assistant, you must strictly adhere to 
 
 ---
 
-## 🎨 2. Design System & Premium Aesthetics
+## 🎨 2. Design System & Premium Aesthetics (Postal & Archival Standard)
 
-TimeEcho uses a refined, nostalgic, and secure visual identity built on top of **Tailwind CSS v4** and **DaisyUI v5**.
+TimeEcho enforces a tactile, nostalgic, and secure visual identity built on top of **Tailwind CSS v4** and **DaisyUI v5**. The application consciously rejects generic corporate SaaS tropes in favor of an **archival, epistolary, and postal aesthetic**. For full specification, read **[`docs/ui-ux.md`](docs/ui-ux.md)**.
 
-- **Typography**:
-  - Headings: Use the serif font stack (`font-serif` using Instrument Serif) for literary reflection.
-  - Body: Use the geometric **Inter** sans-serif font stack (`font-sans`) for clean structure.
-  - Handwritten notes: Use **Caveat** (`font-handwritten`) for organic, journal-like annotations.
-- **Semantic Layout Styling**:
-  - Avoid hardcoded colors like `bg-white`, `text-slate-900`, or direct hex values.
-  - Utilize theme-aware semantic tokens like `bg-base-100`, `bg-base-200`, `text-base-content`, `text-primary`, and `bg-primary/5` (for subtle overlays) to ensure dark mode works seamlessly.
-- **Writing Canvas**:
-  - When rendering letters, use the `.writing-canvas` and `.lined-paper-canvas` classes to provide a realistic notebook feel.
-- **Micro-animations**: Integrate smooth transitions and interactive states (`hover:scale-[1.02]`, `active:scale-[0.98]`).
+### A. Tripartite Typography Hierarchy
+- **Editorial Serif (`font-serif-editorial`)**: Use **Fraunces** (`font-serif-editorial`) for page headers, capsule headlines, reveal screens, and literary reading passages.
+- **Archival & Epistolary (`font-letter`)**: Use **Courier Prime** (`font-letter`) for letter compositions, docket numbers (`№ TE-00042`), postmark cancellation stamps, dates, and archival counters.
+- **Functional UI (`font-ui` / `font-sans-ui`)**: Use **IBM Plex Sans** / **Work Sans** (`font-ui`) for buttons, form labels, operational statuses, navigation, and badges.
+
+### B. Physical Postal & Archival Palette
+- **Wax Seal Carmine Red (Primary)**: `#8E2818` (light mode), `#6A1E12` (hover/active), `#D14930` (dark mode). Strictly avoid purple or violet (`oklch(... 290)`).
+- **Postmark Ink Indigo (Secondary/Accent)**: `#2C485E` (light mode), `#77A3C4` (dark mode). Used for cancellation stamps, ink lines, and timeline markers.
+- **Archival Manila & Parchment (Surfaces)**: `#FAF9F5` (light paper sheet), `#16181D` (dark paper sheet), `#EFECE3` (manila dossier folder), `#1C2028` (dark dossier folder).
+- **Archival Crease Borders**: `#D8D2C2` (light borders), `#2D3340` (dark borders). Avoid pure black borders or harsh drop shadows.
+
+### C. Core Postal Components
+- **Paper Sheet (`.paper-sheet`)**: Tactile paper canvas simulating real stationery for letters, forms, and cards.
+- **Archival Folder (`.archival-folder`)**: Dossier-style layout with folder tabs and docket reference headers.
+- **Postmark Cancellation Stamp (`.postmark-stamp`)**: Ink-dashed stamps with slight hand-stamped rotation (`-1.5deg` to `1.5deg`) for statuses.
+- **Wax Seal (`.wax-seal`)**: Embossed carmine wax seal badge. Includes physical fracture animations (`seal-crack-left`, `seal-crack-right`) during capsule reveal.
+- **Ruled Letter Canvas (`.lined-paper-canvas`)**: Lined paper guide for writing letters.
+- **Reality Verification Ledger (`Expediente de Realidad`)**: Two-column layout in `letters/show` for retrospectively comparing past predictions against reality.
+
+### D. Explicit Anti-Patterns (Strictly Avoid)
+- ❌ **No Identical Rounded Cards**: Do not wrap every element in uniform `rounded-2xl p-6 shadow-md` cards. Use `.paper-sheet`, `.archival-folder`, or ledger rows with structural variety.
+- ❌ **No Icons in Pastel Circles**: Never place generic library icons inside soft colored circular background badges.
+- ❌ **No Purple / Violet Buttons**: Never use purple or violet hues (`bg-purple-600`, `oklch(... 290)`). Use Wax Seal Carmine (`#8E2818`).
+- ❌ **No Flat Beige Clichés**: Do not rely on flat beige backgrounds without material texture, borders (`#D8D2C2`), and ink typography.
+- ❌ **No Eyebrow Dot Dividers**: Avoid uppercase marketing tropes like `CÁPSULA · PENDIENTE →`. Use postal stamps or docket numbers.
+- ❌ **No Emojis as UI Icons**: Do not use emojis (⏳, 🔒, 📝) as UI control icons. Use clean SVG strokes or typographic symbols (`№`, `§`).
 
 ---
 
@@ -105,6 +121,12 @@ Views must remain lightweight and declarative.
 
 The following tasks have been completed:
 
+- Created comprehensive UI/UX Design System and Architectural Specification in **[`docs/ui-ux.md`](docs/ui-ux.md)**.
+- Implemented Postal & Archival Design System across all core views (`letters/index`, `letters/new`, `letters/show`, `pages/landing`, `sessions/new`).
+- Established tripartite typography system: Fraunces (`font-serif-editorial`), Courier Prime (`font-letter`), and IBM Plex Sans (`font-ui`).
+- Unified color palette to authentic postal tones (Wax Seal Carmine `#8E2818`, Postmark Indigo `#2C485E`, Manila `#EFECE3`, Parchment `#FAF9F5`), eliminating all purple/violet hues.
+- Designed and generated high-contrast circular wax seal favicon and PWA icons with true 32-bit RGBA alpha transparency (`(0,0,0,0)`).
+- Cleaned up marketing copy by removing testimonial quote sections and obsolete locale keys.
 - Added missing `letters.*` locale keys to both `en.yml` and `es.yml` (total ~60+ keys)
 - Replaced all hardcoded Spanish text in `letters/index.html.erb` with `t()` calls
 - Replaced all hardcoded Spanish text in `letters/new.html.erb` with `t()` calls (including JS locale references)
@@ -118,5 +140,5 @@ The following tasks have been completed:
 - Added `Letters::DispatchPendingJob` scheduled daily at midnight (`0 0 * * *`) via GoodJob cron, with `rake letters:deliver` available for manual/CLI dispatch.
 - Added turnkey Render deployment configuration (`render.yaml`, `bin/render-build.sh`, single-mode Puma with `WEB_CONCURRENCY=0`, GoodJob async mode).
 - Consolidated schema attributes into `db/migrate/20260520000001_create_letters.rb`.
-- Comprehensive documentation update across `docs/architecture.md`, `README.md`, `GEMINI.md`, and `AGENTS.md` aligning system architecture, Active Record Encryption, full service object catalog, and database schemas.
-- All 142 tests passing with 0 failures, 0 errors, and 100.00% line coverage.
+- Comprehensive documentation update across `docs/architecture.md`, `docs/ui-ux.md`, `README.md`, `GEMINI.md`, and `AGENTS.md`.
+- All 148 tests passing with 0 failures, 0 errors, and 100.00% line coverage.
