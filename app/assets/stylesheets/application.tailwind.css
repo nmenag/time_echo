@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,600&family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap");
 @import "tailwindcss";
 
 @source "../../views/**/*.html.erb";
@@ -6,16 +6,28 @@
 @source "../../javascript/**/*.js";
 
 @theme {
+  --font-letter: "Courier Prime", monospace;
+  --font-ui: "IBM Plex Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --font-serif-editorial: "Fraunces", serif;
-  --font-sans-ui: "Work Sans", sans-serif;
+  --font-sans-ui: "IBM Plex Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --font-sans:
-    "Work Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
+    "IBM Plex Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
     Arial, sans-serif;
   --font-serif:
     "Fraunces", Georgia, Cambria, "Times New Roman", Times, serif;
-  --font-serif-body:
-    "Fraunces", Georgia, Cambria, "Times New Roman", Times, serif;
+  --font-serif-body: "Courier Prime", monospace;
+  --font-mono: "Courier Prime", monospace;
   --font-handwritten: "Caveat", cursive;
+
+  /* Postal & archival colors */
+  --color-wax: #8E2818;
+  --color-wax-dark: #6A1E12;
+  --color-stamp: #2C485E;
+  --color-stamp-dark: #77A3C4;
+  --color-manila: #DDD7C8;
+  --color-manila-dark: #2A2F3B;
+  --color-manila-border: #C8BEAA;
+  --color-manila-border-dark: #3A4152;
 
   /* Semantic easing tokens */
   --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
@@ -249,6 +261,112 @@
   dialog.modal:not([open]):not(.modal-open) {
     display: none !important;
     pointer-events: none !important;
+  }
+
+  /* ─── Postal & Archival System Utilities ─────────────────────── */
+  .font-letter {
+    font-family: var(--font-letter);
+  }
+
+  .font-ui {
+    font-family: var(--font-ui);
+  }
+
+  /* Physical paper sheet pliego */
+  .paper-sheet {
+    background-color: #FAF9F5;
+    color: #1C1F26;
+    border: 1px solid #D8D2C2;
+    box-shadow: 0 1px 3px rgba(28, 31, 38, 0.04), 0 4px 16px rgba(28, 31, 38, 0.02);
+  }
+  [data-theme="timeecho-dark"] .paper-sheet {
+    background-color: #16181D;
+    color: #E8E6DF;
+    border-color: #2D3340;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
+  }
+
+  /* Archival folder / docket backing */
+  .archival-folder {
+    background-color: #EFECE3;
+    border: 1px solid #D5CEBD;
+  }
+  [data-theme="timeecho-dark"] .archival-folder {
+    background-color: #1C2028;
+    border-color: #2D3342;
+  }
+
+  /* Postmark cancellation stamp */
+  .postmark-stamp {
+    font-family: var(--font-letter);
+    border: 1.5px dashed rgba(44, 72, 94, 0.65);
+    color: #2C485E;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.25rem 0.65rem;
+    border-radius: 2px;
+  }
+  [data-theme="timeecho-dark"] .postmark-stamp {
+    border-color: rgba(119, 163, 196, 0.55);
+    color: #77A3C4;
+  }
+
+  .postmark-stamp-circle {
+    font-family: var(--font-letter);
+    border: 2px solid rgba(44, 72, 94, 0.55);
+    color: #2C485E;
+    border-radius: 9999px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  [data-theme="timeecho-dark"] .postmark-stamp-circle {
+    border-color: rgba(119, 163, 196, 0.55);
+    color: #77A3C4;
+  }
+
+  /* Real Wax Seal styling */
+  .wax-seal {
+    background: radial-gradient(circle at 35% 35%, #A8321D 0%, #8E2818 55%, #631B10 100%);
+    color: #F8F7F2;
+    box-shadow:
+      inset 0 1.5px 3px rgba(255, 255, 255, 0.25),
+      inset 0 -2.5px 5px rgba(0, 0, 0, 0.45),
+      0 3px 10px rgba(99, 27, 16, 0.35);
+    border: 2px solid #5C190F;
+  }
+
+  /* Hero unsealing crack animations */
+  @keyframes seal-crack-left {
+    0% {
+      transform: translate(0, 0) rotate(0deg);
+      opacity: 1;
+    }
+    100% {
+      transform: translate(-10px, -4px) rotate(-6deg);
+      opacity: 0.92;
+    }
+  }
+
+  @keyframes seal-crack-right {
+    0% {
+      transform: translate(0, 0) rotate(0deg);
+      opacity: 1;
+    }
+    100% {
+      transform: translate(10px, 4px) rotate(6deg);
+      opacity: 0.92;
+    }
+  }
+
+  .animate-seal-left {
+    animation: seal-crack-left 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+  }
+
+  .animate-seal-right {
+    animation: seal-crack-right 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
   }
 }
 
