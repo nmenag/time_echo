@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap");
 @import "tailwindcss";
 
 @source "../../views/**/*.html.erb";
@@ -6,13 +6,15 @@
 @source "../../javascript/**/*.js";
 
 @theme {
+  --font-serif-editorial: "Fraunces", serif;
+  --font-sans-ui: "Work Sans", sans-serif;
   --font-sans:
-    "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
+    "Work Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
     Arial, sans-serif;
   --font-serif:
-    "Instrument Serif", Georgia, Cambria, "Times New Roman", Times, serif;
+    "Fraunces", Georgia, Cambria, "Times New Roman", Times, serif;
   --font-serif-body:
-    "EB Garamond", Georgia, Cambria, "Times New Roman", Times, serif;
+    "Fraunces", Georgia, Cambria, "Times New Roman", Times, serif;
   --font-handwritten: "Caveat", cursive;
 
   /* Semantic easing tokens */
@@ -164,9 +166,10 @@
 @layer utilities {
   /* Writing canvas — serif for letter composition */
   .writing-canvas {
-    font-family: var(--font-serif-body);
+    font-family: var(--font-serif-editorial);
+    font-weight: 400;
     font-size: 1.15rem;
-    line-height: 2.25rem;
+    line-height: 1.75;
   }
 
   /* Lined paper background for letter textarea */
@@ -175,7 +178,7 @@
       oklch(40% 0.22 290 / 6%) 1px,
       transparent 1px
     );
-    background-size: 100% 2.25rem;
+    background-size: 100% 2.0125rem;
     background-attachment: local;
     border-color: oklch(40% 0.22 290 / 10%);
   }

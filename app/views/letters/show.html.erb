@@ -1,4 +1,4 @@
-<div class="max-w-7xl mx-auto py-4 font-sans animate-fade-in text-base-content">
+<div class="max-w-7xl mx-auto py-4 font-sans-ui animate-fade-in text-base-content">
   <% if @countdown %>
     <div class="max-w-xl mx-auto py-12">
       <div class="bg-base-200/30 border border-base-200 p-8 sm:p-12 rounded-3xl text-center space-y-8 shadow-md relative overflow-hidden">
@@ -6,34 +6,35 @@
         <div class="absolute -bottom-24 -right-24 w-48 h-48 bg-primary/5 rounded-full blur-3xl"></div>
 
         <div class="relative w-28 h-28 mx-auto select-none">
-          <div class="w-full h-full bg-base-100 rounded-full border border-base-300 flex items-center justify-center text-5xl shadow-inner">
-            ✉️
+          <div class="w-full h-full bg-base-100 rounded-full border border-base-300 flex items-center justify-center text-primary shadow-inner">
+            <%= tabler_icon("mail", size: 44) %>
           </div>
-          <div class="absolute -bottom-1 -right-1 bg-primary text-primary-content w-9 h-9 rounded-full flex items-center justify-center text-sm font-bold border-2 border-base-100 animate-pulse shadow-md" aria-hidden="true">
-            🔒
+          <div class="absolute -bottom-1 -right-1 bg-primary text-primary-content w-9 h-9 rounded-full flex items-center justify-center border-2 border-base-100 animate-pulse shadow-md" aria-hidden="true">
+            <%= tabler_icon("lock", size: 16) %>
           </div>
         </div>
 
         <div class="space-y-3">
-          <h1 class="font-serif text-3xl font-normal text-base-content tracking-tight"><%= t('letters.show_locked_title') %></h1>
-          <p class="text-xs text-base-content/60 max-w-sm mx-auto leading-relaxed">
+          <h1 class="font-serif-editorial text-3xl font-semibold text-base-content tracking-tight"><%= t('letters.show_locked_title') %></h1>
+          <p class="text-xs text-base-content/60 max-w-sm mx-auto leading-relaxed font-sans-ui">
             <%= t('letters.show_locked_desc', email: @letter.email) %>
           </p>
         </div>
 
         <div class="space-y-2">
-          <span class="text-xs font-bold text-base-content/40 uppercase tracking-wider block"><%= t('letters.show_time_remaining') %></span>
-          <div class="inline-block px-8 py-3.5 bg-primary/5 border border-primary/10 text-primary rounded-2xl font-extrabold text-3xl tracking-wide shadow-2xs">
+          <span class="text-xs font-medium text-base-content/40 uppercase tracking-wider block font-sans-ui"><%= t('letters.show_time_remaining') %></span>
+          <div class="inline-block px-8 py-3.5 bg-primary/5 border border-primary/10 text-primary rounded-2xl font-serif-editorial font-semibold text-3xl tracking-wide shadow-2xs">
             <%= @letter.days_left_text %>
           </div>
-          <p class="text-[11px] text-base-content/40 pt-1 font-mono">
+          <p class="text-[11px] text-base-content/40 pt-1 font-mono font-sans-ui">
             <%= t('letters.deliver_date_prefix') %> <%= @letter.formatted_deliver_at %>
           </p>
         </div>
 
         <div class="pt-6 border-t border-base-200">
-          <a href="<%= dashboard_path %>" class="btn btn-outline border-base-300 text-base-content hover:bg-base-200/50 rounded-2xl px-6 text-xs font-bold uppercase tracking-wider shadow-2xs cursor-pointer min-h-[40px]">
-            <span>&larr;</span> <%= t('letters.back_to_vault') %>
+          <a href="<%= dashboard_path %>" class="btn btn-outline border-base-300 text-base-content hover:bg-base-200/50 rounded-2xl px-6 text-xs font-medium uppercase tracking-wider shadow-2xs cursor-pointer min-h-[40px] font-sans-ui inline-flex items-center gap-1.5">
+            <%= tabler_icon("chevron-left", size: 14) %>
+            <span><%= t('letters.back_to_vault') %></span>
           </a>
         </div>
       </div>
@@ -44,90 +45,95 @@
       <%= form_with url: update_predictions_letter_path(@letter), method: :post, local: true, class: "space-y-8" do |f| %>
         <div style="display: none;"><%= @letter.content %></div>
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
-          
+
           <div class="lg:col-span-4 flex">
             <div class="bg-base-200/30 border border-base-200 p-8 rounded-3xl shadow-2xs text-center flex flex-col justify-between items-center w-full relative overflow-hidden">
               <div class="space-y-4">
-                <span class="bg-primary/5 text-primary border border-primary/10 text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-lg"><%= t('letters.unlocked_badge') %></span>
-                <h2 class="font-serif text-2xl font-normal text-base-content leading-snug">
+                <span class="bg-primary/5 text-primary border border-primary/10 text-[10px] font-medium uppercase tracking-wider px-2.5 py-1 rounded-lg font-sans-ui inline-flex items-center gap-1.5">
+                  <%= tabler_icon("lock-open", size: 14, class: "text-success") %>
+                  <span><%= t('letters.unlocked_badge') %></span>
+                </span>
+                <h2 class="font-serif-editorial text-2xl font-semibold text-base-content leading-snug">
                   <%= t('letters.show_unlocked_title') %>
                 </h2>
-                <p class="text-xs text-base-content/60 max-w-xs mx-auto leading-relaxed">
+                <p class="text-xs text-base-content/60 max-w-xs mx-auto leading-relaxed font-sans-ui">
                   <%= t('letters.show_unlocked_desc') %>
                 </p>
               </div>
 
               <div class="my-8 relative select-none group">
                 <div class="absolute inset-0 bg-primary/5 rounded-full blur-2xl group-hover:bg-primary/10 transition-colors duration-500"></div>
-                <div class="w-32 h-32 bg-base-100 border border-base-300 rounded-full flex items-center justify-center text-6xl shadow-md transform group-hover:scale-105 transition-transform duration-300">
-                  ✉️
+                <div class="w-32 h-32 bg-base-100 border border-base-300 rounded-full flex items-center justify-center text-primary shadow-md transform group-hover:scale-105 transition-transform duration-300">
+                  <%= tabler_icon("mail", size: 52) %>
                 </div>
-                <div class="absolute bottom-1 right-1 bg-success text-success-content w-9 h-9 rounded-full flex items-center justify-center text-base border-2 border-base-100 shadow-md animate-pulse" aria-hidden="true">
-                  ✨
+                <div class="absolute bottom-1 right-1 bg-success text-success-content w-9 h-9 rounded-full flex items-center justify-center border-2 border-base-100 shadow-md animate-pulse" aria-hidden="true">
+                  <%= tabler_icon("lock-open", size: 22) %>
                 </div>
               </div>
             </div>
           </div>
- 
+
           <div id="questions_section" class="lg:col-span-5 flex">
             <div class="bg-base-200/30 border border-base-200 p-6 sm:p-8 rounded-3xl shadow-2xs w-full space-y-6">
               <div class="border-b border-base-200 pb-3.5">
-                <h3 class="font-serif text-xl font-normal text-base-content"><%= t('letters.tell_reality_title') %></h3>
-                <p class="text-xs text-base-content/60 mt-1"><%= t('letters.tell_reality_desc') %></p>
+                <h3 class="font-serif-editorial text-xl font-semibold text-base-content"><%= t('letters.tell_reality_title') %></h3>
+                <p class="text-xs text-base-content/60 mt-1 font-sans-ui"><%= t('letters.tell_reality_desc') %></p>
               </div>
- 
+
               <div class="space-y-5">
                 <% @letter.predictions.each do |pred| %>
                   <div class="space-y-3 p-4 bg-base-100 border border-base-300/60 rounded-2xl shadow-2xs">
-                    <label class="text-xs font-bold text-base-content/85 flex items-center gap-2">
+                    <label class="text-xs font-medium text-base-content/85 flex items-center gap-2 font-sans-ui">
                       <% case pred.category %>
                       <% when 'city' %>
-                        <span class="text-base">🏠</span> <span><%= t('letters.question_where_do_you_live') %></span>
+                        <span class="text-primary"><%= tabler_icon("map-pin", size: 16) %></span> <span><%= t('letters.question_where_do_you_live') %></span>
                       <% when 'career' %>
-                        <span class="text-base">💼</span> <span><%= t('letters.question_what_do_you_do') %></span>
+                        <span class="text-primary"><%= tabler_icon("briefcase", size: 16) %></span> <span><%= t('letters.question_what_do_you_do') %></span>
                       <% when 'salary' %>
-                        <span class="text-base">💵</span> <span><%= t('letters.question_how_much_do_you_earn') %></span>
+                        <span class="text-primary"><%= tabler_icon("cash", size: 16) %></span> <span><%= t('letters.question_how_much_do_you_earn') %></span>
                       <% when 'relationship' %>
-                        <span class="text-base">❤️</span> <span><%= t('letters.question_how_is_your_relationship') %></span>
+                        <span class="text-primary"><%= tabler_icon("heart", size: 16) %></span> <span><%= t('letters.question_how_is_your_relationship') %></span>
                       <% when 'achievement' %>
-                        <span class="text-base">🏆</span> <span><%= t('letters.question_what_was_your_achievement') %></span>
+                        <span class="text-primary"><%= tabler_icon("trophy", size: 16) %></span> <span><%= t('letters.question_what_was_your_achievement') %></span>
                       <% when 'happiness' %>
-                        <span class="text-base">😊</span> <span><%= t('letters.question_how_happy_are_you') %></span>
+                        <span class="text-primary"><%= tabler_icon("sparkles", size: 16) %></span> <span><%= t('letters.question_how_happy_are_you') %></span>
                       <% else %>
-                        <span class="text-base">🔮</span> <span><%= t('letters.question_what_happened_with', category: pred.category.titleize) %></span>
+                        <span class="text-primary"><%= tabler_icon("crystal-ball", size: 16) %></span> <span><%= t('letters.question_what_happened_with', category: pred.category.titleize) %></span>
                       <% end %>
                     </label>
- 
+
                     <div class="text-[10px] text-base-content/50 italic font-mono bg-base-200/30 px-2.5 py-1.5 rounded-lg border border-base-200 mb-2">
                       <%= t('letters.your_past_prediction', text: pred.prediction) %>
                     </div>
- 
+
                     <% if pred.category == 'happiness' %>
                       <div class="space-y-2 pt-1">
-                        <div class="flex justify-between text-xs font-bold text-primary">
+                        <div class="flex justify-between text-xs font-medium text-primary font-sans-ui">
                           <span><%= t('letters.your_current_level') %></span>
-                          <span id="reality_happiness_pred_lbl">7 / 10</span>
+                          <span id="reality_happiness_pred_lbl" class="font-mono">7 / 10</span>
                         </div>
                         <%= range_field_tag "predictions[#{pred.id}][reality]", 7, min: 1, max: 10, class: "range range-xs cursor-pointer w-full accent-primary", oninput: "document.getElementById('reality_happiness_pred_lbl').innerText = this.value + ' / 10'" %>
                         <%= hidden_field_tag "predictions[#{pred.id}][matched]", "1" %>
                       </div>
                     <% else %>
-                      <div class="space-y-3">
-                        <%= text_field_tag "predictions[#{pred.id}][reality]", nil, placeholder: t('letters.placeholder_reality'), class: "input input-bordered w-full rounded-2xl bg-base-200/30 text-base-content border-base-300 placeholder:text-base-content/30 text-sm focus:border-primary focus:ring-2 focus:ring-primary/10 transition-all px-4 min-h-[44px]", required: true %>
-                        
+                      <div class="space-y-3 font-sans-ui">
+                        <%= text_field_tag "predictions[#{pred.id}][reality]", nil, placeholder: t('letters.placeholder_reality'), class: "input input-bordered w-full rounded-2xl bg-base-200/30 text-base-content border-base-300 placeholder:text-base-content/30 text-sm focus:border-primary focus:ring-2 focus:ring-primary/10 transition-all px-4 min-h-[44px] font-sans-ui", required: true %>
+
                         <div class="space-y-2">
-                          <label class="text-[10px] text-base-content/40 uppercase tracking-wider font-bold block"><%= t('letters.did_prediction_come_true') %></label>
+                          <label class="text-[10px] text-base-content/40 uppercase tracking-wider font-medium block font-sans-ui"><%= t('letters.did_prediction_come_true') %></label>
                           <div class="grid grid-cols-2 gap-3">
                             <label class="cursor-pointer group flex">
                               <%= radio_button_tag "predictions[#{pred.id}][matched]", "1", true, class: "peer sr-only" %>
-                              <div class="w-full text-center py-2.5 px-4 rounded-xl border border-base-300 bg-base-200/30 text-xs font-bold text-base-content/70 peer-checked:bg-success peer-checked:text-success-content peer-checked:border-success transition-all">
-                                🎉 <%= t('letters.yes_i_did_it') %>
+                              <div class="w-full text-center py-2.5 px-4 rounded-xl border border-base-300 bg-base-200/30 text-xs font-medium text-base-content/70 peer-checked:bg-success peer-checked:text-success-content peer-checked:border-success transition-all font-sans-ui inline-flex items-center justify-center gap-1.5">
+                                <%= tabler_icon("check", size: 14) %>
+                                <span><%= t('letters.yes_i_did_it') %></span>
                               </div>
                             </label>
                             <label class="cursor-pointer group flex">
                               <%= radio_button_tag "predictions[#{pred.id}][matched]", "0", false, class: "peer sr-only" %>
-                              <div class="w-full text-center py-2.5 px-4 rounded-xl border border-base-300 bg-base-200/30 text-xs font-bold text-base-content/70 peer-checked:bg-primary peer-checked:text-primary-content peer-checked:border-primary transition-all">
-                                ❌ <%= t('letters.not_exactly') %>
+                              <div class="w-full text-center py-2.5 px-4 rounded-xl border border-base-300 bg-base-200/30 text-xs font-medium text-base-content/70 peer-checked:bg-error peer-checked:text-error-content peer-checked:border-error transition-all font-sans-ui inline-flex items-center justify-center gap-1.5">
+                                <%= tabler_icon("x", size: 14) %>
+                                <span><%= t('letters.not_exactly') %></span>
                               </div>
                             </label>
                           </div>
@@ -139,47 +145,50 @@
               </div>
             </div>
           </div>
- 
+
           <div class="lg:col-span-3 flex flex-col gap-6">
             <div class="bg-base-200/30 border border-base-200 p-6 rounded-3xl shadow-2xs w-full space-y-6">
               <div class="border-b border-base-200 pb-3.5">
-                <h3 class="font-serif text-lg font-normal text-base-content"><%= t('letters.emotional_snapshot_heading') %></h3>
-                <p class="text-xs text-base-content/60 mt-1"><%= t('letters.feeling_now_short') %></p>
+                <h3 class="font-serif-editorial text-lg font-semibold text-base-content"><%= t('letters.emotional_snapshot_heading') %></h3>
+                <p class="text-xs text-base-content/60 mt-1 font-sans-ui"><%= t('letters.feeling_now_short') %></p>
               </div>
- 
+
               <div class="space-y-5">
-                <div class="space-y-2">
-                  <div class="flex justify-between items-center text-xs font-bold text-base-content/85">
-                     <span>😆 <%= t('letters.emotion_happiness') %></span>
+                <div class="space-y-2 font-sans-ui">
+                  <div class="flex justify-between items-center text-xs font-medium text-base-content/85">
+                     <span class="inline-flex items-center gap-1.5 text-warning"><%= tabler_icon("mood-smile", size: 18) %> <span><%= t('letters.emotion_happiness') %></span></span>
                     <span id="reveal_happiness_lbl" class="text-base-content/40 font-mono">5 / 10</span>
                   </div>
                   <%= f.range_field :reveal_happiness, min: 1, max: 10, value: 5, class: "range range-xs cursor-pointer w-full accent-primary", oninput: "document.getElementById('reveal_happiness_lbl').innerText = this.value + ' / 10'" %>
                 </div>
- 
-                <div class="space-y-2">
-                  <div class="flex justify-between items-center text-xs font-bold text-base-content/85">
-                     <span>🥺 <%= t('letters.emotion_anxiety') %></span>
+
+                <div class="space-y-2 font-sans-ui">
+                  <div class="flex justify-between items-center text-xs font-medium text-base-content/85">
+                     <span class="inline-flex items-center gap-1.5 text-info"><%= tabler_icon("activity", size: 18) %> <span><%= t('letters.emotion_anxiety') %></span></span>
                     <span id="reveal_anxiety_lbl" class="text-base-content/40 font-mono">5 / 10</span>
                   </div>
                   <%= f.range_field :reveal_anxiety, min: 1, max: 10, value: 5, class: "range range-xs cursor-pointer w-full accent-primary", oninput: "document.getElementById('reveal_anxiety_lbl').innerText = this.value + ' / 10'" %>
                 </div>
- 
-                <div class="space-y-2">
-                  <div class="flex justify-between items-center text-xs font-bold text-base-content/85">
-                     <span>⭐ <%= t('letters.emotion_motivation') %></span>
+
+                <div class="space-y-2 font-sans-ui">
+                  <div class="flex justify-between items-center text-xs font-medium text-base-content/85">
+                     <span class="inline-flex items-center gap-1.5 text-error"><%= tabler_icon("heart", size: 18) %> <span><%= t('letters.emotion_motivation') %></span></span>
                     <span id="reveal_motivation_lbl" class="text-base-content/40 font-mono">5 / 10</span>
                   </div>
                   <%= f.range_field :reveal_motivation, min: 1, max: 10, value: 5, class: "range range-xs cursor-pointer w-full accent-primary", oninput: "document.getElementById('reveal_motivation_lbl').innerText = this.value + ' / 10'" %>
                 </div>
               </div>
             </div>
- 
-            <div class="bg-primary/5 border border-primary/10 p-5 rounded-3xl space-y-2.5 text-xs text-base-content/80">
-              <p class="font-bold flex items-center gap-1.5 text-primary">💡 <%= t('letters.reflection_tip') %></p>
-              <p class="leading-relaxed opacity-90"><%= t('letters.reflection_tip_text') %> 🌱</p>
+
+            <div class="bg-primary/5 border border-primary/10 p-5 rounded-3xl space-y-2.5 text-xs text-base-content/80 font-sans-ui">
+              <p class="font-medium flex items-center gap-1.5 text-primary"><%= tabler_icon("bulb", size: 16) %> <%= t('letters.reflection_tip') %></p>
+              <p class="leading-relaxed opacity-90"><%= t('letters.reflection_tip_text') %></p>
             </div>
- 
-            <%= f.submit t('letters.save_and_view'), class: "btn w-full bg-primary text-primary-content hover:bg-primary/95 rounded-2xl py-3.5 px-6 text-xs font-bold tracking-wider uppercase border-none cursor-pointer mt-auto min-h-[44px] shadow-sm" %>
+
+            <%= f.button class: "btn w-full bg-primary text-primary-content hover:bg-primary/95 rounded-2xl py-3.5 px-6 text-xs font-medium tracking-wider uppercase border-none cursor-pointer mt-auto min-h-[44px] shadow-sm font-sans-ui inline-flex items-center justify-center gap-2" do %>
+              <%= tabler_icon("lock-open", size: 16) %>
+              <span><%= t('letters.save_and_view') %></span>
+            <% end %>
           </div>
 
         </div>
@@ -187,30 +196,31 @@
 
     <% else %>
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
-        
+
         <div class="lg:col-span-8 space-y-8">
           <div class="bg-base-200/30 border border-base-200 p-6 sm:p-10 rounded-3xl shadow-2xs space-y-6 relative overflow-hidden">
-            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-base-200 pb-5 text-xs text-base-content/50">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-base-200 pb-5 text-xs text-base-content/50 font-sans-ui">
               <div>
-                <p class="uppercase tracking-wider font-bold text-[10px]"><%= t('letters.show_written') %></p>
-                <p class="font-bold text-base-content text-sm font-mono"><%= @letter.formatted_created_at %></p>
+                <p class="uppercase tracking-wider font-medium text-[10px]"><%= t('letters.show_written') %></p>
+                <p class="font-medium text-base-content text-sm font-mono"><%= @letter.formatted_created_at %></p>
               </div>
               <div class="text-center">
-                <span class="text-xs font-bold text-primary uppercase tracking-wider block"><%= t('letters.past_letter') %></span>
+                <span class="text-xs font-medium text-primary uppercase tracking-wider block"><%= t('letters.past_letter') %></span>
               </div>
               <div class="sm:text-right">
-                <p class="uppercase tracking-wider font-bold text-[10px]"><%= t('letters.show_delivered') %></p>
-                <p class="font-bold text-base-content text-sm font-mono"><%= @letter.formatted_delivered_at %></p>
+                <p class="uppercase tracking-wider font-medium text-[10px]"><%= t('letters.show_delivered') %></p>
+                <p class="font-medium text-base-content text-sm font-mono"><%= @letter.formatted_delivered_at %></p>
               </div>
             </div>
 
-            <article class="writing-canvas lined-paper-canvas p-8 sm:p-12 border border-base-300/60 rounded-3xl bg-base-100 text-base-content shadow-inner min-h-[300px] whitespace-pre-wrap select-text leading-relaxed">
+            <article class="writing-canvas lined-paper-canvas p-8 sm:p-12 border border-base-300/60 rounded-3xl bg-base-100 text-base-content shadow-inner min-h-[300px] whitespace-pre-wrap select-text font-serif-editorial font-normal leading-[1.75]">
               <%= @letter.content %>
             </article>
 
-            <div class="pt-6 border-t border-base-200 flex justify-between items-center text-[10px] text-base-content/40 font-sans">
-              <a href="<%= dashboard_path %>" class="hover:text-primary transition-colors flex items-center gap-1 font-bold uppercase tracking-wider">
-                <span>&larr;</span> <%= t('letters.back_to_vault') %>
+            <div class="pt-6 border-t border-base-200 flex justify-between items-center text-[10px] text-base-content/40 font-sans-ui">
+              <a href="<%= dashboard_path %>" class="hover:text-primary transition-colors flex items-center gap-1.5 font-medium uppercase tracking-wider">
+                <%= tabler_icon("chevron-left", size: 14) %>
+                <span><%= t('letters.back_to_vault') %></span>
               </a>
             </div>
           </div>
@@ -218,35 +228,40 @@
           <% if @letter.predictions.any? %>
             <div class="bg-base-200/30 border border-base-200 p-6 sm:p-8 rounded-3xl shadow-2xs space-y-6">
               <div class="border-b border-base-200 pb-3.5">
-                <h2 class="font-serif text-xl font-normal text-base-content"><%= t('letters.predictions_vs_reality') %></h2>
-                <p class="text-xs text-base-content/60 mt-1"><%= t('letters.predictions_vs_reality_desc') %></p>
+                <h2 class="font-serif-editorial text-xl font-semibold text-base-content"><%= t('letters.predictions_vs_reality') %></h2>
+                <p class="text-xs text-base-content/60 mt-1 font-sans-ui"><%= t('letters.predictions_vs_reality_desc') %></p>
               </div>
 
               <div class="space-y-4">
                 <% @letter.decorated_predictions.each do |pred| %>
                   <div class="bg-base-100 border border-base-300 rounded-3xl overflow-hidden shadow-2xs hover:shadow-xs transition-shadow">
-                    
-                    <div class="bg-base-200/40 px-5 py-3.5 flex justify-between items-center border-b border-base-300/60">
-                      <span class="bg-primary/5 text-primary border border-primary/10 text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-lg">
+
+                    <div class="bg-base-200/40 px-5 py-3.5 flex justify-between items-center border-b border-base-300/60 font-sans-ui">
+                      <span class="bg-primary/5 text-primary border border-primary/10 text-[10px] font-medium uppercase tracking-wider px-2.5 py-1 rounded-lg">
                         <%= pred.category_label %>
                       </span>
 
-                      <span class="<%= pred.result_badge_class %> border-0 py-1.5 px-3 text-[10px] font-bold uppercase tracking-wider rounded-lg shadow-2xs">
-                        <%= pred.result_badge %>
+                      <span class="<%= pred.result_badge_class %> border-0 py-1.5 px-3 text-[10px] font-medium uppercase tracking-wider rounded-lg shadow-2xs inline-flex items-center gap-1">
+                        <% if pred.matched? %>
+                          <%= tabler_icon("check", size: 12) %>
+                        <% else %>
+                          <%= tabler_icon("x", size: 12) %>
+                        <% end %>
+                        <span><%= pred.result_badge %></span>
                       </span>
                     </div>
 
                     <div class="grid md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-base-300 bg-base-100">
                       <div class="p-5 space-y-1.5">
-                        <span class="text-xs font-bold text-base-content/40 uppercase tracking-wider block"><%= t('letters.past_prediction_label') %></span>
-                        <p class="text-sm text-base-content/80 leading-relaxed font-sans">
+                        <span class="text-xs font-medium text-base-content/40 uppercase tracking-wider block font-sans-ui"><%= t('letters.past_prediction_label') %></span>
+                        <p class="text-sm text-base-content/80 leading-relaxed font-sans-ui">
                           "<%= pred.prediction %>"
                         </p>
                       </div>
-                      
+
                       <div class="p-5 space-y-1.5 bg-base-200/10">
-                        <span class="text-xs font-bold text-base-content/40 uppercase tracking-wider block"><%= t('letters.reality_today_label') %></span>
-                        <p class="text-sm text-base-content/85 leading-relaxed font-sans font-medium">
+                        <span class="text-xs font-medium text-base-content/40 uppercase tracking-wider block font-sans-ui"><%= t('letters.reality_today_label') %></span>
+                        <p class="text-sm text-base-content/85 leading-relaxed font-sans-ui font-medium">
                           "<%= pred.reality %>"
                         </p>
                       </div>
@@ -260,19 +275,19 @@
         </div>
 
         <div class="lg:col-span-4 space-y-6 flex flex-col">
-          
+
           <div class="bg-base-200/30 border border-base-200 p-6 rounded-3xl shadow-2xs space-y-5 text-center">
             <div class="border-b border-base-200 pb-3">
-              <h3 class="font-serif text-lg font-normal text-base-content"><%= t('letters.prediction_score_title') %></h3>
+              <h3 class="font-serif-editorial text-lg font-semibold text-base-content"><%= t('letters.prediction_score_title') %></h3>
             </div>
 
             <% if @letter.predictions.any? %>
               <% matched = @letter.predictions.matched.count %>
               <% total = @letter.predictions.count %>
               <% pct = ((matched.to_f / total) * 100).round %>
-              
+
               <div class="relative w-36 h-36 mx-auto flex items-center justify-center">
-                <div class="radial-progress text-primary font-sans text-3xl font-extrabold"
+                <div class="radial-progress text-primary font-sans-ui text-3xl font-extrabold"
                      style="--value:<%= pct %>; --size:9rem; --thickness: 10px;"
                      role="progressbar"
                      aria-valuenow="<%= pct %>"
@@ -284,43 +299,46 @@
               </div>
 
               <div class="space-y-1 text-xs">
-                <p class="font-bold text-base-content/85 font-sans"><%= t('letters.matched_predictions_count', matched: matched, total: total, pct: pct) %></p>
-                <p class="text-base-content/60 leading-relaxed max-w-xs mx-auto font-sans">
+                <p class="font-medium text-base-content/85 font-sans-ui"><%= t('letters.matched_predictions_count', matched: matched, total: total, pct: pct) %></p>
+                <p class="text-base-content/60 leading-relaxed max-w-xs mx-auto font-sans-ui">
                   <% if pct >= 70 %>
-                    <%= t('letters.score_message_high') %> 🌟
+                    <%= t('letters.score_message_high') %>
                   <% elsif pct >= 40 %>
-                    <%= t('letters.score_message_medium') %> 🌱
+                    <%= t('letters.score_message_medium') %>
                   <% else %>
-                    <%= t('letters.score_message_low') %> 🚀
+                    <%= t('letters.score_message_low') %>
                   <% end %>
                 </p>
               </div>
             <% else %>
-              <p class="text-xs text-base-content/40 py-4 font-sans"><%= t('letters.no_predictions_registered') %></p>
+              <p class="text-xs text-base-content/40 py-4 font-sans-ui"><%= t('letters.no_predictions_registered') %></p>
             <% end %>
           </div>
 
           <div class="bg-base-200/30 border border-base-200 p-6 rounded-3xl shadow-2xs space-y-6">
             <div class="border-b border-base-200 pb-3">
-              <h3 class="font-serif text-lg font-normal text-base-content"><%= t('letters.emotional_evolution') %></h3>
-              <p class="text-[10px] text-base-content/40 mt-0.5 uppercase tracking-wider font-bold"><%= t('letters.internal_wellbeing_change') %></p>
+              <h3 class="font-serif-editorial text-lg font-semibold text-base-content"><%= t('letters.emotional_evolution') %></h3>
+              <p class="text-[10px] text-base-content/40 mt-0.5 uppercase tracking-wider font-medium font-sans-ui"><%= t('letters.internal_wellbeing_change') %></p>
             </div>
 
             <% if @letter.emotional_snapshot.present? %>
-              <div class="space-y-5">
+              <div class="space-y-5 font-sans-ui">
                 <div class="space-y-2 bg-base-100 p-3.5 rounded-2xl border border-base-300">
                   <div class="flex justify-between items-center text-xs">
-                    <span class="font-bold text-base-content/85 flex items-center gap-1 font-sans"><%= t('letters.emotion_happiness') %></span>
+                    <span class="font-medium text-base-content/85 flex items-center gap-1.5 font-sans-ui">
+                      <span class="text-warning"><%= tabler_icon("mood-smile", size: 16) %></span>
+                      <%= t('letters.emotion_happiness') %>
+                    </span>
                     <% hap_shift = @letter.reveal_happiness.to_i - @letter.emotional_snapshot.happiness_level.to_i %>
                     <% if hap_shift > 0 %>
-                      <span class="bg-success text-success-content text-[10px] font-bold py-1 px-2.5 rounded-lg font-sans">+<%= hap_shift %> <%= t('letters.growth') %></span>
+                      <span class="bg-success text-success-content text-[10px] font-medium py-1 px-2.5 rounded-lg font-sans-ui">+<%= hap_shift %> <%= t('letters.growth') %></span>
                     <% elsif hap_shift < 0 %>
-                      <span class="bg-primary text-primary-content text-[10px] font-bold py-1 px-2.5 rounded-lg font-sans"><%= hap_shift %> <%= t('letters.decline_label') %></span>
+                      <span class="bg-primary text-primary-content text-[10px] font-medium py-1 px-2.5 rounded-lg font-sans-ui"><%= hap_shift %> <%= t('letters.decline_label') %></span>
                     <% else %>
-                      <span class="bg-base-200 text-base-content/60 border border-base-300 text-[10px] font-bold py-1 px-2.5 rounded-lg font-sans"><%= t('letters.steady_status') %></span>
+                      <span class="bg-base-200 text-base-content/60 border border-base-300 text-[10px] font-medium py-1 px-2.5 rounded-lg font-sans-ui"><%= t('letters.steady_status') %></span>
                     <% end %>
                   </div>
-                  
+
                   <div class="flex justify-between items-center text-[11px] text-base-content/40 font-mono">
                     <span><%= t('letters.past_label') %> <strong><%= @letter.emotional_snapshot.happiness_level %></strong></span>
                     <span class="text-xs">&rarr;</span>
@@ -329,18 +347,21 @@
                 </div>
 
                 <div class="space-y-2 bg-base-100 p-3.5 rounded-2xl border border-base-300">
-                  <div class="flex justify-between items-center text-xs font-sans">
-                    <span class="font-bold text-base-content/85 flex items-center gap-1">🥺 <%= t('letters.emotion_anxiety') %></span>
+                  <div class="flex justify-between items-center text-xs font-sans-ui">
+                    <span class="font-medium text-base-content/85 flex items-center gap-1.5">
+                      <span class="text-info"><%= tabler_icon("activity", size: 16) %></span>
+                      <%= t('letters.emotion_anxiety') %>
+                    </span>
                     <% anx_shift = @letter.reveal_anxiety.to_i - @letter.emotional_snapshot.anxiety_level.to_i %>
                     <% if anx_shift < 0 %>
-                      <span class="bg-success text-success-content text-[10px] font-bold py-1 px-2.5 rounded-lg font-sans"><%= anx_shift %> <%= t('letters.calm_label') %></span>
+                      <span class="bg-success text-success-content text-[10px] font-medium py-1 px-2.5 rounded-lg font-sans-ui"><%= anx_shift %> <%= t('letters.calm_label') %></span>
                     <% elsif anx_shift > 0 %>
-                      <span class="bg-warning text-warning-content text-[10px] font-bold py-1 px-2.5 rounded-lg font-sans">+<%= anx_shift %> <%= t('letters.stress_label') %></span>
+                      <span class="bg-warning text-warning-content text-[10px] font-medium py-1 px-2.5 rounded-lg font-sans-ui">+<%= anx_shift %> <%= t('letters.stress_label') %></span>
                     <% else %>
-                      <span class="bg-base-200 text-base-content/60 border border-base-300 text-[10px] font-bold py-1 px-2.5 rounded-lg font-sans"><%= t('letters.steady_label') %></span>
+                      <span class="bg-base-200 text-base-content/60 border border-base-300 text-[10px] font-medium py-1 px-2.5 rounded-lg font-sans-ui"><%= t('letters.steady_label') %></span>
                     <% end %>
                   </div>
-                  
+
                   <div class="flex justify-between items-center text-[11px] text-base-content/40 font-mono">
                     <span><%= t('letters.past_label') %> <strong><%= @letter.emotional_snapshot.anxiety_level %></strong></span>
                     <span class="text-xs">&rarr;</span>
@@ -349,18 +370,21 @@
                 </div>
 
                 <div class="space-y-2 bg-base-100 p-3.5 rounded-2xl border border-base-300">
-                  <div class="flex justify-between items-center text-xs font-sans font-bold">
-                    <span class="text-base-content/85 flex items-center gap-1"><%= t('letters.emotion_motivation') %></span>
+                  <div class="flex justify-between items-center text-xs font-sans-ui font-medium">
+                    <span class="text-base-content/85 flex items-center gap-1.5">
+                      <span class="text-error"><%= tabler_icon("heart", size: 16) %></span>
+                      <%= t('letters.emotion_motivation') %>
+                    </span>
                     <% mot_shift = @letter.reveal_motivation.to_i - @letter.emotional_snapshot.motivation_level.to_i %>
                     <% if mot_shift > 0 %>
-                      <span class="bg-success text-success-content text-[10px] font-bold py-1 px-2.5 rounded-lg font-sans font-bold">+<%= mot_shift %> <%= t('letters.inspired_label') %></span>
+                      <span class="bg-success text-success-content text-[10px] font-medium py-1 px-2.5 rounded-lg font-sans-ui font-medium">+<%= mot_shift %> <%= t('letters.inspired_label') %></span>
                     <% elsif mot_shift < 0 %>
-                      <span class="bg-primary text-primary-content text-[10px] font-bold py-1 px-2.5 rounded-lg font-sans font-bold"><%= mot_shift %> <%= t('letters.decline_label') %></span>
+                      <span class="bg-primary text-primary-content text-[10px] font-medium py-1 px-2.5 rounded-lg font-sans-ui font-medium"><%= mot_shift %> <%= t('letters.decline_label') %></span>
                     <% else %>
-                      <span class="bg-base-200 text-base-content/60 border border-base-300 text-[10px] font-bold py-1 px-2.5 rounded-lg font-sans font-bold"><%= t('letters.steady_label') %></span>
+                      <span class="bg-base-200 text-base-content/60 border border-base-300 text-[10px] font-medium py-1 px-2.5 rounded-lg font-sans-ui font-medium"><%= t('letters.steady_label') %></span>
                     <% end %>
                   </div>
-                  
+
                   <div class="flex justify-between items-center text-[11px] text-base-content/40 font-mono">
                     <span><%= t('letters.past_label') %> <strong><%= @letter.emotional_snapshot.motivation_level %></strong></span>
                     <span class="text-xs">&rarr;</span>
@@ -369,15 +393,16 @@
                 </div>
               </div>
             <% else %>
-                <span class="text-base-content/60"><%= t('letters.no_emotional_data') %></span>
+                <span class="text-base-content/60 font-sans-ui"><%= t('letters.no_emotional_data') %></span>
             <% end %>
           </div>
 
           <div class="bg-base-200/30 border border-base-200 p-6 rounded-3xl shadow-2xs space-y-4 mt-auto">
-            <h4 class="font-serif text-base font-normal text-base-content"><%= t('letters.whats_next') %></h4>
-            <p class="text-xs text-base-content/60 leading-relaxed font-sans"><%= t('letters.whats_next_desc') %></p>
-            <a href="<%= new_letter_path %>" class="btn w-full bg-primary text-primary-content hover:bg-primary/95 rounded-2xl py-3 text-xs font-bold tracking-wider uppercase border-none cursor-pointer min-h-[40px] flex items-center justify-center font-sans">
-              <%= t('letters.write_new_letter') %>
+            <h4 class="font-serif-editorial text-base font-semibold text-base-content"><%= t('letters.whats_next') %></h4>
+            <p class="text-xs text-base-content/60 leading-relaxed font-sans-ui"><%= t('letters.whats_next_desc') %></p>
+            <a href="<%= new_letter_path %>" class="btn w-full bg-primary text-primary-content hover:bg-primary/95 rounded-2xl py-3 text-xs font-medium tracking-wider uppercase border-none cursor-pointer min-h-[40px] flex items-center justify-center gap-1.5 font-sans-ui shadow-sm">
+              <%= tabler_icon("plus", size: 16) %>
+              <span><%= t('letters.write_new_letter') %></span>
             </a>
           </div>
 
