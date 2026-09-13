@@ -81,6 +81,7 @@ time_echo/
 ├── docs/
 │   ├── architecture.md   # Detailed system architecture document
 │   └── ui-ux.md          # UI/UX design system & architectural specification
+├── skills/               # Specialized agent skills (rails-expert, impeccable, etc.)
 ├── test/                 # Minitest suite
 ├── AGENTS.md             # AI agent rules & constraints
 ├── PRODUCT.md            # Product brief, brand, design principles
