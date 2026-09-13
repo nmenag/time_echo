@@ -297,6 +297,8 @@ en:
     five_years: 5 years
     custom_date: Custom date
     choose_specific_date: Choose a specific date
+    predictions_annex: PREDICTIONS ANNEX
+    current_emotional_state: CURRENT EMOTIONAL STATE
     your_predictions_optional: Your predictions (optional)
     where_will_you_live: Where do you think you will live?
     what_work_will_you_do: What will you work as?
@@ -316,6 +318,15 @@ en:
     compare_reflect_desc:
       Compare your predictions with your reality and reflect on
       your evolution.
+    dossier_revealed: "№ REVEALED DOSSIER · TE-00412"
+    mock_prediction_city: I will live in Barcelona
+    mock_reality_city: I live in Medellín
+    mock_prediction_career: I will be a freelance designer
+    mock_reality_career: I'm a Product Designer
+    mock_prediction_salary: I will earn $4,000/month
+    mock_reality_salary: I earn $5,500/month
+    mock_prediction_happiness: 8 / 10 happiness
+    mock_reality_happiness: 7 / 10 happiness
     prediction_vs_reality: Prediction vs Reality
     prediction: Prediction
     reality: Reality
@@ -328,6 +339,10 @@ en:
     your_past: Your past
     your_present: Your present
   letters:
+    annex_1: ANNEX I
+    annex_2: ANNEX II
+    fact_matching: FACT MATCHING
+    current_state_badge: CURRENT STATE
     new_header: Sealing a memory
     new_subheader: Pour your thoughts onto the page, then seal it for the future.
     label_email: Your Email Address

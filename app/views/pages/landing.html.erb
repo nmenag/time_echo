@@ -4,12 +4,6 @@
 
     <div class="lg:col-span-5 space-y-7 lg:sticky lg:top-24">
       <div class="space-y-4">
-        <div class="inline-flex items-center gap-2">
-          <span class="postmark-stamp text-[10px] py-0.5 px-2">
-            <%= t('brand') %> · <%= t('landing.badge') %>
-          </span>
-        </div>
-
         <h1 class="font-serif-editorial text-4xl sm:text-6xl font-normal text-base-content leading-tight tracking-tight">
           <%= t('landing.headline').html_safe %>
         </h1>
@@ -72,7 +66,7 @@
 
         <div class="space-y-2">
           <label class="text-xs font-letter font-semibold text-base-content uppercase tracking-wider block"><%= t('landing.your_letter') %></label>
-          <%= f.text_area :content, id: "landing_content_area", placeholder: t('landing.dear_future_self'), rows: 7, maxlength: 2000, class: "lined-paper-canvas w-full p-4 sm:p-5 border border-[#D8D2C2] dark:border-[#2D3340] rounded-xs font-letter text-sm leading-loose text-base-content placeholder:text-base-content/30 focus:border-[#8E2818] focus:outline-none transition-all shadow-inner bg-transparent", required: true %>
+          <%= f.text_area :content, id: "landing_content_area", placeholder: t('landing.dear_future_self'), rows: 7, maxlength: 2000, class: "w-full p-4 sm:p-5 border border-[#D8D2C2] dark:border-[#2D3340] rounded-xs font-letter text-sm leading-loose text-base-content placeholder:text-base-content/30 focus:border-[#8E2818] focus:outline-none transition-all shadow-inner bg-transparent", required: true %>
           <div class="flex justify-between items-center text-[11px] font-letter text-base-content/50 pt-1">
             <span class="italic"><%= t('letters.only_you_can_see') %></span>
             <span id="landing_char_counter">0 / 2000</span>
@@ -99,7 +93,7 @@
 
         <div class="archival-folder rounded-xs p-4 sm:p-5 space-y-4 border border-[#D5CEBD] dark:border-[#2D3342]">
           <div class="border-b border-[#D5CEBD] dark:border-[#2D3342] pb-2">
-            <span class="text-[10px] font-letter uppercase tracking-widest text-base-content/50 block">ANEXO DE PREDICCIONES</span>
+            <span class="text-[10px] font-letter uppercase tracking-widest text-base-content/50 block"><%= t('landing.predictions_annex') %></span>
             <label class="text-xs font-letter font-semibold text-base-content uppercase tracking-wider block mt-0.5"><%= t('landing.your_predictions_optional') %></label>
           </div>
 
@@ -159,7 +153,7 @@
 
         <div class="archival-folder rounded-xs p-4 sm:p-5 space-y-3 border border-[#D5CEBD] dark:border-[#2D3342]">
           <div class="border-b border-[#D5CEBD] dark:border-[#2D3342] pb-1.5">
-            <span class="text-[10px] font-letter uppercase tracking-widest text-base-content/50 block">ESTADO ANÍMICO ACTUAL</span>
+            <span class="text-[10px] font-letter uppercase tracking-widest text-base-content/50 block"><%= t('landing.current_emotional_state') %></span>
             <label class="text-xs font-letter font-semibold text-base-content uppercase tracking-wider block mt-0.5"><%= t('landing.how_do_you_feel_today') %></label>
           </div>
 
@@ -225,7 +219,7 @@
           <span class="w-2.5 h-2.5 rounded-full bg-[#D8D2C2] inline-block"></span>
         </div>
         <div class="font-letter text-[11px] text-base-content/60 tracking-wider">
-          № EXPEDIENTE REVELADO · TE-00412
+          <%= t('landing.dossier_revealed') %>
         </div>
         <div class="w-8"></div>
       </div>
@@ -277,11 +271,11 @@
                 <div class="space-y-0.5">
                   <div class="flex items-center gap-2 text-base-content/60">
                     <span class="uppercase text-[9px] font-semibold tracking-wider"><%= t('letters.prediction') %>:</span>
-                    <span class="italic text-base-content/80">Viviré en Barcelona</span>
+                    <span class="italic text-base-content/80"><%= t('landing.mock_prediction_city') %></span>
                   </div>
                   <div class="flex items-center gap-2 text-base-content font-semibold">
                     <span class="uppercase text-[9px] tracking-wider text-base-content/60"><%= t('letters.reality') %>:</span>
-                    <span>Vivo en Medellín</span>
+                    <span><%= t('landing.mock_reality_city') %></span>
                   </div>
                 </div>
                 <span class="postmark-stamp text-[10px] py-0.5 px-2 self-start sm:self-auto shrink-0"><%= t('letters.partially') %></span>
@@ -291,11 +285,11 @@
                 <div class="space-y-0.5">
                   <div class="flex items-center gap-2 text-base-content/60">
                     <span class="uppercase text-[9px] font-semibold tracking-wider"><%= t('letters.prediction') %>:</span>
-                    <span class="italic text-base-content/80">Seré diseñadora freelance</span>
+                    <span class="italic text-base-content/80"><%= t('landing.mock_prediction_career') %></span>
                   </div>
                   <div class="flex items-center gap-2 text-base-content font-semibold">
                     <span class="uppercase text-[9px] tracking-wider text-base-content/60"><%= t('letters.reality') %>:</span>
-                    <span>Soy Product Designer</span>
+                    <span><%= t('landing.mock_reality_career') %></span>
                   </div>
                 </div>
                 <span class="postmark-stamp text-[10px] py-0.5 px-2 self-start sm:self-auto shrink-0"><%= t('letters.you_did_it') %></span>
@@ -305,11 +299,11 @@
                 <div class="space-y-0.5">
                   <div class="flex items-center gap-2 text-base-content/60">
                     <span class="uppercase text-[9px] font-semibold tracking-wider"><%= t('letters.prediction') %>:</span>
-                    <span class="italic text-base-content/80">Ganaré $5.000.000 COP</span>
+                    <span class="italic text-base-content/80"><%= t('landing.mock_prediction_salary') %></span>
                   </div>
                   <div class="flex items-center gap-2 text-base-content font-semibold">
                     <span class="uppercase text-[9px] tracking-wider text-base-content/60"><%= t('letters.reality') %>:</span>
-                    <span>Gano $7.200.000 COP</span>
+                    <span><%= t('landing.mock_reality_salary') %></span>
                   </div>
                 </div>
                 <span class="postmark-stamp text-[10px] py-0.5 px-2 self-start sm:self-auto shrink-0"><%= t('letters.superaste') %></span>
@@ -319,11 +313,11 @@
                 <div class="space-y-0.5">
                   <div class="flex items-center gap-2 text-base-content/60">
                     <span class="uppercase text-[9px] font-semibold tracking-wider"><%= t('letters.prediction') %>:</span>
-                    <span class="italic text-base-content/80">8 / 10 de felicidad</span>
+                    <span class="italic text-base-content/80"><%= t('landing.mock_prediction_happiness') %></span>
                   </div>
                   <div class="flex items-center gap-2 text-base-content font-semibold">
                     <span class="uppercase text-[9px] tracking-wider text-base-content/60"><%= t('letters.reality') %>:</span>
-                    <span>7 / 10 de felicidad</span>
+                    <span><%= t('landing.mock_reality_happiness') %></span>
                   </div>
                 </div>
                 <span class="postmark-stamp text-[10px] py-0.5 px-2 self-start sm:self-auto shrink-0"><%= t('letters.very_close') %></span>

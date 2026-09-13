@@ -199,6 +199,9 @@
     border-color: #8E2818;
     box-shadow: 0 4px 20px rgba(142, 40, 24, 0.08);
   }
+  .lined-paper-canvas:placeholder-shown {
+    background-image: none;
+  }
 
   /* Range slider thumb */
   .custom-range-slider::-webkit-slider-thumb {
