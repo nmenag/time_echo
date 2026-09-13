@@ -37,12 +37,39 @@ For detailed system sequence diagrams, database schemas, and transactional bound
 
 ---
 
+## 📜 Postal & Archival Design System
+
+TimeEcho rejects generic SaaS clichés (uniform rounded cards, purple buttons, and icon pills) in favor of a physical, tactile **archival and epistolary design language**:
+
+- **Tripartite Typography**:
+  - **`font-serif-editorial` (Fraunces)**: Warm optical-sized serif for literary reflection, capsule titles, and letter reveals.
+  - **`font-letter` (Courier Prime)**: Authentic monospaced typewriter typeface for letter bodies, docket IDs (`№ TE-00042`), cancellation stamps, and dates.
+  - **`font-ui` (IBM Plex Sans / Work Sans)**: Clean grotesque sans-serif for operational controls, forms, buttons, and navigation.
+- **Physical Archival Palette**:
+  - **Wax Seal Carmine**: `#8E2818` (light theme primary) / `#D14930` (dark theme primary) / `#6A1E12` (active hover).
+  - **Postmark Ink Indigo**: `#2C485E` (ink light) / `#77A3C4` (ink dark).
+  - **Archival Manila & Parchment**: `#EFECE3` (manila folder) / `#FAF9F5` (stationery paper sheet) / `#D8D2C2` (crease hairline borders).
+- **Tactile Components**:
+  - `.paper-sheet` & `.archival-folder`: Crisp folio paper sheets and manila dossiers replacing generic cards.
+  - `.postmark-stamp`: Hand-stamped cancellation marks with realistic rotation (`-1.5deg` to `1.5deg`).
+  - `.wax-seal`: 3D embossed carmine seal badge with keyframe crack split animation (`seal-crack-left` / `seal-crack-right`) upon capsule reveal.
+  - `.lined-paper-canvas`: Ruled paper writing guide for letter drafting.
+  - `Expediente de Realidad`: Two-column retrospective ledger comparing past predictions against present reality.
+- **Bespoke Circular Favicon & Icon Suite**:
+  - 32-bit RGBA true alpha transparency across SVG, ICO, and PNG assets with high-contrast envelope and clock dial.
+
+For the complete design philosophy, CSS tokens, and component guidelines, see:
+👉 **[UI/UX Design System & Architectural Specification (docs/ui-ux.md)](docs/ui-ux.md)**
+
+---
+
 ## 🛠️ Prerequisites & Stack
 
 - **Ruby**: `~> 3.2` or `3.3` (with Rails `8.1.x`)
 - **Node.js**: `v18.x` or higher (with `npm`)
 - **Database**: PostgreSQL (v14+)
-- **Styling**: Tailwind CSS v4 & DaisyUI v5 (CSS-first setup)
+- **Styling**: Tailwind CSS v4 & DaisyUI v5 (CSS-first setup with physical postal theme tokens)
+- **Typography**: Google Fonts (`Fraunces`, `Courier Prime`, `IBM Plex Sans`)
 - **Active Job Queue**: GoodJob (database-backed)
 
 ---

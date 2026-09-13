@@ -236,10 +236,7 @@ es:
     delivery_desc: Tu carta será guardada y te la enviaremos en la fecha que elijas.
     connect_with_yourself: Conecta contigo
     compare_desc: Compara tus predicciones con tu realidad y reflexiona sobre tu evolución.
-    note_for_you: Para ti, desde hoy
-    hero_image_alt: Reflexión sobre el futuro
     write_card_title: Escribe tu carta a tu futuro
-    step_1_of_4: 1 de 4
     your_letter: Tu carta
     dear_future_self: Querido yo del futuro...
     when_do_you_want_it: "¿Cuándo quieres recibirla?"
@@ -249,6 +246,8 @@ es:
     five_years: 5 años
     custom_date: Fecha personalizada
     choose_specific_date: Elige una fecha específica
+    predictions_annex: ANEXO DE PREDICCIONES
+    current_emotional_state: ESTADO ANÍMICO ACTUAL
     your_predictions_optional: Tus predicciones (opcional)
     where_will_you_live: "¿Dónde crees que vivirás?"
     what_work_will_you_do: "¿A qué te dedicarás?"
@@ -265,6 +264,15 @@ es:
     compare_reflect_desc:
       Compara tus predicciones con tu realidad y reflexiona sobre
       tu evolución.
+    dossier_revealed: "№ EXPEDIENTE REVELADO · TE-00412"
+    mock_prediction_city: Viviré en Barcelona
+    mock_reality_city: Vivo en Medellín
+    mock_prediction_career: Seré diseñadora freelance
+    mock_reality_career: Soy Product Designer
+    mock_prediction_salary: Ganaré $5.000.000 COP
+    mock_reality_salary: Gano $7.200.000 COP
+    mock_prediction_happiness: 8 / 10 de felicidad
+    mock_reality_happiness: 7 / 10 de felicidad
     prediction_vs_reality: Predicción vs Realidad
     prediction: Predicción
     reality: Realidad
@@ -327,16 +335,14 @@ es:
     pricing_paid_feature4: Almacenamiento seguro de alta fidelidad
     pricing_paid_feature5: Garantía de entrega gratuita
     pricing_paid_btn: Sella tu Legado
-    quote:
-      Recibir una carta que escribí a mi yo de hace cinco años fue como reunirme
-      con un viejo amigo del que no sabía que me faltaba. Me recordó lo mucho que
-      he crecido y lo que realmente importa en este mundo acelerado.
-    quote_author: Sarah Jenkins
-    quote_author_sub: Viajero de TimeEcho desde 2021
     happiness: Felicidad
     anxiety: Ansiedad
     motivation: Motivación
   letters:
+    annex_1: ANEXO I
+    annex_2: ANEXO II
+    fact_matching: COTEJO DE HECHOS
+    current_state_badge: ESTADO ACTUAL
     show_time_remaining: Tiempo restante
     back_to_vault: "Volver a mis cartas"
     unlocked_badge: Cápsula Desbloqueada

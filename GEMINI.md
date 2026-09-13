@@ -78,9 +78,9 @@ time_echo/
 │   ├── deploy.yml        # Kamal deployment config
 │   ├── puma.rb           # Puma configuration (single-mode on free tier)
 │   └── database.yml      # PostgreSQL connection (env-var driven)
-├── db/                   # Migrations & seeds
-├── docs/architecture.md  # Detailed system architecture document
-├── render.yaml           # Render blueprint deployment specification
+├── docs/
+│   ├── architecture.md   # Detailed system architecture document
+│   └── ui-ux.md          # UI/UX design system & architectural specification
 ├── test/                 # Minitest suite
 ├── AGENTS.md             # AI agent rules & constraints
 ├── PRODUCT.md            # Product brief, brand, design principles
@@ -149,13 +149,23 @@ npm run build:css   # production minified build
 - Reuse plucked ID arrays — never re-pluck
 - Concurrent-safe row locks (`FOR UPDATE SKIP LOCKED`) in delivery queries
 
-### Styling (Tailwind CSS v4 + DaisyUI v5)
+### Styling (Tailwind CSS v4 + DaisyUI v5 — Postal & Archival System)
 
-- **Semantic tokens only** — `bg-base-100`, `text-base-content`, `text-primary` (no `bg-white`, `text-slate-900`)
-- **Typography**: `font-serif` (Instrument Serif) for headings, `font-sans` (Inter) for body, `font-handwritten` (Caveat) for notes
-- **Micro-animations**: `hover:scale-[1.02]`, `active:scale-[0.98]`, smooth transitions
-- Honor `@media (prefers-reduced-motion: reduce)`
-- WCAG AA contrast compliance (≥ 4.5:1)
+- **Design Philosophy**: Physical postal and archival aesthetic (see **[`docs/ui-ux.md`](docs/ui-ux.md)**). Strictly avoid generic AI/SaaS tropes (identical rounded cards, pastel icon circles, purple buttons, flat beige clichés, emojis as UI icons).
+- **Physical Palette**:
+  - Primary (Wax Seal Carmine): `#8E2818` (light), `#6A1E12` (hover), `#D14930` (dark). Absolutely no purple or violet (`oklch(... 290)`).
+  - Accent (Postmark Ink Indigo): `#2C485E` (light), `#77A3C4` (dark).
+  - Surfaces: `#FAF9F5` (stationery paper), `#16181D` (dark paper), `#EFECE3` (manila folder), `#1C2028` (dark folder).
+  - Borders: `#D8D2C2` (hairline crease), `#2D3340` (dark border).
+- **Typography Hierarchy**:
+  - `font-serif-editorial` (**Fraunces**): section titles, capsule titles, reveal moments.
+  - `font-letter` (**Courier Prime**): letter composition & reading, docket numbers (`№ TE-00042`), postmark cancellation stamps, dates.
+  - `font-ui` / `font-sans-ui` (**IBM Plex Sans** / **Work Sans**): buttons, form inputs, operational statuses, navigation.
+- **Specialized Components**: `.paper-sheet`, `.archival-folder`, `.postmark-stamp`, `.wax-seal` (with `seal-crack-left` / `seal-crack-right` unsealing animations), `.lined-paper-canvas`, and two-column `Expediente de Realidad`.
+- **Accessibility & Motion**:
+  - WCAG AA contrast compliance (≥ 4.5:1).
+  - Honor `@media (prefers-reduced-motion: reduce)`.
+  - Keyboard focus rings using `#8E2818`.
 
 ### Internationalization (i18n)
 
@@ -172,12 +182,6 @@ npm run build:css   # production minified build
 ## Pull Request Formatting Rule
 
 - **Template Standard**: When the user requests a "pull request", AI agents must structure the pull request description strictly adhering to the sections in `.github/pull_request_template.md`.
-- **PR Size Labeling**: AI agents must calculate the total changed lines (additions + deletions, excluding `test/`) and check the appropriate size label:
-  - `size/XS`: <10 lines
-  - `size/S`: 10–49 lines
-  - `size/M`: 50–249 lines
-  - `size/L`: 250–499 lines
-  - `size/XL`: 500+ lines
 - **Direct Output Only**: AI agents must return the formatted pull request markdown directly in the chat response inside a single markdown code block for easy copying, without creating temporary markdown files (such as `.pr_body.md`).
 
 ## Execution Restrictions for AI Agents
