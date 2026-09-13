@@ -56,7 +56,7 @@
           <%= f.label :title, t('letters.title_label'), class: "text-xs font-letter uppercase tracking-wider font-semibold text-base-content/70 block" %>
           <%= f.text_field :title,
               placeholder: t('letters.title_placeholder'),
-              class: "w-full border-b-2 border-[#D8D2C2] dark:border-[#2D3340] rounded-none bg-transparent px-1 py-2 font-serif-editorial text-xl font-semibold text-base-content placeholder:text-base-content/30 focus:border-[#8E2818] focus:outline-none transition-colors",
+              class: "w-full border-b-2 border-[#D8D2C2] dark:border-[#2D3340] rounded-none bg-transparent px-1 py-2 font-serif-editorial text-xl font-semibold text-base-content placeholder:text-base-content/40 focus:border-[#8E2818] focus:outline-none transition-colors",
               required: true,
               "aria-required": "true" %>
         </div>
@@ -68,7 +68,7 @@
               placeholder: t('letters.content_placeholder_form'),
               rows: 15,
               maxlength: 2000,
-              class: "w-full p-5 sm:p-6 rounded-xs bg-transparent border border-[#D8D2C2] dark:border-[#2D3340] font-letter text-sm leading-loose text-base-content/90 placeholder:text-base-content/30 focus:border-[#8E2818] focus:outline-none transition-all shadow-inner",
+              class: "w-full p-5 sm:p-6 rounded-xs bg-transparent border border-[#D8D2C2] dark:border-[#2D3340] font-letter text-sm leading-loose text-base-content/90 placeholder:text-base-content/40 focus:border-[#8E2818] focus:outline-none transition-all shadow-inner",
               required: true,
               "aria-required": "true",
               "aria-describedby": "char_counter" %>
@@ -83,7 +83,7 @@
             <%= f.label :email, t('letters.label_email'), class: "text-xs font-letter uppercase tracking-wider font-semibold text-base-content/70 block" %>
             <%= f.email_field :email,
                 placeholder: t('letters.email_placeholder_form'),
-                class: "w-full border border-[#D8D2C2] dark:border-[#2D3340] rounded-xs bg-transparent text-base-content placeholder:text-base-content/30 text-xs px-3 py-2.5 font-letter focus:border-[#8E2818] focus:outline-none transition-colors",
+                class: "w-full border border-[#D8D2C2] dark:border-[#2D3340] rounded-xs bg-transparent text-base-content placeholder:text-base-content/40 text-xs px-3 py-2.5 font-letter focus:border-[#8E2818] focus:outline-none transition-colors",
                 required: true,
                 "aria-required": "true" %>
             <p class="text-[11px] font-letter text-base-content/50"><%= t('letters.label_email_help') %></p>
@@ -110,7 +110,7 @@
               </label>
               <%= f.text_field :prediction_city,
                   placeholder: t('letters.prediction_placeholder'),
-                  class: "w-full paper-sheet rounded-xs px-3 py-2 text-xs border border-[#D8D2C2] dark:border-[#2D3340] text-base-content font-letter placeholder:text-base-content/30 focus:border-[#8E2818] focus:outline-none" %>
+                  class: "w-full paper-sheet rounded-xs px-3 py-2 text-xs border border-[#D8D2C2] dark:border-[#2D3340] text-base-content font-letter placeholder:text-base-content/40 focus:border-[#8E2818] focus:outline-none" %>
             </div>
 
             <div class="space-y-1">
@@ -120,7 +120,7 @@
               </label>
               <%= f.text_field :prediction_career,
                   placeholder: t('letters.prediction_placeholder'),
-                  class: "w-full paper-sheet rounded-xs px-3 py-2 text-xs border border-[#D8D2C2] dark:border-[#2D3340] text-base-content font-letter placeholder:text-base-content/30 focus:border-[#8E2818] focus:outline-none" %>
+                  class: "w-full paper-sheet rounded-xs px-3 py-2 text-xs border border-[#D8D2C2] dark:border-[#2D3340] text-base-content font-letter placeholder:text-base-content/40 focus:border-[#8E2818] focus:outline-none" %>
             </div>
 
             <div class="space-y-1">
@@ -130,7 +130,7 @@
               </label>
               <%= f.text_field :prediction_salary,
                   placeholder: t('letters.prediction_placeholder'),
-                  class: "w-full paper-sheet rounded-xs px-3 py-2 text-xs border border-[#D8D2C2] dark:border-[#2D3340] text-base-content font-letter placeholder:text-base-content/30 focus:border-[#8E2818] focus:outline-none" %>
+                  class: "w-full paper-sheet rounded-xs px-3 py-2 text-xs border border-[#D8D2C2] dark:border-[#2D3340] text-base-content font-letter placeholder:text-base-content/40 focus:border-[#8E2818] focus:outline-none" %>
             </div>
 
             <div class="space-y-1">
@@ -140,7 +140,7 @@
               </label>
               <%= f.text_field :prediction_relationship,
                   placeholder: t('letters.prediction_placeholder'),
-                  class: "w-full paper-sheet rounded-xs px-3 py-2 text-xs border border-[#D8D2C2] dark:border-[#2D3340] text-base-content font-letter placeholder:text-base-content/30 focus:border-[#8E2818] focus:outline-none" %>
+                  class: "w-full paper-sheet rounded-xs px-3 py-2 text-xs border border-[#D8D2C2] dark:border-[#2D3340] text-base-content font-letter placeholder:text-base-content/40 focus:border-[#8E2818] focus:outline-none" %>
             </div>
 
             <div class="space-y-1">
@@ -150,7 +150,7 @@
               </label>
               <%= f.text_field :prediction_achievement,
                   placeholder: t('letters.prediction_placeholder'),
-                  class: "w-full paper-sheet rounded-xs px-3 py-2 text-xs border border-[#D8D2C2] dark:border-[#2D3340] text-base-content font-letter placeholder:text-base-content/30 focus:border-[#8E2818] focus:outline-none" %>
+                  class: "w-full paper-sheet rounded-xs px-3 py-2 text-xs border border-[#D8D2C2] dark:border-[#2D3340] text-base-content font-letter placeholder:text-base-content/40 focus:border-[#8E2818] focus:outline-none" %>
             </div>
 
             <div class="space-y-1 pt-1">
@@ -162,9 +162,10 @@
                 <span id="pred_happiness_val" class="text-xs font-letter text-base-content/70" aria-live="polite">7 / 10</span>
               </div>
               <%= f.range_field :prediction_happiness,
-                  min: 1, max: 10,
+                  min: 1, max: 10, value: 7,
                   class: "range range-xs cursor-pointer w-full accent-[#8E2818]",
-                  oninput: "document.getElementById('pred_happiness_val').innerText = this.value + ' / 10'" %>
+                  aria: { label: t('letters.prediction_happiness_label_form'), valuemin: 1, valuemax: 10, valuenow: 7 },
+                  oninput: "document.getElementById('pred_happiness_val').innerText = this.value + ' / 10'; this.setAttribute('aria-valuenow', this.value);" %>
             </div>
           </div>
         </div>
@@ -183,9 +184,10 @@
                 <span id="happiness_val" class="text-base-content/70" aria-live="polite">6 / 10</span>
               </div>
               <%= f.range_field :happiness_level,
-                  min: 1, max: 10,
+                  min: 1, max: 10, value: 6,
                   class: "range range-xs cursor-pointer w-full accent-[#8E2818]",
-                  oninput: "document.getElementById('happiness_val').innerText = this.value + ' / 10'" %>
+                  aria: { label: t('letters.emotion_happiness'), valuemin: 1, valuemax: 10, valuenow: 6 },
+                  oninput: "document.getElementById('happiness_val').innerText = this.value + ' / 10'; this.setAttribute('aria-valuenow', this.value);" %>
             </div>
 
             <div class="space-y-1">
@@ -194,9 +196,10 @@
                 <span id="anxiety_val" class="text-base-content/70" aria-live="polite">4 / 10</span>
               </div>
               <%= f.range_field :anxiety_level,
-                  min: 1, max: 10,
+                  min: 1, max: 10, value: 4,
                   class: "range range-xs cursor-pointer w-full accent-[#8E2818]",
-                  oninput: "document.getElementById('anxiety_val').innerText = this.value + ' / 10'" %>
+                  aria: { label: t('letters.emotion_anxiety'), valuemin: 1, valuemax: 10, valuenow: 4 },
+                  oninput: "document.getElementById('anxiety_val').innerText = this.value + ' / 10'; this.setAttribute('aria-valuenow', this.value);" %>
             </div>
 
             <div class="space-y-1">
@@ -205,9 +208,10 @@
                 <span id="motivation_val" class="text-base-content/70" aria-live="polite">7 / 10</span>
               </div>
               <%= f.range_field :motivation_level,
-                  min: 1, max: 10,
+                  min: 1, max: 10, value: 7,
                   class: "range range-xs cursor-pointer w-full accent-[#8E2818]",
-                  oninput: "document.getElementById('motivation_val').innerText = this.value + ' / 10'" %>
+                  aria: { label: t('letters.emotion_motivation'), valuemin: 1, valuemax: 10, valuenow: 7 },
+                  oninput: "document.getElementById('motivation_val').innerText = this.value + ' / 10'; this.setAttribute('aria-valuenow', this.value);" %>
             </div>
           </div>
         </div>

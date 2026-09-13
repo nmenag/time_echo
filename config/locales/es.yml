@@ -71,7 +71,7 @@ es:
       sections:
         intro:
           title: Nuestro Compromiso con tu Privacidad
-          description: TimeEcho ("nosotros", "nuestro") existe para proteger tu evolución personal y tus pensamientos más íntimos. Esta Política de Privacidad describe cómo resguardamos tu información, gestionamos el cifrado de datos y aseguramos que tus cápsulas permanezcan privadas.
+          description: TimeEcho ("nosotros", "nuestro") existe para proteger tu evolución personal y tus pensamientos. Esta Política de Privacidad describe cómo resguardamos tu información, gestionamos el cifrado de datos y aseguramos que tus cápsulas permanezcan privadas.
         collect:
           title: Información que Recopilamos
           description: "Recopilamos únicamente lo esencial para almacenar y entregar tus cápsulas de forma segura:"
@@ -177,7 +177,7 @@ es:
           description: Para preguntas sobre estos Términos, contáctanos a través de nuestros canales de soporte en el sitio web.
     about:
       title: Conecta a quien eres hoy con la persona en la que te convertirás mañana.
-      subtitle: TimeEcho es una plataforma de cápsulas del tiempo digitales segura. Escribe cartas íntimas, registra tu estado emocional, realiza predicciones de vida y desbloquéalas años después para comparar los resultados.
+      subtitle: TimeEcho es una plataforma de cápsulas del tiempo digitales segura. Escribe cartas a tu yo del futuro, registra tu estado emocional, realiza predicciones de vida y desbloquéalas años después para comparar los resultados.
       sections:
         what_is:
           title: ¿Por qué escribirle a tu yo del futuro?
@@ -227,15 +227,13 @@ es:
       tu vida."
   landing:
     headline: Escribe hoy.<br>Descubre mañana.
-    subtitle:
-      Escribe una carta a tu futuro, haz predicciones y descubre cómo realmente
-      evolucionas con el tiempo.
-    private_and_secure: Privado y seguro
-    private_desc: Solo tú puedes abrir tu carta cuando llegue el momento.
-    delivered_on_time: Entregado a tiempo
-    delivery_desc: Tu carta será guardada y te la enviaremos en la fecha que elijas.
-    connect_with_yourself: Conecta contigo
-    compare_desc: Compara tus predicciones con tu realidad y reflexiona sobre tu evolución.
+    subtitle: Escribe una carta a tu yo del futuro, registra tu estado emocional y formula predicciones de vida. Une a quien eres hoy con la persona en la que te convertirás.
+    private_and_secure: Cifrado y Privado
+    private_desc: Cifrado en reposo con Active Record. Sellado en tu bóveda personal hasta la fecha elegida.
+    delivered_on_time: Entrega con Zona Horaria
+    delivery_desc: Despacho programado directamente a tu bandeja de entrada en el momento exacto.
+    connect_with_yourself: Expediente de Realidad
+    compare_desc: Compara tus predicciones pasadas con tu realidad y descubre cuánto has evolucionado.
     write_card_title: Escribe tu carta a tu futuro
     your_letter: Tu carta
     dear_future_self: Querido yo del futuro...
@@ -258,12 +256,10 @@ es:
     how_do_you_feel_today: "¿Cómo te sientes hoy?"
     where_do_we_send_letter: "¿A dónde te enviamos tu carta?"
     email_placeholder: tu@email.com
-    send_to_future_self: Enviar a mi yo futuro
+    send_to_future_self: Sellar y Enviar a mi Yo Futuro
     private_and_secure_badge: Tu carta es 100% privada y segura.
     how_it_looks: Así se verá cuando abras tu carta
-    compare_reflect_desc:
-      Compara tus predicciones con tu realidad y reflexiona sobre
-      tu evolución.
+    compare_reflect_desc: Compara tus predicciones con tu realidad y reflexiona sobre tu evolución.
     dossier_revealed: "№ EXPEDIENTE REVELADO · TE-00412"
     mock_prediction_city: Viviré en Barcelona
     mock_reality_city: Vivo en Medellín
@@ -283,58 +279,19 @@ es:
     you_are_on_track: "¡Vas por buen camino!"
     how_it_works: Cómo funciona
     journey_desc: Un viaje simple hacia tu mejor yo.
-    step1_title: Escribes tu carta
-    step1_desc: Comparte tus pensamientos, sueños y predicciones sobre tu futuro.
-    step2_title: La guardamos por ti
-    step2_desc: Tu carta será guardada de forma segura hasta la fecha que elijas.
-    step3_title: La abres en el futuro
-    step3_desc: Recibe tu carta y descubre cómo ha sido tu evolución.
+    step1_title: 1. Escribe y Predice
+    step1_desc: Vierte tus pensamientos en una carta privada. Registra tu estado emocional (felicidad, ansiedad, motivación) y formula predicciones concretas sobre tu carrera, relaciones o metas.
+    step2_title: 2. Cifra y Sella
+    step2_desc: Selecciona tu horizonte de apertura, desde 6 meses hasta 5 años. Tus palabras se cifran en reposo con Active Record Encryption y permanecen resguardadas en tu bóveda privada.
+    step3_title: 3. Desbloquea y Compara
+    step3_desc: En la mañana señalada, tu cápsula se desbloquea en tu correo. Lee tus palabras pasadas y completa el expediente retrospectivo comparando tus predicciones con tu realidad.
     your_past: Tu pasado
     your_present: Tu presente
-    badge: Cápsula Digital TimeEcho
+    badge: Bóveda Postal TimeEcho
     title_html: TimeEcho
     write_first: Escribe tu primera carta
     steps_title: Simple y Significativo
-    steps_subtitle:
-      Tres pasos simples para conectar tu mente presente con tu futuro
-      yo.
-    stories_title: Recuerdos Compartidos
-    stories_subtitle:
-      Cartas públicas compartidas de forma anónima por usuarios cuyas
-      cápsulas se han abierto. Lee las esperanzas, crecimiento y ecos de mentes viajeras.
-    stories_all: Ver todas las historias públicas &rarr;
-    stories_opened: Abierta el %{date}
-    stories_read_more: Leer Carta &rarr;
-    pricing_title: Precios Honestos
-    pricing_subtitle:
-      Sin suscripciones recurrentes. Mantén tus memorias seguras por
-      el tiempo que las necesites.
-    pricing_free: Cápsula Gratuita
-    pricing_free_name: Momento Presente
-    pricing_free_desc:
-      Perfecto para capturar un solo recuerdo para abrir dentro del
-      próximo año.
-    pricing_free_price: "$0"
-    pricing_free_price_desc: "/ para siempre"
-    pricing_free_feature1: Hasta 1 año de entrega
-    pricing_free_feature2: Texto enriquecido atenuado
-    pricing_free_feature3: 1 archivo adjunto permitido
-    pricing_free_feature4: Entrega segura por correo
-    pricing_free_btn: Comenzar
-    pricing_paid: Cápsula Vitalicia
-    pricing_paid_popular: Popular
-    pricing_paid_name: Viajero del Tiempo
-    pricing_paid_desc:
-      Para promesas a largo plazo, cápsulas vitalicias y diarios
-      multimedia.
-    pricing_paid_price: "$19"
-    pricing_paid_price_desc: "/ pago único"
-    pricing_paid_feature1: Hasta 50 años de entrega
-    pricing_paid_feature2: Texto enriquecido atenuado
-    pricing_paid_feature3: Hasta 5 archivos multimedia
-    pricing_paid_feature4: Almacenamiento seguro de alta fidelidad
-    pricing_paid_feature5: Garantía de entrega gratuita
-    pricing_paid_btn: Sella tu Legado
+    steps_subtitle: Tres pasos simples para conectar tu mente presente con tu futuro yo.
     happiness: Felicidad
     anxiety: Ansiedad
     motivation: Motivación

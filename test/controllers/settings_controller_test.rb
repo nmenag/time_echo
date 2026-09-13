@@ -43,7 +43,7 @@ class SettingsControllerTest < ActionDispatch::IntegrationTest
 
     assert_redirected_to settings_url
     follow_redirect!
-    assert_match "Ajustes guardados ✨", response.body
+    assert_match "Ajustes guardados", response.body
 
     # Verify database persistence
     prefs = UserPreference.find_by(email: @email)
