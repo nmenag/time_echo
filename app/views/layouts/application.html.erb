@@ -43,11 +43,10 @@
         <!-- Sidebar Navigation (Desktop only, sticky) -->
         <aside class="hidden md:flex w-72 h-screen sticky top-0 bg-base-200/50 border-r border-base-200 p-8 flex-col justify-between shrink-0 font-sans-ui">
           <div class="space-y-10">
-          <!-- Brand Logo / Sparkle -->
+          <!-- Brand Logo -->
           <div class="flex items-center justify-between">
-            <a href="<%= root_path %>" class="flex items-center gap-2 text-2xl font-serif-editorial italic text-primary tracking-tight font-semibold group">
-              <%= tabler_icon("sparkles", size: 22, class: "text-brand transition-transform group-hover:rotate-12 duration-300") %>
-              <%= t('brand') %>
+            <a href="<%= root_path %>" class="flex items-center text-2xl font-serif-editorial italic text-base-content tracking-tight font-semibold">
+              <span><%= t('brand') %></span>
             </a>
 
             <%= button_to locales_path(locale: toggle_locale), method: :post, class: "flex items-center gap-1.5 text-base-content/60 hover:text-brand transition-colors cursor-pointer bg-transparent border-none p-0 font-sans-ui", aria: { label: (I18n.locale == :en ? "Cambiar idioma a español" : "Switch language to English") }, data: { turbo: "false" } do %>
@@ -124,9 +123,8 @@
 
         <!-- Mobile Top Navbar -->
         <header class="md:hidden sticky top-0 z-50 bg-base-100/90 backdrop-blur-md border-b border-base-200 px-4 py-3 flex items-center justify-between font-sans-ui">
-          <a href="<%= root_path %>" class="flex items-center gap-1.5 text-xl font-serif-editorial italic text-primary tracking-tight font-semibold">
-            <%= tabler_icon("sparkles", size: 18, class: "text-brand") %>
-            <%= t('brand') %>
+          <a href="<%= root_path %>" class="flex items-center text-xl font-serif-editorial italic text-base-content tracking-tight font-semibold">
+            <span><%= t('brand') %></span>
           </a>
 
           <div class="flex items-center gap-2">

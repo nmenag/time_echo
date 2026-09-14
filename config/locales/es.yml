@@ -560,6 +560,13 @@ es:
     form_step_title: 1. Cuando escribes tu carta
     form_step_subtitle: Estás creando una carta para tu yo del futuro.
     deliver_date_prefix: Se entregará el
+    when_do_you_want_it: "¿Cuándo quieres recibirla?"
+    six_months: 6 meses
+    one_year: 1 año
+    three_years: 3 años
+    five_years: 5 años
+    custom_date: Fecha personalizada
+    choose_specific_date: Elige una fecha específica
     form_letter_heading: Tu carta
     title_label: Título
     title_placeholder: "Ej: Para mi yo del futuro"
