@@ -224,69 +224,26 @@ en:
     unauthorized_modify: You are not authorized to modify this letter.
     reality_updated: Reality updated! Reflect on how your life has evolved.
   landing:
-    badge: TimeEcho Digital Capsule
+    badge: TimeEcho Postal Vault
     title_html: TimeEcho
     subtitle: Compare the future you imagined with the life you actually lived.
     write_first: Write your first letter
     how_it_works: How It Works
     steps_title: Simple & Significant
-    steps_subtitle:
-      Three simple steps to connect your present mind with your future
-      self.
-    step1_title: Pour Your Heart Out
-    step1_desc:
-      Write freely about your hopes, fears, current habits, or raw feelings.
-      You can securely upload photos, audio logs, or documents.
-    step2_title: Choose the Delivery
-    step2_desc:
-      Pick a target delivery date. It could be in 6 months, on your next
-      birthday, 5 years from now, or a decade down the line.
-    step3_title: Receive an Echo
-    step3_desc:
-      On the chosen morning, the capsule opens, sending your letter back
-      to your inbox as a nostalgic, emotional echo from the past.
-    stories_title: Shared Memories
-    stories_subtitle: Publicly shared letters from users whose capsules have opened.
-    stories_all: View all public stories &rarr;
-    stories_opened: Opened %{date}
-    stories_read_more: Read Letter &rarr;
-    pricing_title: Honest Pricing
-    pricing_subtitle:
-      No recurring subscriptions. Keep your memories safe for as long
-      as you need.
-    pricing_free: Free Capsule
-    pricing_free_name: Present Moment
-    pricing_free_desc:
-      Perfect for capturing single memories to be opened within the
-      next year.
-    pricing_free_price: "$0"
-    pricing_free_price_desc: "/ forever"
-    pricing_free_feature1: Up to 1 year delivery
-    pricing_free_feature2: Muted rich-text letter
-    pricing_free_feature3: 1 attachment allowed
-    pricing_free_feature4: Secure email delivery
-    pricing_free_btn: Get Started
-    pricing_paid: Lifetime Capsule
-    pricing_paid_popular: Popular
-    pricing_paid_name: Time Traveler
-    pricing_paid_desc:
-      For long-term promises, lifetime capsules, and deep multi-media
-      diaries.
-    pricing_paid_price: "$19"
-    pricing_paid_price_desc: "/ one-time payment"
-    pricing_paid_feature1: Up to 50 years delivery
-    pricing_paid_feature2: Muted rich-text letter
-    pricing_paid_feature3: Up to 5 media attachments
-    pricing_paid_feature4: High fidelity secure vault storage
-    pricing_paid_feature5: Free delivery guarantee updates
-    pricing_paid_btn: Seal Your Legacy
+    steps_subtitle: Three simple steps to connect your present mind with your future self.
+    step1_title: 1. Write & Predict
+    step1_desc: Pour your thoughts into a private letter. Capture your emotional baseline (happiness, anxiety, motivation) and log milestone predictions for career, salary, or relationships.
+    step2_title: 2. Encrypt & Seal
+    step2_desc: Choose your release horizon from 6 months to 5 years. Your words are encrypted at rest with Active Record Encryption and safely held in your private vault.
+    step3_title: 3. Unlock & Compare
+    step3_desc: On your chosen morning, your capsule unlocks in your inbox. Read your past words and complete the retrospective ledger comparing prediction against reality.
     headline: Write today.<br>Discover tomorrow.
-    private_and_secure: Private and secure
-    private_desc: Only you can open your letter when the time comes.
-    delivered_on_time: Delivered on time
-    delivery_desc: Your letter will be saved and sent to you on the date you choose.
-    connect_with_yourself: Connect with yourself
-    compare_desc: Compare your predictions with your reality and reflect on your evolution.
+    private_and_secure: Encrypted & Private
+    private_desc: Active Record encryption at rest. Sealed in your private vault until your chosen delivery day.
+    delivered_on_time: Timezone-Aware Delivery
+    delivery_desc: Automated dispatch scheduled directly to your inbox when your designated moment arrives.
+    connect_with_yourself: Retrospective Reality Ledger
+    compare_desc: Compare your past predictions against reality and discover how much you have grown.
     write_card_title: Write your letter to your future
     your_letter: Your letter
     dear_future_self: Dear future self...
@@ -312,7 +269,7 @@ en:
     motivation: Motivation
     where_do_we_send_letter: Where do we send your letter?
     email_placeholder: you@email.com
-    send_to_future_self: Send to my future self
+    send_to_future_self: Seal & Send to Future Self
     private_and_secure_badge: Your letter is 100% private and secure.
     how_it_looks: This is how it will look when you open your letter
     compare_reflect_desc:
