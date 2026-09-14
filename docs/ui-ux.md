@@ -249,15 +249,19 @@ TimeEcho ensures consistent archival warmth across all viewports and color schem
 - **Inverted Inks**: Text shifts to off-white parchment ink (`#E5E7EB`), while cancellation stamps use softer slate-indigo (`#77A3C4`).
 - **Luminescent Wax**: The wax seal shifts to `#D14930` with subtle glow highlights for readability against dark surfaces.
 
-### Accessibility Standards
+### Accessibility & Touch Ergonomics Standards
 - **WCAG AA Compliance**: All text-to-background combinations maintain a contrast ratio ≥ 4.5:1 (large text ≥ 3.0:1).
-- **Reduced Motion**: All animations (`seal-crack-left`, hover scales, page transitions) respect `prefers-reduced-motion`:
+- **Minimum Touch Targets**: All interactive elements (buttons, inputs, language switches, navigation items) enforce a minimum tap target of ≥ 44×44px on coarse-pointer/touchscreen devices via `@media (pointer: coarse)`.
+- **Safe Area Insets & Viewport Fit**: HTML viewport includes `viewport-fit=cover` and CSS exposes environment variables (`--sat`, `--sar`, `--sab`, `--sal`) to protect content around device notches and home indicators.
+- **Typographic Wrapping**: Headings (`h1`–`h6`) use `text-wrap: balance` to prevent orphaned words; prose body paragraphs use `text-wrap: pretty`.
+- **Reduced Motion**: All animations (`seal-crack-left`, `seal-crack-right`, hover scales, page transitions) strictly honor `prefers-reduced-motion`:
   ```css
   @media (prefers-reduced-motion: reduce) {
     *, ::before, ::after {
       animation-duration: 0.01ms !important;
       animation-iteration-count: 1 !important;
       transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
     }
   }
   ```
@@ -269,9 +273,11 @@ TimeEcho ensures consistent archival warmth across all viewports and color schem
 
 | Screen | File | Postal Component Pattern |
 | :--- | :--- | :--- |
-| **Landing Page** | [`pages/landing.html.erb`](file:///home/nmenag/personal-projects/time_echo/app/views/pages/landing.html.erb) | Official registry header, hero write-in paper sheet, numbered wax seal steps (`01`, `02`, `03`), archival footer. |
-| **Capsule Archive (Index)** | [`letters/index.html.erb`](file:///home/nmenag/personal-projects/time_echo/app/views/letters/index.html.erb) | Archival ledger summary, docket identifier rows (`№ TE-00042`), postmark cancellation stamps for states. |
-| **Writing Desk (New)** | [`letters/new.html.erb`](file:///home/nmenag/personal-projects/time_echo/app/views/letters/new.html.erb) | Lined writing sheet, postal date stamp, numbered appendices (`ANEXO I`, `ANEXO II`), carmine seal submission button. |
-| **Capsule Unsealing (Show)** | [`letters/show.html.erb`](file:///home/nmenag/personal-projects/time_echo/app/views/letters/show.html.erb) | Interactive wax seal fracture unsealing, reality verification ledger, letter reading manuscript. |
-| **Authentication** | [`sessions/new.html.erb`](file:///home/nmenag/personal-projects/time_echo/app/views/sessions/new.html.erb) | Folded stationery sheet, wax seal badge, single-action carmine login button. |
+| **Landing Page** | `app/views/pages/landing.html.erb` | Official registry header, hero write-in paper sheet, numbered wax seal steps (`01`, `02`, `03`), archival footer. |
+| **Capsule Vault (Index)** | `app/views/letters/index.html.erb` | Archival ledger summary, docket identifier rows (`№ TE-00042`), postmark cancellation stamps for states. |
+| **Writing Desk (New)** | `app/views/letters/new.html.erb` | Lined writing sheet, postal date stamp, numbered appendices (`ANEXO I`, `ANEXO II`), carmine seal submission button. |
+| **Capsule Unsealing (Show)** | `app/views/letters/show.html.erb` | Interactive wax seal fracture unsealing, reality verification ledger, letter reading manuscript. |
+| **Authentication** | `app/views/sessions/new.html.erb` | Folded stationery sheet, wax seal badge, single-action carmine login button. |
+| **Settings Panel** | `app/views/settings/show.html.erb` | Archival dossier folder, tactile toggles, carmine account action controls. |
+| **Analytics Dashboard** | `app/views/analytics/index.html.erb` | Archival ledger cards, radial accuracy dials, accessible emotional growth progress indicators. |
 

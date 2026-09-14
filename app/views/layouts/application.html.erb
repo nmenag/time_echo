@@ -2,7 +2,7 @@
 <html lang="<%= I18n.locale %>" data-theme="<%= current_user_theme %>" class="scroll-smooth">
   <head>
     <title><%= content_for(:title) || "TimeEcho — #{t('slogan')}" %></title>
-    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="application-name" content="TimeEcho">
     <meta name="mobile-web-app-capable" content="yes">
@@ -18,6 +18,9 @@
     <link rel="icon" href="/favicon.ico" sizes="any">
     <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&family=Fraunces:ital,opsz,wght@0,9..144,300..800;1,9..144,300..800&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Work+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css">
     <%= stylesheet_link_tag "tailwind", "data-turbo-track": "reload" %>
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
@@ -43,11 +46,11 @@
           <!-- Brand Logo / Sparkle -->
           <div class="flex items-center justify-between">
             <a href="<%= root_path %>" class="flex items-center gap-2 text-2xl font-serif-editorial italic text-primary tracking-tight font-semibold group">
-              <span class="text-brand transition-transform group-hover:rotate-12 duration-300">✨</span>
+              <%= tabler_icon("sparkles", size: 22, class: "text-brand transition-transform group-hover:rotate-12 duration-300") %>
               <%= t('brand') %>
             </a>
 
-            <%= button_to locales_path(locale: toggle_locale), method: :post, class: "flex items-center gap-1.5 text-base-content/60 hover:text-brand transition-colors cursor-pointer bg-transparent border-none p-0 font-sans-ui", data: { turbo: "false" } do %>
+            <%= button_to locales_path(locale: toggle_locale), method: :post, class: "flex items-center gap-1.5 text-base-content/60 hover:text-brand transition-colors cursor-pointer bg-transparent border-none p-0 font-sans-ui", aria: { label: (I18n.locale == :en ? "Cambiar idioma a español" : "Switch language to English") }, data: { turbo: "false" } do %>
               <%= tabler_icon("world", size: 16) %>
               <span class="text-xs font-medium"><%= I18n.locale == :en ? "EN" : "ES" %></span>
             <% end %>
@@ -122,7 +125,7 @@
         <!-- Mobile Top Navbar -->
         <header class="md:hidden sticky top-0 z-50 bg-base-100/90 backdrop-blur-md border-b border-base-200 px-4 py-3 flex items-center justify-between font-sans-ui">
           <a href="<%= root_path %>" class="flex items-center gap-1.5 text-xl font-serif-editorial italic text-primary tracking-tight font-semibold">
-            <span class="text-brand" aria-hidden="true">✨</span>
+            <%= tabler_icon("sparkles", size: 18, class: "text-brand") %>
             <%= t('brand') %>
           </a>
 
@@ -134,7 +137,7 @@
 
             <!-- Mobile Menu Dropdown -->
             <details class="dropdown dropdown-end dropdown-bottom">
-              <summary class="btn btn-ghost btn-circle btn-sm list-none cursor-pointer">
+              <summary class="btn btn-ghost btn-circle btn-sm list-none cursor-pointer" aria-label="<%= t('navigation.open_menu', default: 'Menu') %>">
                 <%= tabler_icon("menu-2", size: 20) %>
               </summary>
               <ul class="menu dropdown-content bg-base-100 border border-base-200 rounded-box w-52 p-2 shadow-md gap-1 z-50 font-sans-ui">
@@ -159,15 +162,15 @@
         <main class="flex-grow min-h-screen bg-base-100 p-4 sm:p-8 md:p-12 overflow-x-hidden font-sans">
           <div id="flash-container">
             <% if flash[:notice].present? %>
-              <div class="bg-emerald-50 border border-emerald-200 rounded-2xl shadow-xs flex items-center gap-3.5 py-3.5 px-5 mb-6 animate-fade-in max-w-5xl mx-auto text-emerald-950 w-full">
-                <span class="text-base shrink-0">✨</span>
-                <span class="text-xs font-semibold leading-relaxed"><%= flash[:notice] %> ✨</span>
+              <div class="paper-sheet rounded-xs border border-[#D8D2C2] dark:border-[#2D3340] border-l-4 border-l-[#2C485E] dark:border-l-[#77A3C4] shadow-xs flex items-center gap-3.5 py-3 px-5 mb-6 animate-fade-in max-w-5xl mx-auto text-base-content w-full font-letter text-xs">
+                <%= tabler_icon("sparkles", size: 16, class: "text-[#2C485E] dark:text-[#77A3C4] shrink-0") %>
+                <span class="font-medium leading-relaxed"><%= flash[:notice] %></span>
               </div>
             <% end %>
             <% if flash[:alert].present? %>
-              <div class="bg-rose-50 border border-rose-200 rounded-2xl shadow-xs flex items-center gap-3.5 py-3.5 px-5 mb-6 animate-fade-in max-w-5xl mx-auto text-rose-950 w-full">
-                <span class="text-base shrink-0">⚠️</span>
-                <span class="text-xs font-semibold leading-relaxed"><%= flash[:alert] %></span>
+              <div class="paper-sheet rounded-xs border border-[#D8D2C2] dark:border-[#2D3340] border-l-4 border-l-[#8E2818] shadow-xs flex items-center gap-3.5 py-3 px-5 mb-6 animate-fade-in max-w-5xl mx-auto text-base-content w-full font-letter text-xs">
+                <%= tabler_icon("alert-triangle", size: 16, class: "text-[#8E2818] shrink-0") %>
+                <span class="font-medium leading-relaxed"><%= flash[:alert] %></span>
               </div>
             <% end %>
           </div>
@@ -184,7 +187,7 @@
           </a>
 
           <div class="flex items-center gap-8 text-sm font-medium font-sans-ui">
-            <%= button_to locales_path(locale: toggle_locale), method: :post, class: "flex items-center gap-1.5 text-base-content/60 hover:text-brand transition-colors cursor-pointer bg-transparent border-none p-0 hover:scale-[1.02] active:scale-[0.98] font-sans-ui", data: { turbo: "false" } do %>
+            <%= button_to locales_path(locale: toggle_locale), method: :post, class: "flex items-center gap-1.5 text-base-content/60 hover:text-brand transition-colors cursor-pointer bg-transparent border-none p-0 hover:scale-[1.02] active:scale-[0.98] font-sans-ui", aria: { label: (I18n.locale == :en ? "Cambiar idioma a español" : "Switch language to English") }, data: { turbo: "false" } do %>
               <%= tabler_icon("world", size: 16) %>
               <span><%= I18n.locale == :en ? "EN" : "ES" %></span>
             <% end %>
@@ -212,15 +215,15 @@
       <main class="flex-grow max-w-6xl mx-auto px-4 md:px-6 py-10 w-full font-sans-ui">
         <!-- Flash Banners -->
         <% if flash[:notice].present? %>
-          <div class="bg-emerald-50 border border-emerald-200 rounded-2xl shadow-xs flex items-center gap-3.5 py-3.5 px-5 mb-6 animate-fade-in text-emerald-950 w-full">
-            <span class="text-base shrink-0">✨</span>
-            <span class="text-xs font-semibold leading-relaxed"><%= flash[:notice] %> ✨</span>
+          <div class="paper-sheet rounded-xs border border-[#D8D2C2] dark:border-[#2D3340] border-l-4 border-l-[#2C485E] dark:border-l-[#77A3C4] shadow-xs flex items-center gap-3.5 py-3 px-5 mb-6 animate-fade-in text-base-content w-full font-letter text-xs">
+            <%= tabler_icon("sparkles", size: 16, class: "text-[#2C485E] dark:text-[#77A3C4] shrink-0") %>
+            <span class="font-medium leading-relaxed"><%= flash[:notice] %></span>
           </div>
         <% end %>
         <% if flash[:alert].present? %>
-          <div class="bg-rose-50 border border-rose-200 rounded-2xl shadow-xs flex items-center gap-3.5 py-3.5 px-5 mb-6 animate-fade-in text-rose-950 w-full">
-            <span class="text-base shrink-0">⚠️</span>
-            <span class="text-xs font-semibold leading-relaxed"><%= flash[:alert] %></span>
+          <div class="paper-sheet rounded-xs border border-[#D8D2C2] dark:border-[#2D3340] border-l-4 border-l-[#8E2818] shadow-xs flex items-center gap-3.5 py-3 px-5 mb-6 animate-fade-in text-base-content w-full font-letter text-xs">
+            <%= tabler_icon("alert-triangle", size: 16, class: "text-[#8E2818] shrink-0") %>
+            <span class="font-medium leading-relaxed"><%= flash[:alert] %></span>
           </div>
         <% end %>
 
@@ -245,39 +248,40 @@
 
     <% if user_signed_in? %>
       <!-- Reusable Premium Settings Modal -->
-      <dialog id="settings_modal" class="modal modal-bottom sm:modal-middle font-sans">
-        <div class="modal-box bg-base-100 border border-base-200 rounded-box p-8 space-y-6">
-            <h3 class="font-serif italic text-2xl text-primary font-normal flex items-center gap-2">
-              <span>⚙️</span> <%= t('navigation.settings') %>
-            </h3>
-          <p class="text-xs text-base-content/50 leading-relaxed">
+      <dialog id="settings_modal" class="modal modal-bottom sm:modal-middle font-ui">
+        <div class="modal-box paper-sheet border border-[#D8D2C2] dark:border-[#2D3340] rounded-xs p-8 space-y-6">
+          <h3 class="font-serif-editorial text-2xl text-base-content font-semibold flex items-center gap-2">
+            <%= tabler_icon("settings", size: 22) %>
+            <span><%= t('navigation.settings') %></span>
+          </h3>
+          <p class="text-xs text-base-content/50 leading-relaxed font-letter">
             <%= t('settings.subtitle') %>
           </p>
 
           <div class="divider my-1"></div>
 
           <div class="space-y-4">
-            <div class="flex items-center justify-between bg-base-200/30 p-3 rounded-xl border border-base-200/50">
+            <div class="flex items-center justify-between paper-sheet p-3.5 rounded-xs border border-[#D8D2C2] dark:border-[#2D3340]">
               <div>
-                <p class="text-xs font-semibold text-primary"><%= t('settings.notifications_title') %></p>
-                <p class="text-[10px] text-base-content/40"><%= t('settings.notifications_desc') %></p>
+                <label for="modal_notifications" class="text-xs font-semibold text-base-content block cursor-pointer"><%= t('settings.notifications_title') %></label>
+                <p class="text-[10px] text-base-content/60 font-letter"><%= t('settings.notifications_desc') %></p>
               </div>
-              <input type="checkbox" class="toggle toggle-primary toggle-sm" checked />
+              <input id="modal_notifications" type="checkbox" class="toggle toggle-primary toggle-sm" checked aria-label="<%= t('settings.notifications_title') %>" />
             </div>
 
-            <div class="flex items-center justify-between bg-base-200/30 p-3 rounded-xl border border-base-200/50">
+            <div class="flex items-center justify-between paper-sheet p-3.5 rounded-xs border border-[#D8D2C2] dark:border-[#2D3340]">
               <div>
-                <p class="text-xs font-semibold text-primary"><%= t('settings.global_private_mode_title') %></p>
-                <p class="text-[10px] text-base-content/40"><%= t('settings.global_private_mode_desc') %></p>
+                <label for="modal_private_mode" class="text-xs font-semibold text-base-content block cursor-pointer"><%= t('settings.global_private_mode_title') %></label>
+                <p class="text-[10px] text-base-content/60 font-letter"><%= t('settings.global_private_mode_desc') %></p>
               </div>
-              <input type="checkbox" class="toggle toggle-primary toggle-sm" checked />
+              <input id="modal_private_mode" type="checkbox" class="toggle toggle-primary toggle-sm" checked aria-label="<%= t('settings.global_private_mode_title') %>" />
             </div>
           </div>
 
           <div class="modal-action">
             <form method="dialog" class="w-full flex gap-3">
-              <button class="btn btn-outline border-base-300 hover:bg-base-200 rounded-xl text-sm font-semibold flex-1 cursor-pointer"><%= t('common.cancel') %></button>
-              <button class="btn btn-primary rounded-xl text-sm font-semibold flex-1 cursor-pointer"><%= t('common.save') %></button>
+              <button class="btn btn-outline border-[#D8D2C2] dark:border-[#2D3340] hover:bg-base-200/50 rounded-xs text-xs font-medium uppercase tracking-wider font-letter flex-1 cursor-pointer min-h-[40px]"><%= t('common.cancel') %></button>
+              <button class="btn bg-[#8E2818] hover:bg-[#6A1E12] text-[#FAF9F5] rounded-xs text-xs font-medium uppercase tracking-wider font-letter flex-1 cursor-pointer border-none shadow-xs min-h-[40px]"><%= t('common.save') %></button>
             </form>
           </div>
         </div>

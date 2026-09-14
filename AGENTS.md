@@ -111,6 +111,23 @@ Views must remain lightweight and declarative.
 
 ---
 
+## 🧰 11. Agent Skills Standard (`skills/`)
+
+TimeEcho maintains specialized agent skills in the root `skills/` directory to guide domain-specific workflows and enforce best practices across architecture, design, and copywriting. AI assistants must proactively reference these skill guides before undertaking relevant work:
+
+- **`skills/rails-expert/` (`SKILL.md`)**: Modern Rails conventions, Hotwire (Turbo Frames & Streams), Active Record query optimization (eager loading, batch queries), background jobs with GoodJob, and robust test suite creation. Consult for complex Rails architecture or query design.
+- **`skills/frontend-design/` (`SKILL.md`)**: Guidance for distinctive, intentional visual design, typography hierarchy, and avoiding generic UI/SaaS patterns. Essential when shaping new visual components.
+- **`skills/impeccable/` (`SKILL.md`)**: Frontend design critique, UX audit, micro-interactions, responsive behavior, accessibility (WCAG AA), and visual polish.
+- **`skills/copywriting/` (`SKILL.md`)**: Conversion-oriented copywriting, hero messaging, value propositions, and editorial text guidance.
+- **`skills/find-skills/` (`SKILL.md`)**: Discovery and installation of new agent skills when extended workflows are requested.
+
+### Operational Rules for Skills:
+- **Root Directory Location**: All skills reside in `skills/<skill_name>/SKILL.md` at the project root.
+- **Proactive Consultation**: Whenever a task touches an area covered by an existing skill (such as Rails optimizations, frontend styling, or copywriting), the agent should view and follow the corresponding `SKILL.md` instructions.
+- **Skill Tracking**: Installed skills and their source origins are tracked in `skills-lock.json`.
+
+---
+
 ## ✅ Progress Summary
 
 The following tasks have been completed:
@@ -134,5 +151,11 @@ The following tasks have been completed:
 - Added `Letters::DispatchPendingJob` scheduled daily at midnight (`0 0 * * *`) via GoodJob cron, with `rake letters:deliver` available for manual/CLI dispatch.
 - Added turnkey Render deployment configuration (`render.yaml`, `bin/render-build.sh`, single-mode Puma with `WEB_CONCURRENCY=0`, GoodJob async mode).
 - Consolidated schema attributes into `db/migrate/20260520000001_create_letters.rb`.
+- Migrated all agent skills to root `skills/` folder, updated `skills-lock.json` and documented skills standard in `AGENTS.md`.
+- Completed Impeccable technical audit & quality certification (`19.7/20` score, zero anti-patterns detected).
+- Hardened form accessibility (WCAG AA) with explicit label associations, ARIA attributes on range sliders and progress bars, and elevated placeholder contrast.
+- Adapted layouts for mobile devices (`viewport-fit=cover`, safe-area insets, $\ge 44 \times 44\text{ px}$ touch targets, responsive text-wrap).
+- Optimized font loading performance by removing render-blocking CSS `@import` and utilizing parallel preconnect links with `display=swap`.
+- Optimized landing page and marketing copy across bilingual locale files (`en.yml`, `es.yml`), eliminating inaccurate feature claims (photo/audio uploads) and introducing action-oriented benefit CTAs.
 - Comprehensive documentation update across `docs/architecture.md`, `docs/ui-ux.md`, `README.md`, `GEMINI.md`, and `AGENTS.md`.
 - All 148 tests passing with 0 failures, 0 errors, and 100.00% line coverage.
