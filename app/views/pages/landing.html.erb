@@ -130,23 +130,12 @@
               <%= f.text_field :prediction_relationship, placeholder: t('letters.prediction_placeholder'), class: "w-full paper-sheet rounded-xs px-3 py-2 text-xs border border-[#D8D2C2] dark:border-[#2D3340] font-letter text-base-content placeholder:text-base-content/40 focus:border-[#8E2818] focus:outline-none" %>
             </div>
 
-            <div class="space-y-1">
+            <div class="space-y-1 md:col-span-2">
               <label class="text-[10px] font-semibold text-base-content/70 flex items-center gap-1">
                 <span class="text-base-content/40">05.</span>
                 <span><%= t('landing.what_will_be_your_achievement') %></span>
               </label>
               <%= f.text_field :prediction_achievement, placeholder: t('letters.prediction_placeholder'), class: "w-full paper-sheet rounded-xs px-3 py-2 text-xs border border-[#D8D2C2] dark:border-[#2D3340] font-letter text-base-content placeholder:text-base-content/40 focus:border-[#8E2818] focus:outline-none" %>
-            </div>
-
-            <div class="space-y-1">
-              <div class="flex justify-between items-center text-[10px] font-semibold text-base-content/70">
-                <span class="flex items-center gap-1">
-                  <span class="text-base-content/40">06.</span>
-                  <span><%= t('landing.how_happy_will_you_be') %></span>
-                </span>
-                <span id="landing_pred_happiness_val" class="font-letter">5 / 10</span>
-              </div>
-              <input type="range" name="letter_form[prediction_happiness]" id="landing_pred_happiness_input" value="5" min="1" max="10" class="w-full accent-[#8E2818] cursor-pointer" aria-label="<%= t('landing.how_happy_will_you_be') %>" aria-valuemin="1" aria-valuemax="10" aria-valuenow="5" oninput="document.getElementById('landing_pred_happiness_val').innerText = this.value + ' / 10'; this.setAttribute('aria-valuenow', this.value);">
             </div>
           </div>
         </div>

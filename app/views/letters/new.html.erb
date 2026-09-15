@@ -166,21 +166,6 @@
                   placeholder: t('letters.prediction_placeholder'),
                   class: "w-full paper-sheet rounded-xs px-3 py-2 text-xs border border-[#D8D2C2] dark:border-[#2D3340] text-base-content font-letter placeholder:text-base-content/40 focus:border-[#8E2818] focus:outline-none" %>
             </div>
-
-            <div class="space-y-1 pt-1">
-              <div class="flex justify-between items-center font-semibold text-base-content/80">
-                <span class="flex items-center gap-1.5">
-                  <span class="text-base-content/40">06.</span>
-                  <span><%= t('letters.prediction_happiness_label_form') %></span>
-                </span>
-                <span id="pred_happiness_val" class="text-xs font-letter text-base-content/70" aria-live="polite">7 / 10</span>
-              </div>
-              <%= f.range_field :prediction_happiness,
-                  min: 1, max: 10, value: 7,
-                  class: "range range-xs cursor-pointer w-full accent-[#8E2818]",
-                  aria: { label: t('letters.prediction_happiness_label_form'), valuemin: 1, valuemax: 10, valuenow: 7 },
-                  oninput: "document.getElementById('pred_happiness_val').innerText = this.value + ' / 10'; this.setAttribute('aria-valuenow', this.value);" %>
-            </div>
           </div>
         </div>
 

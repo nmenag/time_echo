@@ -21,7 +21,7 @@ class LetterFormTest < ActiveSupport::TestCase
     form = LetterForm.new(params)
 
     assert form.valid?
-    assert_difference -> { Letter.count } => 1, -> { EmotionalSnapshot.count } => 1, -> { Prediction.count } => 6 do
+    assert_difference -> { Letter.count } => 1, -> { EmotionalSnapshot.count } => 1, -> { Prediction.count } => 5 do
       assert form.save
     end
 
@@ -44,7 +44,7 @@ class LetterFormTest < ActiveSupport::TestCase
 
     # Verify predictions
     predictions = letter.predictions
-    assert_equal 6, predictions.size
+    assert_equal 5, predictions.size
     assert_equal "Madrid", predictions.find_by(category: "city").prediction
     assert_equal "$90,000", predictions.find_by(category: "salary").prediction
   end

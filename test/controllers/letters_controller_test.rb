@@ -26,7 +26,7 @@ class LettersControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should create letter when not logged in" do
-    assert_difference -> { Letter.count } => 1, -> { EmotionalSnapshot.count } => 1, -> { Prediction.count } => 6 do
+    assert_difference -> { Letter.count } => 1, -> { EmotionalSnapshot.count } => 1, -> { Prediction.count } => 5 do
       post letters_path, params: @letter_params, headers: { "HTTP_ACCEPT_LANGUAGE" => "es" }
     end
     assert_redirected_to success_letters_path
