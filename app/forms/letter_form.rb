@@ -14,7 +14,7 @@ class LetterForm
   attribute :prediction_relationship, :string
   attribute :prediction_career, :string
   attribute :prediction_achievement, :string
-  attribute :prediction_happiness, :string, default: "7"
+  attribute :prediction_happiness, :string
 
   attribute :happiness_level, :integer, default: 5
   attribute :anxiety_level, :integer, default: 5
