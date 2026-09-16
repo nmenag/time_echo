@@ -377,20 +377,11 @@ TimeEcho operates on a tailored design system powered by Tailwind CSS v4 and Dai
 
 ---
 
-## 📱 7. Progressive Web Application (PWA) Setup
-
-To provide a native-app sensation on mobile devices (Android/iOS), TimeEcho is built with native Progressive Web Application capabilities integrated into the Rails layout:
-
-- **`manifest.json.erb`**: Declares app metadata, launcher icons, retro background splash colors, and displays the app in standard `standalone` orientation.
-- **`service-worker.js`**: Caches basic static files (fonts, icons, and shell layouts) offline, enabling offline caching and instant boot speeds.
-
----
-
-## 🌐 8. Internationalization (i18n) Architecture
+## 🌐 7. Internationalization (i18n) Architecture
 
 TimeEcho implements a lightweight, two-locale internationalization system using Rails' built-in `I18n` framework. The architecture prioritizes explicit locale control, graceful fallbacks, and clean separation between view templates and translated strings.
 
-### 8.1 Locale Configuration
+### 7.1 Locale Configuration
 
 The application's locale settings are configured in `config/application.rb`:
 
@@ -403,7 +394,7 @@ config.i18n.default_locale = :en
 - **Default locale**: `:en` (English) serves as both the default UI language and the ultimate fallback for unsupported locales or missing translations.
 - **Fallbacks**: Enabled in `config/environments/production.rb` and `config/environments/test.rb` via `config.i18n.fallbacks = true`. When `fallbacks = true`, any missing key in a locale falls back to the `default_locale` rather than rendering the raw key name.
 
-### 8.2 Locale Resolution & Session Toggling (`set_locale`)
+### 7.2 Locale Resolution & Session Toggling (`set_locale`)
 
 Locale resolution is handled by the `set_locale` before_action in `ApplicationController`. It supports both explicit user selection (persisted across sessions via `LocalesController`) and automatic browser header detection:
 
@@ -428,14 +419,14 @@ flowchart TD
 | Browser Header | `HTTP_ACCEPT_LANGUAGE: "fr-FR,fr;q=0.9"` | No | `:en` (default, unchanged) |
 | None | (no session, no header) | No | `:en` (default, unchanged) |
 
-### 8.3 LocalesController & Navigation Toggle
+### 7.3 LocalesController & Navigation Toggle
 
 Users can switch languages on the fly from the navigation bar. The toggle button uses the `toggle_locale` helper to submit to `LocalesController`:
 
 - `POST /locales?locale=es` / `POST /locales?locale=en`: Writes `params[:locale]` to `session[:locale]` and redirects back to the previous page.
 - `DELETE /locales/:id`: Clears `session[:locale]` to return to browser auto-detection.
 
-### 8.4 Test Locale Strategy
+### 7.4 Test Locale Strategy
 
 The test suite establishes `I18n.locale = :es` globally in `test/test_helper.rb` via a `setup` block on `ActiveSupport::TestCase`. Because test requests do not send an `Accept-Language` header or a preset session locale by default, the `set_locale` before_action does not override this pre-set Spanish locale, ensuring all assertions match Spanish text expectations.
 
@@ -448,24 +439,24 @@ end
 
 The `ApplicationControllerTest` and `LocalesControllerTest` cover session persistence, language toggling, and fallback behavior across supported (`es`, `en`) and unsupported (`fr`) headers.
 
-### 8.5 Decorator Integration & Title Localization
+### 7.5 Decorator Integration & Title Localization
 
 All locale-dependent formatting (dates, status badges, category labels, countdown strings) is encapsulated in decorators within `app/decorators/`:
 
 - **LetterDecorator**: `display_title` (translates default `"your_letter"` / localized title placeholders dynamically based on `I18n.locale`), `formatted_created_at`, `formatted_delivered_at`, `days_left_text`, `status_badge`.
 - **PredictionDecorator**: `category_label`, `result_badge`.
 
-### 8.6 View Text Policy
+### 7.6 View Text Policy
 
 All user-facing strings in ERB views must use `t()` calls — no hardcoded Spanish or English text is permitted. HTML comments in views should be in English for consistency.
 
 ---
 
-## 🚀 9. Production Deployment Architectures
+## 🚀 8. Production Deployment Architectures
 
 TimeEcho supports two modern production deployment workflows designed for reliability and low resource overhead:
 
-### 9.1 Render Web Service (PaaS)
+### 8.1 Render Web Service (PaaS)
 
 Automated deployment configured through `render.yaml` and `bin/render-build.sh`:
 
@@ -473,7 +464,7 @@ Automated deployment configured through `render.yaml` and `bin/render-build.sh`:
 - **Single-Mode Puma**: Optimized for entry-level container RAM (512MB) by enforcing `WEB_CONCURRENCY=0` and `RAILS_MAX_THREADS=3`.
 - **In-Process GoodJob**: Operates with `GOOD_JOB_EXECUTION_MODE=async`, allowing background delivery workers and cron schedules (`Letters::DispatchPendingJob`, `CleanupExpiredTokensJob`) to execute reliably inside the web process without incurring the cost of a standalone worker instance.
 
-### 9.2 Kamal Container Deployment (IaaS / Bare Metal)
+### 8.2 Kamal Container Deployment (IaaS / Bare Metal)
 
 Turnkey container deployment configured in `config/deploy.yml`:
 

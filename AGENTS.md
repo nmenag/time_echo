@@ -136,7 +136,7 @@ The following tasks have been completed:
 - Implemented Postal & Archival Design System across all core views (`letters/index`, `letters/new`, `letters/show`, `pages/landing`, `sessions/new`).
 - Established tripartite typography system: Fraunces (`font-serif-editorial`), Courier Prime (`font-letter`), and IBM Plex Sans (`font-ui`).
 - Unified color palette to authentic postal tones (Wax Seal Carmine `#8E2818`, Postmark Indigo `#2C485E`, Manila `#EFECE3`, Parchment `#FAF9F5`), eliminating all purple/violet hues.
-- Designed and generated high-contrast circular wax seal favicon and PWA icons with true 32-bit RGBA alpha transparency (`(0,0,0,0)`).
+- Designed and generated high-contrast circular wax seal favicon and app icons with true 32-bit RGBA alpha transparency (`(0,0,0,0)`).
 - Cleaned up marketing copy by removing testimonial quote sections and obsolete locale keys.
 - Added missing `letters.*` locale keys to both `en.yml` and `es.yml` (total ~60+ keys)
 - Replaced all hardcoded Spanish text in `letters/index.html.erb` with `t()` calls

@@ -15,7 +15,6 @@ Built with **Ruby on Rails 8**, **Tailwind CSS v4 / DaisyUI v5**, and a PostgreS
   - **Predictions vs. Reality**: Predict future milestones (city, salary, relationships, career, achievements). Once the capsule unlocks, rate whether they matched and add retrospective reflections.
 - **Minimalist Vertical Timeline**: Scroll through backdated, pending, and unlocked capsules in a premium journal-like design.
 - **Retrospective Analytics**: Visualize average emotional growth matrices, open rates, click rates, and prediction match accuracy with responsive progress meters and radial gauges.
-- **PWA Enabled**: Native Progressive Web App integration with offline asset caching and support for standard mobile app layouts.
 - **Architectural Integrity**: Atomic PostgreSQL transactional updates, single-use magic-link auth cycles, and concurrent-safe background delivery jobs.
 
 ---

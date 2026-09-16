@@ -217,7 +217,7 @@ In `letters/show`, predictions made years ago are compared to actual outcomes in
 TimeEcho rejects low-contrast or generic icon packs in favor of a bespoke, high-contrast postal seal:
 
 ```
-       FAVICON & PWA ICON DESIGN
+       FAVICON & APP ICON DESIGN
     ┌─────────────────────────────┐
     │         ●════════●          │
     │      ╱   #8E2818   ╲        │  <- Circular Wax Seal Carmine (Radius 240)
@@ -236,7 +236,7 @@ TimeEcho rejects low-contrast or generic icon packs in favor of a bespoke, high-
   - `public/icon.svg`: Scalable vector icon used in modern browsers.
   - `public/favicon.ico`: True 32-bit RGBA multi-resolution Windows/browser icon (16x16, 32x32, 48x48).
   - `public/apple-touch-icon.png`: 180x180 iOS home screen icon.
-  - `public/icon.png`: 512x512 high-resolution PWA manifest icon.
+  - `public/icon.png`: 512x512 high-resolution app icon.
 
 ---
 
