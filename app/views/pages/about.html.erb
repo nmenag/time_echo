@@ -77,5 +77,23 @@
         <%= t('pages.about.sections.philosophy.description') %>
       </p>
     </section>
+
+    <section class="space-y-3 paper-sheet rounded-xs p-6 sm:p-8 border border-[#D8D2C2] dark:border-[#2D3340]">
+      <h2 class="font-serif-editorial text-2xl text-base-content font-semibold"><%= t('pages.about.sections.contact.title') %></h2>
+      <p class="text-xs font-letter text-base-content/70 leading-relaxed">
+        <%= t('pages.about.sections.contact.description') %>
+      </p>
+      <div class="flex flex-col sm:flex-row sm:items-center gap-3 pt-2 font-letter text-xs">
+        <a href="mailto:nmena.garzon@gmail.com" class="inline-flex items-center gap-2 text-primary hover:underline transition-colors duration-150">
+          <%= tabler_icon("mail", size: 15) %>
+          <span>nmena.garzon@gmail.com</span>
+        </a>
+        <span class="hidden sm:inline text-base-content/30">•</span>
+        <a href="mailto:juanmamena2005@gmail.com" class="inline-flex items-center gap-2 text-primary hover:underline transition-colors duration-150">
+          <%= tabler_icon("mail", size: 15) %>
+          <span>juanmamena2005@gmail.com</span>
+        </a>
+      </div>
+    </section>
   </div>
 </div>

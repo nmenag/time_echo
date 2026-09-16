@@ -48,4 +48,25 @@ class PagesControllerTest < ActionDispatch::IntegrationTest
       assert_match(/googletagmanager\.com\/gtag\/js\?id=G-CREDENTIALS123/, response.body)
     end
   end
+
+  test "should get terms page and display contact emails" do
+    get terms_path
+    assert_response :success
+    assert_match(/nmena\.garzon@gmail\.com/, response.body)
+    assert_match(/juanmamena2005@gmail\.com/, response.body)
+  end
+
+  test "should get about page and display contact emails" do
+    get about_path
+    assert_response :success
+    assert_match(/nmena\.garzon@gmail\.com/, response.body)
+    assert_match(/juanmamena2005@gmail\.com/, response.body)
+  end
+
+  test "should get privacy page and display contact emails" do
+    get privacy_path
+    assert_response :success
+    assert_match(/nmena\.garzon@gmail\.com/, response.body)
+    assert_match(/juanmamena2005@gmail\.com/, response.body)
+  end
 end
