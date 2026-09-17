@@ -454,9 +454,19 @@ All user-facing strings in ERB views must use `t()` calls — no hardcoded Spani
 
 ## 🚀 8. Production Deployment Architectures
 
-TimeEcho supports two modern production deployment workflows designed for reliability and low resource overhead:
+TimeEcho supports modern production deployment workflows designed for reliability and low resource overhead:
 
-### 8.1 Render Web Service (PaaS)
+### 8.1 Railway Cloud Deployment (PaaS)
+
+Turnkey deployment configured via `railway.json` and `Procfile`:
+
+- **Nixpacks Build Pipeline**: Builds the environment automatically with Ruby and Node.js. Compiles Tailwind CSS v4 (`npm run build:css`), precompiles assets (`assets:precompile`), and cleans cache.
+- **Pre-Deploy Migrations**: Applies database migrations automatically before traffic cutover via `preDeployCommand: "bundle exec rails db:migrate"`.
+- **Single-Mode Puma**: Optimized for entry-level container RAM by enforcing `WEB_CONCURRENCY=0` and `RAILS_MAX_THREADS=3` on dynamic `$PORT`.
+- **In-Process GoodJob**: Runs `GOOD_JOB_EXECUTION_MODE=async` for scheduled deliveries and cron maintenance without dedicated worker dynos.
+- **Managed PostgreSQL**: Integrated via Railway private networking using `${{Postgres.DATABASE_URL}}`.
+
+### 8.2 Render Web Service (PaaS)
 
 Automated deployment configured through `render.yaml` and `bin/render-build.sh`:
 
@@ -464,10 +474,11 @@ Automated deployment configured through `render.yaml` and `bin/render-build.sh`:
 - **Single-Mode Puma**: Optimized for entry-level container RAM (512MB) by enforcing `WEB_CONCURRENCY=0` and `RAILS_MAX_THREADS=3`.
 - **In-Process GoodJob**: Operates with `GOOD_JOB_EXECUTION_MODE=async`, allowing background delivery workers and cron schedules (`Letters::DispatchPendingJob`, `CleanupExpiredTokensJob`) to execute reliably inside the web process without incurring the cost of a standalone worker instance.
 
-### 8.2 Kamal Container Deployment (IaaS / Bare Metal)
+### 8.3 Kamal Container Deployment (IaaS / Bare Metal)
 
 Turnkey container deployment configured in `config/deploy.yml`:
 
 - Leverages the multi-stage Docker build (`Dockerfile`) to create a minimal, hardened production image.
 - Supports rolling zero-downtime updates, asset volume management, and direct integration with managed PostgreSQL and Resend transactional email.
+
 

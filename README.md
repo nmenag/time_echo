@@ -281,9 +281,19 @@ Coverage reports are generated automatically via SimpleCov and stored in the `co
 
 ## 🚀 Production & Deployment
 
-TimeEcho supports modern containerized and cloud platform deployments:
+TimeEcho supports modern cloud platform and containerized deployments:
 
-### 1. Render Web Service Deployment
+### 1. Railway Cloud Deployment
+
+A turnkey setup is configured via `railway.json` and `Procfile`:
+
+- **Nixpacks Pipeline**: Automatically installs Ruby & Node.js, compiles Tailwind CSS v4 (`npm run build:css`), and precompiles Propshaft assets.
+- **Pre-Deploy Migrations**: Applies database migrations during the deployment phase (`bundle exec rails db:migrate`) before routing live traffic.
+- **Single-Mode Puma**: Enforces `WEB_CONCURRENCY=0` and `RAILS_MAX_THREADS=3` on dynamic `$PORT` for optimal memory efficiency.
+- **GoodJob Async**: Runs in-process background deliveries and midnight cron schedules without extra worker instances.
+- **Managed PostgreSQL**: Add a PostgreSQL service in Railway and reference `${{Postgres.DATABASE_URL}}` directly.
+
+### 2. Render Web Service Deployment
 
 A turnkey blueprint is configured in `render.yaml` with build automation in `bin/render-build.sh`:
 
@@ -291,10 +301,20 @@ A turnkey blueprint is configured in `render.yaml` with build automation in `bin
 - **Puma Configuration**: Set to single-mode (`WEB_CONCURRENCY=0`, `RAILS_MAX_THREADS=3`) to ensure optimal memory consumption on free or low-memory tiers (512MB RAM).
 - **GoodJob Asynchronous Execution**: Set via `GOOD_JOB_EXECUTION_MODE=async` to execute background delivery workers and cron jobs in-process within the web dyno without requiring an additional paid worker dyno.
 
+### 3. Production Environment Checklist
 
-### 2. Production Environment Checklist
+| Variable | Value / Reference | Purpose |
+| :--- | :--- | :--- |
+| `RAILS_ENV` | `production` | Rails environment mode |
+| `DATABASE_URL` | `${{Postgres.DATABASE_URL}}` | PostgreSQL connection string |
+| `RAILS_MASTER_KEY` | *(Secret from `config/master.key`)* | Decrypts credentials and encrypted columns |
+| `APP_HOST` | `${{RAILWAY_PUBLIC_DOMAIN}}` *(or custom domain)* | Host for magic login links and email templates |
+| `APP_PROTOCOL` | `https` | Protocol scheme for generated mailer links |
+| `GOOD_JOB_EXECUTION_MODE` | `async` | Runs GoodJob in-process without worker dynos |
+| `WEB_CONCURRENCY` | `0` | Single-mode Puma for memory efficiency |
+| `RAILS_MAX_THREADS` | `3` | Optimal thread pool size |
+| `RAILS_SERVE_STATIC_FILES` | `true` | Serves compiled assets directly via Puma |
+| `RESEND_API_KEY` | *(Secret from Resend dashboard)* | Required for magic link auth and capsule deliveries |
+| `ACTIVE_RECORD_ENCRYPTION_*` | *(Optional)* | Overrides for encryption keys if not using master key |
 
-- **APP_HOST**: Set to your production domain (e.g. `timeecho.onrender.com` or `vault.timeecho.com`) so magic login links render valid URLs.
-- **RESEND_API_KEY**: Required to deliver magic login links (`AuthMailer`) and unlocked capsules (`LetterMailer`) in production.
-- **Active Record Encryption**: Set `ACTIVE_RECORD_ENCRYPTION_PRIMARY_KEY`, `ACTIVE_RECORD_ENCRYPTION_DETERMINISTIC_KEY`, and `ACTIVE_RECORD_ENCRYPTION_KEY_DERIVATION_SALT` via environment variables or Rails credentials.
 
