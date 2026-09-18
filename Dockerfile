@@ -20,16 +20,17 @@ RUN apt-get update -qq && \
 
 ENV BUNDLE_PATH="/usr/local/bundle"
 
-EXPOSE 3000
-
 COPY Gemfile Gemfile.lock ./
 
 RUN bundle install
 
 COPY . .
 
+# Precompile Rails assets
+RUN SECRET_KEY_BASE_DUMMY=1 bundle exec rails assets:precompile
+
 EXPOSE 3000
 
 ENTRYPOINT ["/rails/entrypoint.sh"]
 
-CMD ["sh", "-c", "./bin/rails server -b 0.0.0.0 -p ${PORT:-3000}"]
+CMD ["sh", "-c", "bundle exec rails server -b 0.0.0.0 -p ${PORT:-3000}"]
