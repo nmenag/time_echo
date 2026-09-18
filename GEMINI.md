@@ -16,7 +16,7 @@ TimeEcho is a premium digital time-capsule platform built with **Ruby on Rails 8
 | Background Jobs | GoodJob (database-backed Active Job)           |
 | Email           | Resend API via `AuthMailer` and `LetterMailer` |
 | Auth            | Passwordless magic-link tokens                 |
-| Deployment      | Kamal · Docker · Render                        |
+| Deployment      | Kamal · Docker                                 |
 | Locale          | Bilingual: English (`:en`, default) & Spanish (`:es`) |
 
 ## Architecture & Design Patterns
@@ -70,8 +70,7 @@ app/
 time_echo/
 ├── app/                  # Application code (MVC + patterns above)
 ├── bin/
-│   ├── dev               # Foreman runner (server + Tailwind watcher)
-│   └── render-build.sh   # Build script for Render deployment
+│   └── dev               # Foreman runner (server + Tailwind watcher)
 ├── config/
 │   ├── routes.rb         # All route definitions
 │   ├── application.rb    # GoodJob cron, locale config

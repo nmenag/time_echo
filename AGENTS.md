@@ -148,8 +148,7 @@ The following tasks have been completed:
 - Implemented timezone-aware letter scheduling (`scheduled_at` in UTC + `timezone` IANA column) with automatic browser timezone detection.
 - Separated `TimeCapsuleMailer` into `AuthMailer` and `LetterMailer`.
 - Added `Letters::DeliverLetterJob` worker with polynomial backoff retries (`retry_on`) for transient connection errors and status transition tracking (`pending` ➔ `queued` ➔ `delivered`/`failed`).
-- Added `Letters::DispatchPendingJob` scheduled daily at midnight (`0 0 * * *`) via GoodJob cron, with `rake letters:deliver` available for manual/CLI dispatch.
-- Added turnkey Render deployment configuration (`render.yaml`, `bin/render-build.sh`, single-mode Puma with `WEB_CONCURRENCY=0`, GoodJob async mode).
+- Configured production deployment pipeline (single-mode Puma with `WEB_CONCURRENCY=0`, GoodJob async mode).
 - Consolidated schema attributes into `db/migrate/20260520000001_create_letters.rb`.
 - Migrated all agent skills to root `skills/` folder, updated `skills-lock.json` and documented skills standard in `AGENTS.md`.
 - Completed Impeccable technical audit & quality certification (`19.7/20` score, zero anti-patterns detected).
