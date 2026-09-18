@@ -279,22 +279,20 @@ Coverage reports are generated automatically via SimpleCov and stored in the `co
 
 ---
 
-## 🚀 Production & Deployment
+## 🚀 Production Environment Checklist
 
-TimeEcho supports modern containerized and cloud platform deployments:
+| Variable | Description |
+| :--- | :--- |
+| `RAILS_ENV` | Must be set to `production`. |
+| `DATABASE_URL` | PostgreSQL production database connection URL. |
+| `RAILS_MASTER_KEY` | Decrypts credentials and Active Record encrypted columns. |
+| `APP_HOST` | Production domain for magic login links and email notifications. |
+| `APP_PROTOCOL` | Protocol scheme (`https`). |
+| `GOOD_JOB_EXECUTION_MODE` | Set to `async` for in-process background worker and cron execution. |
+| `WEB_CONCURRENCY` | Number of Puma worker processes (set to `0` for single-mode memory efficiency). |
+| `RAILS_MAX_THREADS` | Active Record connection and Puma thread pool size (default: `3`). |
+| `RAILS_SERVE_STATIC_FILES` | Set to `true` to serve precompiled assets via Puma. |
+| `RESEND_API_KEY` | API key for transactional email delivery via Resend. |
 
-### 1. Render Web Service Deployment
 
-A turnkey blueprint is configured in `render.yaml` with build automation in `bin/render-build.sh`:
-
-- **Build Pipeline**: Runs `bundle install`, `npm install`, compiles Tailwind CSS via `npm run build:css`, precompiles Rails assets, and applies database migrations.
-- **Puma Configuration**: Set to single-mode (`WEB_CONCURRENCY=0`, `RAILS_MAX_THREADS=3`) to ensure optimal memory consumption on free or low-memory tiers (512MB RAM).
-- **GoodJob Asynchronous Execution**: Set via `GOOD_JOB_EXECUTION_MODE=async` to execute background delivery workers and cron jobs in-process within the web dyno without requiring an additional paid worker dyno.
-
-
-### 2. Production Environment Checklist
-
-- **APP_HOST**: Set to your production domain (e.g. `timeecho.onrender.com` or `vault.timeecho.com`) so magic login links render valid URLs.
-- **RESEND_API_KEY**: Required to deliver magic login links (`AuthMailer`) and unlocked capsules (`LetterMailer`) in production.
-- **Active Record Encryption**: Set `ACTIVE_RECORD_ENCRYPTION_PRIMARY_KEY`, `ACTIVE_RECORD_ENCRYPTION_DETERMINISTIC_KEY`, and `ACTIVE_RECORD_ENCRYPTION_KEY_DERIVATION_SALT` via environment variables or Rails credentials.
 
