@@ -41,6 +41,7 @@ class ApplicationController < ActionController::Base
 
   def authenticate_user!
     unless user_signed_in?
+      session[:return_to] = request.fullpath if request.get?
       redirect_to login_path, alert: t("flash.login_required")
     end
   end

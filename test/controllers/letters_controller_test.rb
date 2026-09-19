@@ -55,7 +55,26 @@ class LettersControllerTest < ActionDispatch::IntegrationTest
     assert_equal "user@example.com", Letter.last.email
   end
 
-  test "should show countdown for pending letter via signed id" do
+  test "should redirect to login for letter show when not logged in" do
+    letter = Letter.new(
+      title: "Pending Letter",
+      email: "test@example.com",
+      content: "Hello!",
+      deliver_at: 1.year.from_now,
+      status: "pending"
+    )
+    letter.save!(validate: false)
+
+    get letter_path(letter.signed_id)
+    assert_redirected_to login_path
+    assert_equal letter_path(letter.signed_id), session[:return_to]
+  end
+
+  test "should show countdown for pending letter via signed id when logged in as owner" do
+    post login_path, params: { magic_link_form: { email: "test@example.com" } }
+    token = SessionToken.last.token
+    get magic_login_path(token)
+
     letter = Letter.new(
       title: "Pending Letter",
       email: "test@example.com",
@@ -71,6 +90,10 @@ class LettersControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should redirect private letter for unauthorized viewer" do
+    post login_path, params: { magic_link_form: { email: "stranger@example.com" } }
+    token = SessionToken.last.token
+    get magic_login_path(token)
+
     letter = Letter.new(
       title: "Private Letter",
       email: "owner@example.com",

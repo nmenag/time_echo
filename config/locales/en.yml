@@ -786,6 +786,11 @@ en:
       emotional_snapshot_completion: Logged today's emotional state baseline evaluation.
       general: "Performed general vault operation: %{operation}."
   mailers:
+    common:
+      postal_archive: Postal Archive
+      access_token_badge: Official Access Key
+      email_update_badge: Address Update Request
+      docket_prefix: Docket
     magic_link:
       subject: Your Magic Sign-In Link for TimeEcho
       header: Sign in to your digital time capsule

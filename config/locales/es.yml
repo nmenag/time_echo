@@ -800,6 +800,11 @@ es:
         de hoy.
       general: "Operación general del baúl realizada: %{operation}."
   mailers:
+    common:
+      postal_archive: Baúl Postal
+      access_token_badge: Clave de Acceso Oficial
+      email_update_badge: Solicitud de Actualización
+      docket_prefix: Expediente
     magic_link:
       subject: Tu enlace mágico de inicio de sesión para TimeEcho
       header: Inicia sesión en tu cápsula del tiempo digital

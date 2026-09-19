@@ -1,6 +1,4 @@
 class AuthMailer < ApplicationMailer
-  default from: "TimeEcho <onboarding@resend.dev>"
-
   def magic_link(email, token)
     @email = email
     @magic_link_url = magic_login_url(token: token)

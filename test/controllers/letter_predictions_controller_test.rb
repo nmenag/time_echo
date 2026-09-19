@@ -1,6 +1,11 @@
 require "test_helper"
 
 class LetterPredictionsControllerTest < ActionDispatch::IntegrationTest
+  test "redirects to login when unauthenticated" do
+    post update_predictions_letter_path(letter_id: 123)
+    assert_redirected_to login_path
+  end
+
   test "redirects to root when letter not found" do
     post login_path, params: { magic_link_form: { email: "user@example.com" } }
     token = SessionToken.last.token

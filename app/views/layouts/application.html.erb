@@ -123,12 +123,12 @@
 
         <!-- Mobile Top Navbar -->
         <header class="md:hidden sticky top-0 z-50 bg-base-100/90 backdrop-blur-md border-b border-base-200 px-4 py-3 flex items-center justify-between font-sans-ui">
-          <a href="<%= root_path %>" class="flex items-center text-xl font-serif-editorial italic text-base-content tracking-tight font-semibold">
+          <a href="<%= root_path %>" class="flex items-center text-xl font-serif-editorial italic text-base-content tracking-tight font-semibold shrink-0">
             <span><%= t('brand') %></span>
           </a>
 
-          <div class="flex items-center gap-2">
-            <%= button_to locales_path(locale: toggle_locale), method: :post, class: "flex items-center gap-1 text-base-content/60 hover:text-brand transition-colors cursor-pointer bg-transparent border-none p-0 hover:scale-[1.02] active:scale-[0.98]", data: { turbo: "false" } do %>
+          <div class="flex items-center gap-2.5 shrink-0">
+            <%= button_to locales_path(locale: toggle_locale), method: :post, class: "flex items-center gap-1 text-base-content/60 hover:text-brand transition-colors cursor-pointer bg-transparent border-none p-1 hover:scale-[1.02] active:scale-[0.98] shrink-0", data: { turbo: "false" } do %>
               <%= tabler_icon("world", size: 16) %>
               <span class="text-xs font-medium"><%= I18n.locale == :en ? "EN" : "ES" %></span>
             <% end %>
@@ -179,29 +179,29 @@
     <% else %>
       <!-- Clean Full-Width Layout (for Landing, Login, Success pages) -->
       <header class="sticky top-0 z-50 bg-base-100/90 backdrop-blur-md border-b border-base-200/60 font-sans-ui">
-        <div class="max-w-6xl mx-auto px-4 md:px-6 h-16 flex items-center justify-between">
-          <a href="<%= root_path %>" class="flex items-center text-2xl font-serif-editorial italic text-base-content tracking-tight font-semibold">
+        <div class="max-w-6xl mx-auto px-4 md:px-6 h-16 flex items-center justify-between gap-3">
+          <a href="<%= root_path %>" class="flex items-center text-xl sm:text-2xl font-serif-editorial italic text-base-content tracking-tight font-semibold shrink-0">
             <span><%= t('brand') %></span>
           </a>
 
-          <div class="flex items-center gap-8 text-sm font-medium font-sans-ui">
-            <%= button_to locales_path(locale: toggle_locale), method: :post, class: "flex items-center gap-1.5 text-base-content/60 hover:text-brand transition-colors cursor-pointer bg-transparent border-none p-0 hover:scale-[1.02] active:scale-[0.98] font-sans-ui", aria: { label: (I18n.locale == :en ? "Cambiar idioma a español" : "Switch language to English") }, data: { turbo: "false" } do %>
+          <div class="flex items-center gap-2.5 sm:gap-6 md:gap-8 text-xs sm:text-sm font-medium font-sans-ui shrink-0">
+            <%= button_to locales_path(locale: toggle_locale), method: :post, class: "flex items-center gap-1 sm:gap-1.5 text-base-content/60 hover:text-brand transition-colors cursor-pointer bg-transparent border-none p-1 sm:p-0 hover:scale-[1.02] active:scale-[0.98] font-sans-ui shrink-0", aria: { label: (I18n.locale == :en ? "Cambiar idioma a español" : "Switch language to English") }, data: { turbo: "false" } do %>
               <%= tabler_icon("world", size: 16) %>
-              <span><%= I18n.locale == :en ? "EN" : "ES" %></span>
+              <span class="text-xs sm:text-sm"><%= I18n.locale == :en ? "EN" : "ES" %></span>
             <% end %>
 
-            <div class="h-6 w-px bg-base-300"></div>
+            <div class="hidden sm:block h-5 w-px bg-base-300"></div>
 
-            <a href="<%= root_path %>#how-it-works" class="text-base-content/60 hover:text-brand transition-colors"><%= t('landing.how_it_works') %></a>
+            <a href="<%= root_path %>#how-it-works" class="hidden sm:block text-base-content/60 hover:text-brand transition-colors whitespace-nowrap"><%= t('landing.how_it_works') %></a>
 
             <% if user_signed_in? %>
-              <a href="<%= dashboard_path %>" class="btn bg-[#8E2818] hover:bg-[#6A1E12] text-[#FAF9F5] rounded-xs px-4 py-2 text-xs font-semibold tracking-wider uppercase border-none cursor-pointer inline-flex items-center gap-1.5 font-letter shadow-xs">
+              <a href="<%= dashboard_path %>" class="btn bg-[#8E2818] hover:bg-[#6A1E12] text-[#FAF9F5] rounded-xs px-3 sm:px-4 py-1.5 sm:py-2 text-[11px] sm:text-xs font-semibold tracking-wider uppercase border-none cursor-pointer inline-flex items-center gap-1 sm:gap-1.5 font-letter shadow-xs whitespace-nowrap shrink-0">
                 <%= tabler_icon("mail", size: 14) %>
                 <span><%= t('navigation.vault') %></span>
               </a>
             <% else %>
-               <a href="<%= login_path %>" class="btn bg-[#8E2818] hover:bg-[#6A1E12] text-[#FAF9F5] rounded-xs px-4 py-2 text-xs font-semibold tracking-wider uppercase border-none cursor-pointer inline-flex items-center gap-1.5 font-letter shadow-xs">
-                 <%= tabler_icon("login", size: 15) %>
+               <a href="<%= login_path %>" class="btn bg-[#8E2818] hover:bg-[#6A1E12] text-[#FAF9F5] rounded-xs px-3 sm:px-4 py-1.5 sm:py-2 text-[11px] sm:text-xs font-semibold tracking-wider uppercase border-none cursor-pointer inline-flex items-center gap-1 sm:gap-1.5 font-letter shadow-xs whitespace-nowrap shrink-0">
+                 <%= tabler_icon("login", size: 14) %>
                  <span><%= t('navigation.sign_in') %></span>
                </a>
             <% end %>

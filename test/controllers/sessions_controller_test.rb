@@ -45,6 +45,18 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
     assert_not_nil token_record.used_at
   end
 
+  test "should redirect to return_to after magic login when present" do
+    token_record = SessionToken.create!(email: "user@example.com")
+
+    get letter_path(123)
+    assert_redirected_to login_path
+    assert_equal letter_path(123), session[:return_to]
+
+    get magic_login_path(token_record.token)
+    assert_redirected_to letter_path(123)
+    assert_nil session[:return_to]
+  end
+
   test "should not authenticate expired or invalid token" do
     # 1. Invalid token
     get magic_login_path("invalid-token")
