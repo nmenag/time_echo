@@ -47,4 +47,28 @@ class Letters::AccessServiceTest < ActiveSupport::TestCase
       remove_method :original_show?
     end
   end
+
+  test "returns success for owned letter accessed via signed_id" do
+    letter = Letter.new(title: "Test", email: @user, content: "Hello", deliver_at: 1.day.ago, status: "delivered")
+    letter.save!(validate: false)
+    result = Letters::AccessService.call(letter.signed_id, @user)
+    assert result.success?
+    assert_equal letter, result.letter
+  end
+
+  test "returns unauthorized for signed_id when user is not owner" do
+    letter = Letter.new(title: "Test", email: @user, content: "Hello", deliver_at: 1.day.ago, status: "delivered")
+    letter.save!(validate: false)
+    result = Letters::AccessService.call(letter.signed_id, "other@example.com")
+    assert_not result.success?
+    assert_equal :unauthorized, result.error
+  end
+
+  test "returns unauthorized for signed_id when user is nil" do
+    letter = Letter.new(title: "Test", email: @user, content: "Hello", deliver_at: 1.day.ago, status: "delivered")
+    letter.save!(validate: false)
+    result = Letters::AccessService.call(letter.signed_id, nil)
+    assert_not result.success?
+    assert_equal :unauthorized, result.error
+  end
 end

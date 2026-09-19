@@ -10,14 +10,14 @@ module Letters
     end
 
     def call
-      letter, accessed_via_signed_id = find_letter
+      letter = find_letter
 
       if letter.nil?
         return Result.new(success: false, error: :not_found)
       end
 
       policy = LetterPolicy.new(@current_user_email, letter)
-      unless accessed_via_signed_id || policy.show?
+      unless policy.show?
         return Result.new(success: false, error: :unauthorized)
       end
 
@@ -36,17 +36,7 @@ module Letters
     private
 
     def find_letter
-      # 1. Look up by signed ID
-      letter = Letter.find_signed(@id_or_signed_id.to_s)
-      return [ letter, true ] if letter
-
-      # 2. If user is signed in, look up letters owned by that user
-      if @current_user_email.present?
-        letter = Letter.find_by(id: @id_or_signed_id, email: @current_user_email)
-        return [ letter, false ] if letter
-      end
-
-      [ nil, false ]
+      Letter.find_signed(@id_or_signed_id.to_s) || Letter.find_by(id: @id_or_signed_id)
     end
 
     class Result

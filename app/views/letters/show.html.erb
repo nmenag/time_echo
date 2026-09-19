@@ -33,7 +33,7 @@
     </div>
 
   <% else %>
-    <% if @letter.reveal_happiness.nil? && (@accessed_via_signed_id || (user_signed_in? && @letter.email == current_user_email)) %>
+    <% if @letter.reveal_happiness.nil? && user_signed_in? && @letter.email == current_user_email %>
       <%= form_with url: update_predictions_letter_path(@letter), method: :post, local: true, class: "space-y-8" do |f| %>
         <div style="display: none;"><%= @letter.content %></div>
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
@@ -203,7 +203,7 @@
               </div>
             </div>
 
-            <article class="lined-paper-canvas p-6 sm:p-10 border border-[#D8D2C2] dark:border-[#2D3340] rounded-xs bg-transparent text-base-content min-h-[300px] whitespace-pre-wrap select-text font-letter font-normal text-base leading-relaxed">
+            <article class="p-5 sm:p-6 border border-[#D8D2C2] dark:border-[#2D3340] rounded-xs bg-transparent text-base-content/90 min-h-[300px] whitespace-pre-wrap select-text font-letter text-sm leading-loose shadow-inner">
               <%= @letter.content %>
             </article>
 

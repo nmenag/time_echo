@@ -1,6 +1,4 @@
 class LetterMailer < ApplicationMailer
-  default from: "TimeEcho <onboarding@resend.dev>"
-
   def future_letter(letter)
     @letter = letter
     locale = @letter.language.presence || I18n.default_locale

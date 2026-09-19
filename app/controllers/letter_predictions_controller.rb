@@ -1,4 +1,6 @@
 class LetterPredictionsController < ApplicationController
+  before_action :authenticate_user!
+
   def update
     result = Letters::UpdatePredictionsService.call(
       params[:letter_id],

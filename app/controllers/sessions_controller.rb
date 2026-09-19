@@ -28,7 +28,10 @@ class SessionsController < ApplicationController
 
       Analytics::TrackEventService.call("user_logged_in", { email: email })
 
-      redirect_to dashboard_path, notice: t("flash.welcome_back")
+      return_to = session.delete(:return_to)
+      return_to = nil unless return_to.is_a?(String) && return_to.start_with?("/") && !return_to.start_with?("//")
+
+      redirect_to(return_to || dashboard_path, notice: t("flash.welcome_back"))
     else
       redirect_to login_path, alert: t("flash.invalid_link")
     end
