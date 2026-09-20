@@ -1,4 +1,4 @@
-# Hotwire & Turbo
+# Hotwire & Turbo (Turbo 7 & Turbo 8)
 
 ## Turbo Drive
 
@@ -30,18 +30,18 @@ end
 
 ## Turbo Frames
 
-Turbo Frames enable scoped page updates:
+Turbo Frames enable scoped page updates. Always pass the model record directly to `turbo_frame_tag` rather than manually interpolating string IDs:
 
 ```erb
 <!-- app/views/articles/show.html.erb -->
-<%= turbo_frame_tag "article_#{@article.id}" do %>
+<%= turbo_frame_tag @article do %>
   <h1><%= @article.title %></h1>
   <p><%= @article.body %></p>
   <%= link_to "Edit", edit_article_path(@article) %>
 <% end %>
 
 <!-- app/views/articles/edit.html.erb -->
-<%= turbo_frame_tag "article_#{@article.id}" do %>
+<%= turbo_frame_tag @article do %>
   <%= form_with model: @article do |f| %>
     <%= f.text_field :title %>
     <%= f.text_area :body %>
@@ -58,7 +58,7 @@ Lazy loading with Turbo Frames:
 
 ## Turbo Streams
 
-Real-time updates with Turbo Streams:
+Real-time partial updates via Turbo Streams:
 
 ```ruby
 # app/controllers/comments_controller.rb
@@ -85,16 +85,22 @@ end
 <% end %>
 ```
 
-Broadcasting with Action Cable:
+### Model Broadcasting with Action Cable
+
+Declarative model broadcasting:
 
 ```ruby
 # app/models/comment.rb
 class Comment < ApplicationRecord
   belongs_to :article
 
-  after_create_commit -> { broadcast_append_to article, target: "comments" }
-  after_update_commit -> { broadcast_replace_to article }
-  after_destroy_commit -> { broadcast_remove_to article }
+  # Concise declarative broadcast (Turbo Rails standard):
+  broadcasts_to :article, inserts_by: :append, target: "comments"
+
+  # Or individual callbacks when customized rendering or target logic is required:
+  # after_create_commit -> { broadcast_append_to article, target: "comments" }
+  # after_update_commit -> { broadcast_replace_to article }
+  # after_destroy_commit -> { broadcast_remove_to article }
 end
 ```
 
@@ -105,6 +111,26 @@ end
 <div id="comments">
   <%= render @article.comments %>
 </div>
+```
+
+## Turbo 8 Page Refresh & Morphing
+
+Turbo 8 introduces page refreshes with Idiomorph DOM morphing, reducing the need for manual Turbo Stream partials:
+
+```erb
+<!-- app/views/layouts/application.html.erb -->
+<head>
+  <%= turbo_refreshes_with method: :morph, scroll: :preserve %>
+  <%= yield :head %>
+</head>
+```
+
+```ruby
+# app/models/article.rb
+class Article < ApplicationRecord
+  # Triggers automatic morph refresh on subscribers
+  broadcasts_refreshes
+end
 ```
 
 ## Stimulus Controllers
@@ -166,7 +192,7 @@ export default class extends Controller {
 
 ## Turbo Stream Actions
 
-Seven core actions:
+Core stream actions:
 
 ```ruby
 # append, prepend, replace, update, remove, before, after
@@ -179,50 +205,10 @@ turbo_stream.before "target_id", partial: "item"
 turbo_stream.after "target_id", partial: "item"
 ```
 
-## Progressive Enhancement
+## Best Practices
 
-Start with working HTML, enhance with Turbo:
-
-```erb
-<!-- Works without JavaScript -->
-<%= form_with model: @article, url: articles_path do |f| %>
-  <%= f.text_field :title %>
-  <%= f.submit %>
-<% end %>
-
-<!-- Enhanced with Turbo Frame -->
-<%= turbo_frame_tag "article_form" do %>
-  <%= form_with model: @article do |f| %>
-    <%= f.text_field :title %>
-    <%= f.submit %>
-  <% end %>
-<% end %>
-```
-
-## Common Patterns
-
-Inline editing:
-
-```erb
-<%= turbo_frame_tag dom_id(@article, :title) do %>
-  <%= link_to @article.title, edit_article_path(@article),
-              data: { turbo_frame: dom_id(@article, :title) } %>
-<% end %>
-```
-
-Modal dialogs:
-
-```erb
-<%= turbo_frame_tag "modal" %>
-
-<%= link_to "Open Modal", new_article_path,
-            data: { turbo_frame: "modal" } %>
-```
-
-## Performance Tips
-
+- Pass model records directly to `turbo_frame_tag` (`turbo_frame_tag @article`), avoiding manual string ID concatenation
+- Use Turbo 8 morphing (`turbo_refreshes_with method: :morph`) for low-boilerplate real-time updates
 - Use lazy loading for off-screen frames
-- Debounce Stimulus actions for search/autocomplete
-- Cache Turbo Stream partials
-- Use morphing for minimal DOM updates
-- Minimize frame nesting depth
+- Debounce Stimulus actions for search and filter inputs
+- Cache Turbo Stream partials when rendering high-frequency collections
