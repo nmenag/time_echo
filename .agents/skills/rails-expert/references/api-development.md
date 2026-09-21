@@ -10,7 +10,7 @@ rails new myapp --api
 module MyApp
   class Application < Rails::Application
     config.api_only = true
-    config.load_defaults 7.1
+    config.load_defaults 7.2
   end
 end
 
@@ -30,7 +30,7 @@ class ApplicationController < ActionController::API
   end
 
   def authenticate_token
-    authenticate_with_http_token do |token, options|
+    authenticate_with_http_token do |token, _options|
       @current_user = User.find_by(api_token: token)
     end
   end
@@ -44,7 +44,7 @@ class ApplicationController < ActionController::API
   end
 
   def unprocessable_entity(exception)
-    render json: { errors: exception.record.errors }, status: :unprocessable_entity
+    render json: { errors: exception.record.errors.full_messages }, status: :unprocessable_entity
   end
 end
 ```
@@ -56,20 +56,23 @@ end
 module Api
   module V1
     class PostsController < ApplicationController
-      before_action :set_post, only: [:show, :update, :destroy]
+      before_action :set_post, only: %i[show update destroy]
 
       # GET /api/v1/posts
       def index
         @posts = Post.includes(:user)
-                    .page(params[:page])
-                    .per(params[:per_page] || 20)
+                     .page(params[:page])
+                     .per(params[:per_page] || 20)
 
-        render json: @posts, meta: pagination_meta(@posts)
+        render json: {
+          data: PostResource.new(@posts).as_json,
+          meta: pagination_meta(@posts)
+        }
       end
 
       # GET /api/v1/posts/:id
       def show
-        render json: @post, include: [:user, :comments]
+        render json: PostResource.new(@post, params: { include_comments: true }).serialize
       end
 
       # POST /api/v1/posts
@@ -77,24 +80,24 @@ module Api
         @post = current_user.posts.build(post_params)
 
         if @post.save
-          render json: @post, status: :created, location: api_v1_post_url(@post)
+          render json: PostResource.new(@post).serialize, status: :created, location: api_v1_post_url(@post)
         else
-          render json: { errors: @post.errors }, status: :unprocessable_entity
+          render json: { errors: @post.errors.full_messages }, status: :unprocessable_entity
         end
       end
 
       # PATCH/PUT /api/v1/posts/:id
       def update
         if @post.update(post_params)
-          render json: @post
+          render json: PostResource.new(@post).serialize
         else
-          render json: { errors: @post.errors }, status: :unprocessable_entity
+          render json: { errors: @post.errors.full_messages }, status: :unprocessable_entity
         end
       end
 
       # DELETE /api/v1/posts/:id
       def destroy
-        @post.destroy
+        @post.destroy!
         head :no_content
       end
 
@@ -120,42 +123,36 @@ module Api
 end
 ```
 
-## Serialization with ActiveModel::Serializers
+## Modern Serialization with Alba
+
+*(Note: `active_model_serializers` is deprecated and unmaintained in modern Rails. Alba or Blueprinter are recommended for high performance and clean DSL).*
 
 ```ruby
 # Gemfile
-gem 'active_model_serializers'
+gem 'alba'
 
-# app/serializers/post_serializer.rb
-class PostSerializer < ActiveModel::Serializer
-  attributes :id, :title, :body, :published, :created_at
+# app/resources/user_resource.rb
+class UserResource
+  include Alba::Resource
 
-  belongs_to :user
-  has_many :comments
+  attributes :id, :username
 
-  # Conditional attributes
-  attribute :draft_content, if: :current_user_is_author?
-
-  # Custom attributes
-  def published_date
-    object.created_at.strftime("%Y-%m-%d")
-  end
-
-  private
-
-  def current_user_is_author?
-    current_user == object.user
+  attribute :email do |user|
+    user.email if params[:current_user]&.admin?
   end
 end
 
-# app/serializers/user_serializer.rb
-class UserSerializer < ActiveModel::Serializer
-  attributes :id, :username, :email
+# app/resources/post_resource.rb
+class PostResource
+  include Alba::Resource
 
-  # Exclude sensitive data
-  def email
-    return nil unless current_user&.admin?
-    object.email
+  attributes :id, :title, :body, :published, :created_at
+
+  one :user, resource: UserResource
+  many :comments, proc: -> { params[:include_comments] }
+
+  attribute :published_date do |post|
+    post.created_at.strftime("%Y-%m-%d")
   end
 end
 ```
@@ -177,7 +174,7 @@ class JsonWebToken
 
   def self.decode(token)
     decoded = JWT.decode(token, SECRET_KEY)[0]
-    HashWithIndifferentAccess.new(decoded)
+    ActiveSupport::HashWithIndifferentAccess.new(decoded)
   rescue JWT::DecodeError
     nil
   end
@@ -195,7 +192,7 @@ module Api
 
         if user&.authenticate(params[:password])
           token = JsonWebToken.encode(user_id: user.id)
-          render json: { token: token, user: UserSerializer.new(user) }
+          render json: { token:, user: UserResource.new(user).as_json }
         else
           render json: { error: 'Invalid credentials' }, status: :unauthorized
         end
@@ -277,7 +274,6 @@ class Rack::Attack
 
   # Block suspicious requests
   blocklist('block bad IPs') do |req|
-    # Requests are blocked if the return value is truthy
     BadIpList.include?(req.ip)
   end
 end
@@ -299,7 +295,7 @@ Rails.application.config.middleware.insert_before 0, Rack::Cors do
 
     resource '*',
       headers: :any,
-      methods: [:get, :post, :put, :patch, :delete, :options, :head],
+      methods: %i[get post put patch delete options head],
       credentials: true
   end
 end
@@ -345,7 +341,7 @@ RSpec.describe 'Posts API', type: :request do
           title: { type: :string },
           body: { type: :string }
         },
-        required: ['title', 'body']
+        required: %w[title body]
       }
 
       response '201', 'post created' do
@@ -392,10 +388,10 @@ end
 - Use semantic versioning for API versions
 - Return proper HTTP status codes
 - Include pagination for list endpoints
-- Use JSON:API or similar standard format
-- Document API with OpenAPI/Swagger
-- Implement rate limiting and throttling
+- Use JSON:API or standard REST JSON representations
+- Avoid abandoned serializer gems (`active_model_serializers`); adopt modern alternatives like `Alba` or `Blueprinter`
+- Document API with OpenAPI/Swagger via `rswag`
+- Implement rate limiting with `rack-attack`
 - Use HTTPS in production
 - Validate and sanitize all inputs
-- Include API versioning in URL or headers
-- Provide helpful error messages
+- Provide clear error messages with standardized error response envelopes

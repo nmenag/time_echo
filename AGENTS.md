@@ -111,18 +111,18 @@ Views must remain lightweight and declarative.
 
 ---
 
-## 🧰 11. Agent Skills Standard (`skills/`)
+## 🧰 11. Agent Skills Standard (`.agents/skills/`)
 
-TimeEcho maintains specialized agent skills in the root `skills/` directory to guide domain-specific workflows and enforce best practices across architecture, design, and copywriting. AI assistants must proactively reference these skill guides before undertaking relevant work:
+TimeEcho maintains specialized agent skills in the `.agents/skills/` directory to guide domain-specific workflows and enforce best practices across architecture, design, and copywriting. AI assistants must proactively reference these skill guides before undertaking relevant work:
 
-- **`skills/rails-expert/` (`SKILL.md`)**: Modern Rails conventions, Hotwire (Turbo Frames & Streams), Active Record query optimization (eager loading, batch queries), background jobs with GoodJob, and robust test suite creation. Consult for complex Rails architecture or query design.
-- **`skills/frontend-design/` (`SKILL.md`)**: Guidance for distinctive, intentional visual design, typography hierarchy, and avoiding generic UI/SaaS patterns. Essential when shaping new visual components.
-- **`skills/impeccable/` (`SKILL.md`)**: Frontend design critique, UX audit, micro-interactions, responsive behavior, accessibility (WCAG AA), and visual polish.
-- **`skills/copywriting/` (`SKILL.md`)**: Conversion-oriented copywriting, hero messaging, value propositions, and editorial text guidance.
-- **`skills/find-skills/` (`SKILL.md`)**: Discovery and installation of new agent skills when extended workflows are requested.
+- **`.agents/skills/rails-expert/` (`SKILL.md`)**: Modern Rails conventions, Hotwire (Turbo Frames & Streams), Active Record query optimization (eager loading, batch queries), background jobs with GoodJob, and robust test suite creation. Consult for complex Rails architecture or query design.
+- **`.agents/skills/frontend-design/` (`SKILL.md`)**: Guidance for distinctive, intentional visual design, typography hierarchy, and avoiding generic UI/SaaS patterns. Essential when shaping new visual components.
+- **`.agents/skills/impeccable/` (`SKILL.md`)**: Frontend design critique, UX audit, micro-interactions, responsive behavior, accessibility (WCAG AA), and visual polish.
+- **`.agents/skills/copywriting/` (`SKILL.md`)**: Conversion-oriented copywriting, hero messaging, value propositions, and editorial text guidance.
+- **`.agents/skills/find-skills/` (`SKILL.md`)**: Discovery and installation of new agent skills when extended workflows are requested.
 
 ### Operational Rules for Skills:
-- **Root Directory Location**: All skills reside in `skills/<skill_name>/SKILL.md` at the project root.
+- **Directory Location**: All skills reside in `.agents/skills/<skill_name>/SKILL.md`.
 - **Proactive Consultation**: Whenever a task touches an area covered by an existing skill (such as Rails optimizations, frontend styling, or copywriting), the agent should view and follow the corresponding `SKILL.md` instructions.
 - **Skill Tracking**: Installed skills and their source origins are tracked in `skills-lock.json`.
 
@@ -150,7 +150,7 @@ The following tasks have been completed:
 - Added `Letters::DeliverLetterJob` worker with polynomial backoff retries (`retry_on`) for transient connection errors and status transition tracking (`pending` ➔ `queued` ➔ `delivered`/`failed`).
 - Configured production deployment pipeline (single-mode Puma with `WEB_CONCURRENCY=0`, GoodJob async mode).
 - Consolidated schema attributes into `db/migrate/20260520000001_create_letters.rb`.
-- Migrated all agent skills to root `skills/` folder, updated `skills-lock.json` and documented skills standard in `AGENTS.md`.
+- Migrated all agent skills to `.agents/skills/` folder, updated `skills-lock.json` and documented skills standard in `AGENTS.md`.
 - Completed Impeccable technical audit & quality certification (`19.7/20` score, zero anti-patterns detected).
 - Hardened form accessibility (WCAG AA) with explicit label associations, ARIA attributes on range sliders and progress bars, and elevated placeholder contrast.
 - Adapted layouts for mobile devices (`viewport-fit=cover`, safe-area insets, $\ge 44 \times 44\text{ px}$ touch targets, responsive text-wrap).

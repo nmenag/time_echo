@@ -28,15 +28,17 @@ end
 RSpec.configure do |config|
   config.include FactoryBot::Syntax::Methods
 
-  config.before(:suite) do
-    DatabaseCleaner.strategy = :transaction
-    DatabaseCleaner.clean_with(:truncation)
+  # In modern Rails (5.1+ through 7 & 8), transactional fixtures are thread-safe
+  # and work across system tests. DatabaseCleaner is unnecessary and discouraged.
+  config.use_transactional_fixtures = true
+
+  # System spec drivers
+  config.before(:each, type: :system) do
+    driven_by :rack_test
   end
 
-  config.around(:each) do |example|
-    DatabaseCleaner.cleaning do
-      example.run
-    end
+  config.before(:each, type: :system, js: true) do
+    driven_by :selenium, using: :headless_chrome, screen_size: [1400, 1400]
   end
 end
 
@@ -63,8 +65,10 @@ RSpec.describe User, type: :model do
   end
 
   describe "validations" do
+    subject { build(:user) }
+
     it { should validate_presence_of(:email) }
-    it { should validate_uniqueness_of(:email).case_insensitive }
+    it { should validate_uniqueness_of(:email).ignoring_case_sensitivity }
     it { should validate_length_of(:username).is_at_least(3).is_at_most(50) }
 
     it "validates email format" do
@@ -74,10 +78,10 @@ RSpec.describe User, type: :model do
     end
   end
 
-  describe "callbacks" do
-    it "normalizes email before save" do
-      user = create(:user, email: "USER@EXAMPLE.COM")
-      expect(user.reload.email).to eq("user@example.com")
+  describe "normalization" do
+    it "normalizes email via Rails 7.1+ normalizes" do
+      user = create(:user, email: "  USER@EXAMPLE.COM ")
+      expect(user.email).to eq("user@example.com")
     end
   end
 
@@ -111,7 +115,7 @@ RSpec.describe "/posts", type: :request do
   let(:valid_attributes) { { title: "Test Post", body: "Content" } }
   let(:invalid_attributes) { { title: "", body: "" } }
 
-  before { sign_in user } # Using Devise helper
+  before { sign_in user } # Using Devise or custom session helper
 
   describe "GET /index" do
     it "renders a successful response" do
@@ -158,7 +162,7 @@ RSpec.describe "/posts", type: :request do
   end
 
   describe "PATCH /update" do
-    let(:post_record) { create(:post, user: user) }
+    let(:post_record) { create(:post, user:) }
     let(:new_attributes) { { title: "Updated Title" } }
 
     it "updates the requested post" do
@@ -175,7 +179,7 @@ RSpec.describe "/posts", type: :request do
 
   describe "DELETE /destroy" do
     it "destroys the requested post" do
-      post_record = create(:post, user: user)
+      post_record = create(:post, user:)
       expect {
         delete post_url(post_record)
       }.to change(Post, :count).by(-1)
@@ -184,17 +188,13 @@ RSpec.describe "/posts", type: :request do
 end
 ```
 
-## System Specs (Feature Tests)
+## System Specs (Modern Browser Tests)
 
 ```ruby
 # spec/system/posts_spec.rb
 require 'rails_helper'
 
 RSpec.describe "Posts", type: :system do
-  before do
-    driven_by(:selenium_chrome_headless)
-  end
-
   let(:user) { create(:user) }
 
   describe "creating a post" do
@@ -213,7 +213,7 @@ RSpec.describe "Posts", type: :system do
 
   describe "editing a post", js: true do
     it "updates post via Turbo Frame" do
-      post = create(:post, user: user)
+      post = create(:post, user:)
       sign_in user
       visit post_path(post)
 
@@ -248,7 +248,7 @@ FactoryBot.define do
       end
 
       after(:create) do |user, evaluator|
-        create_list(:post, evaluator.posts_count, user: user)
+        create_list(:post, evaluator.posts_count, user:)
       end
     end
   end
@@ -262,44 +262,6 @@ FactoryBot.define do
       published { true }
       published_at { Time.current }
     end
-  end
-end
-
-# Usage
-user = create(:user)
-admin = create(:user, :admin)
-user_with_posts = create(:user, :with_posts, posts_count: 5)
-published_post = create(:post, :published)
-```
-
-## Shared Examples
-
-```ruby
-# spec/support/shared_examples/authenticatable.rb
-RSpec.shared_examples "authenticatable" do
-  describe "authentication" do
-    context "when not signed in" do
-      it "redirects to sign in page" do
-        make_request
-        expect(response).to redirect_to(new_user_session_path)
-      end
-    end
-
-    context "when signed in" do
-      before { sign_in create(:user) }
-
-      it "allows access" do
-        make_request
-        expect(response).to be_successful
-      end
-    end
-  end
-end
-
-# Usage in request spec
-RSpec.describe "/admin/posts", type: :request do
-  include_examples "authenticatable" do
-    let(:make_request) { get admin_posts_path }
   end
 end
 ```
@@ -316,15 +278,15 @@ RSpec.describe EmailSenderJob, type: :job do
 
     it "sends email" do
       expect {
-        described_class.perform_now(user.id, :welcome)
+        described_class.perform_now(user.id, "welcome")
       }.to change { ActionMailer::Base.deliveries.count }.by(1)
     end
 
     it "enqueues job" do
       expect {
-        described_class.perform_later(user.id, :welcome)
+        described_class.perform_later(user.id, "welcome")
       }.to have_enqueued_job(described_class)
-        .with(user.id, :welcome)
+        .with(user.id, "welcome")
         .on_queue("default")
     end
   end
@@ -357,11 +319,11 @@ end
 
 ## Best Practices
 
+- Use `config.use_transactional_fixtures = true` instead of `DatabaseCleaner`
+- Use `driven_by :selenium, using: :headless_chrome, screen_size: [...]` for modern headless browser specs
 - Use `let` and `let!` for DRY specs
 - Use factories, not fixtures
-- One assertion per example when possible
-- Use descriptive test names
 - Test edge cases and error conditions
-- Keep tests fast (use build instead of create when possible)
+- Keep tests fast (use `build` instead of `create` when database persistence is not required)
 - Use `travel_to` for time-dependent tests
-- Mock external API calls
+- Mock external HTTP/API calls

@@ -1,6 +1,6 @@
 # Active Record Patterns
 
-## Model Associations
+## Model Associations & Normalization
 
 ```ruby
 # app/models/user.rb
@@ -13,16 +13,11 @@ class User < ApplicationRecord
   has_one_attached :avatar
   has_many_attached :documents
 
-  validates :email, presence: true, uniqueness: true
+  # Rails 7.1+ built-in attribute normalization (replaces manual before_save/before_validation)
+  normalizes :email, with: ->(email) { email.strip.downcase }
+
+  validates :email, presence: true, uniqueness: { case_sensitive: false }
   validates :username, presence: true, length: { minimum: 3, maximum: 50 }
-
-  before_save :normalize_email
-
-  private
-
-  def normalize_email
-    self.email = email.downcase.strip
-  end
 end
 
 # app/models/post.rb
@@ -34,7 +29,7 @@ class Post < ApplicationRecord
 
   scope :published, -> { where(published: true) }
   scope :recent, -> { order(created_at: :desc) }
-  scope :by_user, ->(user) { where(user: user) }
+  scope :by_user, ->(user) { where(user:) }
 
   validates :title, presence: true, length: { maximum: 200 }
   validates :body, presence: true
@@ -113,29 +108,25 @@ User.find_each(batch_size: 1000) do |user|
 end
 ```
 
-## Callbacks
+## Callbacks vs Normalization
 
 ```ruby
 class User < ApplicationRecord
-  before_validation :normalize_email
-  after_validation :log_errors
+  # Prefer Rails 7.1+ normalizes over before_save/before_validation for formatting
+  normalizes :email, with: ->(email) { email.strip.downcase }
 
   before_create :generate_token
-  after_create :send_welcome_email
+  after_create_commit :send_welcome_email
 
   before_save :update_slug
-  after_save :clear_cache
+  after_save_commit :clear_cache
 
   before_destroy :cleanup_associations
-  after_destroy :log_deletion
+  after_destroy_commit :log_deletion
 
   # Avoid callbacks for business logic - use service objects instead
 
   private
-
-  def normalize_email
-    self.email = email.downcase.strip if email.present?
-  end
 
   def generate_token
     self.token = SecureRandom.hex(32)
@@ -169,7 +160,7 @@ end
 ## Migrations
 
 ```ruby
-# db/migrate/20231214_create_posts.rb
+# db/migrate/20240115120000_create_posts.rb
 class CreatePosts < ActiveRecord::Migration[7.1]
   def change
     create_table :posts do |t|
@@ -194,11 +185,13 @@ class AddSlugToPosts < ActiveRecord::Migration[7.1]
   end
 end
 
-# Data migration
+# Efficient data migration using in_batches
 class BackfillUsernames < ActiveRecord::Migration[7.1]
   def up
-    User.where(username: nil).find_each do |user|
-      user.update_column(:username, "user_#{user.id}")
+    User.where(username: nil).in_batches(of: 1000) do |batch|
+      batch.each do |user|
+        user.update_column(:username, "user_#{user.id}")
+      end
     end
   end
 
@@ -217,7 +210,7 @@ module Sluggable
 
   included do
     before_validation :generate_slug
-    validates :slug, presence: true, uniqueness: true
+    validates :slug, presence: true, uniqueness: { case_sensitive: false }
   end
 
   private
@@ -239,6 +232,6 @@ end
 - Use `counter_cache` for associations
 - Use `select` to limit columns returned
 - Use `pluck` instead of `map` for single attributes
-- Use `find_each` for batch processing large datasets
+- Use `find_each` or `in_batches` for processing large datasets
 - Use database views for complex queries
 - Consider materialized views for expensive aggregations
