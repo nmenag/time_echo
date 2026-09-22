@@ -23,11 +23,19 @@
           </p>
         </div>
 
-        <div class="pt-4 border-t border-[#D8D2C2] dark:border-[#2D3340]">
+        <div class="pt-4 border-t border-[#D8D2C2] dark:border-[#2D3340] flex flex-col sm:flex-row items-center justify-center gap-3">
           <a href="<%= dashboard_path %>" class="btn btn-outline border-[#D8D2C2] dark:border-[#2D3340] text-base-content hover:bg-base-200/50 rounded-xs px-5 text-xs font-medium uppercase tracking-wider font-letter inline-flex items-center gap-1.5 min-h-[38px]">
             <%= tabler_icon("arrow-left", size: 14) %>
             <span><%= t('letters.back_to_vault') %></span>
           </a>
+          <%= button_to letter_path(@letter),
+              method: :delete,
+              class: "btn btn-outline border-[#D8D2C2] dark:border-[#2D3340] text-base-content/65 hover:text-[#2C485E] dark:hover:text-[#77A3C4] hover:border-[#2C485E]/40 dark:hover:border-[#77A3C4]/40 hover:bg-[#2C485E]/5 rounded-xs px-4 text-xs font-medium uppercase tracking-wider font-letter inline-flex items-center gap-1.5 min-h-[38px] transition-colors cursor-pointer",
+              data: { turbo_confirm: t('letters.confirm_archive') },
+              aria: { label: t('letters.btn_archive') } do %>
+            <%= tabler_icon("archive", size: 14) %>
+            <span><%= t('letters.btn_archive') %></span>
+          <% end %>
         </div>
       </div>
     </div>

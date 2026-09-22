@@ -230,6 +230,12 @@ es:
       tu vida."
     email_verified: Tu correo electrónico ha sido verificado correctamente. ¡Bienvenido a tu baúl digital!
     invalid_or_expired_verification_token: Este enlace de verificación no es válido o ha caducado.
+    letter_deleted: La carta ha sido archivada y no será enviada.
+    letter_archived: La carta ha sido archivada y no será enviada.
+    letter_restored: La carta ha sido restaurada a tu baúl activo.
+    cannot_archive_delivered: Las cartas entregadas no pueden ser archivadas.
+    cannot_restore: Esta carta no puede ser restaurada.
+    unauthorized_action: No tienes autorización para realizar esta acción.
   landing:
     headline: Escribe hoy.<br>Descubre mañana.
     subtitle: Escribe una carta a tu yo del futuro, registra tu estado emocional y formula predicciones de vida. Une a quien eres hoy con la persona en la que te convertirás.
@@ -642,6 +648,15 @@ es:
     status_sealed_short: Cápsula Sellada
     capsule_in_transit_short: Cápsula en tránsito
     capsule_transit_desc: Se encuentra resguardada de forma privada en tu baúl temporal.
+    btn_archive: Archivar carta
+    confirm_archive: "¿Estás seguro de que deseas archivar esta cápsula? Se moverá al archivo y no se enviará al futuro."
+    btn_restore: Restaurar carta
+    confirm_restore: "¿Estás seguro de que deseas restaurar esta cápsula a tu baúl activo?"
+    archived_section_title: Expedientes Archivados
+    archived_section_subtitle: Cápsulas retiradas del tránsito activo y resguardadas en archivo pasivo.
+    archived_badge: Archivada
+    archived_on: Archivada el
+    empty_archived: No hay cápsulas archivadas en el baúl.
     prediction_accuracy: Acertaste %{matched} de %{total} predicciones (%{pct}%).
     prediction_score_perfect:
       "¡Tu brújula del futuro está sumamente afilada! Excelente

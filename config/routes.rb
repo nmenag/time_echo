@@ -14,7 +14,8 @@ Rails.application.routes.draw do
   get "letters/success", to: "letter_successes#show", as: :success_letters
 
   post "letters/:letter_id/predictions", to: "letter_predictions#update", as: :update_predictions_letter
-  resources :letters, only: [ :new, :create, :show ]
+  post "letters/:letter_id/restore", to: "letter_restorations#create", as: :restore_letter
+  resources :letters, only: [ :new, :create, :show, :destroy ]
 
   resources :locales, only: [ :create, :destroy ]
 

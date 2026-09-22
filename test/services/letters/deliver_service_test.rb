@@ -97,4 +97,15 @@ class Letters::DeliverServiceTest < ActiveSupport::TestCase
   ensure
     LetterMailer.define_singleton_method(:future_letter, original.to_proc)
   end
+
+  test "does not deliver letter if letter is archived" do
+    letter = build_queued_letter(status: "archived")
+
+    assert_emails 0 do
+      Letters::DeliverService.call(letter)
+    end
+
+    letter.reload
+    assert_equal "archived", letter.status
+  end
 end

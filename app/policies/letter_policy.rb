@@ -9,4 +9,8 @@ class LetterPolicy
   def show?
     user_email.present? && letter.email == user_email
   end
+
+  def destroy?
+    user_email.present? && letter.email == user_email
+  end
 end

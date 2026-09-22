@@ -228,6 +228,12 @@ en:
     reality_updated: Reality updated! Reflect on how your life has evolved.
     email_verified: Your email has been verified successfully. Welcome to your digital vault!
     invalid_or_expired_verification_token: This verification link is invalid or has expired.
+    letter_deleted: The letter has been archived and will not be delivered.
+    letter_archived: The letter has been archived and will not be delivered.
+    letter_restored: The letter has been restored to your active vault.
+    cannot_archive_delivered: Delivered capsules cannot be archived.
+    cannot_restore: This capsule cannot be restored.
+    unauthorized_action: You are not authorized to perform this action.
   landing:
     badge: TimeEcho Postal Vault
     title_html: TimeEcho
@@ -638,6 +644,15 @@ en:
     status_sealed_short: Sealed Capsule
     capsule_in_transit_short: Capsule in transit
     capsule_transit_desc: Privately stored in your temporary vault.
+    btn_archive: Archive letter
+    confirm_archive: "Are you sure you want to archive this capsule? It will be moved to the archive and will not be delivered to the future."
+    btn_restore: Restore letter
+    confirm_restore: "Are you sure you want to restore this capsule to your active vault?"
+    archived_section_title: Archived Dossiers
+    archived_section_subtitle: Capsules removed from active transit and preserved in cold storage.
+    archived_badge: Archived
+    archived_on: Archived on
+    empty_archived: No archived capsules in storage.
     prediction_accuracy: You got %{matched} out of %{total} predictions right (%{pct}%).
     prediction_score_perfect: Your future compass is extremely sharp! Excellent intuition.
     prediction_score_good:

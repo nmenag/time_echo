@@ -99,9 +99,19 @@
                     <p class="font-semibold uppercase tracking-wider text-[10px]"><%= t('letters.time_capsule_sealed') %></p>
                     <p class="text-base-content/60"><%= t('letters.sealed_desc', days: letter.days_left) %></p>
                   </div>
-                  <a href="<%= letter_path(letter) %>" class="postmark-stamp self-start sm:self-center text-[11px] py-1 px-3 hover:bg-base-200/40">
-                    <span><%= t('letters.opens_in_days', days: letter.days_left) %></span>
-                  </a>
+                  <div class="flex items-center gap-2 self-start sm:self-center">
+                    <a href="<%= letter_path(letter) %>" class="postmark-stamp text-[11px] py-1 px-3 hover:bg-base-200/40">
+                      <span><%= t('letters.opens_in_days', days: letter.days_left) %></span>
+                    </a>
+                    <%= button_to letter_path(letter),
+                        method: :delete,
+                        class: "btn btn-outline border-[#D8D2C2] dark:border-[#2D3340] text-base-content/65 hover:text-[#2C485E] dark:hover:text-[#77A3C4] hover:border-[#2C485E]/40 dark:hover:border-[#77A3C4]/40 hover:bg-[#2C485E]/5 rounded-xs px-2.5 py-1 text-xs font-medium uppercase tracking-wider font-letter inline-flex items-center gap-1 min-h-[32px] transition-colors cursor-pointer",
+                        data: { turbo_confirm: t('letters.confirm_archive') },
+                        aria: { label: t('letters.btn_archive') } do %>
+                      <%= tabler_icon("archive", size: 13) %>
+                      <span><%= t('letters.btn_archive') %></span>
+                    <% end %>
+                  </div>
                 </div>
               <% end %>
             </div>
@@ -246,9 +256,19 @@
                   </div>
                 </div>
 
-                <a href="<%= letter_path(letter) %>" class="postmark-stamp self-start sm:self-center text-[11px] py-1 px-3 hover:bg-base-200/40">
-                  <span><%= t('letters.opens_in_days', days: letter.days_left) %></span>
-                </a>
+                <div class="flex items-center gap-2 self-start sm:self-center">
+                  <a href="<%= letter_path(letter) %>" class="postmark-stamp text-[11px] py-1 px-3 hover:bg-base-200/40">
+                    <span><%= t('letters.opens_in_days', days: letter.days_left) %></span>
+                  </a>
+                  <%= button_to letter_path(letter),
+                      method: :delete,
+                      class: "btn btn-outline border-[#D8D2C2] dark:border-[#2D3340] text-base-content/65 hover:text-[#2C485E] dark:hover:text-[#77A3C4] hover:border-[#2C485E]/40 dark:hover:border-[#77A3C4]/40 hover:bg-[#2C485E]/5 rounded-xs px-2.5 py-1 text-xs font-medium uppercase tracking-wider font-letter inline-flex items-center gap-1 min-h-[32px] transition-colors cursor-pointer",
+                      data: { turbo_confirm: t('letters.confirm_archive') },
+                      aria: { label: t('letters.btn_archive') } do %>
+                    <%= tabler_icon("archive", size: 13) %>
+                    <span><%= t('letters.btn_archive') %></span>
+                  <% end %>
+                </div>
               </div>
             <% end %>
           </div>
@@ -263,6 +283,57 @@
           <%= tabler_icon("plus", size: 15) %>
           <span><%= t('letters.write_first_letter') %></span>
         </a>
+      </div>
+    <% end %>
+
+    <% if @archived_letters&.any? %>
+      <div class="mt-12 pt-8 border-t border-[#D8D2C2] dark:border-[#2D3340] space-y-6">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div class="space-y-1">
+            <div class="flex items-center gap-2">
+              <span class="text-[#2C485E] dark:text-[#77A3C4]"><%= tabler_icon("archive", size: 18) %></span>
+              <h2 class="font-serif-editorial text-2xl font-semibold text-base-content tracking-tight"><%= t('letters.archived_section_title') %></h2>
+            </div>
+            <p class="text-xs font-letter text-base-content/60 tracking-wider"><%= t('letters.archived_section_subtitle') %></p>
+          </div>
+          <span class="postmark-stamp text-xs font-letter py-1 px-3 self-start sm:self-auto">
+            <%= @archived_letters.count %> <%= t('letters.archived_badge') %>
+          </span>
+        </div>
+
+        <div class="space-y-3">
+          <% @archived_letters.each do |letter| %>
+            <% letter = LetterDecorator.new(letter) %>
+            <div class="archival-folder rounded-xs p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 text-xs font-letter border border-[#D5CEBD] dark:border-[#2D3342]">
+              <div class="space-y-1.5 min-w-0">
+                <div class="flex items-center gap-2.5 flex-wrap">
+                  <span class="font-letter text-xs text-base-content/60 font-semibold tracking-wider">№ TE-<%= letter.id.to_s.rjust(5, '0') %></span>
+                  <span class="postmark-stamp text-[10px] py-0.5 px-2 text-[#2C485E] dark:text-[#77A3C4]">
+                    <%= t('letters.archived_badge') %>
+                  </span>
+                  <span class="text-base-content/50 text-[11px] inline-flex items-center gap-1">
+                    <%= tabler_icon("calendar", size: 12) %>
+                    <%= t('letters.created_on') %>: <%= letter.formatted_created_at %>
+                  </span>
+                </div>
+                <h3 class="font-serif-editorial text-lg font-semibold text-base-content truncate">
+                  <%= letter.display_title %>
+                </h3>
+              </div>
+
+              <div class="shrink-0">
+                <%= button_to restore_letter_path(letter),
+                    method: :post,
+                    class: "btn btn-outline border-[#D8D2C2] dark:border-[#2D3340] text-base-content hover:bg-base-200/50 hover:text-[#2C485E] dark:hover:text-[#77A3C4] rounded-xs px-3.5 py-1.5 text-xs font-medium uppercase tracking-wider font-letter inline-flex items-center gap-1.5 min-h-[36px] transition-colors cursor-pointer",
+                    data: { turbo_confirm: t('letters.confirm_restore') },
+                    aria: { label: t('letters.btn_restore') } do %>
+                  <%= tabler_icon("rotate", size: 14) %>
+                  <span><%= t('letters.btn_restore') %></span>
+                <% end %>
+              </div>
+            </div>
+          <% end %>
+        </div>
       </div>
     <% end %>
   </div>
