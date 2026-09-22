@@ -561,6 +561,7 @@ en:
     focus_mode_exit: "Exit Focus Mode"
     word_count: "%{count} words"
     char_count: "%{count} characters"
+    min_chars_progress: "%{count} / 80 min (2000 max)"
     time_travel_duration: "⏳ This letter will travel through time for %{days} days"
     label_visibility: Visibility Options
     form_step_title: 1. When you write your letter
@@ -815,7 +816,8 @@ en:
       subject: A Message from Your Past Self (Sent %{date})
       header: A Message from Your Past Self
       written_on: Written on %{date}
-      open_btn: Open in Digital Time Capsule
+      open_btn: Unseal Letter & Compare Predictions
+      view_full_prompt: View your full letter and compare your past predictions.
       footer_html:
         You wrote this letter to yourself via TimeEcho.<br><em>"Sent with
         hope, received with nostalgia."</em>
@@ -823,7 +825,7 @@ en:
         You received this because you wrote a letter to your future self
         using TimeEcho. "Sent with hope, received with nostalgia."
       text_body_help: "To view this letter in your secure vault, visit:"
-    confirm_email_update:
+    confirm_email:
       subject: Confirm your email address change in TimeEcho
       header: Confirm your new email address
       greeting: Hello,

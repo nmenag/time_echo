@@ -63,11 +63,14 @@ class LetterMailerTest < ActionMailer::TestCase
     end
   end
 
-  test "future_letter renders postal layout and carmine button" do
+  test "future_letter renders postal layout, truncated excerpt, predictions prompt, and carmine button" do
+    long_content = "This is a long archival letter to my future self written during a rainy afternoon. " \
+                   "I wonder if you still remember how this season felt and whether all those dreams " \
+                   "and career aspirations finally materialized in the timeline."
     letter = Letter.new(
       title: "Letter to Future Me",
       email: "user@example.com",
-      content: "A secret reflection for later",
+      content: long_content,
       deliver_at: 1.day.ago,
       status: "delivered",
       language: "en"
@@ -80,8 +83,16 @@ class LetterMailerTest < ActionMailer::TestCase
 
     assert_includes html_body, "TimeEcho"
     assert_includes html_body, "btn-carmine"
-    assert_includes html_body, "A secret reflection for later"
-    assert_includes text_body, "A secret reflection for later"
+    assert_includes html_body, "Unseal Letter &amp; Compare Predictions"
+    assert_includes text_body, "Unseal Letter & Compare Predictions"
+    assert_includes html_body, "View your full letter and compare your past predictions."
+    assert_includes text_body, "View your full letter and compare your past predictions."
+    assert_includes html_body, "This is a long archival letter"
+    assert_includes html_body, "…"
+    refute_includes html_body, "materialized in the timeline."
+    assert_includes text_body, "This is a long archival letter"
+    assert_includes text_body, "…"
+    refute_includes text_body, "materialized in the timeline."
   end
 
   test "stamped_confirmation renders title and button redirecting to TimeEcho without content or archived wording" do

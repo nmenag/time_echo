@@ -63,6 +63,7 @@
               id: "letter_content_area",
               placeholder: t('letters.content_placeholder_form'),
               rows: 15,
+              minlength: 80,
               maxlength: 2000,
               class: "w-full p-5 sm:p-6 rounded-xs bg-transparent border border-[#D8D2C2] dark:border-[#2D3340] font-letter text-sm leading-loose text-base-content/90 placeholder:text-base-content/40 focus:border-[#8E2818] focus:outline-none transition-all shadow-inner",
               required: true,
@@ -70,7 +71,7 @@
               "aria-describedby": "char_counter" %>
           <div class="flex justify-between items-center text-[11px] font-letter text-base-content/50 pt-1" aria-live="polite" aria-atomic="true">
             <span class="italic"><%= t('letters.only_you_can_see') %></span>
-            <span id="char_counter">0 / 2000</span>
+            <span id="char_counter" data-template-min="<%= t('letters.min_chars_progress', count: '__COUNT__') %>">0 / 2000</span>
           </div>
         </div>
 
@@ -255,7 +256,17 @@
     const counter  = document.getElementById("char_counter");
     if (textarea && counter) {
       const updateCounter = () => {
-        counter.innerText = `${textarea.value.length} / 2000`;
+        const len = textarea.value.length;
+        if (len < 80) {
+          const templateMin = counter.dataset.templateMin || `${len} / 80 min (2000 max)`;
+          counter.innerText = templateMin.replace("__COUNT__", len);
+          counter.classList.add("text-[#8E2818]", "opacity-80");
+          counter.classList.remove("text-base-content/50");
+        } else {
+          counter.innerText = `${len} / 2000`;
+          counter.classList.remove("text-[#8E2818]", "opacity-80");
+          counter.classList.add("text-base-content/50");
+        }
       };
       textarea.removeEventListener("input", updateCounter);
       textarea.addEventListener("input", updateCounter);
