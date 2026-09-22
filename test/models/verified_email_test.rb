@@ -110,4 +110,23 @@ class VerifiedEmailTest < ActiveSupport::TestCase
     assert_includes VerifiedEmail.unverified, unverified
     assert_not_includes VerifiedEmail.unverified, verified
   end
+
+  test "VerifiedEmail.verify! returns nil when email is blank" do
+    assert_nil VerifiedEmail.verify!(nil)
+    assert_nil VerifiedEmail.verify!("")
+  end
+
+  test "VerifiedEmail.generate_token_for returns nil when email is blank" do
+    assert_nil VerifiedEmail.generate_token_for(nil)
+    assert_nil VerifiedEmail.generate_token_for("")
+  end
+
+  test "VerifiedEmail.generate_token_for does not set token if email is already verified" do
+    record = VerifiedEmail.verify!("already_verified@example.com")
+    assert record.verified?
+
+    res = VerifiedEmail.generate_token_for("already_verified@example.com")
+    assert res.verified?
+    assert_nil res.token
+  end
 end

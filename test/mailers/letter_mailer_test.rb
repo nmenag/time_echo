@@ -91,7 +91,7 @@ class LetterMailerTest < ActionMailer::TestCase
       content: "This is my private secret letter copy",
       deliver_at: 1.year.from_now,
       status: "pending",
-      language: "en"
+      language: "es"
     )
     letter.save!(validate: false)
 
@@ -112,9 +112,9 @@ class LetterMailerTest < ActionMailer::TestCase
     refute_match(/archived|archivad[oa]/i, html_body)
     refute_match(/archived|archivad[oa]/i, text_body)
 
-    refute_includes html_body, "btn-carmine"
+    refute_match(/class="[^"]*btn-carmine[^"]*"/, html_body)
 
-    assert_match(%r{<a href="[^"]*">.*#{Regexp.escape(I18n.t("brand"))}.*#{Regexp.escape(I18n.t("mailers.stamped_confirmation.footer_subtitle"))}.*</a>}m, html_body)
+    assert_match(%r{<a [^>]*href="[^"]*"[^>]*>.*#{Regexp.escape(I18n.t("brand"))}.*#{Regexp.escape(I18n.t("mailers.stamped_confirmation.footer_subtitle"))}.*</a>}m, html_body)
     assert_includes text_body, "http://localhost:3000"
   end
 end

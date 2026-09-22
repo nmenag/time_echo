@@ -14,6 +14,7 @@ class Letters::DeliverLetterJobTest < ActiveJob::TestCase
       queued_at: 1.minute.ago
     }.merge(overrides))
     letter.save!(validate: false)
+    VerifiedEmail.verify!(letter.email)
     letter
   end
 
@@ -142,6 +143,7 @@ class Letters::DeliverLetterJobTest < ActiveJob::TestCase
   test "marks letter failed and tracks event when retries are exhausted on transient error" do
     letter = build_queued_letter
     job = Letters::DeliverLetterJob.new(letter.id)
+    job.executions = 5
     job.exception_executions[Letters::DeliverLetterJob::TRANSIENT_ERRORS.to_s] = 5
 
     original = LetterMailer.method(:future_letter)

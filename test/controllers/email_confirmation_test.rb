@@ -12,7 +12,7 @@ class EmailConfirmationTest < ActionDispatch::IntegrationTest
     get magic_login_path(token_record.token)
   end
 
-  test "creating a letter while logged out generates and sends magic link to confirm email" do
+  test "creating a letter while logged out generates and sends verification email" do
     assert_difference -> { Letter.count } => 1 do
       post letters_url, params: {
         letter_form: {
@@ -29,9 +29,10 @@ class EmailConfirmationTest < ActionDispatch::IntegrationTest
 
     assert_redirected_to success_letters_url
 
-    # Verify a SessionToken was generated for confirmation
-    token = SessionToken.find_by(email: "stranger@timeecho.com")
-    assert_not_nil token
+    record = VerifiedEmail.find_by(email: "stranger@timeecho.com")
+    assert_not_nil record
+    assert_not record.verified?
+    assert record.token_valid?
   end
 
   test "magic link login activates/confirms the account" do

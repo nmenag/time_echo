@@ -177,6 +177,22 @@ class LettersControllerTest < ActionDispatch::IntegrationTest
     Letters::AccessService.define_singleton_method(:call, original_call.to_proc)
   end
 
+  test "should redirect with alert when letter is not found" do
+    post login_path, params: { magic_link_form: { email: "owner@example.com" } }
+    token = SessionToken.last.token
+    get magic_login_path(token)
+
+    struct_not_found = Struct.new(:success?, :error).new(false, :not_found)
+    original_call = Letters::AccessService.method(:call)
+    Letters::AccessService.define_singleton_method(:call, ->(*) { struct_not_found })
+
+    get letter_path("nonexistent_id")
+    assert_redirected_to root_path
+    assert_equal I18n.t("flash.private_or_inaccessible"), flash[:alert]
+  ensure
+    Letters::AccessService.define_singleton_method(:call, original_call.to_proc)
+  end
+
   test "should update predictions reality" do
     # Authenticate
     post login_path, params: { magic_link_form: { email: "owner@example.com" } }
