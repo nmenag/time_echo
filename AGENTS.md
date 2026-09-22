@@ -157,9 +157,5 @@ The following tasks have been completed:
 - Optimized font loading performance by removing render-blocking CSS `@import` and utilizing parallel preconnect links with `display=swap`.
 - Optimized landing page and marketing copy across bilingual locale files (`en.yml`, `es.yml`), eliminating inaccurate feature claims (photo/audio uploads) and introducing action-oriented benefit CTAs.
 - Comprehensive documentation update across `docs/architecture.md`, `docs/ui-ux.md`, `README.md`, `GEMINI.md`, and `AGENTS.md`.
-- Implemented `VerifiedEmail` tracking and database schema (`verified_emails` table) with unverified email dispatch guards in `PendingLettersQuery` and `DeliverService`.
-- Implemented stamped letter confirmation email flow (`LetterMailer#stamped_confirmation`) without raw letter body exposure or "archived" terminology, with hyperlinked postal brand footer.
-- Extracted `EmailVerificationMailer` (`verify_email`, `confirm_email`) to decouple email verification workflows from `AuthMailer` (`magic_link`).
-- Renamed email verification service to `Emails::VerifyService` under `app/services/emails/verify_service.rb`.
-- All 195 tests passing with 0 failures, 0 errors, and 100.00% line coverage (883/883 lines covered), with 0 RuboCop offenses across 122 files.
+
 

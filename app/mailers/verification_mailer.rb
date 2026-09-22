@@ -1,4 +1,4 @@
-class EmailVerificationMailer < ApplicationMailer
+class VerificationMailer < ApplicationMailer
   def confirm_email(old_email, new_email, token)
     @old_email = old_email
     @new_email = new_email

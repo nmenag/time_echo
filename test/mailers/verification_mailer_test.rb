@@ -1,8 +1,8 @@
 require "test_helper"
 
-class EmailVerificationMailerTest < ActionMailer::TestCase
+class VerificationMailerTest < ActionMailer::TestCase
   test "confirm_email" do
-    mail = EmailVerificationMailer.confirm_email("old@example.com", "new@example.com", "token123")
+    mail = VerificationMailer.confirm_email("old@example.com", "new@example.com", "token123")
     assert_equal [ "new@example.com" ], mail.to
     assert_equal [ "no-reply@timeecho.me" ], mail.from
     assert_equal "TimeEcho <no-reply@timeecho.me>", mail[:from].decoded
@@ -10,7 +10,7 @@ class EmailVerificationMailerTest < ActionMailer::TestCase
   end
 
   test "confirm_email renders html and text parts with transition" do
-    mail = EmailVerificationMailer.confirm_email("old@example.com", "new@example.com", "token123")
+    mail = VerificationMailer.confirm_email("old@example.com", "new@example.com", "token123")
     html_body = mail.html_part.body.decoded
     text_body = mail.text_part.body.decoded
 
@@ -21,7 +21,7 @@ class EmailVerificationMailerTest < ActionMailer::TestCase
   end
 
   test "verify_email renders subject, recipients, and verification link" do
-    mail = EmailVerificationMailer.verify_email("verify@example.com", "token789")
+    mail = VerificationMailer.verify_email("verify@example.com", "token789")
     assert_equal [ "verify@example.com" ], mail.to
     assert_equal [ "no-reply@timeecho.me" ], mail.from
     assert_equal I18n.t("mailers.verify_email.subject"), mail.subject
