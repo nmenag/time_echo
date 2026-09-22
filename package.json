@@ -1,6 +1,7 @@
 {
   "name": "time_echo",
   "private": true,
+  "license": "MIT",
   "dependencies": {
     "daisyui": "^5.0.0-beta.0"
   },
