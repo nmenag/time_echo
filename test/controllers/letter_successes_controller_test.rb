@@ -29,4 +29,17 @@ class LetterSuccessesControllerTest < ActionDispatch::IntegrationTest
       assert_select "span", text: /#{1.year.from_now.strftime("%B")}/
     end
   end
+
+  test "should show unverified instructions when email is unverified" do
+    post letters_path, params: { letter_form: { title: "Test", email: "unverified@example.com", content: "Hello", deliver_at: 1.year.from_now.to_s } }
+    follow_redirect!
+    assert_includes response.body, I18n.t("letters.success_next_desc", email: "unverified@example.com")
+  end
+
+  test "should show verified instructions when email is verified" do
+    VerifiedEmail.create!(email: "verified@example.com", verified_at: Time.current)
+    post letters_path, params: { letter_form: { title: "Test", email: "verified@example.com", content: "Hello", deliver_at: 1.year.from_now.to_s } }
+    follow_redirect!
+    assert_includes response.body, I18n.t("letters.success_next_desc_verified", email: "verified@example.com")
+  end
 end

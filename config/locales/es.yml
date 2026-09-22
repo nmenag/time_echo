@@ -228,6 +228,8 @@ es:
     reality_updated:
       "¡Realidad actualizada! Reflexiona sobre cómo ha evolucionado
       tu vida."
+    email_verified: Tu correo electrónico ha sido verificado correctamente. ¡Bienvenido a tu baúl digital!
+    invalid_or_expired_verification_token: Este enlace de verificación no es válido o ha caducado.
   landing:
     headline: Escribe hoy.<br>Descubre mañana.
     subtitle: Escribe una carta a tu yo del futuro, registra tu estado emocional y formula predicciones de vida. Une a quien eres hoy con la persona en la que te convertirás.
@@ -541,6 +543,9 @@ es:
       Hemos enviado un correo de verificación a %{email}. Una vez
       verificado, tu cápsula se programará permanentemente. En ese día tan especial,
       llegará de vuelta a tu correo.
+    success_next_desc_verified:
+      Hemos enviado un correo de confirmación a %{email}.
+      En ese día especial, llegará de nuevo a tu bandeja de entrada.
     success_btn_dashboard: Ir a mi Panel de Control
     success_btn_signin: Iniciar Sesión para ver mis Cápsulas
     success_signin_help:
@@ -844,6 +849,28 @@ es:
       expiry_help:
         Este enlace caducará en 15 minutos. Si no solicitaste este cambio,
         puedes ignorar este correo de forma segura.
+    verify_email:
+      badge: Verificación de Correo
+      subject: Verifica tu dirección de correo electrónico para TimeEcho
+      header: Verifica tu correo electrónico
+      greeting: Hola,
+      body:
+        Gracias por escribir una cápsula en TimeEcho. Para garantizar la entrega de tu
+        carta futura y salvaguardar tu baúl, por favor verifica tu dirección de correo
+        haciendo clic en el botón de abajo.
+      btn: Verificar Correo Electrónico
+      expiry_help:
+        Este enlace de verificación caducará en 48 horas. Si no escribiste una carta
+        en TimeEcho, puedes ignorar este correo con total tranquilidad.
+      footer_subtitle: Diario nostálgico y esperanzador para tu yo del futuro.
+    stamped_confirmation:
+      badge: Cápsula Sellada
+      subject: "Carta Confirmada y Sellada: %{title}"
+      header: Tu carta ha sido sellada y registrada
+      body:
+        Hemos registrado y sellado de manera segura tu cápsula del tiempo "%{title}". Ha quedado
+        cerrada bajo llave y será entregada en tu bandeja de entrada el %{date}.
+      footer_subtitle: Diario nostálgico y esperanzador para tu yo del futuro.
   settings:
     title: Ajustes de cuenta
     subtitle:

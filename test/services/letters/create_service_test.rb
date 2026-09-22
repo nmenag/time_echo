@@ -1,6 +1,8 @@
 require "test_helper"
 
 class Letters::CreateServiceTest < ActiveSupport::TestCase
+  include ActionMailer::TestHelper
+
   setup do
     @valid_params = {
       title: "My Future Self",
@@ -14,25 +16,45 @@ class Letters::CreateServiceTest < ActiveSupport::TestCase
     }
   end
 
-  test "creates a letter successfully and does not send magic link when user is signed in" do
-    assert_no_difference -> { SessionToken.count } do
-      result = Letters::CreateService.call(
-        params: @valid_params,
-        current_user_email: "signed_in@example.com"
-      )
-      assert result.success?
-      assert_equal "signed_in@example.com", result.letter.email
-    end
-  end
+  test "creates a letter and sends stamped confirmation email when email is verified" do
+    VerifiedEmail.create!(email: "author@example.com", verified_at: Time.current)
 
-  test "creates a letter and sends a magic link when user is not signed in" do
-    assert_difference -> { SessionToken.count } => 1 do
+    assert_enqueued_email_with LetterMailer, :stamped_confirmation do
       result = Letters::CreateService.call(
         params: @valid_params,
         current_user_email: nil
       )
       assert result.success?
       assert_equal "author@example.com", result.letter.email
+    end
+  end
+
+  test "creates a letter and sends verification email when email is not verified" do
+    assert_enqueued_email_with AuthMailer, :verify_email do
+      result = Letters::CreateService.call(
+        params: @valid_params,
+        current_user_email: nil
+      )
+      assert result.success?
+      assert_equal "author@example.com", result.letter.email
+    end
+
+    record = VerifiedEmail.find_by(email: "author@example.com")
+    assert_not_nil record
+    assert_not record.verified?
+    assert record.token_valid?
+  end
+
+  test "creates a letter for signed-in user and sends stamped confirmation when already verified" do
+    VerifiedEmail.create!(email: "signed_in@example.com", verified_at: Time.current)
+
+    assert_enqueued_email_with LetterMailer, :stamped_confirmation do
+      result = Letters::CreateService.call(
+        params: @valid_params,
+        current_user_email: "signed_in@example.com"
+      )
+      assert result.success?
+      assert_equal "signed_in@example.com", result.letter.email
     end
   end
 
