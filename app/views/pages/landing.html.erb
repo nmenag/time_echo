@@ -66,10 +66,10 @@
 
         <div class="space-y-2">
           <label class="text-xs font-letter font-semibold text-base-content uppercase tracking-wider block"><%= t('landing.your_letter') %></label>
-          <%= f.text_area :content, id: "landing_content_area", placeholder: t('landing.dear_future_self'), rows: 7, maxlength: 2000, class: "w-full p-4 sm:p-5 border border-[#D8D2C2] dark:border-[#2D3340] rounded-xs font-letter text-sm leading-loose text-base-content placeholder:text-base-content/40 focus:border-[#8E2818] focus:outline-none transition-all shadow-inner bg-transparent", required: true %>
+          <%= f.text_area :content, id: "landing_content_area", placeholder: t('landing.dear_future_self'), rows: 7, minlength: 80, maxlength: 2000, class: "w-full p-4 sm:p-5 border border-[#D8D2C2] dark:border-[#2D3340] rounded-xs font-letter text-sm leading-loose text-base-content placeholder:text-base-content/40 focus:border-[#8E2818] focus:outline-none transition-all shadow-inner bg-transparent", required: true %>
           <div class="flex justify-between items-center text-[11px] font-letter text-base-content/50 pt-1">
             <span class="italic"><%= t('letters.only_you_can_see') %></span>
-            <span id="landing_char_counter">0 / 2000</span>
+            <span id="landing_char_counter" data-template-min="<%= t('letters.min_chars_progress', count: '__COUNT__') %>">0 / 2000</span>
           </div>
         </div>
 
@@ -439,8 +439,17 @@
     const counter = document.getElementById("landing_char_counter");
     if (textarea && counter) {
       const updateCounter = () => {
-        const length = textarea.value.length;
-        counter.innerText = `${length} / 2000`;
+        const len = textarea.value.length;
+        if (len < 80) {
+          const templateMin = counter.dataset.templateMin || `${len} / 80 min (2000 max)`;
+          counter.innerText = templateMin.replace("__COUNT__", len);
+          counter.classList.add("text-[#8E2818]", "opacity-80");
+          counter.classList.remove("text-base-content/50");
+        } else {
+          counter.innerText = `${len} / 2000`;
+          counter.classList.remove("text-[#8E2818]", "opacity-80");
+          counter.classList.add("text-base-content/50");
+        }
       };
       textarea.removeEventListener("input", updateCounter);
       textarea.addEventListener("input", updateCounter);

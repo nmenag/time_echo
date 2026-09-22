@@ -429,6 +429,7 @@ es:
     error_saving: Error al guardar los ajustes.
     privacy: Privacidad
     only_you_can_see: Solo tú podrás verlo
+    min_chars_progress: "%{count} / 80 mín (2000 máx)"
     delivery_date: Se abrirá el
     within: Dentro de
     x_days_count: "%{count} días"
@@ -829,7 +830,8 @@ es:
       subject: Un mensaje de tu yo del pasado (Enviado el %{date})
       header: Un mensaje de tu yo del pasado
       written_on: Escrita el %{date}
-      open_btn: Abrir en la cápsula del tiempo digital
+      open_btn: Desprecintar carta y comparar predicciones
+      view_full_prompt: Mira la carta completa y compara tus predicciones pasadas.
       footer_html:
         Te escribiste esta carta a ti mismo a través de TimeEcho.<br><em>"Enviado
         con esperanza, recibido con nostalgia."</em>
