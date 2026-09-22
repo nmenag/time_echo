@@ -823,7 +823,7 @@ en:
         You received this because you wrote a letter to your future self
         using TimeEcho. "Sent with hope, received with nostalgia."
       text_body_help: "To view this letter in your secure vault, visit:"
-    confirm_email_update:
+    confirm_email:
       subject: Confirm your email address change in TimeEcho
       header: Confirm your new email address
       greeting: Hello,

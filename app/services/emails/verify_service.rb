@@ -1,4 +1,4 @@
-module VerifiedEmails
+module Emails
   class VerifyService
     def self.call(token)
       new(token).call

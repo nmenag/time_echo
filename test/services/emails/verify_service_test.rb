@@ -1,16 +1,16 @@
 require "test_helper"
 
-class VerifiedEmails::VerifyServiceTest < ActiveSupport::TestCase
+class Emails::VerifyServiceTest < ActiveSupport::TestCase
   test "fails when token is blank" do
-    result = VerifiedEmails::VerifyService.call(nil)
+    result = Emails::VerifyService.call(nil)
     assert_not result.success?
 
-    result = VerifiedEmails::VerifyService.call("")
+    result = Emails::VerifyService.call("")
     assert_not result.success?
   end
 
   test "fails when token does not exist" do
-    result = VerifiedEmails::VerifyService.call("nonexistent-token")
+    result = Emails::VerifyService.call("nonexistent-token")
     assert_not result.success?
   end
 
@@ -21,7 +21,7 @@ class VerifiedEmails::VerifyServiceTest < ActiveSupport::TestCase
       token_expires_at: 1.hour.ago
     )
 
-    result = VerifiedEmails::VerifyService.call(record.token)
+    result = Emails::VerifyService.call(record.token)
     assert_not result.success?
     assert_not record.reload.verified?
   end
@@ -34,7 +34,7 @@ class VerifiedEmails::VerifyServiceTest < ActiveSupport::TestCase
     )
 
     assert_difference -> { AnalyticsEvent.count } => 1 do
-      result = VerifiedEmails::VerifyService.call("valid-token")
+      result = Emails::VerifyService.call("valid-token")
       assert result.success?
       assert_equal "valid@example.com", result.verified_email.email
     end

@@ -1,6 +1,6 @@
 class EmailVerificationsController < ApplicationController
   def show
-    result = VerifiedEmails::VerifyService.call(params[:token])
+    result = Emails::VerifyService.call(params[:token])
 
     if result.success?
       session[:current_user_email] = result.verified_email.email
