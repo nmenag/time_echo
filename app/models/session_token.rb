@@ -1,4 +1,6 @@
 class SessionToken < ApplicationRecord
+  normalizes :email, with: ->(email) { email.strip.downcase }
+
   validates :email, presence: true, format: { with: URI::MailTo::EMAIL_REGEXP }
   validates :token, presence: true, uniqueness: true
   validates :expires_at, presence: true
