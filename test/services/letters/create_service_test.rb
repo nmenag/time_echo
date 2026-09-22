@@ -7,7 +7,7 @@ class Letters::CreateServiceTest < ActiveSupport::TestCase
     @valid_params = {
       title: "My Future Self",
       email: "author@example.com",
-      content: "Hello future!",
+      content: "Hello future me! I am writing this letter to document where I stand today and my goals.",
       deliver_at: 1.year.from_now,
       happiness_level: 8,
       anxiety_level: 2,

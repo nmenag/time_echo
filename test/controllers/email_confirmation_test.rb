@@ -18,7 +18,7 @@ class EmailConfirmationTest < ActionDispatch::IntegrationTest
         letter_form: {
           email: "stranger@timeecho.com",
           title: "Anonymous Capsule",
-          content: "I will be confirmed.",
+          content: "I will be confirmed by this email verification flow when writing a time capsule letter.",
           deliver_at: Date.current + 1.year,
           happiness_level: "5",
           anxiety_level: "5",
