@@ -10,7 +10,11 @@ class LetterPolicy
     user_email.present? && letter.email == user_email
   end
 
-  def destroy?
+  def archive?
+    user_email.present? && letter.email == user_email
+  end
+
+  def restore?
     user_email.present? && letter.email == user_email
   end
 end

@@ -322,7 +322,7 @@
               </div>
 
               <div class="shrink-0">
-                <%= button_to restore_letter_path(letter),
+                <%= button_to letters_restore_letter_path(letter),
                     method: :post,
                     class: "btn btn-outline border-[#D8D2C2] dark:border-[#2D3340] text-base-content hover:bg-base-200/50 hover:text-[#2C485E] dark:hover:text-[#77A3C4] rounded-xs px-3.5 py-1.5 text-xs font-medium uppercase tracking-wider font-letter inline-flex items-center gap-1.5 min-h-[36px] transition-colors cursor-pointer",
                     data: { turbo_confirm: t('letters.confirm_restore') },

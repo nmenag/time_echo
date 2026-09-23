@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Letters
-  class DestroyService
+  class ArchiveService
     def self.call(id_or_signed_id, current_user_email)
       new(id_or_signed_id, current_user_email).call
     end
@@ -17,7 +17,7 @@ module Letters
       return Result.new(success: false, error: :not_found) if letter.nil?
 
       policy = LetterPolicy.new(@current_user_email, letter)
-      return Result.new(success: false, error: :unauthorized) unless policy.destroy?
+      return Result.new(success: false, error: :unauthorized) unless policy.archive?
 
       return Result.new(success: false, error: :cannot_archive_delivered) unless letter.can_archive?
 

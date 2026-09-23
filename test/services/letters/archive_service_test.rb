@@ -2,7 +2,7 @@
 
 require "test_helper"
 
-class Letters::DestroyServiceTest < ActiveSupport::TestCase
+class Letters::ArchiveServiceTest < ActiveSupport::TestCase
   setup do
     @user = "owner@example.com"
   end
@@ -23,7 +23,7 @@ class Letters::DestroyServiceTest < ActiveSupport::TestCase
       events_tracked << { event: event, payload: payload }
     end
 
-    result = Letters::DestroyService.call(letter.id, @user)
+    result = Letters::ArchiveService.call(letter.id, @user)
 
     assert result.success?
     assert_equal letter, result.letter
@@ -43,7 +43,7 @@ class Letters::DestroyServiceTest < ActiveSupport::TestCase
     )
     letter.save!(validate: false)
 
-    result = Letters::DestroyService.call(letter.signed_id, @user)
+    result = Letters::ArchiveService.call(letter.signed_id, @user)
 
     assert result.success?
     assert_equal "archived", letter.reload.status
@@ -59,7 +59,7 @@ class Letters::DestroyServiceTest < ActiveSupport::TestCase
     )
     letter.save!(validate: false)
 
-    result = Letters::DestroyService.call(letter.id, @user)
+    result = Letters::ArchiveService.call(letter.id, @user)
 
     assert_not result.success?
     assert_equal :unauthorized, result.error
@@ -77,7 +77,7 @@ class Letters::DestroyServiceTest < ActiveSupport::TestCase
     )
     letter.save!(validate: false)
 
-    result = Letters::DestroyService.call(letter.id, @user)
+    result = Letters::ArchiveService.call(letter.id, @user)
 
     assert_not result.success?
     assert_equal :cannot_archive_delivered, result.error
@@ -85,7 +85,7 @@ class Letters::DestroyServiceTest < ActiveSupport::TestCase
   end
 
   test "returns not_found when letter does not exist" do
-    result = Letters::DestroyService.call(999_999, @user)
+    result = Letters::ArchiveService.call(999_999, @user)
 
     assert_not result.success?
     assert_equal :not_found, result.error

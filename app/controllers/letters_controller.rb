@@ -46,7 +46,7 @@ class LettersController < ApplicationController
   end
 
   def destroy
-    result = Letters::DestroyService.call(params[:id], current_user_email)
+    result = Letters::ArchiveService.call(params[:id], current_user_email)
 
     if result.success?
       redirect_to dashboard_path, notice: t("flash.letter_archived")
