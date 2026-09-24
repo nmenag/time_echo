@@ -18,7 +18,7 @@ module Letters
       )
       letter.save!(validate: false)
 
-      post letters_restore_letter_path(letter)
+      post letters_restore_path(letter)
       assert_redirected_to login_path
       assert_equal "archived", letter.reload.status
     end
@@ -37,7 +37,7 @@ module Letters
       )
       letter.save!(validate: false)
 
-      post letters_restore_letter_path(letter)
+      post letters_restore_path(letter)
       assert_redirected_to dashboard_path
       assert_equal I18n.t("flash.letter_restored"), flash[:notice]
       assert_equal "pending", letter.reload.status
@@ -57,7 +57,7 @@ module Letters
       )
       letter.save!(validate: false)
 
-      post letters_restore_letter_path(letter)
+      post letters_restore_path(letter)
       assert_redirected_to dashboard_path
       assert_equal I18n.t("flash.unauthorized_action"), flash[:alert]
       assert_equal "archived", letter.reload.status
@@ -68,7 +68,7 @@ module Letters
       token = SessionToken.last.token
       get magic_login_path(token)
 
-      post letters_restore_letter_path("nonexistent_id")
+      post letters_restore_path("nonexistent_id")
       assert_redirected_to dashboard_path
       assert_equal I18n.t("flash.private_or_inaccessible"), flash[:alert]
     end
@@ -88,7 +88,7 @@ module Letters
       )
       letter.save!(validate: false)
 
-      post letters_restore_letter_path(letter)
+      post letters_restore_path(letter)
       assert_redirected_to dashboard_path
       assert_equal I18n.t("flash.cannot_restore"), flash[:alert]
       assert_equal "delivered", letter.reload.status

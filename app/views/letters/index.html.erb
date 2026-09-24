@@ -103,8 +103,8 @@
                     <a href="<%= letter_path(letter) %>" class="postmark-stamp text-[11px] py-1 px-3 hover:bg-base-200/40">
                       <span><%= t('letters.opens_in_days', days: letter.days_left) %></span>
                     </a>
-                    <%= button_to letter_path(letter),
-                        method: :delete,
+                    <%= button_to letters_archive_path(letter),
+                        method: :post,
                         class: "btn btn-outline border-[#D8D2C2] dark:border-[#2D3340] text-base-content/65 hover:text-[#2C485E] dark:hover:text-[#77A3C4] hover:border-[#2C485E]/40 dark:hover:border-[#77A3C4]/40 hover:bg-[#2C485E]/5 rounded-xs px-2.5 py-1 text-xs font-medium uppercase tracking-wider font-letter inline-flex items-center gap-1 min-h-[32px] transition-colors cursor-pointer",
                         data: { turbo_confirm: t('letters.confirm_archive') },
                         aria: { label: t('letters.btn_archive') } do %>
@@ -260,8 +260,8 @@
                   <a href="<%= letter_path(letter) %>" class="postmark-stamp text-[11px] py-1 px-3 hover:bg-base-200/40">
                     <span><%= t('letters.opens_in_days', days: letter.days_left) %></span>
                   </a>
-                  <%= button_to letter_path(letter),
-                      method: :delete,
+                  <%= button_to letters_archive_path(letter),
+                      method: :post,
                       class: "btn btn-outline border-[#D8D2C2] dark:border-[#2D3340] text-base-content/65 hover:text-[#2C485E] dark:hover:text-[#77A3C4] hover:border-[#2C485E]/40 dark:hover:border-[#77A3C4]/40 hover:bg-[#2C485E]/5 rounded-xs px-2.5 py-1 text-xs font-medium uppercase tracking-wider font-letter inline-flex items-center gap-1 min-h-[32px] transition-colors cursor-pointer",
                       data: { turbo_confirm: t('letters.confirm_archive') },
                       aria: { label: t('letters.btn_archive') } do %>
@@ -322,7 +322,7 @@
               </div>
 
               <div class="shrink-0">
-                <%= button_to letters_restore_letter_path(letter),
+                <%= button_to letters_restore_path(letter),
                     method: :post,
                     class: "btn btn-outline border-[#D8D2C2] dark:border-[#2D3340] text-base-content hover:bg-base-200/50 hover:text-[#2C485E] dark:hover:text-[#77A3C4] rounded-xs px-3.5 py-1.5 text-xs font-medium uppercase tracking-wider font-letter inline-flex items-center gap-1.5 min-h-[36px] transition-colors cursor-pointer",
                     data: { turbo_confirm: t('letters.confirm_restore') },
