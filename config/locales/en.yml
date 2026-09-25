@@ -215,6 +215,30 @@ en:
     switch_to_en: English
     switch_to_es: Español
     quote: The best way to predict the future is to create it.
+  activemodel:
+    attributes:
+      letter_form:
+        title: "Title"
+        content: "Content"
+        email: "Email address"
+        scheduled_at: "Delivery date"
+        deliver_at: "Delivery date"
+        happiness_level: "Happiness level"
+        anxiety_level: "Anxiety level"
+        motivation_level: "Motivation level"
+  activerecord:
+    attributes:
+      letter:
+        title: "Title"
+        content: "Content"
+        email: "Email address"
+        scheduled_at: "Delivery date"
+        deliver_at: "Delivery date"
+  errors:
+    messages:
+      word_too_long: "cannot contain words longer than 45 characters"
+      too_few_words: "must contain at least 10 words"
+      missing_paragraphs: "must be organized into paragraphs using line breaks"
   flash:
     errors_title: "Please correct the following errors:"
     locked: This action cannot be undone once sealed.

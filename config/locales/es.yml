@@ -215,6 +215,30 @@ es:
     switch_to_en: Inglés
     switch_to_es: Español
     quote: La mejor manera de predecir el futuro es crearlo.
+  activemodel:
+    attributes:
+      letter_form:
+        title: "El título"
+        content: "El contenido"
+        email: "El correo electrónico"
+        scheduled_at: "La fecha de entrega"
+        deliver_at: "La fecha de entrega"
+        happiness_level: "El nivel de felicidad"
+        anxiety_level: "El nivel de ansiedad"
+        motivation_level: "El nivel de motivación"
+  activerecord:
+    attributes:
+      letter:
+        title: "El título"
+        content: "El contenido"
+        email: "El correo electrónico"
+        scheduled_at: "La fecha de entrega"
+        deliver_at: "La fecha de entrega"
+  errors:
+    messages:
+      word_too_long: "no puede contener palabras de más de 45 caracteres"
+      too_few_words: "debe contener al menos 10 palabras"
+      missing_paragraphs: "debe estar organizado en párrafos mediante saltos de línea"
   flash:
     errors_title: "Por favor, corrige los siguientes errores:"
     locked: Esta acción no se puede deshacer una vez sellada.

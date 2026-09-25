@@ -13,7 +13,7 @@ class Letter < ApplicationRecord
   attribute :language, :string, default: -> { I18n.locale.to_s }
   attribute :timezone, :string, default: -> { Time.zone&.name || "America/Bogota" }
 
-  validates :title, presence: true
+  validates :title, presence: true, length: { minimum: 3, maximum: 100 }
   validates :email, presence: true, format: { with: URI::MailTo::EMAIL_REGEXP }
   validates :content, presence: true
   validates :scheduled_at, presence: true
