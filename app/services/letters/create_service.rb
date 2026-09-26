@@ -16,6 +16,18 @@ module Letters
 
       form = LetterForm.new(@params)
       if form.save
+        AuditLog.record!(
+          action: "letter.created",
+          auditable: form.letter,
+          actor_email: form.letter.email,
+          metadata: {
+            scheduled_at: form.letter.scheduled_at&.iso8601,
+            language: form.letter.language,
+            timezone: form.letter.timezone,
+            predictions_count: form.letter.predictions.count
+          }
+        )
+
         if VerifiedEmail.verified?(form.letter.email)
           LetterMailer.stamped_confirmation(form.letter).deliver_later
         else
@@ -30,6 +42,7 @@ module Letters
 
     class Result
       attr_reader :letter, :errors, :form
+
       def initialize(success:, letter: nil, errors: nil, form: nil)
         @success = success
         @letter = letter

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Letters
-  class ArchiveService
+  class DestroyService
     def self.call(id_or_signed_id, current_user_email)
       new(id_or_signed_id, current_user_email).call
     end
@@ -17,24 +17,29 @@ module Letters
       return Result.new(success: false, error: :not_found) if letter.nil?
 
       policy = LetterPolicy.new(@current_user_email, letter)
-      return Result.new(success: false, error: :unauthorized) unless policy.archive?
+      return Result.new(success: false, error: :unauthorized) unless policy.destroy?
 
-      return Result.new(success: false, error: :cannot_archive_delivered) unless letter.can_archive?
+      return Result.new(success: false, error: :cannot_delete) unless letter.can_delete?
 
-      from_status = letter.status
-      letter.archive!
+      letter_id = letter.id
+      email = letter.email
+      scheduled_at = letter.scheduled_at&.iso8601
+      status_at_deletion = letter.status
+
+      letter.destroy!
 
       AuditLog.record!(
-        action: "letter.archived",
-        auditable: letter,
+        action: "letter.deleted",
+        auditable: nil,
         actor_email: @current_user_email,
         metadata: {
-          from_status: from_status,
-          to_status: "archived"
+          letter_id: letter_id,
+          scheduled_at: scheduled_at,
+          status_at_deletion: status_at_deletion
         }
       )
 
-      Analytics::TrackEventService.call("letter_archived", { letter_id: letter.id, email: letter.email })
+      Analytics::TrackEventService.call("letter_deleted", { letter_id: letter_id, email: email })
 
       Result.new(success: true, letter: letter)
     end
@@ -59,4 +64,6 @@ module Letters
       end
     end
   end
+
+  DeleteService = DestroyService
 end

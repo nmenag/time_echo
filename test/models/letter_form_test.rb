@@ -233,4 +233,37 @@ class LetterFormTest < ActiveSupport::TestCase
     assert_not form.valid?
     assert form.errors[:title].any?
   end
+
+  test "enforces creation limit of 5 letters per 24 hours per email" do
+    email = "frequent_writer@example.com"
+    5.times do |i|
+      letter = Letter.new(
+        title: "Letter #{i + 1}",
+        email: email,
+        content: "Reflections from the past for number #{i + 1} that contains more than ten valid words.",
+        scheduled_at: 1.year.from_now,
+        status: "pending"
+      )
+      letter.save!(validate: false)
+    end
+
+    form = LetterForm.new(
+      title: "Letter 6",
+      email: email,
+      content: "This is a sixth letter trying to exceed the daily creation limit for this user.",
+      deliver_at: 1.year.from_now
+    )
+
+    assert_not form.valid?
+    assert_includes form.errors[:base], I18n.t("errors.messages.letter_rate_limit_exceeded")
+
+    # Another email is not limited
+    other_form = LetterForm.new(
+      title: "Another person",
+      email: "another_writer@example.com",
+      content: "This is an entirely different user who should not be restricted by the other email.",
+      deliver_at: 1.year.from_now
+    )
+    assert other_form.valid?
+  end
 end

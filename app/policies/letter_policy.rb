@@ -20,6 +20,12 @@ class LetterPolicy
     owner?
   end
 
+  def destroy?
+    owner?
+  end
+
+  alias_method :delete?, :destroy?
+
   private
 
   def owner?

@@ -239,6 +239,8 @@ en:
       word_too_long: "cannot contain words longer than 45 characters"
       too_few_words: "must contain at least 10 words"
       missing_paragraphs: "must be organized into paragraphs using line breaks"
+      letter_rate_limit_exceeded: "You have reached the maximum limit of 5 letters per 24 hours. Please wait before creating another."
+      magic_link_rate_limit_exceeded: "Too many login attempts. Please wait a few minutes before requesting another link."
   flash:
     errors_title: "Please correct the following errors:"
     locked: This action cannot be undone once sealed.
@@ -252,11 +254,12 @@ en:
     reality_updated: Reality updated! Reflect on how your life has evolved.
     email_verified: Your email has been verified successfully. Welcome to your digital vault!
     invalid_or_expired_verification_token: This verification link is invalid or has expired.
-    letter_deleted: The letter has been archived and will not be delivered.
+    letter_deleted: The letter has been permanently deleted.
     letter_archived: The letter has been archived and will not be delivered.
     letter_restored: The letter has been restored to your active vault.
     cannot_archive_delivered: Delivered capsules cannot be archived.
     cannot_restore: This capsule cannot be restored.
+    cannot_delete: Only archived letters can be deleted.
     unauthorized_action: You are not authorized to perform this action.
   landing:
     badge: TimeEcho Postal Vault
@@ -672,6 +675,8 @@ en:
     confirm_archive: "Are you sure you want to archive this capsule? It will be moved to the archive and will not be delivered to the future."
     btn_restore: Restore letter
     confirm_restore: "Are you sure you want to restore this capsule to your active vault?"
+    btn_delete: Delete letter
+    confirm_delete: "Are you sure you want to permanently delete this letter? This action cannot be undone."
     archived_section_title: Archived Dossiers
     archived_section_subtitle: Capsules removed from active transit and preserved in cold storage.
     archived_badge: Archived

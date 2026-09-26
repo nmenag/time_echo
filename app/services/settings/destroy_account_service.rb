@@ -14,6 +14,19 @@ module Settings
         letters = Letter.where(email: @email)
         letter_ids = letters.pluck(:id)
 
+        letters.each do |letter|
+          AuditLog.record!(
+            action: "letter.deleted",
+            auditable: nil,
+            actor_email: @email,
+            metadata: {
+              letter_id: letter.id,
+              scheduled_at: letter.scheduled_at&.iso8601,
+              status_at_deletion: letter.status
+            }
+          )
+        end
+
         if letter_ids.any?
           conn = ActiveRecord::Base.connection
           %w[goals predictions emotional_snapshots].each do |table|

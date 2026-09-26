@@ -16,31 +16,39 @@ class LetterPolicyTest < ActiveSupport::TestCase
     @letter.save!(validate: false)
   end
 
-  test "permits show, archive, and restore when user is the owner" do
+  test "permits show, archive, restore, and destroy when user is the owner" do
     policy = LetterPolicy.new(@owner_email, @letter)
 
     assert policy.show?
     assert policy.archive?
     assert policy.restore?
+    assert policy.destroy?
+    assert policy.delete?
   end
 
-  test "denies show, archive, and restore when user email does not match letter owner" do
+  test "denies show, archive, restore, and destroy when user email does not match letter owner" do
     policy = LetterPolicy.new(@other_email, @letter)
 
     assert_not policy.show?
     assert_not policy.archive?
     assert_not policy.restore?
+    assert_not policy.destroy?
+    assert_not policy.delete?
   end
 
-  test "denies show, archive, and restore when user email is nil or empty" do
+  test "denies show, archive, restore, and destroy when user email is nil or empty" do
     nil_policy = LetterPolicy.new(nil, @letter)
     assert_not nil_policy.show?
     assert_not nil_policy.archive?
     assert_not nil_policy.restore?
+    assert_not nil_policy.destroy?
+    assert_not nil_policy.delete?
 
     empty_policy = LetterPolicy.new("", @letter)
     assert_not empty_policy.show?
     assert_not empty_policy.archive?
     assert_not empty_policy.restore?
+    assert_not empty_policy.destroy?
+    assert_not empty_policy.delete?
   end
 end

@@ -219,4 +219,11 @@ class LetterTest < ActiveSupport::TestCase
       letter.deliver!
     end
   end
+  test "can_delete? returns true only when letter is archived" do
+    assert Letter.new(status: "archived").can_delete?
+    assert_not Letter.new(status: "pending").can_delete?
+    assert_not Letter.new(status: "queued").can_delete?
+    assert_not Letter.new(status: "delivered").can_delete?
+    assert_not Letter.new(status: "failed").can_delete?
+  end
 end

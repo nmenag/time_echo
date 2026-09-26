@@ -13,6 +13,18 @@ module Letters
 
       Letter.where(id: letter_ids).update_all(status: "queued", queued_at: Time.current)
 
+      letters.each do |letter|
+        AuditLog.record!(
+          action: "letter.queued",
+          auditable: letter,
+          actor_email: letter.email,
+          metadata: {
+            from_status: "pending",
+            to_status: "queued"
+          }
+        )
+      end
+
       jobs = letter_ids.map { |id| Letters::DeliverLetterJob.new(id) }
       ActiveJob.perform_all_later(jobs)
 

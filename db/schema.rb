@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_09_26_160440) do
+ActiveRecord::Schema[8.1].define(version: 2026_09_26_173500) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -50,6 +50,22 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_26_160440) do
     t.datetime "updated_at", null: false
     t.index ["event_type"], name: "index_analytics_events_on_event_type"
     t.index ["occurred_at"], name: "index_analytics_events_on_occurred_at"
+  end
+
+  create_table "audit_logs", force: :cascade do |t|
+    t.string "auditable_type"
+    t.bigint "auditable_id"
+    t.string "actor_email"
+    t.string "action", null: false
+    t.jsonb "metadata", default: {}, null: false
+    t.string "ip_address"
+    t.string "user_agent"
+    t.datetime "created_at", null: false
+    t.index ["action"], name: "index_audit_logs_on_action"
+    t.index ["actor_email"], name: "index_audit_logs_on_actor_email"
+    t.index ["auditable_type", "auditable_id", "created_at"], name: "index_audit_logs_on_auditable_and_created_at"
+    t.index ["auditable_type", "auditable_id"], name: "index_audit_logs_on_auditable"
+    t.index ["created_at"], name: "index_audit_logs_on_created_at"
   end
 
   create_table "emotional_snapshots", force: :cascade do |t|
@@ -215,12 +231,12 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_26_160440) do
   end
 
   create_table "verified_emails", force: :cascade do |t|
-    t.datetime "created_at", null: false
     t.string "email", null: false
     t.string "token"
     t.datetime "token_expires_at"
-    t.datetime "updated_at", null: false
     t.datetime "verified_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index "lower((email)::text)", name: "index_verified_emails_on_lower_email", unique: true
     t.index ["email"], name: "index_verified_emails_on_email"
     t.index ["token"], name: "index_verified_emails_on_token", unique: true
