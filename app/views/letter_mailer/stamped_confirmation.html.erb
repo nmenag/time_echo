@@ -1,0 +1,43 @@
+<table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%">
+  <tr>
+    <td>
+      <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%">
+        <tr>
+          <td align="left">
+            <span style="display: inline-block; border: 1px dashed #2C485E; color: #2C485E; font-family: 'Courier Prime', 'Courier New', Courier, monospace; font-size: 11px; padding: 4px 10px; text-transform: uppercase; letter-spacing: 0.12em; border-radius: 2px;">
+              [ <%= t('mailers.stamped_confirmation.badge') %> ]
+            </span>
+          </td>
+          <td align="right">
+            <span style="font-family: 'Courier Prime', 'Courier New', Courier, monospace; font-size: 11px; color: #7A7268; letter-spacing: 0.05em;">
+              № TE-<%= @letter.id.to_s.rjust(5, '0') %>
+            </span>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr>
+    <td style="padding-top: 20px; padding-bottom: 12px; border-bottom: 1px solid #D8D2C2;">
+      <h1 style="margin: 0; font-family: 'Fraunces', Georgia, 'Times New Roman', serif; font-size: 22px; font-weight: 600; line-height: 1.35; color: #1A1A1A;">
+        <%= t('mailers.stamped_confirmation.header') %>
+      </h1>
+    </td>
+  </tr>
+  <tr>
+    <td style="padding-top: 14px; padding-bottom: 20px;">
+      <p style="margin: 0; font-family: 'IBM Plex Sans', -apple-system, sans-serif; font-size: 14px; line-height: 1.6; color: #3D3A36;">
+        <%= t('mailers.stamped_confirmation.body', title: @letter.title, date: I18n.l((@letter.scheduled_at || Time.current).to_date, format: :long)) %>
+      </p>
+    </td>
+  </tr>
+  <tr>
+    <td style="padding-top: 24px; border-top: 1px solid #D8D2C2;">
+      <div style="font-family: 'Fraunces', Georgia, 'Times New Roman', serif; font-style: italic; font-size: 13px; line-height: 1.6; color: #7A7268; text-align: center;">
+        <a href="<%= @time_echo_url %>" style="color: #7A7268; text-decoration: none;">
+          <strong><%= t('brand') %></strong> &middot; <%= t('mailers.stamped_confirmation.footer_subtitle') %>
+        </a>
+      </div>
+    </td>
+  </tr>
+</table>

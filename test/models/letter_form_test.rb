@@ -5,7 +5,7 @@ class LetterFormTest < ActiveSupport::TestCase
     params = {
       title: "My Future self",
       email: "test@example.com",
-      content: "Hello from the past!",
+      content: "Hello from the past! I hope this message finds you in great spirits, thriving and healthy.",
       deliver_at: "2027-05-20",
       timezone: "America/Bogota",
       happiness_level: 7,
@@ -28,7 +28,7 @@ class LetterFormTest < ActiveSupport::TestCase
     letter = form.letter
     assert_equal "My Future self", letter.title
     assert_equal "test@example.com", letter.email
-    assert_equal "Hello from the past!", letter.content
+    assert_equal "Hello from the past! I hope this message finds you in great spirits, thriving and healthy.", letter.content
     assert_equal "pending", letter.status
     assert_equal "America/Bogota", letter.timezone
 
@@ -50,11 +50,13 @@ class LetterFormTest < ActiveSupport::TestCase
   end
 
   test "invalid letter form validations" do
+    valid_content = "This is a sufficiently long archival reflection intended for my future self after many years."
+
     # 1. Past deliver_at
     form = LetterForm.new(
       title: "Title",
       email: "user@example.com",
-      content: "Content",
+      content: valid_content,
       deliver_at: 1.day.ago
     )
     assert_not form.valid?
@@ -63,7 +65,7 @@ class LetterFormTest < ActiveSupport::TestCase
     # 2. Missing title
     form = LetterForm.new(
       email: "user@example.com",
-      content: "Content",
+      content: valid_content,
       deliver_at: 1.year.from_now
     )
     assert_not form.valid?
@@ -73,7 +75,7 @@ class LetterFormTest < ActiveSupport::TestCase
     form = LetterForm.new(
       title: "Title",
       email: "not-an-email",
-      content: "Content",
+      content: valid_content,
       deliver_at: 1.year.from_now
     )
     assert_not form.valid?
@@ -83,7 +85,7 @@ class LetterFormTest < ActiveSupport::TestCase
     form = LetterForm.new(
       title: "Title",
       email: "user@example.com",
-      content: "Content",
+      content: valid_content,
       deliver_at: 1.year.from_now,
       happiness_level: 11
     )
@@ -94,7 +96,7 @@ class LetterFormTest < ActiveSupport::TestCase
     form = LetterForm.new(
       title: "Title",
       email: "user@example.com",
-      content: "Content",
+      content: valid_content,
       deliver_at: 1.year.from_now,
       timezone: "Mars/Olympus"
     )
@@ -105,7 +107,7 @@ class LetterFormTest < ActiveSupport::TestCase
     form = LetterForm.new(
       title: "Title",
       email: "user@example.com",
-      content: "Content",
+      content: valid_content,
       deliver_at: "not-a-valid-date-string"
     )
     assert_not form.valid?
@@ -115,12 +117,22 @@ class LetterFormTest < ActiveSupport::TestCase
     form = LetterForm.new(
       title: "Title",
       email: "user@example.com",
-      content: "Content",
+      content: valid_content,
       deliver_at: 1.year.from_now,
       timezone: ""
     )
     assert_not form.valid?
     assert form.errors[:timezone].any?
+
+    # 8. Content fewer than 80 characters
+    form = LetterForm.new(
+      title: "Title",
+      email: "user@example.com",
+      content: "Short note",
+      deliver_at: 1.year.from_now
+    )
+    assert_not form.valid?
+    assert form.errors[:content].any?
   end
 
   test "parsed_utc_scheduled_at handles Date, Time, and non-parseable types" do
@@ -146,7 +158,7 @@ class LetterFormTest < ActiveSupport::TestCase
     form = LetterForm.new(
       title: "No predictions",
       email: "nopredictions@example.com",
-      content: "Just a plain note to future me.",
+      content: "Just a plain note to my future self to reflect upon after all these years of growth and work.",
       deliver_at: 1.year.from_now,
       prediction_city: "",
       prediction_salary: "",
@@ -166,7 +178,7 @@ class LetterFormTest < ActiveSupport::TestCase
     form = LetterForm.new(
       title: "Title",
       email: "user@example.com",
-      content: "Content",
+      content: "This is a sufficiently long archival reflection intended for my future self after many years.",
       deliver_at: 1.year.from_now
     )
 
@@ -182,5 +194,43 @@ class LetterFormTest < ActiveSupport::TestCase
     assert form.errors[:base].any?
   ensure
     Letter.define_singleton_method(:new, original_new.to_proc) if original_new
+  end
+
+  test "content structure validation rejects words longer than 45 characters" do
+    long_word = "a" * 46
+    form = LetterForm.new(
+      title: "Title",
+      email: "user@example.com",
+      content: "Hello future self here is a word #{long_word} that is way too long to be valid in any sentence.",
+      deliver_at: 1.year.from_now
+    )
+
+    assert_not form.valid?
+    assert_includes form.errors[:content], I18n.t("errors.messages.word_too_long")
+  end
+
+  test "accepts long letters with a single paragraph" do
+    long_single_paragraph = "This is a long reflection intended for my future self without any line breaks or paragraph structure whatsoever because a single paragraph is completely allowed. " * 3
+    form = LetterForm.new(
+      title: "Valid Title",
+      email: "user@example.com",
+      content: long_single_paragraph,
+      deliver_at: 1.year.from_now
+    )
+
+    assert form.valid?, "Expected single paragraph long letter to be valid"
+  end
+
+  test "validates title length and word structure" do
+    long_title = "T" * 101
+    form = LetterForm.new(
+      title: long_title,
+      email: "user@example.com",
+      content: "This is a sufficiently long reflection intended for my future self after many years of growth.",
+      deliver_at: 1.year.from_now
+    )
+
+    assert_not form.valid?
+    assert form.errors[:title].any?
   end
 end

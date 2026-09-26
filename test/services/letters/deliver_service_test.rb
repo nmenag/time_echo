@@ -12,7 +12,20 @@ class Letters::DeliverServiceTest < ActiveSupport::TestCase
       status: "queued"
     }.merge(overrides))
     letter.save!(validate: false)
+    VerifiedEmail.verify!(letter.email)
     letter
+  end
+
+  test "does not deliver letter if email is not verified" do
+    letter = build_queued_letter(email: "unverified@example.com")
+    VerifiedEmail.find_by(email: "unverified@example.com")&.destroy!
+
+    assert_emails 0 do
+      Letters::DeliverService.call(letter)
+    end
+
+    letter.reload
+    assert_equal "queued", letter.status
   end
 
   test "delivers letter synchronously and marks it delivered" do
@@ -83,5 +96,16 @@ class Letters::DeliverServiceTest < ActiveSupport::TestCase
       "DeliverService must not set failed — DeliverLetterJob owns that transition"
   ensure
     LetterMailer.define_singleton_method(:future_letter, original.to_proc)
+  end
+
+  test "does not deliver letter if letter is archived" do
+    letter = build_queued_letter(status: "archived")
+
+    assert_emails 0 do
+      Letters::DeliverService.call(letter)
+    end
+
+    letter.reload
+    assert_equal "archived", letter.status
   end
 end

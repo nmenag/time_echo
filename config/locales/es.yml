@@ -215,6 +215,30 @@ es:
     switch_to_en: Inglés
     switch_to_es: Español
     quote: La mejor manera de predecir el futuro es crearlo.
+  activemodel:
+    attributes:
+      letter_form:
+        title: "El título"
+        content: "El contenido"
+        email: "El correo electrónico"
+        scheduled_at: "La fecha de entrega"
+        deliver_at: "La fecha de entrega"
+        happiness_level: "El nivel de felicidad"
+        anxiety_level: "El nivel de ansiedad"
+        motivation_level: "El nivel de motivación"
+  activerecord:
+    attributes:
+      letter:
+        title: "El título"
+        content: "El contenido"
+        email: "El correo electrónico"
+        scheduled_at: "La fecha de entrega"
+        deliver_at: "La fecha de entrega"
+  errors:
+    messages:
+      word_too_long: "no puede contener palabras de más de 45 caracteres"
+      too_few_words: "debe contener al menos 10 palabras"
+      missing_paragraphs: "debe estar organizado en párrafos mediante saltos de línea"
   flash:
     errors_title: "Por favor, corrige los siguientes errores:"
     locked: Esta acción no se puede deshacer una vez sellada.
@@ -228,11 +252,19 @@ es:
     reality_updated:
       "¡Realidad actualizada! Reflexiona sobre cómo ha evolucionado
       tu vida."
+    email_verified: Tu correo electrónico ha sido verificado correctamente. ¡Bienvenido a tu baúl digital!
+    invalid_or_expired_verification_token: Este enlace de verificación no es válido o ha caducado.
+    letter_deleted: La carta ha sido archivada y no será enviada.
+    letter_archived: La carta ha sido archivada y no será enviada.
+    letter_restored: La carta ha sido restaurada a tu baúl activo.
+    cannot_archive_delivered: Las cartas entregadas no pueden ser archivadas.
+    cannot_restore: Esta carta no puede ser restaurada.
+    unauthorized_action: No tienes autorización para realizar esta acción.
   landing:
     headline: Escribe hoy.<br>Descubre mañana.
     subtitle: Escribe una carta a tu yo del futuro, registra tu estado emocional y formula predicciones de vida. Une a quien eres hoy con la persona en la que te convertirás.
     private_and_secure: Cifrado y Privado
-    private_desc: Cifrado en reposo con Active Record. Sellado en tu bóveda personal hasta la fecha elegida.
+    private_desc: Tus cartas están protegidas y selladas en tu bóveda personal hasta la fecha que tú elijas.
     delivered_on_time: Entrega con Zona Horaria
     delivery_desc: Despacho programado directamente a tu bandeja de entrada en el momento exacto.
     connect_with_yourself: Expediente de Realidad
@@ -427,6 +459,7 @@ es:
     error_saving: Error al guardar los ajustes.
     privacy: Privacidad
     only_you_can_see: Solo tú podrás verlo
+    min_chars_progress: "%{count} / 80 mín (2000 máx)"
     delivery_date: Se abrirá el
     within: Dentro de
     x_days_count: "%{count} días"
@@ -541,6 +574,9 @@ es:
       Hemos enviado un correo de verificación a %{email}. Una vez
       verificado, tu cápsula se programará permanentemente. En ese día tan especial,
       llegará de vuelta a tu correo.
+    success_next_desc_verified:
+      Hemos enviado un correo de confirmación a %{email}.
+      En ese día especial, llegará de nuevo a tu bandeja de entrada.
     success_btn_dashboard: Ir a mi Panel de Control
     success_btn_signin: Iniciar Sesión para ver mis Cápsulas
     success_signin_help:
@@ -636,6 +672,15 @@ es:
     status_sealed_short: Cápsula Sellada
     capsule_in_transit_short: Cápsula en tránsito
     capsule_transit_desc: Se encuentra resguardada de forma privada en tu baúl temporal.
+    btn_archive: Archivar carta
+    confirm_archive: "¿Estás seguro de que deseas archivar esta cápsula? Se moverá al archivo y no se enviará al futuro."
+    btn_restore: Restaurar carta
+    confirm_restore: "¿Estás seguro de que deseas restaurar esta cápsula a tu baúl activo?"
+    archived_section_title: Expedientes Archivados
+    archived_section_subtitle: Cápsulas retiradas del tránsito activo y resguardadas en archivo pasivo.
+    archived_badge: Archivada
+    archived_on: Archivada el
+    empty_archived: No hay cápsulas archivadas en el baúl.
     prediction_accuracy: Acertaste %{matched} de %{total} predicciones (%{pct}%).
     prediction_score_perfect:
       "¡Tu brújula del futuro está sumamente afilada! Excelente
@@ -824,7 +869,8 @@ es:
       subject: Un mensaje de tu yo del pasado (Enviado el %{date})
       header: Un mensaje de tu yo del pasado
       written_on: Escrita el %{date}
-      open_btn: Abrir en la cápsula del tiempo digital
+      open_btn: Desprecintar carta y comparar predicciones
+      view_full_prompt: Mira la carta completa y compara tus predicciones pasadas.
       footer_html:
         Te escribiste esta carta a ti mismo a través de TimeEcho.<br><em>"Enviado
         con esperanza, recibido con nostalgia."</em>
@@ -832,7 +878,7 @@ es:
         Recibiste esto porque te escribiste una carta a tu yo del futuro
         usando TimeEcho. "Enviado con esperanza, recibido con nostalgia."
       text_body_help: "Para ver esta carta en tu baúl seguro, visita:"
-    confirm_email_update:
+    confirm_email:
       subject: Confirma tu cambio de correo electrónico en TimeEcho
       header: Confirma tu nueva dirección de correo
       greeting: Hola,
@@ -844,6 +890,28 @@ es:
       expiry_help:
         Este enlace caducará en 15 minutos. Si no solicitaste este cambio,
         puedes ignorar este correo de forma segura.
+    verify_email:
+      badge: Verificación de Correo
+      subject: Verifica tu dirección de correo electrónico para TimeEcho
+      header: Verifica tu correo electrónico
+      greeting: Hola,
+      body:
+        Gracias por escribir una cápsula en TimeEcho. Para garantizar la entrega de tu
+        carta futura y salvaguardar tu baúl, por favor verifica tu dirección de correo
+        haciendo clic en el botón de abajo.
+      btn: Verificar Correo Electrónico
+      expiry_help:
+        Este enlace de verificación caducará en 48 horas. Si no escribiste una carta
+        en TimeEcho, puedes ignorar este correo con total tranquilidad.
+      footer_subtitle: Diario nostálgico y esperanzador para tu yo del futuro.
+    stamped_confirmation:
+      badge: Cápsula Sellada
+      subject: "Carta Confirmada y Sellada: %{title}"
+      header: Tu carta ha sido sellada y registrada
+      body:
+        Hemos registrado y sellado de manera segura tu cápsula del tiempo "%{title}". Ha quedado
+        cerrada bajo llave y será entregada en tu bandeja de entrada el %{date}.
+      footer_subtitle: Diario nostálgico y esperanzador para tu yo del futuro.
   settings:
     title: Ajustes de cuenta
     subtitle:

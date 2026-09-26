@@ -63,11 +63,14 @@ class LetterMailerTest < ActionMailer::TestCase
     end
   end
 
-  test "future_letter renders postal layout and carmine button" do
+  test "future_letter renders postal layout, truncated excerpt, predictions prompt, and carmine button" do
+    long_content = "This is a long archival letter to my future self written during a rainy afternoon. " \
+                   "I wonder if you still remember how this season felt and whether all those dreams " \
+                   "and career aspirations finally materialized in the timeline."
     letter = Letter.new(
       title: "Letter to Future Me",
       email: "user@example.com",
-      content: "A secret reflection for later",
+      content: long_content,
       deliver_at: 1.day.ago,
       status: "delivered",
       language: "en"
@@ -80,7 +83,49 @@ class LetterMailerTest < ActionMailer::TestCase
 
     assert_includes html_body, "TimeEcho"
     assert_includes html_body, "btn-carmine"
-    assert_includes html_body, "A secret reflection for later"
-    assert_includes text_body, "A secret reflection for later"
+    assert_includes html_body, "Unseal Letter &amp; Compare Predictions"
+    assert_includes text_body, "Unseal Letter & Compare Predictions"
+    assert_includes html_body, "View your full letter and compare your past predictions."
+    assert_includes text_body, "View your full letter and compare your past predictions."
+    assert_includes html_body, "This is a long archival letter"
+    assert_includes html_body, "…"
+    refute_includes html_body, "materialized in the timeline."
+    assert_includes text_body, "This is a long archival letter"
+    assert_includes text_body, "…"
+    refute_includes text_body, "materialized in the timeline."
+  end
+
+  test "stamped_confirmation renders title and button redirecting to TimeEcho without content or archived wording" do
+    letter = Letter.new(
+      title: "Letter Stamped Test",
+      email: "stamped@example.com",
+      content: "This is my private secret letter copy",
+      deliver_at: 1.year.from_now,
+      status: "pending",
+      language: "es"
+    )
+    letter.save!(validate: false)
+
+    mail = LetterMailer.stamped_confirmation(letter)
+    assert_equal [ "stamped@example.com" ], mail.to
+    assert_equal I18n.t("mailers.stamped_confirmation.subject", title: letter.title), mail.subject
+    assert_equal letter.id.to_s, mail.header["X-Letter-ID"].value
+
+    html_body = mail.html_part.body.decoded
+    text_body = mail.text_part.body.decoded
+
+    assert_includes html_body, "Letter Stamped Test"
+    assert_includes text_body, "Letter Stamped Test"
+
+    refute_includes html_body, "This is my private secret letter copy"
+    refute_includes text_body, "This is my private secret letter copy"
+
+    refute_match(/archived|archivad[oa]/i, html_body)
+    refute_match(/archived|archivad[oa]/i, text_body)
+
+    refute_match(/class="[^"]*btn-carmine[^"]*"/, html_body)
+
+    assert_match(%r{<a [^>]*href="[^"]*"[^>]*>.*#{Regexp.escape(I18n.t("brand"))}.*#{Regexp.escape(I18n.t("mailers.stamped_confirmation.footer_subtitle"))}.*</a>}m, html_body)
+    assert_includes text_body, "http://localhost:3000"
   end
 end

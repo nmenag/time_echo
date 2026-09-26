@@ -71,4 +71,12 @@ class Letters::AccessServiceTest < ActiveSupport::TestCase
     assert_not result.success?
     assert_equal :unauthorized, result.error
   end
+
+  test "returns not_found for archived letter" do
+    letter = Letter.new(title: "Test", email: @user, content: "Hello", deliver_at: 1.day.ago, status: "archived")
+    letter.save!(validate: false)
+    result = Letters::AccessService.call(letter.id, @user)
+    assert_not result.success?
+    assert_equal :not_found, result.error
+  end
 end

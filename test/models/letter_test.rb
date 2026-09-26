@@ -111,4 +111,112 @@ class LetterTest < ActiveSupport::TestCase
     assert_not letter.valid?
     assert letter.errors[:language].any?
   end
+
+  test "archived? returns true for archived status" do
+    letter = Letter.new(status: "archived")
+    assert letter.archived?
+  end
+
+  test "countdown_seconds returns 0 for archived letter" do
+    letter = Letter.new(status: "archived", scheduled_at: 1.year.from_now)
+    assert_equal 0, letter.countdown_seconds
+  end
+
+  test "active and archived scopes filter correctly" do
+    active_letter = Letter.new(
+      title: "Active",
+      email: "active@example.com",
+      content: "Active",
+      scheduled_at: 1.year.from_now,
+      status: "pending"
+    )
+    active_letter.save!(validate: false)
+
+    archived_letter = Letter.new(
+      title: "Archived",
+      email: "archived@example.com",
+      content: "Archived",
+      scheduled_at: 1.year.from_now,
+      status: "archived"
+    )
+    archived_letter.save!(validate: false)
+
+    assert_includes Letter.active, active_letter
+    assert_not_includes Letter.active, archived_letter
+    assert_includes Letter.archived, archived_letter
+    assert_not_includes Letter.archived, active_letter
+  end
+
+  test "delivered letter cannot be archived or transitioned to pending" do
+    letter = Letter.new(
+      title: "Delivered Letter",
+      email: "test@example.com",
+      content: "Delivered",
+      scheduled_at: 1.year.ago,
+      delivered_at: 1.year.ago,
+      status: "delivered"
+    )
+    letter.save!(validate: false)
+
+    assert_not letter.can_archive?
+    assert_not letter.can_transition_to?("pending")
+    assert_not letter.can_transition_to?("archived")
+
+    assert_raises(LetterStateMachine::InvalidTransitionError) do
+      letter.archive!
+    end
+
+    assert_raises(LetterStateMachine::InvalidTransitionError) do
+      letter.restore!
+    end
+
+    letter.status = "archived"
+    assert_not letter.valid?
+    assert_includes letter.errors[:status], "cannot transition from 'delivered' to 'archived'"
+
+    letter.status = "pending"
+    assert_not letter.valid?
+    assert_includes letter.errors[:status], "cannot transition from 'delivered' to 'pending'"
+  end
+
+  test "archived letter can only be restored to pending" do
+    letter = Letter.new(
+      title: "Archived Letter",
+      email: "test@example.com",
+      content: "Archived",
+      scheduled_at: 1.year.from_now,
+      status: "archived"
+    )
+    letter.save!(validate: false)
+
+    assert letter.can_restore?
+    assert letter.can_transition_to?("pending")
+    assert_not letter.can_transition_to?("delivered")
+    assert_not letter.can_transition_to?("queued")
+
+    letter.restore!
+    assert_equal "pending", letter.reload.status
+  end
+
+  test "can_queue?, can_deliver?, and deliver! transitions" do
+    letter = Letter.new(
+      title: "Queueable Letter",
+      email: "test@example.com",
+      content: "Queued",
+      scheduled_at: 1.year.from_now,
+      status: "pending"
+    )
+    letter.save!(validate: false)
+
+    assert letter.can_queue?
+    assert letter.can_deliver?
+
+    letter.deliver!
+    assert_equal "delivered", letter.reload.status
+    assert_not_nil letter.delivered_at
+
+    assert_raises(LetterStateMachine::InvalidTransitionError) do
+      letter.deliver!
+    end
+  end
 end

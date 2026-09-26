@@ -6,7 +6,7 @@ class LettersControllerTest < ActionDispatch::IntegrationTest
       letter_form: {
         title: "My Future self",
         email: "test@example.com",
-        content: "Hello from the past!",
+        content: "Hello from the past! I hope this message finds you in great spirits, thriving and healthy.",
         deliver_at: 1.year.from_now.to_s,
         happiness_level: "7",
         anxiety_level: "3",
@@ -43,7 +43,7 @@ class LettersControllerTest < ActionDispatch::IntegrationTest
       post letters_path, params: {
         letter_form: {
           title: "Logged in letter",
-          content: "Content",
+          content: "Logged in reflection about my goals, personal aspirations, and expectations for the upcoming year.",
           deliver_at: 1.year.from_now.to_s,
           happiness_level: "5",
           anxiety_level: "5",
@@ -173,6 +173,22 @@ class LettersControllerTest < ActionDispatch::IntegrationTest
 
     get letter_path(letter)
     assert_redirected_to root_path
+  ensure
+    Letters::AccessService.define_singleton_method(:call, original_call.to_proc)
+  end
+
+  test "should redirect with alert when letter is not found" do
+    post login_path, params: { magic_link_form: { email: "owner@example.com" } }
+    token = SessionToken.last.token
+    get magic_login_path(token)
+
+    struct_not_found = Struct.new(:success?, :error).new(false, :not_found)
+    original_call = Letters::AccessService.method(:call)
+    Letters::AccessService.define_singleton_method(:call, ->(*) { struct_not_found })
+
+    get letter_path("nonexistent_id")
+    assert_redirected_to root_path
+    assert_equal I18n.t("flash.private_or_inaccessible"), flash[:alert]
   ensure
     Letters::AccessService.define_singleton_method(:call, original_call.to_proc)
   end
