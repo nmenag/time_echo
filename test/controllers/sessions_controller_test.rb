@@ -33,6 +33,19 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
     assert_response :unprocessable_entity
   end
 
+  test "should enforce rate limit on magic link requests per email" do
+    email = "spammer@example.com"
+    5.times do
+      SessionToken.create!(email: email)
+    end
+
+    assert_no_emails do
+      post login_path, params: { magic_link_form: { email: email } }
+    end
+    assert_response :unprocessable_entity
+    assert_includes response.body, I18n.t("errors.messages.magic_link_rate_limit_exceeded")
+  end
+
   test "should authenticate magic link token and log in" do
     token_record = SessionToken.create!(email: "user@example.com")
 

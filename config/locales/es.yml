@@ -239,6 +239,8 @@ es:
       word_too_long: "no puede contener palabras de más de 45 caracteres"
       too_few_words: "debe contener al menos 10 palabras"
       missing_paragraphs: "debe estar organizado en párrafos mediante saltos de línea"
+      letter_rate_limit_exceeded: "Has alcanzado el límite máximo de 5 cartas por 24 horas. Por favor espera antes de crear otra."
+      magic_link_rate_limit_exceeded: "Demasiados intentos de inicio de sesión. Por favor espera unos minutos antes de solicitar otro enlace."
   flash:
     errors_title: "Por favor, corrige los siguientes errores:"
     locked: Esta acción no se puede deshacer una vez sellada.

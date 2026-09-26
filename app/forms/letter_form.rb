@@ -27,6 +27,7 @@ class LetterForm
   validates :timezone, presence: true
   validate :scheduled_at_must_be_in_future
   validate :valid_iana_timezone
+  validate :creation_limit_not_exceeded
 
   validates :happiness_level, presence: true, numericality: { only_integer: true, in: 1..10 }
   validates :anxiety_level, presence: true, numericality: { only_integer: true, in: 1..10 }
@@ -127,6 +128,14 @@ class LetterForm
     return if timezone.blank?
     unless Time.find_zone(timezone)
       errors.add(:timezone, "is not a valid IANA timezone")
+    end
+  end
+
+  def creation_limit_not_exceeded
+    return if email.blank?
+    normalized_email = email.strip.downcase
+    if Letter.for_email(normalized_email).where("created_at >= ?", 24.hours.ago).count >= 5
+      errors.add(:base, I18n.t("errors.messages.letter_rate_limit_exceeded"))
     end
   end
 end

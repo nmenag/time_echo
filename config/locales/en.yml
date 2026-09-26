@@ -239,6 +239,8 @@ en:
       word_too_long: "cannot contain words longer than 45 characters"
       too_few_words: "must contain at least 10 words"
       missing_paragraphs: "must be organized into paragraphs using line breaks"
+      letter_rate_limit_exceeded: "You have reached the maximum limit of 5 letters per 24 hours. Please wait before creating another."
+      magic_link_rate_limit_exceeded: "Too many login attempts. Please wait a few minutes before requesting another link."
   flash:
     errors_title: "Please correct the following errors:"
     locked: This action cannot be undone once sealed.
