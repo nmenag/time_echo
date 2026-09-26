@@ -18,7 +18,7 @@ Rails.application.routes.draw do
     resource :archive, only: [ :create ], path: ":letter_id/archive"
     resource :restore, only: [ :create ], path: ":letter_id/restore"
   end
-  resources :letters, only: [ :new, :create, :show ]
+  resources :letters, only: [ :new, :create, :show, :destroy ]
 
   resources :locales, only: [ :create, :destroy ]
 

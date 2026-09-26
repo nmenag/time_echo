@@ -1,5 +1,5 @@
 class LettersController < ApplicationController
-  before_action :authenticate_user!, only: [ :index, :show ]
+  before_action :authenticate_user!, only: [ :index, :show, :destroy ]
 
   def index
     @letters = UserTimelineQuery.call(current_user_email)
@@ -41,6 +41,23 @@ class LettersController < ApplicationController
         redirect_to root_path, alert: t("flash.private_or_inaccessible")
       when :unauthorized
         redirect_to root_path, alert: t("flash.unauthorized_view")
+      end
+    end
+  end
+
+  def destroy
+    result = Letters::DestroyService.call(params[:id], current_user_email)
+
+    if result.success?
+      redirect_to dashboard_path, notice: t("flash.letter_deleted")
+    else
+      case result.error
+      when :not_found
+        redirect_to dashboard_path, alert: t("flash.private_or_inaccessible")
+      when :unauthorized
+        redirect_to dashboard_path, alert: t("flash.unauthorized_action")
+      when :cannot_delete
+        redirect_to dashboard_path, alert: t("flash.cannot_delete")
       end
     end
   end

@@ -256,11 +256,12 @@ es:
       tu vida."
     email_verified: Tu correo electrónico ha sido verificado correctamente. ¡Bienvenido a tu baúl digital!
     invalid_or_expired_verification_token: Este enlace de verificación no es válido o ha caducado.
-    letter_deleted: La carta ha sido archivada y no será enviada.
+    letter_deleted: La carta ha sido eliminada permanentemente.
     letter_archived: La carta ha sido archivada y no será enviada.
     letter_restored: La carta ha sido restaurada a tu baúl activo.
     cannot_archive_delivered: Las cartas entregadas no pueden ser archivadas.
     cannot_restore: Esta carta no puede ser restaurada.
+    cannot_delete: Solo se pueden eliminar las cartas archivadas.
     unauthorized_action: No tienes autorización para realizar esta acción.
   landing:
     headline: Escribe hoy.<br>Descubre mañana.
@@ -678,6 +679,8 @@ es:
     confirm_archive: "¿Estás seguro de que deseas archivar esta cápsula? Se moverá al archivo y no se enviará al futuro."
     btn_restore: Restaurar carta
     confirm_restore: "¿Estás seguro de que deseas restaurar esta cápsula a tu baúl activo?"
+    btn_delete: Eliminar carta
+    confirm_delete: "¿Estás seguro de que deseas eliminar permanentemente esta carta? Esta acción no se puede deshacer."
     archived_section_title: Expedientes Archivados
     archived_section_subtitle: Cápsulas retiradas del tránsito activo y resguardadas en archivo pasivo.
     archived_badge: Archivada

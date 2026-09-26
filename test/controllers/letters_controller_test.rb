@@ -233,4 +233,95 @@ class LettersControllerTest < ActionDispatch::IntegrationTest
     assert_equal "Milan", pred.reality
     assert_not pred.matched?
   end
+
+  test "should redirect to login when unauthenticated for destroy" do
+    letter = Letter.new(
+      title: "Archived Letter",
+      email: "owner@example.com",
+      content: "Content",
+      scheduled_at: 1.year.from_now,
+      status: "archived"
+    )
+    letter.save!(validate: false)
+
+    delete letter_path(letter)
+    assert_redirected_to login_path
+    assert Letter.exists?(letter.id)
+  end
+
+  test "should destroy archived letter when logged in as owner" do
+    post login_path, params: { magic_link_form: { email: "owner@example.com" } }
+    token = SessionToken.last.token
+    get magic_login_path(token)
+
+    letter = Letter.new(
+      title: "Archived Letter",
+      email: "owner@example.com",
+      content: "Content",
+      scheduled_at: 1.year.from_now,
+      status: "archived"
+    )
+    letter.save!(validate: false)
+
+    assert_difference -> { Letter.count } => -1, -> { AuditLog.for_action("letter.deleted").count } => 1 do
+      delete letter_path(letter)
+    end
+
+    assert_redirected_to dashboard_path
+    assert_equal I18n.t("flash.letter_deleted"), flash[:notice]
+    assert_not Letter.exists?(letter.id)
+  end
+
+  test "should redirect with alert when destroying non-archived letter" do
+    post login_path, params: { magic_link_form: { email: "owner@example.com" } }
+    token = SessionToken.last.token
+    get magic_login_path(token)
+
+    letter = Letter.new(
+      title: "Pending Letter",
+      email: "owner@example.com",
+      content: "Content",
+      scheduled_at: 1.year.from_now,
+      status: "pending"
+    )
+    letter.save!(validate: false)
+
+    delete letter_path(letter)
+
+    assert_redirected_to dashboard_path
+    assert_equal I18n.t("flash.cannot_delete"), flash[:alert]
+    assert Letter.exists?(letter.id)
+  end
+
+  test "should redirect with alert when destroying other user letter" do
+    post login_path, params: { magic_link_form: { email: "stranger@example.com" } }
+    token = SessionToken.last.token
+    get magic_login_path(token)
+
+    letter = Letter.new(
+      title: "Victim Letter",
+      email: "victim@example.com",
+      content: "Content",
+      scheduled_at: 1.year.from_now,
+      status: "archived"
+    )
+    letter.save!(validate: false)
+
+    delete letter_path(letter)
+
+    assert_redirected_to dashboard_path
+    assert_equal I18n.t("flash.unauthorized_action"), flash[:alert]
+    assert Letter.exists?(letter.id)
+  end
+
+  test "should redirect with alert when destroying nonexistent letter" do
+    post login_path, params: { magic_link_form: { email: "owner@example.com" } }
+    token = SessionToken.last.token
+    get magic_login_path(token)
+
+    delete letter_path("nonexistent_id")
+
+    assert_redirected_to dashboard_path
+    assert_equal I18n.t("flash.private_or_inaccessible"), flash[:alert]
+  end
 end
