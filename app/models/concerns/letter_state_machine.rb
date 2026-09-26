@@ -39,6 +39,10 @@ module LetterStateMachine
     can_transition_to?("queued")
   end
 
+  def can_delete?
+    archived?
+  end
+
   def archive!
     transition_to!("archived")
   end
