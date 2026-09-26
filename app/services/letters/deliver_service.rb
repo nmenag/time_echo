@@ -18,6 +18,16 @@ module Letters
 
       @letter.update!(status: "delivered", delivered_at: Time.current)
 
+      AuditLog.record!(
+        action: "letter.delivered",
+        auditable: @letter,
+        actor_email: @letter.email,
+        metadata: {
+          delivered_at: @letter.delivered_at&.iso8601,
+          language: @letter.language
+        }
+      )
+
       Analytics::TrackEventService.call("email_delivered", {
         letter_id: @letter.id,
         email: @letter.email

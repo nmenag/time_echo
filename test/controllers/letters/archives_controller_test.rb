@@ -37,7 +37,9 @@ module Letters
       )
       letter.save!(validate: false)
 
-      post letters_archive_path(letter)
+      assert_difference -> { AuditLog.for_action("letter.archived").count } => 1 do
+        post letters_archive_path(letter)
+      end
       assert_redirected_to dashboard_path
       assert_equal I18n.t("flash.letter_archived"), flash[:notice]
       assert_equal "archived", letter.reload.status

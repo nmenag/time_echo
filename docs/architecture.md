@@ -232,6 +232,18 @@ erDiagram
         datetime updated_at
     }
 
+    AuditLog {
+        bigint id PK
+        string auditable_type
+        bigint auditable_id
+        string actor_email
+        string action "letter.created/queued/delivered/archived/restored/deleted"
+        jsonb metadata
+        string ip_address
+        string user_agent
+        datetime created_at
+    }
+
     SessionToken {
         bigint id PK
         string email

@@ -21,7 +21,19 @@ module Letters
 
       return Result.new(success: false, error: :cannot_archive_delivered) unless letter.can_archive?
 
+      from_status = letter.status
       letter.archive!
+
+      AuditLog.record!(
+        action: "letter.archived",
+        auditable: letter,
+        actor_email: @current_user_email,
+        metadata: {
+          from_status: from_status,
+          to_status: "archived"
+        }
+      )
+
       Analytics::TrackEventService.call("letter_archived", { letter_id: letter.id, email: letter.email })
 
       Result.new(success: true, letter: letter)

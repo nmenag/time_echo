@@ -21,7 +21,19 @@ module Letters
 
       return Result.new(success: false, error: :cannot_restore) unless letter.can_restore?
 
+      from_status = letter.status
       letter.restore!
+
+      AuditLog.record!(
+        action: "letter.restored",
+        auditable: letter,
+        actor_email: @current_user_email,
+        metadata: {
+          from_status: from_status,
+          to_status: "pending"
+        }
+      )
+
       Analytics::TrackEventService.call("letter_restored", { letter_id: letter.id, email: letter.email })
 
       Result.new(success: true, letter: letter)

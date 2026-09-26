@@ -31,8 +31,10 @@ class Letters::DeliverServiceTest < ActiveSupport::TestCase
   test "delivers letter synchronously and marks it delivered" do
     letter = build_queued_letter
 
-    assert_emails 1 do
-      Letters::DeliverService.call(letter)
+    assert_difference -> { AuditLog.for_action("letter.delivered").count } => 1 do
+      assert_emails 1 do
+        Letters::DeliverService.call(letter)
+      end
     end
 
     letter.reload

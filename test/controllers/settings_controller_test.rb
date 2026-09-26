@@ -74,7 +74,7 @@ class SettingsControllerTest < ActionDispatch::IntegrationTest
       UserPreference.find_or_create_by!(email: @email)
     end
 
-    assert_difference -> { Letter.where(email: @email).count } => -1, -> { UserPreference.where(email: @email).count } => -1 do
+    assert_difference -> { Letter.where(email: @email).count } => -1, -> { UserPreference.where(email: @email).count } => -1, -> { AuditLog.for_action("letter.deleted").count } => 1 do
       delete settings_url
     end
 
