@@ -12,7 +12,7 @@ module Letters
     def call
       letter = find_letter
 
-      if letter.nil?
+      if letter.nil? || letter.archived?
         return Result.new(success: false, error: :not_found)
       end
 

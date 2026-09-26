@@ -16,8 +16,11 @@ module Letters
 
       form = LetterForm.new(@params)
       if form.save
-        if @current_user_email.blank?
-          Auth::MagicLinkService.generate_and_send(form.letter.email)
+        if VerifiedEmail.verified?(form.letter.email)
+          LetterMailer.stamped_confirmation(form.letter).deliver_later
+        else
+          verified_record = VerifiedEmail.generate_token_for(form.letter.email)
+          VerificationMailer.verify_email(form.letter.email, verified_record.token).deliver_later
         end
         Result.new(success: true, letter: form.letter, form: form)
       else

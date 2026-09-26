@@ -1,4 +1,6 @@
 class Letter < ApplicationRecord
+  include LetterStateMachine
+
   encrypts :title
   encrypts :content
   has_many :predictions, dependent: :destroy
@@ -8,12 +10,12 @@ class Letter < ApplicationRecord
 
   alias_attribute :deliver_at, :scheduled_at
 
-  STATUSES = %w[pending queued delivered failed].freeze
+  STATUSES = %w[pending queued delivered failed archived].freeze
 
   attribute :language, :string, default: -> { I18n.locale.to_s }
   attribute :timezone, :string, default: -> { Time.zone&.name || "America/Bogota" }
 
-  validates :title, presence: true
+  validates :title, presence: true, length: { minimum: 3, maximum: 100 }
   validates :email, presence: true, format: { with: URI::MailTo::EMAIL_REGEXP }
   validates :content, presence: true
   validates :scheduled_at, presence: true
@@ -28,6 +30,8 @@ class Letter < ApplicationRecord
   scope :pending, -> { where(status: "pending").where("scheduled_at <= ?", Time.current) }
   scope :scheduled, -> { where(status: "pending").where("scheduled_at > ?", Time.current) }
   scope :delivered, -> { where(status: "delivered").order(delivered_at: :desc) }
+  scope :active, -> { where.not(status: "archived") }
+  scope :archived, -> { where(status: "archived").order(updated_at: :desc) }
   scope :for_email, ->(email) { where(email: email) }
 
   def pending?
@@ -46,6 +50,10 @@ class Letter < ApplicationRecord
     status == "failed"
   end
 
+  def archived?
+    status == "archived"
+  end
+
   def local_scheduled_at
     return nil unless scheduled_at
     tz = Time.find_zone(timezone) || Time.find_zone("UTC")
@@ -53,7 +61,7 @@ class Letter < ApplicationRecord
   end
 
   def countdown_seconds
-    return 0 if delivered?
+    return 0 if delivered? || archived?
     [ (scheduled_at - Time.current).to_i, 0 ].max
   end
 

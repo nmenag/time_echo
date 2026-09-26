@@ -28,7 +28,7 @@
     <div class="archival-folder rounded-xs p-4 space-y-1.5 border border-[#D5CEBD] dark:border-[#2D3342] text-left font-letter">
       <p class="text-[10px] font-semibold text-[#2C485E] dark:text-[#77A3C4] uppercase tracking-wider"><%= t('letters.success_next_title') %></p>
       <p class="text-xs text-base-content/70 leading-relaxed">
-        <%= t('letters.success_next_desc', email: @email) %>
+        <%= @next_steps_description %>
       </p>
     </div>
 

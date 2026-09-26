@@ -3,6 +3,7 @@ class LettersController < ApplicationController
 
   def index
     @letters = UserTimelineQuery.call(current_user_email)
+    @archived_letters = Letter.archived.for_email(current_user_email)
 
     Analytics::TrackEventService.call("dashboard_viewed", { email: current_user_email })
   end

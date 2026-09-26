@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_08_28_000002) do
+ActiveRecord::Schema[8.1].define(version: 2026_09_21_000001) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -223,6 +223,18 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_28_000002) do
     t.string "unconfirmed_email"
     t.datetime "updated_at", null: false
     t.index ["email"], name: "index_user_preferences_on_email", unique: true
+  end
+
+  create_table "verified_emails", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "email", null: false
+    t.string "token"
+    t.datetime "token_expires_at"
+    t.datetime "updated_at", null: false
+    t.datetime "verified_at"
+    t.index "lower((email)::text)", name: "index_verified_emails_on_lower_email", unique: true
+    t.index ["email"], name: "index_verified_emails_on_email"
+    t.index ["token"], name: "index_verified_emails_on_token", unique: true
   end
 
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"

@@ -25,12 +25,15 @@
     </td>
   </tr>
   <tr>
-    <td style="padding-top: 24px; padding-bottom: 24px;">
-      <div style="font-family: 'Courier Prime', 'Courier New', Courier, monospace; font-size: 14px; line-height: 1.8; color: #2C2A29; white-space: pre-wrap; word-break: break-word; background-color: #FAF9F5; padding: 18px 20px; border: 1px solid #D8D2C2; border-radius: 4px; margin: 0;"><%= @letter.content %></div>
+    <td style="padding-top: 24px; padding-bottom: 20px;">
+      <div style="font-family: 'Courier Prime', 'Courier New', Courier, monospace; font-size: 14px; line-height: 1.8; color: #2C2A29; white-space: pre-wrap; word-break: break-word; background-color: #FAF9F5; padding: 18px 20px; border: 1px solid #D8D2C2; border-radius: 4px; margin: 0;"><%= truncate(@letter.content, length: 160, separator: ' ', omission: '…') %></div>
+      <p style="margin: 18px 0 0 0; font-family: 'Fraunces', Georgia, 'Times New Roman', serif; font-style: italic; font-size: 15px; line-height: 1.5; color: #2C485E; text-align: center; font-weight: 500;">
+        <%= t('mailers.future_letter.view_full_prompt') %>
+      </p>
     </td>
   </tr>
   <tr>
-    <td align="center" style="padding-top: 12px; padding-bottom: 28px;">
+    <td align="center" style="padding-top: 8px; padding-bottom: 28px;">
       <a class="btn-carmine mobile-btn" href="<%= Rails.application.routes.url_helpers.letter_url(@letter.signed_id, host: ENV.fetch('APP_HOST') { 'localhost:3000' }) %>">
         <%= t('mailers.future_letter.open_btn') %>
       </a>

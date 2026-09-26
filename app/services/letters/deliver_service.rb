@@ -9,7 +9,8 @@ module Letters
     end
 
     def call
-      return if @letter.delivered?
+      return if @letter.delivered? || @letter.archived?
+      return unless VerifiedEmail.verified?(@letter.email)
 
       I18n.with_locale(@letter.language.presence || I18n.default_locale) do
         LetterMailer.future_letter(@letter).deliver_now

@@ -20,9 +20,9 @@ class LetterForm
   attribute :anxiety_level, :integer, default: 5
   attribute :motivation_level, :integer, default: 5
 
-  validates :title, presence: true
+  validates :title, presence: true, length: { minimum: 3, maximum: 100 }, content_structure: true
   validates :email, presence: true, format: { with: URI::MailTo::EMAIL_REGEXP }
-  validates :content, presence: true, length: { maximum: 2000 }
+  validates :content, presence: true, length: { minimum: 80, maximum: 2000 }, content_structure: { min_words: 10 }
   validates :scheduled_at, presence: true
   validates :timezone, presence: true
   validate :scheduled_at_must_be_in_future

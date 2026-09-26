@@ -23,11 +23,19 @@
           </p>
         </div>
 
-        <div class="pt-4 border-t border-[#D8D2C2] dark:border-[#2D3340]">
+        <div class="pt-4 border-t border-[#D8D2C2] dark:border-[#2D3340] flex flex-col sm:flex-row items-center justify-center gap-3">
           <a href="<%= dashboard_path %>" class="btn btn-outline border-[#D8D2C2] dark:border-[#2D3340] text-base-content hover:bg-base-200/50 rounded-xs px-5 text-xs font-medium uppercase tracking-wider font-letter inline-flex items-center gap-1.5 min-h-[38px]">
             <%= tabler_icon("arrow-left", size: 14) %>
             <span><%= t('letters.back_to_vault') %></span>
           </a>
+          <%= button_to letters_archive_path(@letter),
+              method: :post,
+              class: "btn btn-outline border-[#D8D2C2] dark:border-[#2D3340] text-base-content/65 hover:text-[#2C485E] dark:hover:text-[#77A3C4] hover:border-[#2C485E]/40 dark:hover:border-[#77A3C4]/40 hover:bg-[#2C485E]/5 rounded-xs px-4 text-xs font-medium uppercase tracking-wider font-letter inline-flex items-center gap-1.5 min-h-[38px] transition-colors cursor-pointer",
+              data: { turbo_confirm: t('letters.confirm_archive') },
+              aria: { label: t('letters.btn_archive') } do %>
+            <%= tabler_icon("archive", size: 14) %>
+            <span><%= t('letters.btn_archive') %></span>
+          <% end %>
         </div>
       </div>
     </div>
@@ -55,9 +63,6 @@
               <div class="relative flex items-center justify-center">
                 <div class="wax-seal w-20 h-20 rounded-full flex items-center justify-center text-[#F8F7F2] animate-seal-left">
                   <%= tabler_icon("lock-open", size: 28) %>
-                </div>
-                <div class="wax-seal w-20 h-20 rounded-full flex items-center justify-center text-[#F8F7F2] -ml-6 animate-seal-right">
-                  <%= tabler_icon("sparkles", size: 28) %>
                 </div>
               </div>
             </div>
@@ -203,7 +208,7 @@
               </div>
             </div>
 
-            <article class="p-5 sm:p-6 border border-[#D8D2C2] dark:border-[#2D3340] rounded-xs bg-transparent text-base-content/90 min-h-[300px] whitespace-pre-wrap select-text font-letter text-sm leading-loose shadow-inner">
+            <article class="p-5 sm:p-6 border border-[#D8D2C2] dark:border-[#2D3340] rounded-xs bg-transparent text-base-content/90 min-h-[300px] whitespace-pre-wrap break-words [overflow-wrap:anywhere] min-w-0 select-text font-letter text-sm leading-loose shadow-inner">
               <%= @letter.content %>
             </article>
 
