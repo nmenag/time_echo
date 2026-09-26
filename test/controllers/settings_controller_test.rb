@@ -29,15 +29,12 @@ class SettingsControllerTest < ActionDispatch::IntegrationTest
     assert_select "h1", text: "Ajustes de cuenta"
   end
 
-  test "should update settings variables and persist them" do
+  test "should update settings and redirect with success notice" do
     sign_in(@email)
 
     patch settings_url, params: {
       user_preference: {
-        future_letter_reminders: false,
-        theme: "luxury",
-        appearance_mode: "dark",
-        anonymous_analytics: false
+        email: @email
       }
     }
 
@@ -48,10 +45,7 @@ class SettingsControllerTest < ActionDispatch::IntegrationTest
     # Verify database persistence
     prefs = UserPreference.find_by(email: @email)
     assert_not_nil prefs
-    assert_not prefs.future_letter_reminders
-    assert_equal "luxury", prefs.theme
-    assert_equal "dark", prefs.appearance_mode
-    assert_not prefs.anonymous_analytics
+    assert_equal @email, prefs.email
   end
 
   test "should update settings via turbo_stream" do
@@ -59,8 +53,7 @@ class SettingsControllerTest < ActionDispatch::IntegrationTest
 
     patch settings_url, as: :turbo_stream, params: {
       user_preference: {
-        theme: "pastel",
-        surprise_memories: false
+        email: @email
       }
     }
 
@@ -69,8 +62,7 @@ class SettingsControllerTest < ActionDispatch::IntegrationTest
 
     # Verify persistence
     prefs = UserPreference.find_by(email: @email)
-    assert_equal "pastel", prefs.theme
-    assert_not prefs.surprise_memories
+    assert_not_nil prefs
   end
 
   test "should destroy account and delete all associated letters, preferences and clear session" do
@@ -110,7 +102,7 @@ class SettingsControllerTest < ActionDispatch::IntegrationTest
     Settings::UpdatePreferencesService.define_singleton_method(:call, ->(*) { struct_fail })
 
     patch settings_url, params: {
-      user_preference: { theme: "invalid" }
+      user_preference: { email: "invalid" }
     }
     assert_response :unprocessable_entity
   ensure

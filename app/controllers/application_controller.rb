@@ -15,20 +15,12 @@ class ApplicationController < ActionController::Base
 
   stale_when_importmap_changes
 
-  helper_method :current_user_email, :user_signed_in?, :current_user_theme, :toggle_locale
+  helper_method :current_user_email, :user_signed_in?, :toggle_locale
 
   private
 
   def toggle_locale
     I18n.locale == :en ? :es : :en
-  end
-
-  def current_user_theme
-    if user_signed_in?
-      UserPreference.find_by(email: current_user_email)&.theme || "timeecho"
-    else
-      "timeecho"
-    end
   end
 
   def current_user_email

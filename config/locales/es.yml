@@ -869,7 +869,7 @@ es:
       subject: Un mensaje de tu yo del pasado (Enviado el %{date})
       header: Un mensaje de tu yo del pasado
       written_on: Escrita el %{date}
-      open_btn: Desprecintar carta y comparar predicciones
+      open_btn: Abrir mi carta
       view_full_prompt: Mira la carta completa y compara tus predicciones pasadas.
       footer_html:
         Te escribiste esta carta a ti mismo a través de TimeEcho.<br><em>"Enviado
@@ -948,10 +948,6 @@ es:
       activar el cambio."
     saved_successfully: Ajustes guardados
     could_not_save: No se pudieron guardar los ajustes.
-    notifications_title: Notificaciones por Correo
-    notifications_desc: Recibe notificaciones de entrega de cápsulas y hitos.
-    global_private_mode_title: Modo Privado
-    global_private_mode_desc: Mantén todas tus reflexiones y predicciones privadas.
   predictions:
     category_city: Ubicación
     category_career: Trabajo / Carrera

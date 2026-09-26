@@ -6,6 +6,8 @@ class Letter < ApplicationRecord
   has_many :predictions, dependent: :destroy
   has_one :emotional_snapshot, dependent: :destroy
 
+  normalizes :email, with: ->(email) { email.strip.downcase }
+
   alias_attribute :deliver_at, :scheduled_at
 
   STATUSES = %w[pending queued delivered failed archived].freeze

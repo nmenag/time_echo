@@ -42,10 +42,15 @@ class PagesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "renders google analytics when configured in credentials" do
-    Rails.application.credentials.stub(:dig, ->(*args) { args == [ :google_analytics_id ] ? "G-CREDENTIALS123" : nil }) do
+    options = Rails.application.credentials.instance_variable_get(:@options)
+    original = options[:google_analytics_id]
+    begin
+      options[:google_analytics_id] = "G-CREDENTIALS123"
       get root_path
       assert_response :success
       assert_match(/googletagmanager\.com\/gtag\/js\?id=G-CREDENTIALS123/, response.body)
+    ensure
+      options[:google_analytics_id] = original
     end
   end
 

@@ -855,7 +855,7 @@ en:
       subject: A Message from Your Past Self (Sent %{date})
       header: A Message from Your Past Self
       written_on: Written on %{date}
-      open_btn: Unseal Letter & Compare Predictions
+      open_btn: Open My Letter
       view_full_prompt: View your full letter and compare your past predictions.
       footer_html:
         You wrote this letter to yourself via TimeEcho.<br><em>"Sent with
@@ -930,10 +930,6 @@ en:
       address: %{email}. Please click the link to confirm and activate the change."
     saved_successfully: Settings saved
     could_not_save: Could not save settings.
-    notifications_title: Email Notifications
-    notifications_desc: Receive capsule delivery and milestone notifications.
-    global_private_mode_title: Private Mode
-    global_private_mode_desc: Keep all your reflections and predictions private.
   predictions:
     category_city: Location
     category_career: Work / Career

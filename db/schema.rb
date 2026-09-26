@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_09_21_000001) do
+ActiveRecord::Schema[8.1].define(version: 2026_09_26_160440) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -206,20 +206,9 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_21_000001) do
   end
 
   create_table "user_preferences", force: :cascade do |t|
-    t.boolean "all_letters_private", default: true, null: false
-    t.boolean "anonymous_analytics", default: true, null: false
-    t.string "appearance_mode", default: "system", null: false
-    t.boolean "automatic_memories", default: true, null: false
     t.datetime "confirmed_at"
     t.datetime "created_at", null: false
     t.string "email", null: false
-    t.boolean "emotional_summary_emails", default: true, null: false
-    t.boolean "future_letter_reminders", default: true, null: false
-    t.string "memory_frequency", default: "normal", null: false
-    t.boolean "monthly_checkpoints", default: true, null: false
-    t.string "reflection_style", default: "reflective", null: false
-    t.boolean "surprise_memories", default: true, null: false
-    t.string "theme", default: "timeecho", null: false
     t.string "unconfirmed_email"
     t.datetime "updated_at", null: false
     t.index ["email"], name: "index_user_preferences_on_email", unique: true

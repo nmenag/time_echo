@@ -138,7 +138,7 @@ _(Alternatively, you can run them manually in separate shells: `npm run watch:cs
 
 ---
 
-## 🐋 Running with Docker
+## 🐳 Running with Docker
 
 TimeEcho ships with a multi-stage `Dockerfile` and a `docker-compose.yml` for containerized development and production builds.
 
@@ -294,5 +294,8 @@ Coverage reports are generated automatically via SimpleCov and stored in the `co
 | `RAILS_SERVE_STATIC_FILES` | Set to `true` to serve precompiled assets via Puma. |
 | `RESEND_API_KEY` | API key for transactional email delivery via Resend. |
 
+---
 
+## 📄 License
 
+This project is licensed under the [MIT License](LICENSE).

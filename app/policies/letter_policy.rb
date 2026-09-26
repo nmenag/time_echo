@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class LetterPolicy
   attr_reader :user_email, :letter
 
@@ -7,14 +9,20 @@ class LetterPolicy
   end
 
   def show?
-    user_email.present? && letter.email == user_email
+    owner?
   end
 
   def archive?
-    user_email.present? && letter.email == user_email
+    owner?
   end
 
   def restore?
+    owner?
+  end
+
+  private
+
+  def owner?
     user_email.present? && letter.email == user_email
   end
 end

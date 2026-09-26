@@ -83,8 +83,8 @@ class LetterMailerTest < ActionMailer::TestCase
 
     assert_includes html_body, "TimeEcho"
     assert_includes html_body, "btn-carmine"
-    assert_includes html_body, "Unseal Letter &amp; Compare Predictions"
-    assert_includes text_body, "Unseal Letter & Compare Predictions"
+    assert_includes html_body, "Open My Letter"
+    assert_includes text_body, "Open My Letter"
     assert_includes html_body, "View your full letter and compare your past predictions."
     assert_includes text_body, "View your full letter and compare your past predictions."
     assert_includes html_body, "This is a long archival letter"

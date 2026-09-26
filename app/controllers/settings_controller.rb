@@ -42,19 +42,6 @@ class SettingsController < ApplicationController
   end
 
   def settings_params
-    params.require(:user_preference).permit(
-      :email,
-      :future_letter_reminders,
-      :monthly_checkpoints,
-      :surprise_memories,
-      :emotional_summary_emails,
-      :appearance_mode,
-      :theme,
-      :all_letters_private,
-      :automatic_memories,
-      :anonymous_analytics,
-      :reflection_style,
-      :memory_frequency
-    )
+    params.require(:user_preference).permit(:email)
   end
 end
