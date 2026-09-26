@@ -41,6 +41,17 @@ class Letters::DeliverLetterJobTest < ActiveJob::TestCase
     assert_equal "delivered", letter.status
   end
 
+  test "skips archived letters without delivering" do
+    letter = build_queued_letter(status: "archived")
+
+    assert_emails 0 do
+      Letters::DeliverLetterJob.perform_now(letter.id)
+    end
+
+    letter.reload
+    assert_equal "archived", letter.status
+  end
+
   test "marks letter failed and re-raises on non-retryable error" do
     letter = build_queued_letter
     original = LetterMailer.method(:future_letter)

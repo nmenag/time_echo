@@ -49,12 +49,19 @@
         </div>
 
         <div class="space-y-2">
-          <%= f.label :title, t('letters.title_label'), class: "text-xs font-letter uppercase tracking-wider font-semibold text-base-content/70 block" %>
+          <div class="flex justify-between items-center">
+            <%= f.label :title, t('letters.title_label'), class: "text-xs font-letter uppercase tracking-wider font-semibold text-base-content/70 block" %>
+            <span id="title_counter" class="text-[11px] font-letter text-base-content/50" aria-live="polite">0 / 100</span>
+          </div>
           <%= f.text_field :title,
+              id: "letter_title_input",
               placeholder: t('letters.title_placeholder'),
-              class: "w-full border-b-2 border-[#D8D2C2] dark:border-[#2D3340] rounded-none bg-transparent px-1 py-2 font-serif-editorial text-xl font-semibold text-base-content placeholder:text-base-content/40 focus:border-[#8E2818] focus:outline-none transition-colors",
+              minlength: 3,
+              maxlength: 100,
+              class: "w-full border-b-2 border-[#D8D2C2] dark:border-[#2D3340] rounded-none bg-transparent px-1 py-2 font-serif-editorial text-xl font-semibold text-base-content placeholder:text-base-content/40 focus:border-[#8E2818] focus:outline-none transition-colors break-words [overflow-wrap:anywhere] min-w-0",
               required: true,
-              "aria-required": "true" %>
+              "aria-required": "true",
+              "aria-describedby": "title_counter" %>
         </div>
 
         <div class="space-y-2 relative">
@@ -252,6 +259,18 @@
 
 <script>
   function initCharCounter() {
+    const titleInput = document.getElementById("letter_title_input");
+    const titleCounter = document.getElementById("title_counter");
+    if (titleInput && titleCounter) {
+      const updateTitle = () => {
+        const len = titleInput.value.length;
+        titleCounter.innerText = `${len} / 100`;
+      };
+      titleInput.removeEventListener("input", updateTitle);
+      titleInput.addEventListener("input", updateTitle);
+      updateTitle();
+    }
+
     const textarea = document.getElementById("letter_content_area");
     const counter  = document.getElementById("char_counter");
     if (textarea && counter) {

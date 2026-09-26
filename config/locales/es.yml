@@ -215,6 +215,30 @@ es:
     switch_to_en: Inglés
     switch_to_es: Español
     quote: La mejor manera de predecir el futuro es crearlo.
+  activemodel:
+    attributes:
+      letter_form:
+        title: "El título"
+        content: "El contenido"
+        email: "El correo electrónico"
+        scheduled_at: "La fecha de entrega"
+        deliver_at: "La fecha de entrega"
+        happiness_level: "El nivel de felicidad"
+        anxiety_level: "El nivel de ansiedad"
+        motivation_level: "El nivel de motivación"
+  activerecord:
+    attributes:
+      letter:
+        title: "El título"
+        content: "El contenido"
+        email: "El correo electrónico"
+        scheduled_at: "La fecha de entrega"
+        deliver_at: "La fecha de entrega"
+  errors:
+    messages:
+      word_too_long: "no puede contener palabras de más de 45 caracteres"
+      too_few_words: "debe contener al menos 10 palabras"
+      missing_paragraphs: "debe estar organizado en párrafos mediante saltos de línea"
   flash:
     errors_title: "Por favor, corrige los siguientes errores:"
     locked: Esta acción no se puede deshacer una vez sellada.
@@ -230,6 +254,12 @@ es:
       tu vida."
     email_verified: Tu correo electrónico ha sido verificado correctamente. ¡Bienvenido a tu baúl digital!
     invalid_or_expired_verification_token: Este enlace de verificación no es válido o ha caducado.
+    letter_deleted: La carta ha sido archivada y no será enviada.
+    letter_archived: La carta ha sido archivada y no será enviada.
+    letter_restored: La carta ha sido restaurada a tu baúl activo.
+    cannot_archive_delivered: Las cartas entregadas no pueden ser archivadas.
+    cannot_restore: Esta carta no puede ser restaurada.
+    unauthorized_action: No tienes autorización para realizar esta acción.
   landing:
     headline: Escribe hoy.<br>Descubre mañana.
     subtitle: Escribe una carta a tu yo del futuro, registra tu estado emocional y formula predicciones de vida. Une a quien eres hoy con la persona en la que te convertirás.
@@ -642,6 +672,15 @@ es:
     status_sealed_short: Cápsula Sellada
     capsule_in_transit_short: Cápsula en tránsito
     capsule_transit_desc: Se encuentra resguardada de forma privada en tu baúl temporal.
+    btn_archive: Archivar carta
+    confirm_archive: "¿Estás seguro de que deseas archivar esta cápsula? Se moverá al archivo y no se enviará al futuro."
+    btn_restore: Restaurar carta
+    confirm_restore: "¿Estás seguro de que deseas restaurar esta cápsula a tu baúl activo?"
+    archived_section_title: Expedientes Archivados
+    archived_section_subtitle: Cápsulas retiradas del tránsito activo y resguardadas en archivo pasivo.
+    archived_badge: Archivada
+    archived_on: Archivada el
+    empty_archived: No hay cápsulas archivadas en el baúl.
     prediction_accuracy: Acertaste %{matched} de %{total} predicciones (%{pct}%).
     prediction_score_perfect:
       "¡Tu brújula del futuro está sumamente afilada! Excelente

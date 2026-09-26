@@ -195,4 +195,42 @@ class LetterFormTest < ActiveSupport::TestCase
   ensure
     Letter.define_singleton_method(:new, original_new.to_proc) if original_new
   end
+
+  test "content structure validation rejects words longer than 45 characters" do
+    long_word = "a" * 46
+    form = LetterForm.new(
+      title: "Title",
+      email: "user@example.com",
+      content: "Hello future self here is a word #{long_word} that is way too long to be valid in any sentence.",
+      deliver_at: 1.year.from_now
+    )
+
+    assert_not form.valid?
+    assert_includes form.errors[:content], I18n.t("errors.messages.word_too_long")
+  end
+
+  test "accepts long letters with a single paragraph" do
+    long_single_paragraph = "This is a long reflection intended for my future self without any line breaks or paragraph structure whatsoever because a single paragraph is completely allowed. " * 3
+    form = LetterForm.new(
+      title: "Valid Title",
+      email: "user@example.com",
+      content: long_single_paragraph,
+      deliver_at: 1.year.from_now
+    )
+
+    assert form.valid?, "Expected single paragraph long letter to be valid"
+  end
+
+  test "validates title length and word structure" do
+    long_title = "T" * 101
+    form = LetterForm.new(
+      title: long_title,
+      email: "user@example.com",
+      content: "This is a sufficiently long reflection intended for my future self after many years of growth.",
+      deliver_at: 1.year.from_now
+    )
+
+    assert_not form.valid?
+    assert form.errors[:title].any?
+  end
 end

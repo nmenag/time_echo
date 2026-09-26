@@ -9,4 +9,12 @@ class LetterPolicy
   def show?
     user_email.present? && letter.email == user_email
   end
+
+  def archive?
+    user_email.present? && letter.email == user_email
+  end
+
+  def restore?
+    user_email.present? && letter.email == user_email
+  end
 end

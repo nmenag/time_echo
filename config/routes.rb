@@ -14,6 +14,10 @@ Rails.application.routes.draw do
   get "letters/success", to: "letter_successes#show", as: :success_letters
 
   post "letters/:letter_id/predictions", to: "letter_predictions#update", as: :update_predictions_letter
+  namespace :letters do
+    resource :archive, only: [ :create ], path: ":letter_id/archive"
+    resource :restore, only: [ :create ], path: ":letter_id/restore"
+  end
   resources :letters, only: [ :new, :create, :show ]
 
   resources :locales, only: [ :create, :destroy ]

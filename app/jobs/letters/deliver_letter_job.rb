@@ -27,7 +27,7 @@ module Letters
 
     def perform(letter_id)
       letter = Letter.find(letter_id)
-      return if letter.delivered?
+      return if letter.delivered? || letter.archived?
 
       Letters::DeliverService.call(letter)
     rescue ActiveRecord::RecordNotFound
