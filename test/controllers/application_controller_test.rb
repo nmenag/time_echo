@@ -23,29 +23,18 @@ class ApplicationControllerTest < ActionDispatch::IntegrationTest
     assert_equal :es, I18n.locale
   end
 
-  test "current_user_theme defaults to timeecho when not signed in" do
+  test "renders timeecho data-theme when not signed in" do
     get root_path
     assert_response :success
     assert_select "html[data-theme='timeecho']"
   end
 
-  test "current_user_theme defaults to timeecho when signed in without preference" do
+  test "renders timeecho data-theme when signed in" do
     token_record = SessionToken.create!(email: "user@example.com")
     get magic_login_path(token_record.token)
 
     get dashboard_path
     assert_response :success
     assert_select "html[data-theme='timeecho']"
-  end
-
-  test "current_user_theme uses user preference theme when set" do
-    email = "themer@timeecho.com"
-    UserPreference.create!(email: email, theme: "cupcake")
-    token_record = SessionToken.create!(email: email)
-    get magic_login_path(token_record.token)
-
-    get dashboard_path
-    assert_response :success
-    assert_select "html[data-theme='cupcake']"
   end
 end

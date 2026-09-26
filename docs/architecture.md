@@ -177,17 +177,8 @@ erDiagram
     UserPreference {
         bigint id PK
         string email UK
-        string appearance_mode "system/light/dark"
-        string theme "timeecho/pastel/etc"
-        string reflection_style "reflective/motivational/nostalgic"
-        string memory_frequency "low/normal/frequent"
-        boolean all_letters_private
-        boolean anonymous_analytics
-        boolean future_letter_reminders
-        boolean monthly_checkpoints
-        boolean surprise_memories
-        boolean emotional_summary_emails
-        boolean automatic_memories
+        datetime confirmed_at
+        string unconfirmed_email
         datetime created_at
         datetime updated_at
     }
@@ -371,7 +362,7 @@ TimeEcho operates on a tailored design system powered by Tailwind CSS v4 and Dai
   - _UI & Body Copy_: Use the geometric **Inter** sans-serif stack exclusively across all views, headers, forms, settings cards, and letter representations. Typographic consistency is crucial to maintaining our high-integrity digital vault aesthetics.
 - **Palette Design Rules**:
   - Uses tailored HSL and OkLCH-supported color configurations (avoiding raw hex values) to maintain high contrast standards.
-  - Soft dark modes, retro themes (e.g. `pastel`, `autumn`, `luxury`) are dynamically set by reading the `UserPreference#theme` configuration, updating the root page's `data-theme` attribute dynamically.
+  - Uses a dedicated postal and archival palette with light (`timeecho`) and dark (`timeecho-dark`) modes, ensuring visual coherence across all devices.
 - **Consistent Shapes**:
   - Standardized white content container cards must always use `rounded-3xl` border-radius shapes, thin border boundaries (`border-slate-100`), and clean micro-shadows (`shadow-2xs`) across all views.
 

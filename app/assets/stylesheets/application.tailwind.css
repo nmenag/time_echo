@@ -210,21 +210,6 @@
     transform: scale(1.4);
   }
 
-  /* Theme card selector (settings page) */
-  .theme-radio-card {
-    cursor: pointer;
-    transition:
-      transform 0.2s var(--ease-out-quart),
-      border-color 0.15s ease;
-  }
-  .theme-radio-card:hover {
-    transform: translateY(-2px);
-  }
-  .theme-radio-input:checked + .theme-radio-card {
-    border-color: #8E2818;
-    background-color: rgba(142, 40, 24, 0.06);
-  }
-
   /* Card hover lift — no shadow doubling */
   .card-hover-effect {
     @apply transition-all duration-300 hover:-translate-y-0.5 hover:border-base-300;
@@ -372,7 +357,7 @@
   }
 }
 
-/* ─── Reduced motion — global override ──────────────────────── */
+/* ─── Reduced motion — global override ───────────────────────── */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -412,4 +397,3 @@ p {
     min-height: 44px;
   }
 }
-

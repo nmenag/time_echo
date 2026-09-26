@@ -6,11 +6,11 @@ class Settings::UpdatePreferencesServiceTest < ActiveSupport::TestCase
   end
 
   test "updates preferences when email unchanged" do
-    result = Settings::UpdatePreferencesService.call(@preference, { theme: "cupcake" }, "user@example.com")
+    result = Settings::UpdatePreferencesService.call(@preference, { email: "user@example.com" }, "user@example.com")
     assert result.success?
     assert_equal :preferences_updated, result.action
     @preference.reload
-    assert_equal "cupcake", @preference.theme
+    assert_equal "user@example.com", @preference.email
   end
 
   test "requests email update when email changed" do
@@ -20,8 +20,10 @@ class Settings::UpdatePreferencesServiceTest < ActiveSupport::TestCase
   end
 
   test "returns failure when update fails" do
-    result = Settings::UpdatePreferencesService.call(@preference, { appearance_mode: "invalid" }, "user@example.com")
+    @preference.define_singleton_method(:update) { |_params| false }
+    result = Settings::UpdatePreferencesService.call(@preference, {}, "user@example.com")
     assert_not result.success?
+    assert_equal I18n.t("settings.could_not_save"), result.error
   end
 
   test "returns failure when email update service fails" do

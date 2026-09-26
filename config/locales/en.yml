@@ -930,10 +930,6 @@ en:
       address: %{email}. Please click the link to confirm and activate the change."
     saved_successfully: Settings saved
     could_not_save: Could not save settings.
-    notifications_title: Email Notifications
-    notifications_desc: Receive capsule delivery and milestone notifications.
-    global_private_mode_title: Private Mode
-    global_private_mode_desc: Keep all your reflections and predictions private.
   predictions:
     category_city: Location
     category_career: Work / Career

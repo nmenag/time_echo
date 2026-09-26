@@ -948,10 +948,6 @@ es:
       activar el cambio."
     saved_successfully: Ajustes guardados
     could_not_save: No se pudieron guardar los ajustes.
-    notifications_title: Notificaciones por Correo
-    notifications_desc: Recibe notificaciones de entrega de cápsulas y hitos.
-    global_private_mode_title: Modo Privado
-    global_private_mode_desc: Mantén todas tus reflexiones y predicciones privadas.
   predictions:
     category_city: Ubicación
     category_career: Trabajo / Carrera
