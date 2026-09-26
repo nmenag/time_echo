@@ -15,6 +15,17 @@ module ActiveSupport
 
     setup { I18n.locale = :es }
 
+    if defined?(Bullet) && Bullet.enable?
+      setup do
+        Bullet.start_request
+      end
+
+      teardown do
+        Bullet.perform_out_of_channel_notifications if Bullet.notification?
+        Bullet.end_request
+      end
+    end
+
     fixtures :all
   end
 end

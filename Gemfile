@@ -27,6 +27,9 @@ gem "tzinfo-data", platforms: %i[ windows jruby ]
 # Use the database-backed adapter for Active Job
 gem "good_job"
 
+# Rate limiting against volumetric attacks and abuse [https://github.com/rack/rack-attack]
+gem "rack-attack"
+
 # Error tracking with Sentry SDK (compatible with GlitchTip & Sentry)
 gem "sentry-ruby"
 gem "sentry-rails"
@@ -46,6 +49,9 @@ gem "thruster", require: false
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "debug", platforms: %i[ mri windows ], require: "debug/prelude"
+
+  # Detect N+1 queries and unused eager loading [https://github.com/flyerhzm/bullet]
+  gem "bullet"
 
   # Audits gems for known security defects (use config/bundler-audit.yml to ignore issues)
   gem "bundler-audit", require: false

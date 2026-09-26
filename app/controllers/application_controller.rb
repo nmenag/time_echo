@@ -2,6 +2,7 @@ class ApplicationController < ActionController::Base
   allow_browser versions: :modern
 
   before_action :set_locale
+  before_action :set_current_attributes
 
   def set_locale
     locale = session[:locale]&.to_sym
@@ -18,6 +19,11 @@ class ApplicationController < ActionController::Base
   helper_method :current_user_email, :user_signed_in?, :toggle_locale
 
   private
+
+  def set_current_attributes
+    Current.ip_address = request.remote_ip
+    Current.user_agent = request.user_agent
+  end
 
   def toggle_locale
     I18n.locale == :en ? :es : :en

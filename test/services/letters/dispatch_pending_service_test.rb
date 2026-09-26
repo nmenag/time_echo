@@ -23,9 +23,11 @@ class Letters::DispatchPendingServiceTest < ActiveJob::TestCase
     due_letter2 = build_letter(email: "due2@example.com")
     future_letter = build_letter(scheduled_at: 1.month.from_now, email: "future@example.com")
 
-    assert_enqueued_jobs 2, only: Letters::DeliverLetterJob do
-      queued_count = Letters::DispatchPendingService.call
-      assert_equal 2, queued_count
+    assert_difference -> { AuditLog.for_action("letter.queued").count } => 2 do
+      assert_enqueued_jobs 2, only: Letters::DeliverLetterJob do
+        queued_count = Letters::DispatchPendingService.call
+        assert_equal 2, queued_count
+      end
     end
 
     due_letter1.reload

@@ -22,6 +22,9 @@ Rails.application.configure do
   config.consider_all_requests_local = true
   config.cache_store = :null_store
 
+  # Disable Rack::Attack by default in test suite so standard tests are not throttled
+  Rack::Attack.enabled = false
+
   # Render exception templates for rescuable exceptions and raise for other exceptions.
   config.action_dispatch.show_exceptions = :rescuable
 
@@ -59,4 +62,10 @@ Rails.application.configure do
   config.active_record.encryption.primary_key = "test"
   config.active_record.encryption.deterministic_key = "test"
   config.active_record.encryption.key_derivation_salt = "test"
+
+  config.after_initialize do
+    Bullet.enable = true
+    Bullet.bullet_logger = true
+    Bullet.raise = true
+  end
 end
