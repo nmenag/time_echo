@@ -855,7 +855,7 @@ en:
       subject: A Message from Your Past Self (Sent %{date})
       header: A Message from Your Past Self
       written_on: Written on %{date}
-      open_btn: Unseal Letter & Compare Predictions
+      open_btn: Open My Letter
       view_full_prompt: View your full letter and compare your past predictions.
       footer_html:
         You wrote this letter to yourself via TimeEcho.<br><em>"Sent with

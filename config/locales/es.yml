@@ -869,7 +869,7 @@ es:
       subject: Un mensaje de tu yo del pasado (Enviado el %{date})
       header: Un mensaje de tu yo del pasado
       written_on: Escrita el %{date}
-      open_btn: Desprecintar carta y comparar predicciones
+      open_btn: Abrir mi carta
       view_full_prompt: Mira la carta completa y compara tus predicciones pasadas.
       footer_html:
         Te escribiste esta carta a ti mismo a través de TimeEcho.<br><em>"Enviado
