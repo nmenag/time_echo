@@ -76,7 +76,7 @@ es:
           title: Información que Recopilamos
           description: "Recopilamos únicamente lo esencial para almacenar y entregar tus cápsulas de forma segura:"
           item_email: Tu correo electrónico (usado exclusivamente para inicio de sesión sin contraseña mediante enlaces mágicos y entrega de cartas)
-          item_letters: Título y contenido cifrado de tus cartas (protegidos en reposo usando Rails Active Record Encryption)
+          item_letters: Título y contenido cifrado de tus cartas (protegidos con cifrado seguro en reposo)
           item_predictions: Predicciones futuras y reflexiones retrospectivas que decidas escribir
           item_emotional: Evaluaciones de estado emocional (niveles de felicidad, ansiedad y motivación)
           item_preferences: Preferencias de interfaz (tema de color, idioma y opciones de notificación)
@@ -91,8 +91,8 @@ es:
           item_improve: Mantener la seguridad, optimizar la velocidad y mejorar la confiabilidad del servicio
           item_security: Bloquear abusos automatizados, prevenir spam y proteger los datos del usuario
         encryption:
-          title: Cifrado a Nivel de Campo de Grado Militar
-          description: Los títulos y contenidos de las cartas están cifrados en reposo en PostgreSQL mediante Rails Active Record Encryption. Las claves se derivan de forma segura, garantizando que el contenido permanezca protegido contra accesos no autorizados a la base de datos.
+          title: Privacidad y Cifrado de Alto Nivel
+          description: Los títulos y contenidos de tus cartas se cifran antes de guardarse en nuestra base de datos. Nadie, ni siquiera nuestro equipo, puede leer tus palabras mientras la carta permanezca sellada en la bóveda.
         retention:
           title: Retención de Datos y Eliminación Instantánea
           description: Conservamos tus cápsulas del tiempo mientras tu cuenta permanezca activa. Si decides eliminar tu cuenta en Configuración, todas tus cartas, estados emocionales, predicciones y eventos analíticos asociados se borran de manera permanente e irreversible de nuestra base de datos.
@@ -100,7 +100,7 @@ es:
           title: Aliados de Infraestructura Confiables
           description: "Trabajamos con proveedores líderes de la industria para procesar y entregar tus cápsulas:"
           item_email: Resend API para la entrega transaccional de correos electrónicos
-          item_hosting: Infraestructura en la nube altamente segura ejecutando Rails 8 y PostgreSQL 14 en contenedores
+          item_hosting: Infraestructura en la nube de alta seguridad con bases de datos aisladas y cifradas
         rights:
           title: Tus Derechos y Control sobre tus Datos
           description: "Mantienes la propiedad total de tus palabras. Tienes derecho a:"
@@ -185,13 +185,13 @@ es:
         how_works:
           title: Cómo Funciona TimeEcho
           step_write_title: 1. Escribe y Registra
-          step_write_desc: Vierte tus pensamientos en una carta privada. Evalúa tu felicidad, ansiedad y motivación, y registra predicciones de carrera, salario o relaciones.
-          step_seal_title: 2. Cifra y Sella
-          step_seal_desc: Selecciona tu fecha de apertura y zona horaria. Tu carta se cifra en reposo con Rails Active Record Encryption y se sella en la bóveda.
+          step_write_desc: Vierte tus pensamientos en una carta privada. Evalúa tu felicidad, ansiedad y motivación, y haz predicciones sobre tu futuro.
+          step_seal_title: 2. Sella y Programa
+          step_seal_desc: Elige tu fecha de entrega y zona horaria. Tu carta se cifra de forma segura y queda guardada en tu bóveda privada hasta ese momento.
           step_wait_title: 3. Vive y Evoluciona
           step_wait_desc: Concéntrate en tu vida. A medida que pasan los meses o años, tus palabras permanecen protegidas mientras creces y alcanzas nuevas metas.
-          step_receive_title: 4. Desbloquea y Reflexiona
-          step_receive_desc: En la fecha elegida, tu cápsula se abre. Lee tus palabras pasadas, compara tus predicciones y traza tu crecimiento emocional.
+          step_receive_title: 4. Abre y Reflexiona
+          step_receive_desc: En la fecha elegida, tu carta llega a tu correo. Lee tus palabras pasadas, revisa tus predicciones y descubre cuánto has crecido.
         why_exists:
           title: Diseñado para una Conversación Honesta Contigo Mismo
           description: "Las redes sociales nos obligan a actuar para otros. TimeEcho está diseñado para lo opuesto: un espacio tranquilo y libre de distracciones para ser completamente honesto contigo mismo. Sin muros públicos, sin métricas de vanidad, sin anuncios. Solo un puente directo entre tu yo pasado y tu yo futuro."
@@ -266,12 +266,12 @@ es:
   landing:
     headline: Escribe hoy.<br>Descubre mañana.
     subtitle: Escribe una carta a tu yo del futuro, registra tu estado emocional y formula predicciones de vida. Une a quien eres hoy con la persona en la que te convertirás.
-    private_and_secure: Cifrado y Privado
-    private_desc: Tus cartas están protegidas y selladas en tu bóveda personal hasta la fecha que tú elijas.
-    delivered_on_time: Entrega con Zona Horaria
-    delivery_desc: Despacho programado directamente a tu bandeja de entrada en el momento exacto.
-    connect_with_yourself: Expediente de Realidad
-    compare_desc: Compara tus predicciones pasadas con tu realidad y descubre cuánto has evolucionado.
+    private_and_secure: 100% Privado y Seguro
+    private_desc: Solo tú puedes leer tu carta. Permanece resguardada de forma segura en tu bóveda personal hasta la fecha que elijas.
+    delivered_on_time: Entrega a Tiempo
+    delivery_desc: Llega directo a tu bandeja de entrada en la mañana exacta que elegiste, en tu horario local.
+    connect_with_yourself: Predicciones vs. Realidad
+    compare_desc: Compara lo que imaginabas con lo que realmente viviste y descubre cuánto has evolucionado.
     write_card_title: Escribe tu carta a tu futuro
     your_letter: Tu carta
     dear_future_self: Querido yo del futuro...
@@ -282,7 +282,7 @@ es:
     five_years: 5 años
     custom_date: Fecha personalizada
     choose_specific_date: Elige una fecha específica
-    predictions_annex: ANEXO DE PREDICCIONES
+    predictions_annex: PREDICCIONES DEL FUTURO
     current_emotional_state: ESTADO ANÍMICO ACTUAL
     your_predictions_optional: Tus predicciones (opcional)
     where_will_you_live: "¿Dónde crees que vivirás?"
@@ -298,7 +298,7 @@ es:
     private_and_secure_badge: Tu carta es 100% privada y segura.
     how_it_looks: Así se verá cuando abras tu carta
     compare_reflect_desc: Compara tus predicciones con tu realidad y reflexiona sobre tu evolución.
-    dossier_revealed: "№ EXPEDIENTE REVELADO · TE-00412"
+    dossier_revealed: "CÁPSULA DESBLOQUEADA · TE-00412"
     mock_prediction_city: Viviré en Barcelona
     mock_reality_city: Vivo en Medellín
     mock_prediction_career: Seré diseñadora freelance
@@ -318,14 +318,14 @@ es:
     how_it_works: Cómo funciona
     journey_desc: Un viaje simple hacia tu mejor yo.
     step1_title: 1. Escribe y Predice
-    step1_desc: Vierte tus pensamientos en una carta privada. Registra tu estado emocional (felicidad, ansiedad, motivación) y formula predicciones concretas sobre tu carrera, relaciones o metas.
-    step2_title: 2. Cifra y Sella
-    step2_desc: Selecciona tu horizonte de apertura, desde 6 meses hasta 5 años. Tus palabras se cifran en reposo con Active Record Encryption y permanecen resguardadas en tu bóveda privada.
+    step1_desc: Escribe con honestidad a tu futuro yo. Registra cómo te sientes hoy y haz predicciones sobre tu trabajo, relaciones y metas.
+    step2_title: 2. Sella y Programa
+    step2_desc: Elige cuándo quieres recibirla, desde 6 meses hasta 5 años. Tus palabras quedan completamente cifradas y resguardadas en tu bóveda privada hasta ese día.
     step3_title: 3. Desbloquea y Compara
-    step3_desc: En la mañana señalada, tu cápsula se desbloquea en tu correo. Lee tus palabras pasadas y completa el expediente retrospectivo comparando tus predicciones con tu realidad.
+    step3_desc: El día señalado, tu carta llega a tu correo. Reencuéntrate con quién eras, comprueba qué predicciones se cumplieron y descubre cuánto has crecido.
     your_past: Tu pasado
     your_present: Tu presente
-    badge: Bóveda Postal TimeEcho
+    badge: Cápsula del Tiempo TimeEcho
     title_html: TimeEcho
     write_first: Escribe tu primera carta
     steps_title: Simple y Significativo
@@ -681,8 +681,8 @@ es:
     confirm_restore: "¿Estás seguro de que deseas restaurar esta cápsula a tu baúl activo?"
     btn_delete: Eliminar carta
     confirm_delete: "¿Estás seguro de que deseas eliminar permanentemente esta carta? Esta acción no se puede deshacer."
-    archived_section_title: Expedientes Archivados
-    archived_section_subtitle: Cápsulas retiradas del tránsito activo y resguardadas en archivo pasivo.
+    archived_section_title: Cartas Archivadas
+    archived_section_subtitle: Cartas que has archivado. No se enviarán a menos que las restaures.
     archived_badge: Archivada
     archived_on: Archivada el
     empty_archived: No hay cápsulas archivadas en el baúl.

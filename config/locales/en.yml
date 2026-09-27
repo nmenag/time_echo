@@ -21,7 +21,7 @@ en:
           title: What Information We Collect
           description: "We collect only what is essential to store and deliver your time capsules securely:"
           item_email: Your email address (used strictly for passwordless magic-link sign-ins and letter delivery)
-          item_letters: Encrypted letter content and titles (protected at rest using Rails Active Record Encryption)
+          item_letters: Encrypted letter content and titles (protected with zero-knowledge encryption at rest)
           item_predictions: Future predictions and retrospective reflections you choose to write
           item_emotional: Emotional snapshot ratings (happiness, anxiety, and motivation levels)
           item_preferences: Interface settings (color theme, language, and notification choices)
@@ -36,8 +36,8 @@ en:
           item_improve: Maintain security, optimize page load speed, and enhance reliability
           item_security: Block automated abuse, prevent spam, and protect user data
         encryption:
-          title: Military-Grade Field-Level Encryption
-          description: Letter titles and body content are encrypted at rest in PostgreSQL using Rails Active Record Encryption. Keys are derived securely, meaning unsealed letter content is protected against unauthorized database access.
+          title: End-to-End Privacy & Encryption
+          description: Letter titles and personal thoughts are encrypted before being stored. Nobody—not even our team—can read your words while your letter remains sealed in the vault.
         retention:
           title: Data Retention & Instant Deletion
           description: We retain your time capsules for as long as your account remains active. If you choose to delete your account in Settings, all associated letters, emotional snapshots, predictions, and analytics events are permanently and irreversibly purged from our database.
@@ -45,7 +45,7 @@ en:
           title: Trusted Infrastructure Partners
           description: "We work with trusted industry providers to process and deliver your capsules:"
           item_email: Resend API for transactional email delivery
-          item_hosting: Secure cloud infrastructure running containerized Rails 8 & PostgreSQL 14
+          item_hosting: Hardened cloud infrastructure with isolated, encrypted databases
         rights:
           title: Your Data Rights & Control
           description: "You retain total ownership of your words. You have the right to:"
@@ -129,14 +129,14 @@ en:
           description: In a fast-moving world, it’s easy to forget how much you’ve grown, what you cared about, or what you predicted for your life. TimeEcho lets you capture your present reality — your hopes, fears, relationships, and emotional baseline — and lock them in a digital vault until your chosen future date.
         how_works:
           title: How TimeEcho Works
-          step_write_title: 1. Write & Log
-          step_write_desc: Pour your thoughts into a private letter. Rate your happiness, anxiety, and motivation, and record predictions for career, salary, or relationships.
-          step_seal_title: 2. Encrypt & Seal
-          step_seal_desc: Select your unlock date and timezone. Your letter is encrypted at rest using Rails Active Record Encryption and sealed in the vault.
+          step_write_title: 1. Write & Capture
+          step_write_desc: Pour your thoughts into a private letter. Capture your happiness, anxiety, and motivation levels, and make predictions about your future.
+          step_seal_title: 2. Seal & Schedule
+          step_seal_desc: Pick your delivery date and timezone. Your letter is securely encrypted and locked in your private vault until that day arrives.
           step_wait_title: 3. Live & Evolve
-          step_wait_desc: Focus on your life. As months or years pass, your past thoughts stay protected while you grow and reach new milestones.
-          step_receive_title: 4. Unlock & Reflect
-          step_receive_desc: On your chosen date, your capsule unlocks. Read your past words, compare your prediction outcomes, and trace your emotional growth.
+          step_wait_desc: Focus on your life. As months or years pass, your memories stay safe while you grow and reach new milestones.
+          step_receive_title: 4. Open & Reflect
+          step_receive_desc: When your date arrives, your letter unlocks in your inbox. Read your past words, check your predictions, and see how much you’ve grown.
         why_exists:
           title: Built for Honest Self-Conversation
           description: Social media forces us to perform for others. TimeEcho is designed for the opposite — a quiet, distraction-free space to be completely honest with yourself. No public feeds, no vanity metrics, no ads. Just a direct link between past you and future you.
@@ -247,7 +247,7 @@ en:
     login_required: Please sign in to access your digital capsule vault.
     welcome_back: Welcome back to your digital time capsule.
     invalid_link: This magic link is invalid or has expired.
-    logged_out: You have successfully closed your capsule session.
+    logged_out: You have successfully signed out.
     private_or_inaccessible: This letter is private or cannot be accessed.
     unauthorized_view: You are not authorized to view this letter.
     unauthorized_modify: You are not authorized to modify this letter.
@@ -262,7 +262,7 @@ en:
     cannot_delete: Only archived letters can be deleted.
     unauthorized_action: You are not authorized to perform this action.
   landing:
-    badge: TimeEcho Postal Vault
+    badge: TimeEcho Time Capsule
     title_html: TimeEcho
     subtitle: Compare the future you imagined with the life you actually lived.
     write_first: Write your first letter
@@ -270,18 +270,18 @@ en:
     steps_title: Simple & Significant
     steps_subtitle: Three simple steps to connect your present mind with your future self.
     step1_title: 1. Write & Predict
-    step1_desc: Pour your thoughts into a private letter. Capture your emotional baseline (happiness, anxiety, motivation) and log milestone predictions for career, salary, or relationships.
-    step2_title: 2. Encrypt & Seal
-    step2_desc: Choose your release horizon from 6 months to 5 years. Your words are encrypted at rest with Active Record Encryption and safely held in your private vault.
+    step1_desc: Write honestly to your future self. Record how you feel today and make predictions about your career, relationships, and life goals.
+    step2_title: 2. Seal & Schedule
+    step2_desc: Pick when you want it back—from 6 months to 5 years. Your words are securely encrypted and locked in your private vault until that exact day.
     step3_title: 3. Unlock & Compare
-    step3_desc: On your chosen morning, your capsule unlocks in your inbox. Read your past words and complete the retrospective ledger comparing prediction against reality.
+    step3_desc: When the day arrives, your letter lands in your inbox. Rediscover who you were, see which predictions came true, and reflect on how much you’ve grown.
     headline: Write today.<br>Discover tomorrow.
-    private_and_secure: Encrypted & Private
-    private_desc: Your letters are protected and sealed in your personal vault until the date you choose.
-    delivered_on_time: Timezone-Aware Delivery
-    delivery_desc: Automated dispatch scheduled directly to your inbox when your designated moment arrives.
-    connect_with_yourself: Retrospective Reality Ledger
-    compare_desc: Compare your past predictions against reality and discover how much you have grown.
+    private_and_secure: 100% Private & Sealed
+    private_desc: Only you can read your letter. It remains securely locked in your personal vault until your delivery date.
+    delivered_on_time: Delivered on Schedule
+    delivery_desc: Arrives straight to your inbox on the exact morning you chose, in your local timezone.
+    connect_with_yourself: Predictions vs. Reality
+    compare_desc: Put your past expectations side-by-side with real life to see how much you’ve evolved.
     write_card_title: Write your letter to your future
     your_letter: Your letter
     dear_future_self: Dear future self...
@@ -292,7 +292,7 @@ en:
     five_years: 5 years
     custom_date: Custom date
     choose_specific_date: Choose a specific date
-    predictions_annex: PREDICTIONS ANNEX
+    predictions_annex: FUTURE PREDICTIONS
     current_emotional_state: CURRENT EMOTIONAL STATE
     your_predictions_optional: Your predictions (optional)
     where_will_you_live: Where do you think you will live?
@@ -313,7 +313,7 @@ en:
     compare_reflect_desc:
       Compare your predictions with your reality and reflect on
       your evolution.
-    dossier_revealed: "№ REVEALED DOSSIER · TE-00412"
+    dossier_revealed: "UNLOCKED LETTER · TE-00412"
     mock_prediction_city: I will live in Barcelona
     mock_reality_city: I live in Medellín
     mock_prediction_career: I will be a freelance designer
@@ -677,8 +677,8 @@ en:
     confirm_restore: "Are you sure you want to restore this capsule to your active vault?"
     btn_delete: Delete letter
     confirm_delete: "Are you sure you want to permanently delete this letter? This action cannot be undone."
-    archived_section_title: Archived Dossiers
-    archived_section_subtitle: Capsules removed from active transit and preserved in cold storage.
+    archived_section_title: Archived Letters
+    archived_section_subtitle: Letters you have archived. They will not be delivered unless restored.
     archived_badge: Archived
     archived_on: Archived on
     empty_archived: No archived capsules in storage.
